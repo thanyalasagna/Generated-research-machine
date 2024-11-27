@@ -1,0 +1,1149 @@
+PERGAMON 
+Intm~il Joumml 
+computers & 
+mathematics 
+w.h q~k:~kx: 
+Computers and Mathematics with Applications 39 (2000) 217-234 
+www.elsevier.nl/locate/camwa 
+Performability Analysis 
+for Degradable Computer Systems 
+H. NABLI* 
+Facultd des Sciences de Monastir 
+5000 Monastir, Tunisia 
+B. SERICOLA 
+IRISA/INRIA, Campus de Beanlieu 
+35042 Rennes cedex, France 
+(Received November 1997; revised and accepted January 1999) 
+Abstract--Degradable performance of fault-tolerant computer systems has given rise to consider- 
+able interest in mathematical models for combined evaluation of performance and reliability. Most of 
+these models are based upon Markov processes. Several methods have been proposed for the compu- 
+tation of the probability distribution of performability upon an interval of time [0, t]. In this paper, 
+we present a new algorithm based on the uniformization technique to compute this distribution for 
+block degradable models. The main advantage of this method is its low polynomial computational 
+complexity and its numerical stability, since it only deals with a nonincreasing sequence of positive 
+numbers bounded by 1. This important property allows us to determine new truncation steps which 
+improve the execution time of the algorithm. We apply this method to a degradable computer system. 
+(~) 2000 Elsevier Science Ltd. All rights reserved. 
+Keywords--Block degradable models, Degradable systems, Markovian models, Performability. 
+1. INTRODUCTION 
+Reliability and availability measures are of considerable interest for the evaluation of depend- 
+ability of computer systems, and more specifically, of fault-tolerant computer systems. Thanks 
+to redundancies in both software and hardware, the system is able to reconfigure itself when 
+failures occur. Two types of fault-tolerant computer systems are usually identified: degradable 
+(or nonrepairable) systems and repairable systems. 
+As recognized in a number of recent studies, the evaluation of fault-tolerant computer systems 
+must simultaneously deal with aspects of both performance and reliability. As part of these 
+studies, Meyer [1] introduces a unified measure called performability which combines the two 
+aspects of performance and reliability. Performability is defined as the accumulated reward over 
+a period of time [0, t]. Formally, the fault-repair behavior of the system is assumed to be modeled 
+by a homogeneous Markov process. Its state space is divided into disjoint subsets, which represent 
+the different configurations of the system. A performance level (or reward rate) is associated with 
+each of these configurations. This reward rate quantifies the ability of the system to perform 
+*This author is a member of RSR Laboratory of the Ecole Nationale des Sciences de l'Informatique de Tunis. 
+0898-1221/00/$ - see front matter ~) 2000 Elsevier Science Ltd. All rights reserved. 
+Typeset by .Ah,~q-TEX 
+PII: S0898-1221(99)00347-8 
+218 
+H. NABLI AND B. SERICOLA 
+correctly in the corresponding configuration. As a consequence, performability corresponds to 
+the accumulated reward over the mission time. 
+The distribution of this random variable has been studied in previous papers. 
+For cyclic 
+models, Smith et al. [2] derive an algorithm to compute the distribution of performability using 
+Laplace transforms and a numerical inversion procedure to obtain the result in the time domain. 
+De Souza e Silva and Gaff [3,4] propose a method based on the uniformization technique, however 
+their method exhibits an exponential computational complexity in the number of reward rates. 
+Using the same technique, Donatiello and Grassi [5,6] obtain an algorithm with a polynomial 
+computational complexity. However, this algorithm seems to be numerically unstable since the 
+coefficient computed in their recursion can have positive and negative signs and are unbounded 
+which can lead to severe numerical errors and overflow problems. 
+More recently, De Souza 
+e Silva and Gall [7] also obtain a new algorithm based on the general methodology of [3,4]. 
+The computational cost of their algorithm is linear in a parameter that is smaller than the 
+number of rewards, but their algorithm seems to have the same unstability problem due the use 
+of both positive and negative coefficients. In [8,9], we present a new algorithm also based on 
+the uniformization technique. The main advantage of our method is that it uses only addition 
+and multiplication of nonnegative quantities that are moreover bounded by one. By this way, 
+we avoid numerical problems and improve the stability of the computation. Pattipati et al. [10] 
+obtain the distribution of the accumulated reward for nonhomogeneous Markov processes as the 
+solution of a system of linear hyperbolic partial differential equations which is numerically solved 
+by using a discretization approach. 
+Regarding the acyclic models, Meyer [11] obtains a closed form expression for the distribution 
+of the performability for a degradable computer system with N processors and a buffer with finite 
+capacity. Furchtgott and Meyer [12] define/-resolvable vectors to characterize the trajectories of 
+an acyclic semi-Markovian process corresponding to a certain performance level. By enumerating 
+all the possible trajectories of the system, they derive an integral expression for performability 
+which they solve numerically. However, the complexity of such an algorithm is exponential 
+in the number of states of the process. Beaudry [13] gives a method for the computation of 
+performability in a Markovian process until absorption. Ciardo et al. [14] generalize Beaudry's 
+approach to a semi-Markov reward process and remove the restriction requiring only the absorbing 
+states to be associated with a zero reward rate. Iyer et al. [15] propose an algorithm to compute 
+recursively the moments of the accumulated reward over the mission time, with a polynomial 
+computational complexity in the number of states. Goyal and Tantawi [16] derive a closed form 
+expression (precisely a finite sum of exponential functions) for the performability of degradable 
+heterogeneous systems. They also give an algorithm with a polynomial complexity O(dM 3) in 
+the number M of states and in the number d of components in the system. A method which 
+follows an approach similar to the one used by Goyal and Tantawi is presented in [17]. The 
+author derives an algorithm to compute the probability distribution of performability with a low 
+polynomial computational complexity in comparison with the algorithm of Goyal and Tantawi. 
+In this paper, we propose a new algorithm to compute the distribution of the accumulated 
+reward over a finite mission time for block acyclic Markov models. These models are more general 
+than the acyclic one's since the restriction of the Markov process on each block can be cyclic 1. 
+Our method uses the uniformization technique and it is based on the main result of [8] which 
+gives a performability solution for general Markov models. This approach consists of proving 
+some interesting mathematical results for block acyclic performability models which lead us to 
+use new truncation steps improving so the computational complexity of the algorithm. Also, 
+our method is characterized by its numerical stability once it only deals with a nonincreasing 
+sequence of positive numbers bounded by one. 
+1The infinitesimal generator for acyclic models is upper triangular and it is block upper triangular for block acyclic 
+models. 
+Degradable Computer Systems 
+219 
+The remainder of this paper is organized as follows. In the next section, we introduce the 
+mathematical model of the class of degradable systems and we give some interesting results for 
+the distribution of the performability. In Section 3, we present a simple algorithm towards per- 
+formability evaluation. We also discuss the computational complexity of the proposed technique. 
+A numerical example of degradable multiprocessor system is presented and solved for a given 
+performability measure in Section 4. The main points are summarized in the concluding section. 
+2. MATHEMATICAL 
+MODEL 
+AND 
+RESULTS 
+Degradable computer systems operate at various levels of performance: when a component 
+fails, the system reconfigures itself and carries on functioning albeit with degraded performance. 
+Because of changes in its structure, due to failures, the system has different configurations in 
+a finite state space E = {1, 2,..., M}. A reward rate p(i) which is independent of the time is 
+associated with each state i E E. This reward rate measures how well the system performs in the 
+corresponding configuration. Since we consider degradable systems, it must be that p(i) >_ p(j) 
+if a transition is possible from state i to state j. Therefore, we can number the states so that 
+i ~ p(i) becomes an increasing function. The accumulated reward random variable over a finite 
+period of time [0, t] is of interest. 
+Let therefore X = (Xs)8>0 be a homogeneous Markov process over the state space E. Since 
+two different states may have the same reward rate, we denote by rm > r,~-i > .'. > r0 the 
+m + 1 different reward rates (m < M), and by Bi the set of states having ri as reward rate, for 
+i E {0,..., m}. It is clear that the subsets Bin,..., Bo are disjoint and their union gives in the 
+state space E. The process X is entirely determined by its infinitesimal generator A = (aij)i,jeE 
+and its initial probability distribution a = (a~)i~E. We assume a to be a row vector of the form 
+a = (aB.,, 0,..., 0). This means that the system starts in subset Bm with probability 1. Since 
+the system is degradable and i ~ p(i) is a wide sense increasing function, we have 
+a~j =0, 
+ifiEBt, jEBk, 
+andl<k. 
+(i) 
+Note that in the same subset Bt, we can have transitions between two different states i and j 
+even if i < j, which means that the process restricted on each block Bt can be cyclic, in this 
+case, the block Bz can be defined as an equivalence class. Also, if we consider each block Bt as 
+a macrostate, the graph of the Markov process X will be indeed acyclic. Such models are called 
+block degradable. 
+It is well known [18] that if the process X is uniformized with an intensity parameter A _> 
+max~eE(--a~i), then P = I+A/A is the transition probability matrix associated to the uniformized 
+chain where I is the M x M identity matrix. Using the decomposition of E with respect to the 
+partition {Bin,..., B0} and equation (1), the matrix P can be written as follows: 
+p 
+= 
+PB~Bn, 
+PB,,,B .... 1 
+"'" 
+PB,nBo 
+OB .... lB.*-,, 
+PB ..... 1B .... 1 
+" " " 
+PB,,,-1Bo 
+OBoB .... 
+OBoB,,,_I 
+" " " 
+PBoBo 
+where the submatrix PB~Bj (respectively, OB~B~) contains the transition probabilities from states 
+of Bi to states of Bj (respectively, is a zero matrix). With the above notations, the accumulated 
+reward over the mission time [0, t] is defined by 
+t 
+m 
+ft 
+Yt = 
+p(Xs) ds = ~ 
+ri 
+~{x~es~} ds, 
+i=O 
+J0 
+where lc = 1 if condition c is true and 0 otherwise. 
+220 
+H. NABLI AND B. SERIOOLA 
+The random variable Yt takes its values in the interval [rot, rmt] and we wish to derive 
+P{Yt > s}. The reward rates ri are arbitrary real numbers, but we can assume ro = 0 without 
+loss of generality. This is obtained by replacing ri by ri - r0 and s by s - rot. Therefore, we take 
+ro=O. 
+In [8], the distribution of performability over [0, t] for general finite Markov processes is derived 
+by a new method which essentially is based upon the following theorem. 
+THEOREM 2.1. For all j = 1,...,m and s E [rj_lt, r/[, we have 
+~{Yt > s} = Ee 
+-~t(k't)n 
+k (1 -sj)n-kb(J)(n,k), 
+n] 
+sj 
+n=0 
+k=O 
+i 
+where sj 
+(s 
+rj_lt)/(rj 
+rj_l)t and b(J)(n,k) 
+~(J) (n,k). The values of the column 
+= 
+-- 
+_ 
+-- O~B,,~UB,,, 
+vectors b~](n, k) are positive bounded by I and, for a11 n >_ O, and j = I,..., m, are given by the 
+following set of recursive expressions: 
+• forj<l<mandl<k<n, 
+{1Bz, 
+b(2In, O) = 
+rt -- r j_ 1 
+ifj = 1, 
+otherwise, 
+m 
+--b(Js~(n,k-- 
+- 1) + rj - 
+l E 
+PBtB'b(JB~ (n -- 1, k - 1); 
+rl -- rj_l i=0 
+• forO<l<j-landO<k<n-1, 
+m 
+rJ-y-1 ----rl b(JB~(n,k + 1)-[- rJ --:-rJ---z1 E 
+PB~BIb(B~ (n- X,k), 
+rj -- rl 
+rj -- rl 
+i=o 
+{ OBI, 
+if j = m, 
+otherwise 
+1B~ and Os~ are column vectors of dimension [Bl[ and their values are, respectively, equal 1 and O. 
+PROOF. See [9]. 
+| 
+In the case where m = 1, the performability distribution mentioned in Theorem 2.1 is the same 
+as the one given in [19] where the interval availability distribution is computed. It follows that 
+the method presented in [8] is the natural extension of the method in [19]. 
+Note that for l < j < m, we have 0 < (rl - rj)/(rz - rj-1) = 1 - (rj - rj-1)/(rl 
+- rj-1) _~ 1 and 
+for 0 _< l _< j - 1, we have 0 < (rj-1 - rl)/(rj - rz) -- 1 - (rj - rj_l)/(rj - rz) _< 1. On the other 
+hand, the matrix P is stochastic (i.e., ~-~im__0 PB, B~IB~ = 1B,) and the initial value of b(Az)(n,O) 
+is equal to 1s~ for l > 1 and the final value of b('~)(n,n) is equal to 0s~ for l _< m - 1. So, it 
+is easily to obtain by recurrence that 0B, _< b~)(n, k) _< 1B~. Moreover, for every j 6 {1,..., m} 
+and s 6 [rj_lt, r/[, we have 0 _< sj < 1. These remarks are essential from the computational 
+point of view since the manipulation of nonnegative quantities bounded by 1 allows us to avoid 
+the unstability problems which may appear in the algorithm described in [5,7]. 
+The interpretation, if any, of the b~J)(n, k)s is still an open problem. 
+For the availability 
+case, where m = 1, the authors of [19] prove that the vectors bll)(n, k) is the probability that 
+the uniformized Markov chain Z visits more than k states of B1 during the first n transitions, 
+given that the initial state is Z0 = i. For m > 2, it is more difficult to obtain a probabilistic 
+interpretation of the vectors bl j) (n, k). For more details, see [20]. 
+When the system is block degradable, new results for the sequence b~ (n, k) can be obtained. 
+For such models, the recursive expressions of the vectors b~ (n, k) reduce to the following. 
+Degradable Computer Systems 
+221 
+LEMMA 2.2. For all n k 0 and j = 1,..., m, we have 
+• forO<l<j-landO<k<n, 
+b(~](n,k) =Os,, 
+• forj<l<mandl<k<n, 
+IB,, 
+if j = 1, 
+b~](n,O)= 
+b~/1)(n,n), 
+otherwise, 
+l 
+b(~/(n,k ) _ 
+rz - rj b~(n,k- 
+1)+ rj - rj____2 E 
+PB'B,b(B)(n-- 1, k- 1). 
+rl -- rj_ 1 
+rl -- ?'j-- 1 i=j 
+Furthermore, for j = 1, the coefficients b(~] (n, k) are independent of index n. 
+PROOF. See Appendix A. 
+| 
+The previous lemma shows that b(~/(n,k) can be simplified in b(~(k). The case j = 1 means 
+that s belongs to [0, rlt[. If we apply Theorem 2.1 to this case, we can simplify the distribution 
+of the performability. This is the object of the following corollary. 
+COROLLARY 2.3. For all s E [0,rlt[, we have 
+oo 
+k! 
+b(1)(k)' 
+k=O 
+where b(1)(k) = O~B.,b(~).(k). 
+PROOF. See Appendix B. 
+| 
+In practise, the value of s is very close to rmt since it is generally required that the random 
+variable Yt should be close to its maximum value rmt with a probability close to 1. The following 
+corollary gives the distribution of the performability when s E [r,~_lt, rmt[. 
+COROLLARY 2.4. For all s E [rm-lt, rmt[, we have 
+- 
+s.,)) 
+.(re_l)/~ 
+~ 
+IP{Yt > s} = aB,,,e A'''8''t 
+~ 
+e -xt(1-s'") (At(1 
+n 
+-~"! 
+OB,,, 
+k'% '"1 
+'n,=O 
+PROOF. See Appendix C. 
+| 
+Our analysis will consist in obtaining new truncation steps by using properties of monotony 
+of the sequence b~] (n, k). The next theorem states the relation between successive values of the 
+b~ (n, k). These properties allow us to improve the complexity of our algorithm as shown in the 
+next section. 
+THEOREM 2.5. For all 1 <_ j <_ m, n >_ 1, and j < l < m, we have 
+• forl <k<n, 
+b~/(n,k)<_b~/(n,k-1), 
+• forO<k<n-1, 
+b~/(n,k) <_ b~(n- 
+1, k). 
+222 
+H. NABLI AND B. SERICOLA 
+n = 
+0 
+n=l 
+'n=2 
+j=l 
+1111 . 
+bui(1) 
+bul (2) 
+copy 
+copy 
+j=2 
+j = 3 
+~- U2 
+bb,,(2, 0)~ 
+, 
+copy 
+I 
+bu2(1, 1~ 
+2,2) 
+;I 
+1 U3 
+bv (1, 0) 
+1) 
+bus(2, O) ~us (2, 1) bus( 2, 2) 
+• 
+..........~ 
+----........~- 
+Figure 1. Computation of coefficients bu~ (n, k) for m = 3 and n = 0, 1, 2. 
+PROOF. See Appendix D. 
+| 
+The first (respectively, the second) inequality of Theorem 2.5 expresses the decreasing of cells of 
+the same line (respectively, column) in each triangle containing b~](., .) elements (see Figure 1). 
+Putting together these results, we obtain the following inequalities: 
+b(s](n,k)<b~](n, 
+k
+-
+ 
+-1) <b(j)(n- B~ -1, k-1). 
+(2) 
+In the next section, we describe the computational aspect of the vectors b(J)(n, k). Subse- 
+Bt 
+quently, we give a numerical method to compute the distribution of the performability. With 
+different results obtained for different values of s, we, successively, deal with the following cases 
+s E [0,rlt[, s E [rio_it, riot [, 1 < jo < m, and s E [rm-lt, rmt[. In each case, we also analyze the 
+numerical complexity. 
+3. COMPUTATIONAL AND ALGORITHMIC ASPECTS 
+3.1. Computation of b(~(n,k) 
+Since coefficients b~(n, k) are equal to 0B, for l < j, we define for every j = 1,..., m, the 
+subset Uj of the state space E as Uj =Bm U Bin-1 U "'" U Bj. Note that the sets Uj decrease 
+with respect to j in the sense of inclusion (i.e., Uj C Uj_ 0. We also define the following column 
+vector of length [Uj I: 
+bu~ (n, k) = 
+b (j)/,n 
+k~ 
+Bj k 
+/ 
+With this notation, Figure 1 illustrates the sequence of computations (drawn only for m = 3 and 
+n = 0, 1, 2) needed to evaluate the b(~'~(n, k)s for l > j. The computation of each cell (n, k), k > 1 
+depends on the two vectors associated with cells (n, k - 1) and (n - 1, k - 1). This dependence 
+is pictured in Figure 1 with arrows. Figure 2 makes clear this dependence and shows how we 
+calculate a coefficient b(~ (n, k). Note that the symbol "copy" means that each diagonal cell of 
+each triangle must be reported in the corresponding cell of the first column in the next triangle 
+(i.e., b(JBF1)(n , n) = b(~(n, O) for all/= j,..., m). The use of relations in Lemma 2.2 leads us to 
+perform the evaluation of the bvj (n, k)s in a line by line manner as shown in Figure 1. 
+Property (2) allows us to define a new truncation step for computing the infinite sum. Formally, 
+for a tolerance error e specified by the user and a given positive number x, we define the integer 
+N(x) = min{n e N : )-'~n__ 0 e-~(xi/i!) > 1 -E} (N(x) is the truncation step of a Poisson 
+series [21]). We denote by d the connectivity degree of matrix P which is defined by d --- 
+maxieE{NZ(i)}, where NZ(i) is the number of nonzero entries in row i of P. 
+Degradable Computer Systems 
+223 
+b 0 ) (n, k - l ) 
+Bm 
+b~l~ (n- 
+1. k - 1) 
+b~,5 (n, k - 1) 
+/ 
+/ 
+. 
+. bua (n, k) 
+Figure 2. Computation of a coefficient b~](n, k). 
+The main computational effort required for the computation of the distribution of Yt is due to 
+the computation of the numbers b (j) (n k). In order to evaluate the complexity of our algorithm, 
+we give an approximate count of the number of multiplications involved in the computation of 
+the bl j) (n, k)s. To this end, we denote by #(H) the complexity of an algorithm which requires 
+approximately H multiplications. 
+3.2. Case s E [0,rlt[ 
+According to Corollary 2.3, the distribution of the performability Yt is given by the following 
+expression: 
+!1) k bO)(k). 
+IP{Y~ > s} = Ee -~t~ (At; 
+k=0 
+This distribution can also be written as 
+N()~tsl) 
+IP{Yt > s} = E 
+e-Xts' (At;:)kb(1)(k)+e(N()~tsl))'. 
+k=O 
+where e(N()~tsl)) satisfies 
+e( N ( ;~tsl ) ) = 
+E 
+k=N(),tsl)+l 
+oo 
+k=N(,kts~)+l 
+=1- 
+~ 
+k! 
+k=O 
+<_e. 
+e-Xtsl(~t;~)t:b(1)(k ) 
+e-Xts~ (AtSl) k 
+k! 
+' 
+since b(1)(k) <_ 1, 
+Moreover, if we take into account the inequality bul(k) <_ bul(k - 1) given by Theorem 2,5, it is 
+interesting to use another truncation step nl defined by 
+nl = min(N (,~tsl),min {kE N I b(ll(k + 1)<__ ~}). 
+224 
+H. NABLI AND B. SERICOLA 
+By considering this new truncation, we obtain 
+nl 
+>s} 
+(Atsl) k 
+k! 
+b(1) (k) + e(nl). 
+k=O 
+The error introduced in the evaluation of the distribution of Yt remains smaller than ¢. In fact, 
+e(nl)= 
+o~ 
+)kb(1)(k ) 
+E 
+e-~ts'(At;; 
+k=nl+l 
+k=nl+l 
+<e. 
+since b(1)(k) < ~, 
+for k _> nl + 1, 
+The computation of the distribution of Yt mainly involves computing the coefficients b(1)(k). 
+Moreover, the complexity in computing of a vector bv, (k), which is one cell pictured in Figure 3, 
+is #(d(M - ]Bo[)). Therefore, as the total number of required vectors bu, (k) is nl + 1, the 
+complexing in evaluating FB~(s,t) is #(d(nl + 1)(M -[/30[)). On the other hand, the total 
+computational effort required with the method of [8] is #(dM[C(N - C) + mC2/2]), where C 
+and N are, respectively, equal to N(Atsl) and N(At). Therefore, the algorithm in this section 
+compares favorably with the method of [8]. 
+j=l 
+0B 
+b(1)(nl + 1) _< e 
+N( tsl) D 
+Figure 3. In dark, the computed vectors bu1 (.). In light, cells such that bO)(.) < ¢. 
+3.3. Case s E [rjo-lt, riot [, 2 <_ jo <_ m - 1 
+According to Theorem 2.1, the distribution of Yt is given by 
+n[ 
+n--0 
+k=0 
+To compute the infinite sum, we define a truncation step njo as follows: 
+njo=min(N(M),min{nEN[b(J°)(n+ 
+l,0) <_¢}). 
+Since b(J°)(n O) 
+~(jo-1). 
+B,. ~ , 
+= "B,,, 
+(n, n), we have 
+njo=min(N(At),min{nSNIb(J°-l)(n+ 
+i,n+ i) <_e}). 
+Using inequalities (2), it is easy to establish that all terms b(Jo)(n,k) are smaller than e, for 
+n >_ njo + 1 and 0 < k < n (see Figure 4). It follows that 
+]P{Yt > s} = ~... e 
+n'. E(k)sj°(1- s'~° J~n-kb(J°)rn, , k) +e(njo), 
+n=0 
+k=0 
+Degradable Computer Systems 
+225 
+where e(njo) satisfies 
+- 
+n 
+k 
+e(njo)= 
+E 
+e ;~t( 
+~-~(k)Sjo(l_Sjo)n-kb(JO)(n,k) 
+n=njo + 1 
+k=0 
+n 
+k 
+< 
+e-Xt(At)n ~(k)Sjo(1 - sjo) n-k 
+- 
+n! 
+n=njo+l 
+k=O 
+= [ Z 
+° 
+n=njo+l 
+<e. 
+Note that in the case where all coefficients b (jo-1) (n + 1, n + 1) are strictly greater than e for all 
+n <_ N(At), njo is equal to N()~t). In this case, e(njo ) = e(N(At)) remains smaller than e. 
+j=l 
+j=2 
+j=j0-1 
+m 
+[] 
+e,~,o-')l,,jo + l,,,~,, + l) _< ..- 
+0 
+r~) 0 
+N(xt) 
+O.O0 
+Figure 4. In dark, the computed vectors. In light, cells such that b(J)(., .) < e. 
+j = j0 
+Since the cardinality [Ujl is less than M -j, the computation of each vector buj (n, k) requires 
+at most #(d(M -j)) (see equations bvj (n, k) in Lemma 2.2 and Figure 2). According to Figure 4, 
+the number of cells that have to be computed in the triangle associated with index j is equal to 
+njo + 2, 
+if j = 1, 
+(njo + 2) (njo + 3) 
+if 1 < j < jo, 
+2 
+(njo + 1) (njo + 2) 
+if j -- j0. 
+2 
+Since we have 
+jo 
+~j=2(M -j) = (jo - 1)(M - (j0 +2)/2) and can neglect nio with respect to nj o2 , 
+we obtain a complexity for the algorithm of 
+As opposed to the method relative of [8], we observe that the numerical complexity of this method 
+depends on the index j0, and therefore on the value of s. Another improvement came from the 
+new truncation step njo which is less than N(At). 
+3.4. Case s e [rm-lt, rmt[ 
+According to Theorem 2.1, we have 
+]P{Yt > s} =o~B,,,e Am''s''t [Z e-;~t(1-Sm) (At(ln!Sm))nb(m,,:l)(n,n) ] • 
+U,_>o 
+226 
+H. NABLI AND B. SERICOLA 
+Similarly to the previous section, we define the truncation step nm as follows: 
+----min (N(At (1- Srn)),min {nE N [b(smZO(n + 1,n +1)< ¢lBm}). 
+Urn 
+Using inequalities (2) again, it is easy to establish that all terms b(m-1)(n, n) are smaller than e 
+when n _> nm + 1. It follows that 
+P{Yt > s} 
+a 
+e An s,,t [n,,_~ 
+(At(1 ~7Sm))nb(::l)(n,n)] +e(nm), 
+= 
+B,,, 
+'" 
+e-At(1-s'") 
+kn=O 
+/1'* 
+J 
+where e(nm) satisfies 
+Ol 
+~A Bm tam 
+~(n~) = 
+B~ ~ 
+E 
+n>nm+l 
+^. 
+~A 
+B 
+n [ 
+~>n., + l 
+~_ OLB,. eAm', tSm gl B,. 
+_< ¢, 
+since e Al~o,ts'' is a substochastic matrix. 
+s 
+] 
+e_AtO_sm ) (At(l, m)) b(m-1)(n n) 
+nr 
+B.. 
+~ , 
+. 
+e_At(l_~,.) (At(1 
+- sin))" 
+n! 
+els,,, 
+The global computational scheme using the truncation step n,n is shown in Figure 5, where only 
+the dark part has to be computed. The number of dark cells is 
+nm+ (m - 
+2) nrn(n 7 + 1) 
+Similarly to the previous case, we prove that computing the sum ~-~nn"__'0e-At(1-s'")((At(1 - 
+S,~))'Vn!)b(s~,T1)(n, n) has complexity 
+m+l 
+2)~) 
+j=l 
+j=2 
+omm 
+mm 
+T~.t 
+j=m-1 
+OO0 
+b(~::l)(a.,, + 1, .,. + l) < ~1~,,, 
+Figure 5. In dark, the computed vectors. In light, cells such that b(m~l)(., P~ < 
+Next, to compute the matrix e A~',-s''t, we use the uniformization technique. Therefore, we 
+first denote, respectively, by Am and dm the uniformization rate (i.e., Am = maxieB,,(--ai,)) 
+and the degree of connectivity of matrix As,,,. It is easy to verify that A m <~ A and dm _< d. 
+Then, the computational effort required to multiply the matrix As,, by a given column vector 
+has complexity #(dmIBml). Moreover, it is well known that the truncation step in evaluating 
+Degradable Computer Systems 
+227 
+e A~,.s''t is equal to N(~mSmt). Thus, computing the product of matrix e Ar~,..s''t by a column 
+vector of dimension IBm[ has a total cost of #(dmlBmlN(hmSmt)). 
+We can, therefore, conclude in this case that the numerical complexity to compute the distri- 
+bution of the performability is 
+lz(d(M 
+m+l)(m-2)~-~+dmlBm[N(Amsmt))2 
+Knowing that the evaluation of matrix e A~,,,s'~t introduces an error less than ¢, it is easy to verify 
+that the total error in computing P{Yt > s}, s > rm_lt , is less than 2¢. On the other hand, the 
+numerical complexity of the method presented in [8] is #(dM[C'(N - C') + mC'/2]) where C' 
+and N are, respectively, equal to N(At(1 - sin)) and N(At). In practice, the truncation step nm 
+is very small in comparison to C. This result leads to a low computational time comparing with 
+the algorithm of [8]. 
+4. A NUMERICAL EXAMPLE 
+We consider in this section a multiprocessor system described and modeled in [16]. The system 
+contains N processors each with its local memory, SM shared memory modules, and B busses 
+to communicate among the processors and the memory modules. We study the multiprocessor 
+system when N = SM = B = 2. The processors, shared memory modules, and busses are subject 
+to random failures independently of each other. When one of these components fail, the number of 
+available components decreases and consequently the processing power of the system decreases. 
+The lifetime of each processor (respectively, bus) is assumed to be exponentially distributed 
+with rate ~p (respectively, ,~b). The lifetime of each shared memory module is assumed to have 
+a probability distribution of phase type with two states, with initial probability distribution 
+~3 = (1,0, 0) and infinitesimal generator T given by 
+--(/Zl,2 -b//1,0) 
+/Zl,2 
+]-tl,0 
+T = 
+tt2,10 
+- (~t2'10 -{- pt2'0) 
+~t0, 0 ) . 
+The performance measure used here is the processing power of the system, that is, the processor 
+utilization rate multiplied by the number of available processors. The values of the processing 
+power have been taken from [16] and are the following. We define pp(n, sm, b) as the processing 
+power of the system when there are n processors, sm shared memory modules, and b busses 
+available. The values of pp(n, sin, b) have been taken from [16] and are the following: 
+pp(1, sin, b) = 0.8, 
+for 1 _< sin, b _ 2, 
+pp(2, am, 1) = 1.56, 
+for 1 <sm < 2, 
+pp(2, 1, 2) = 1.56, 
+and 
+pp(2, 2, 2) : 1.58. 
+When one of the three n, sin, and b is 0 we set pp(n, sin, b) = 0. The values of the failure rates Ap 
+and Ab are also chosen as in [16], that is, Ap = 6 x 10 -5 per hour and Ab = 4 × 10 -5 per hour. 
+The parameters of the phase type distribution of the lifetime of each memory modules are given 
+by 
+ttl,2=14x10 -5, 
+tZl,0=6xl0 -5, 
+#2,1=(4) 
+×10 -5, 
+#2,0=(~-) 
+×10 -5. 
+With these values, we obtain a mean lifetime for each shared memory module equal to 0.25 x 105 
+hours which is the same expected value as in [16]. 
+228 
+H. NABLI AND B. SERICOLA 
+In order to obtain a Markov process to describe the behaviour of the system, we take as state 
+description the vector (n, (phl,ph2), b) where 1 < n, b < 2 and phi, i = 1, 2, denotes the number 
+of memory modules in phase i. The value sm = phi + ph2 gives the number of available memory 
+modules (0 _< phl,ph2 <_ 2). All the states corresponding to the down state of the system, that 
+is, when n = 0 or sm = 0 or b = 0, are lumped into only one absorbing state having a processing 
+power equal to 0. Thus, we compute a Markov process with 21 states, one of them being an 
+absorbing state. There are four distinct reward rates: r 3 = 1.58, r2 = 1.56, rl = 0.8, and r0 = 0 
+and we have (IB31, IB21, IBll, IB01) = (3, 7, 10, 1), see Figure 6, where the transitions in dashed 
+lines without destination are to the absorbing state 0. The value of ~ is fixed to 10 -6. 
+B3 
+B2 
+: 
+:
+~
+ 
+2A,, 
+~
+-
+-
+ 
+-> Ab 
+s !,, (°'1)'2 :i 
+j 
+o 
+r,,' 
+;2, 
+i t 
+1 
+2Ab 
+Figure 6. The Markov chain graph. 
+Figure 7 shows the probability to get a cumulative reward rate over the specified period t = 105 
+hours greater than the corresponding value on the s axis. 
+It is interesting to note that for 
+s = 5 x 104, the truncation step nl is equal to 59 while C = N(Atsl) is equal to 96. Figure 8 
+shows the probability that the processing power during (0, t) averaged over time is greater than 
+995~ of the maximum processing power (that is, 1.58) of the system. 
+0.7 
+0.6 
+{}.5 
+0.4 
+Ip{w, > s} 
+0.3 
+0.2 
+0.1 
+0 
+I 
+I 
+I 
+I 
+I 
+I 
+I 
+I 
+I 
+I 
+0.5 
+1 
+1.5 
+2 
+2.5 
+3 
+3.5 
+4 
+4.5 
+8 
+Figure 7. Distribution of Yt for t = 10 5 hours. 
+(× 10 4 ) 
+Degradable Computer Systems 
+229 
+1 
+0.8 
+0.6 
+IP{~ > 0.99ra} 
+0.4 
+0.2 
+0 
+s (XlO 6) 
+Algol 
+Algo2 
+I 
+2 
+4 
+6 
+8 
+t 
+Figure 8. Distribution of Yt/t. 
+Table 1. Comparison of CPU times. 
+1 
+1.25 
+1.5 
+1.56 
+1.57 
+1.575 
+79.4 
+79.4 
+79.4 
+79.4 
+37.3 
+18.5 
+0.2 
+0.2 
+0.2 
+0.1 
+0.1 
+0.1 
+10 ( X 10 a) 
+Table 1 compares the computation times in seconds obtained by the execution of the general 
+algorithm given in [8] and referred as "Algol" and of the algorithm developed here which is 
+referred to as "Algo2". We have chosen t = 10 6 hours. As expected, we easily see that "Algo2" 
+performs better than "Algol". These low computational times of "Algo2" are due to low trunca- 
+tion steps. For instance, for s = 1.56 x 106, we obtain C' -- N(At(1 - sin)) = 724 and nm = 41. 
+All these results have been obtained on SPARCstation 5 Model 110 (Sun). 
+5. CONCLUSION 
+The current method to evaluate the performability distribution for degradable computer sys- 
+tems, based on the uniformization technique, leads to a new algorithm with a low polynomial 
+computational complexity. Its main advantage involves a complexity at most quadratic in a 
+truncation step which is smaller than the Poisson's one usually used in all methods based on 
+uniformization. Another advantage of this algorithm is an improvement in its stability because 
+only positive numbers bounded by 1 are involved. 
+APPENDIX A 
+PROOF OF LEMMA 2.2. Using the recurrence relationship given by the Theorem 2.1, we can 
+prove, by recurrence on n and k, that b(JB~(n,k ) is equal to 0B~ for all index l < j. If we also 
+use equality (1) (i.e., PB~B~ = 0B, for l < k), the first part of the lemma is immediately proved. 
+For the case j = 1, we can show by recurrence that b~ (n, k) = pkB~s, 1BI. Thus, the coefficients 
+b(~/(n, k) do not depend on index n for l = 1. We suppose now that this property is true up to 
+l - 1, that is, 
+Vl <i<l-1, 
+Vn>_l, andVl<k<n, 
+b~(n,k) is independent of n. 
+To prove the property for index l, we proceed by recurrence on k. In fact, for k = 0, the term 
+b~ (n, 0) is always equal to Is,, so it is independent of n. On the other hand, since 
+l 
+rl ~ 
+(1)(n- 1,k- 1), 
+b(2 
+= r,-r, 
+b(2(n, k - 1) + r, 
+we get: b~] (n, k) is independent of n. 
+| 
+230 
+H. NABLI AND B. SERICOLA 
+APPENDIX 
+B 
+PROOF OF COROLLARY 2.3. Using Theorem 2.1 and Lemma 2.2, we can write 
+co 
+,~t) n 
+n 
+n 
+k 
+l~{Y t > 8} -- E 
+e-At ( n! 
+Z(k)81 (1 - 81)n-kb(1)(k) 
+n=O 
+k=O 
+(90 oo 
+n! 
+(~)~lk(1 - ~l)~-kb(~)(k) 
+k=0 n=k 
+co 
+)kbO)(k) 
+= e-At E 
+(At~lk=o 
+n=k (At(1-Sl))n-k-(n---'-~)t" 
+I 
+But Znco__k((at(1 - Sl))n-k/(n 
+-
+-
+ k)!) = e M(1-sl), then 
+co 
+)kb(l)(k ) 
+~ 
+t;~)kb(1)(k) • 
+~{gt > 8} = e-Ate At(1-s') Z 
+(A~I. 
+= 
+e_Ats~ (A 
+k=0 
+k=0 
+PROOF OF COROLLARY 2.4. Since 
+b(m)(n O) = b(Bmff l)(n,n) 
+Bm k 
+we get 
+APPENDIX 
+C 
+and 
+b(m)(n, 
+= PB,,,.B,..b(Bm,,~( n- 1,k - 1), 
+b(m)(n,k) = pk 
+b(m)(n - k,O) 
+pk 
+b(m-1), 
+s,. 
+BINS.,, B.,, 
+= 
+S,,,Bm 
+B,,, 
+tn -- k, n - 
+k). 
+Applying Theorem 2.1 for j = m, we obtain 
+n 
+n 
+k 
+> 
+_- 
+- 
+k ) 
+n! 
+n>O 
+k=O 
+= E 
+v--At(At)n~ E 
+n 
+k 
+_ Sm)~n-kaB,.P~.,b(m,~-l)(n-k,n-k)k 
+n>_O 
+k=O 
+:EEe-At(At)n(nk)skm(l--sm)n-kaB"Pkn' 
+B,,,~B~(m- 1) ( n 
+.... 
+-- k,n-k) 
+k>On>k 
+(AtSm) k 
+k 
+(At(1 
+- 
+Sm)) ~-k (re- 
+=e-At E 
+-~. 
+aB,,,P~,,,. E 
+-(n'---~. 
+bB'" 1)(n-k'n-k)" 
+k>O 
+n>k 
+If we write e -At as the product of e -Atsl and e -At(I-81), we obtain 
+~{Yt > s}=aB"~[Ee-Ats" 
+k! 
+S,, ][n~>_k e-At(1-s''')(At(1- sm))n-k-(~'--~)I, b(~,Z 1)(n - k'n - k ) ] 
+=aB,,,[Ze-Ats,,,.(AtSm)kpk 
+][~'~e-At(l-s.~)()~t(l--sm))nb(m-1)tn, rt,] 
+k! 
+em//Z-" 
+n! 
+e ..... 
+~ 
+J/ 
+Lk>_o 
+jLn>__o 
+J 
+=OtB,, eAtS,,.(p~, _ll,,,)[n~>_O e_At(l_s,,, ) ()~t (1 - Sm) )nb(m-l)[ n n, ] 
+Since P = A/A + I, then As,,. = A(PB,, - Is,,,). So 
+~{gt >S}=OlB,,,e Am'ts'' [Ee-'~t(1-s'")(At(1-Sm))nb(m-l)(n,n)l 
+, 
+| 
+" 
+L-_>0 
+The proof of Corollary 2.4 is then completed. 
+| 
+Degradable Computer Systems 
+231 
+APPENDIX D 
+To prove Theorem 2.5, we first need two technical lemmas which can be proved by recurrence. 
+To simplify notations, we denote the fraction (rl - rj)/(rl - rj-1) by alj. 
+Note that (rj - 
+rj-1)/(rl 
+- rj-1) = 1 - ctl, j and 0 < c~j < 1 if I >_ j. 
+LEMMA D.1. For ali 1 < l < m and k >_ 1, we have 
+b~(k) < b~)(k- 1). 
+PRoof. We prove this lemma by recurrence on Z. ~or I = 1, we easily obtain b~(k) __ b~:(k- 1) 
+for all k E N* by considering the following system: 
+b~l(k ) = PB~b(~](k- 1), 
+PBl l B1 <-- 1B1. 
+We suppose now that the property is true up to l- 1. To prove the property for index l, we proceed 
+k. The initial condition for k = 1 is verified since b(~)(1) < b~)(0) = 1B~. The 
+by recurrence on 
+property for k - 1 is equivalent to 
+b~(k- 
+1) <_ b(~(k- 
+2) 
+(D1) 
+The Lemma 2.2 can be written, for j = 1, as 
+l 
+b(~] (k) = cq,lb(~)(k - 1) + (1 - at,t) Z 
+PB'B~b(B~ (k - 1) 
+l-1 
+] 
+= a,,lb(~(k - 1) + (1 - a,,,) [~--~ PB~s,b(~)(k - 1) + PB, s,b(~)(k - 1) . 
+Li=I 
+According to the recurrence hypothesis on index l - 1, we have 
+vl <i<l-1, 
+b~)(k-1)<b(~)(k-2). 
+i 
+-- 
+i 
+Since the P matrix is positive and al,1 E [0, 1[, we obtain 
+l-1 
+l-1 
+(1 - ~,~) Z 
+P',',b(2(k - 1) <_ (~ -~,~) F_."-~, .~ ~.,~(')(k - 2). 
+i:1 
+i:1 
+The recurrence hypothesis (D1) gives 
+PB,8,b(~)(k- 1) _< PB, B,b(~(k- 2) 
+and 
+amb(~)(k- I) _< (~mb(~)(k- 2). 
+It follows that 
+l 
+i=I 
+=b~¢k-1). 
+The proof of the lemma is completed. 
+| 
+REMARK. According to Lemma 2.2, we observe that the coefficient b~ (n, k) is a convex com- 
+bination of the two vectors b(~(n,k - 1) and ~li=jr~l-BLBiUB,~(J)(n- 1, k - 1). So, we obtain the 
+following equivalence: 
+l 
+b~/(n,k) < b~)(n,k- 
+i) ~ 
+Z 
+PB~B,-b~I(n- 1, k- 
+1) <_ b~](n,k- 
+1). 
+(D2) 
+i=j 
+This remark above will be exploited in the following lemma. 
+232 
+H. NABLI AND B. SERICOLA 
+LEMMA D.2. For n k 1, 2 <_ j <_ m, and j < l < m, we have 
+b~,-1)(n,n) <_ b(~F1)(n,n - 1) ~ 
+b~](n, 1) < b(~](n,O). 
+PROOF. Since we have 
+l 
+b~](n,O) =b(~Z1)(n,n)=oq,j_lb~Z1)(n,n _ 1) + (1-aid-i) 
+E 
+PB, s,b~Ti)( n- 1,n-- 1), 
+i=j-- 1 
+then 
+l 
+E PB, B~b~I(n- 1,0) < b~(n,O) 
+i=j 
+l 
+l 
+E PB'B,b~(n-- I,O) <c~l,j_lb~,-1)(n,n -1) + (1-~/,j_l ) E 
+PB, B'b~fl)(n- l,n-1) 
+i=j 
+i=j-- 1 
+! 
+OBI <( O~l,j-1 b~,-1)(n,n- i)- 
+i=j-1 
+i)[ + PB sj_lb~-l,)(n- 1,n- 1). 
+PB~B~b(~Z1) (n - 1,n 
+J 
+So, if b(~-l)(n, n) _ b~Z1)(n, n- 1), then, according to (D2), the vector between hooks is greater 
+than 0B,. This is equivalent to ~ti= J PB~B~b~(n -- 1,0) < b~,)(n,O). By taking into account 
+equivalence (D2), we get b(~](n, 1) _< b(~(n,O). 
+| 
+PROOF OF THE FIRST INEQUALITY OF THEOREM 2.5. To prove this first inequality, we proceed 
+by recurrence on the indexes j, n, and k. For 1 _< j _< m fixed, we consider the following 
+property ~(j): 
+N(j): [Vn > 1, V1 <k < n, and Vj <l < m, bO](n,k)< b(J)(n,k 
+1)] 
+- -  
+- -  
+B I  
+- -  
+" 
+For j = 1, according to Lemma D. 1, the vectors b(~ ) (n, k) are independent of n, so N(1) is verified. 
+We suppose that N(j - 1) is true. In order to prove the property N(j), we proceed by recurrence 
+on n. For n = 1, the recurrence hypothesis N(j - 1) leads to b~,-1)(1, 1) < b~71) (1, 0), which 
+gives according to Lemma D.2 
+b(~(1, 1) _< b~](i, 0). 
+We suppose now that the property holds for n - 1. This means that the property N(j, n - 1) is 
+true, where 
+N(j,n-1) is [V1 <k<n-landVj<l<_m, 
+b~)(n-l,k)_<b(~)(n -1,k-I)]. 
+In order to prove N(j, n), we proceed by recurrence on k. For k = 1, the hypothesis N(j - 1) 
+allows us to write b(~71)(n, n) < b(~-S)(n, n - 1), which gives according to Lemma D.2, 
+b(~(n, 1) <_ b(~(n,O). 
+At present, we suppose the property true for k - 1. That means that property N(j, n, k - 1) is 
+true, where 
+N(j,n,k-1) is [Vj<l<m, 
+b(~](n- l,k) _< b(~(n- l,k_ l)] . 
+Degradable Computer Systems 
+233 
+According to Lemma 2.2, b~(n,k)and b(~(n,k- 1)can be written as 
+l 
+V" p 
+bO)~n 
+i=j 
+l 
+bO](n,k - 1)= al,jb(JB](n,k- 2)+ (1- a,,j) ~ 
+PBtB, b(JB~(n-- 1, k- 2). 
+i=j 
+Moreover, according to N(j,n - 1), we have b(J)lns~, - 1, k - 1) <_ bOl(n - 1, k - 2), and, since the 
+matrix P is positive and 0 _< at,j < 1, we get 
+I 
+l 
+V" p 
+bO),n 
+(1 
+al,j) E 
+PstB b~)(n-- l,k-- 2) • 
+(1-al,J)2__, 
+BtB~ B,t 
+-1, 
+k-l) 
+< 
+- 
+, 
+t 
+i=j 
+i=j 
+The hypothesis N(j,n,k- 1) and the previous expressions for b~/(n,k) and for b~](n,k- 1) lead 
+to the required inequality 
+b~(n,k)<b~(n,k-1). 
+The proof of the the first part of Theorem 2.5 is then completed. 
+| 
+PROOF OF THE SECOND INEQUALITY OF THEOREM 2.5. For j = 1, the sequence (b(~)(n, k))n>k 
+is independent of n. We suppose now that the property holds for j - 1. We must prove it for 
+the the index j. The elements bO)(n,O) and b~](n- 1,0) are, respectively, equal to b~t)(n,n) 
+Bl 
+and b~t,1)(n - 1,n- 
+1). According to Theorem 2.5, we have b~;1)(n,n) <_ b~l)(n,n- 
+1), and 
+according to the recurrence hypothesis, we have b~t-1)(n,n - 1) -< b(J-1)Cnst 
+\ - 1, n - 1). So, we 
+get b~j1)(n,n) <_ b~S1)(n - 1,n- 
+1). It follows that 
+b~(n,O) <- b(J)tns, , 
+- 
+1,0). 
+This inequality proves the result for k = 0. We suppose now that the property holds for k - 1 
+and we show that b~](n,k) <- b(J)( 
+n-B, 
+1, k). For this purpose, we write 
+l 
+b~(n,k) = aljbO~(n,k - 1)+ (1 - al,j) E DI-Bt B~ uB~O)(n - 1,k - 1) 
+i=j 
+l 
+L(J),~ 
+(1 - al,j) E 
+PB'B'bB* (n -- 2, k - 1) 
+<- al,jus~ t'~ - 1, k - 1) + 
+(i) 
+i=j 
+= b (J) (n - 1, k), 
+Bl 
+which completes the proof of Theorem 2.5. 
+REFERENCES 
+1. J.F. Meyer, On evaluating the performability of degradable computing systems, IEEE Transactions on Com- 
+puters (J.29 (8), 720-731, (August 1980). 
+2. R.M. Smith, K.S. Trivedi and A.V. Ramesh, Performability analysis: Measures, an algorithm, and a case 
+study, IEEE Transactions on Computers 37 (4), 406-417, (April 1988). 
+3. E. de Souza e Silva and H.R. Gall, Calculating availability and performability measures of repairable.computer 
+systems using randomization, J. ACM 36 (1), 171-193, (January 1989). 
+4. E. de Souza e Silva and H.R. Gall, Performability analysis of computer systems: From model specification to 
+solution, Performance Evaluation, Performability Modelling of Computer and Communication Systems 14 
+(3/4), 157-196, (February 1992). 
+5. L. Donatiello and V. Grassi, On evaluating the cumulative performance distribution of fault-tolerant computer 
+systems, IEEE Transactions on Computers 0-40 (11), 1301-1307, (November 1991). 
+234 
+H. NABLI AND B. SERICOLA 
+6. L. Donatiello and V. Grassi, Sensitivity analysis of performability, Performance Evaluation, Performability 
+Modelling of Computer and Communication Systems 14 (3/4), 227-238, (February 1992). 
+7. E. de Souza e Silva and H.R. Gail, Calculating transient distributions of cumulative reward, Technical Report 
+CDS-930033, UCLA, University of California, Los Angeles, (September 1993). 
+8. H. Nabli and B. Sericola, Performability analysis: A new algorithm, IEEE Transactions on Computers 45 
+(4), 491-494, (April 1996). 
+9. H. Nabli and B. Sericola, Performability Analysis of fault-tolerant computer systems, Technical Report 
+2254, INRIA, Campus de Beaulieu, (May 1994); ftp://ftp, inria, fr/Ih'RIh/tech-reports/publi-ps- 
+gz/RR/RR-2254, ps. gz. 
+10. K.R. Pattipati, Y. Li and H.A.P. Blom, A unified framework for the preformability evaluation of fault-tolerant 
+computer systems, IEEE Transactions on Computers 42, 312-326, (March 1993). 
+11. J.F. Meyer, Closed-form solutions of performability, IEEE Transactions on Computers C-31 (7), 648-657, 
+(July 1982). 
+12. J.F. Meyer, D.G. Furchtgott and L.T. Wu, Performability evaluation of the SIFT computer, IEEE Transac- 
+tions on Computers C-29 (6), 501-509, (June 1980). 
+13. M.D. Beaudry, Performance-related reliability measures for computing systems, IEEE Transactions on Com- 
+puters C-27, 540-547, (June 1978). 
+14. G. Ciardo, R. Marie, B. Sericola and K.S. Trivedi, Performability analysis using semi-Maxkov reward pro- 
+cesses, IEEE Transactions on Computers C-39, 1251-1264, (October 1990). 
+15. B.R. Iyer, L. Donatiello and P. Heidelberger, Analysis of performability for stochastic models of fault-tolerant 
+systems, IEEE Transactions on Computers C-35 (10), 902-907, (1986). 
+16. A. Goyal and A.N. Tantawi, Evaluation of performability for degradable computer systems, IEEE Transac- 
+tions on Computers C-36 (6), 738-744, (June 1987). 
+17. H. Nabli, Performability measure for acyclic Markovian models, Computers Math. Applic. 35 (8), 41-51, 
+(1998). 
+18. S.M. Ross, Stochastic Processes, John Wiley and Sons, (1983). 
+19. G. l~ubino and B. Sericola, Interval availability distribution computation, In Proceedings IEEE ~rd Fault- 
+Tolerant Computing Symposium, Toulouse, France, pp. 49-55, (1993). 
+20. H. Nabli, Mesure de performabilit4 sur des processus de Markov homog~nes ~ espace d'4tats fini, Th~se de 
+Doctorat, Vol. 1378, pp. 136-150, Universit~ de Rennes I, (September 1995); http://w~, irisa, fr/mvdel/ 
+theses, html. 
+21. P.N. Bowerman, R.G. Nolty and E.M. Scheuer, Calculation of the Poisson cumulative distribution function, 
+IEEE Transactions on Computers 39 (2), 158-161, (June 1990). 

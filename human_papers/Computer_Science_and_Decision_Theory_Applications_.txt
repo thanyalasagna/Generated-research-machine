@@ -1,0 +1,365 @@
+Computer Science and Decision Theory:
+Applications of Notions of Consensus
+Description of the Research Issues in the Project
+1
+Introduction
+Many modern computer science problems involve issues that decision theorists have addressed for years, in
+particular issues involving consensus and associated order relations. Applications of methods of decision theory
+to problems of computer science place great strain on these methods due to the sheer size of the problems addressed,
+limitations on information possessed, and sequential nature of repeated applications. Hence, there is great need to
+develop a new generation of methods to satisfy these requirements of CS applications. In turn, the new methods
+will provide powerful tools of use in problems of the social sciences (economics, political science, etc.) to which
+methods of decision theory have traditionally been applied as well as to newer areas of application of decision
+theory such as in policy-making concerning emerging diseases or bio-terrorism. This project seeks to explore the
+connections between computer science and decision theory, develop new decision-theory-based methodologies
+relevant to the scope of modern CS problems, and investigate their applications to problems of computer science
+and of the social sciences. We shall build the project around notions of consensus that are so central in modern
+decision theory.
+The project is a joint effort between DIMACS, the Center for Discrete Mathematics and Theoretical Computer
+Science, headquartered at Rutgers University, and LAMSADE, the Laboratoire d’Analyse et Mod´elisation de
+Syst`emes pour l’Aide `a la D´ecision, based at Universit´e Paris IX - Dauphine.
+2
+Connections between Computer Science Problems and Decision-theoretic
+Methods of Consensus
+The notion of consensus arises in many decision making applications when we try to combine different opinions
+to reach one “consensus" opinion. The opinions can be stated in various ways, e.g., as “ﬁrst choices" among a set
+of alternatives or as “rankings" (orders) on the alternatives. Here, we describe some of the research issues to be
+investigated.
+2.1
+Meta-search, Collaborative Filtering
+In CS, “meta-search" is an example of a consensus problem, involving combining the results of several search
+engines (see [31]). Cohen, Schapire, and Singer [22] showed how meta-search can be formulated as a problem
+of consensus. They studied the problem of constructing a new ordering based on a learned probabilistic classiﬁer
+or regression model, showed that the problem of ﬁnding the ordering that best agrees with a learned preference
+function is NP-complete, and described a simple greedy algorithm guaranteed to ﬁnd a good approximation.
+Similar ideas of consensus have been used to address the reduction of spam, through the combination of results
+from multiple search engines. Dwork, et al. [30] think of a ranking function as spammed by a page in a database
+of pages if in response to a given query it ranks the page too highly. Dwork, et al. showed that the consensus
+approach involving Kemeny medians ([49, 50, 81, 84]), widely used in social science applications, has excellent
+“spam-resistant" properties. Unfortunately, it is well known that the computation of the Kemeny median is NP-
+complete ([8, 101]). Dwork, et al. developed an approximation to the Kemeny median that preserves most of
+its desirable properties and is computationally tractable. We will investigate approximations to other consensus
+functions in various computer science contexts. Analogous problems arise in information retrieval, when we try
+to rank documents according to their probability of relevance to a query.
+1
+Consensus methods also arise in collaborative ﬁltering, where we use knowledge about the behavior of multiple
+users to make recommendations to another user, e.g., combining book or movie ratings to prepare an ordered list
+of books or movies to recommend ([38, 72, 74, 77]). In these applications, what is different from the traditional
+decision-theoretic problem is that the number of “voters" is small and the number of “alternatives" or “candidates"
+is large. Moreover, quite often the problem consists of assigning “alternatives” to pre-deﬁned ordered or nominal
+categories, a problem which is different from the classical ranking problem studied in decision theory. All the
+above call for new methods and algorithms.
+2.2
+Large Databases and Inference
+Consensus methods also arise in applications involving large databases, e.g., databases of molecular sequences,
+when we seek to choose sequences that occur frequently or are “centrally located." (For an example of such
+work, see [63].) This problem is one example of the emerging ﬁeld of “bioconsensus" that involves appli-
+cations of social-science-based consensus methods to problems of biology, many arising from the modern
+information-theoretic analysis of bioinformatics.
+Day [23] has compiled a bibliography of many papers in
+this emerging area and “bioconsensus" has been the subject of several DIMACS research working groups (see
+http://dimacs.rutgers.edu/Workshops/Bioconsensus/ and http://dimacs.rutgers.edu/Workshops/BioconII/ and the
+books [24, 46]. We will explore various methods and models in bioconsensus, including consensus ideas motivated
+by the notion of list coloring in graph theory [58].
+Similar problems arise in “homeland security" applications. For instance, in the DIMACS project on “Moni-
+toring Message Streams" (http://www.stat.rutgers.edu/ madigan/mms/), one deals with large sets of text messages
+and attempts to classify them by content. Methods of “fusion" of the results of several different classiﬁcation algo-
+rithms are playing an important “consensus" role in that project (see [4]. (See also [44, 66, 51, 10, 9].) The problem
+has been studied within Artiﬁcial Intelligence approaches where decision theory has already introduced several
+major contributions (see [54], [52], [21], [5], [53, 80, 19, 29]). Voting methods can help to achieve high accuracy
+in learning algorithms by combining the predictions of several classiﬁers ([73, 91]). Decision theoretic approaches
+have also been used in order to induce classiﬁcation rules from (partially) inconsistent and or incomplete data bases
+([68]). For instance the LAMSADE project “Mathematical and Logical Structures for Data Mining, Preference
+Modelling and Decision Aiding” (see http://www.lamsade.dauphine.fr/mcda/siteTheme/p1.html) is dedicated to
+this problem ([94, 93, 95, 96]). How can we take advantage of new procedures for combination to build better
+learning algorithms? We will investigate this type of question.
+2.3
+Software and Hardware Measurement
+Combining different measures or ratings through appropriate consensus methods is an important topic in the
+measurement of the understandability, quality, functionality, reliability, efﬁciency, usability, maintainability, or
+portability of software [13, 32, 60]. Methods of measurement theory ([82, 83, 88]) and of multiple criteria decision
+theory [100] have been used here with interesting results as shown within a LAMSADE dedicated project (see
+http://www.lamsade.dauphine.fr/mcda/siteTheme/p8.html, [67, 64, 65, 12]). However, new methods are needed
+to deal with complexities arising from CS-based applications. Similar measurement issues arise in hardware
+measurement [35] and collaborative ﬁltering [72] and work on combining “normalized scores" [1, 85] is relevant.
+We will investigate relevant decision-theoretic methods of measurement theory and multiple criteria decision
+theory.
+2.4
+Consensus Computing, Image Processing
+An important subject in the social sciences involves models of how opinions change over time, until hopefully some
+consensus is reached. Models include neural nets, threshold models, and Markov chains [25, 36, 81, 41, 79, 27].
+These models have begun to be applied in CS applications in distributed computing [43, 55, 70, 71]. In such
+applications, the values of processors in a network are updated until all the processors have the same value.
+2
+One application of this idea is in noise removal in digital images [45]. To check if a pixel is noise, one
+compares it with neighboring pixels. If the values are beyond a certain threshold, one replaces the value of the
+given pixel with a mean or median of the values of its neighbors.
+Related models arise in “distributed consensus" [69] where non-faulty processors are required to reach agree-
+ment eventually. Good protocols for how this can be arranged, which include accepting values (“opinions") of
+neighboring non-faulty processors through some sort of majority rule process, need to be developed. In [11], a
+protocol based on the parliamentary procedure known as “cloture” is shown to be very good in terms of a number
+of important criteria including polynomial computation and communication. Much of the work on opinion-change
+models has centered around the question of identifying initial conﬁgurations of opinions or opinion reformulation
+rules that lead to ultimate consensus. We will seek to develop good procedures for answering this question in
+models arising in CS contexts.
+Similar methods show promise for modern issues in epidemiology, where we deal with large models involving
+social networks and the spread of disease (and “opinion" is replaced by having or not having the disease). Here, a
+key problem is to identify initial conﬁgurations of vaccinated individuals so that no matter how many individuals
+are initially infected with a disease, the ultimate “consensus" will have no one with the disease. Some of the work
+in this area is motivated by newly emerging diseases and some by diseases deliberately spread by bioterrorists.
+For some work along these lines, see [28]; see [90] for discussion of the role of such methods in defense against
+bioterrorism. We will pursue these epidemiological applications.
+2.5
+Computational Intractability of Consensus Functions
+Many consensus functions are known to be computationally intractable [6, 7, 8]. Especially in the CS context, work
+is needed to develop good algorithms, efﬁcient approximations, and tractable heuristic methods. (See [30, 59] for
+some work along these lines.) Sometimes computational intractability is a “good thing," for example when we
+try to design voting systems where it is computationally intractable to manipulate the outcome of an election by
+“insincere" voting, adding voters, declaring voters ineligible, adding candidates, declaring candidates ineligible,
+or adjusting the order in which alternatives are considered in a multiple-step voting situation. (Early work on
+these issues is contained in [7].) New methods we will investigate in this project could help with such problems.
+In turn, new methods developed in these CS applications should be useful in making it difﬁcult to manipulate the
+outcomes of electronic voting systems.
+2.6
+Axiomatic Approaches and Algorithms
+The size of modern CS applications requires new algorithms, approximations, etc. since existing algorithms don’t
+scale well. An intriguing idea is that the axiomatic approach, a standard tool in consensus theory, could help here.
+The functional form of a consensus function can sometimes constrain the choice of algorithms. A large part of the
+research done at LAMSADE is dedicated to such problems ([98, 14, 15, 16, 18, 17], see also [99]). There has also
+been extensive work at DIMACS in this area ([34, 42, 61, 62, 86, 87]). Axiomatic characterizations of consensus
+functions can help us in identifying these functional forms without necessarily specifying the exact consensus
+function, and hence in turn help us to develop algorithms for calculating consensus. Totally new functional
+forms for consensus functions, derived with computer science applications in mind, can sometimes result from
+an axiomatic approach (see, e.g., [72] in an IT framework and [2, 3] in more general contexts). We shall pursue
+this approach.
+2.7
+Order Relations and Revealed Preferences
+Establishing a consensus implies being able to compare objects either in order to establish that one is “before"
+the other or that they are “near." Concepts developed or used in decision theory (non-symmetric similarities,
+special kinds of partial orders such as interval orders or semiorders, etc. [33, 78, 97]) should be useful here and
+have already found application in computer science. Applications of ordered sets in computer science (see for
+instance [92]) include their uses as models for computation, their applications in knowledge representation, text
+3
+categorization and data mining, and their uses in analyzing crypto-protocols in security and in inductive logic
+programming. (For examples of such applications, see the DIMACS workshop on Applications of Lattices and
+Ordered Sets to Computer Science (http://dimacs.rutgers.edu/Workshops/Lattices/). Issues of special interest in
+this project include the way in which preferences are revealed before a consensus is reached (see also the special
+LAMSADE project on such issues: http://www.lamsade.dauphine.fr/mcda/siteTheme/p4.html). In traditional
+models of consensus, such preferences are thought of as various kinds of orders that are all revealed at the beginning
+(perfect information). But increasingly in CS applications, especially in situations of economic cooperation and
+competition using the Internet, we can think of software agents learning about other players’ preferences through
+repeated or iterated auctions or other procedures. By learning about a competitor’s preferences and, ultimately, its
+utility function, without seriously intending to win an auction, a ﬁrm can then seriously enter a later auction with a
+signiﬁcant information advantage. Work of [47, 37, 40, 39, 48] is relevant. Building models for consensus in this
+new context is another challenge we shall pursue. A related topic building on order relations concerns the issue
+of solving classic optimization problems when the costs are expressed in ordinal scales (not allowing an additive
+problem formulation), a problem receiving increasing attention in the planning and scheduling community of CS
+(see [26], [56], [57], [76], [75], [89]).
+4
+References
+[1] Acz´el, J., Determining merged relative scores, J. Math. Anal. & Appl., 150 (1990), 20-40.
+[2] Acz´el, J., and Roberts, F.S., On the possible merging functions, Math. Social Sci., 17 (1989), 205-243.
+[3] Acz´el, J., Roberts, F.S., and Rosenbaum, Z., On scientiﬁc laws without dimensional constants, J. Math.
+Anal. & Appl., 119 (1986), 389-416.
+[4] Anghelescu,A., Boros, E., Fradkin, D., Lewis, D., Menkov,V., Neu, D., Ng, K-B,andKantor, P., Prospective
+data fusion for batch ﬁltering, preprint, DIMACS Monitoring Message Streams Project, May 19, 2003.
+[5] Baral, C., Kraus, S., Minker, J., and Subrahmanian, V.S., Combining knowledge bases consisting of ﬁrst
+order theories, Computational Intelligence, 8 (1992), 45-71.
+[6] Bartholdi, J.J., Tovey, C.A., and Trick, M.A., How hard is it to control an election, Mathematical and
+Computer Modelling, 16 (1992), 27-40.
+[7] Bartholdi, J.J., Tovey, C.A., and Trick, M.A., The computational difﬁculty of manipulating an election,
+Social Choice and Welfare, 6 (1989), 227-241.
+[8] Bartholdi, J.J., Tovey, C.A., and Trick, M.A., Voting schemes for which it can be difﬁcult to tell who won
+the election, Social Choice and Welfare, 6 (1989), 157-165.
+[9] Benferhat, S., Dubois, D., Kaci, S., and Prade, H., Bipolar representation and fusion of preferences in the
+possibilistic logic framework, in Proceedings of the 8th International Conference on Knowledge Represen-
+tation and Reasoning, KR’02, Morgan Kauffman, San Francisco, 2002, 421–432.
+[10] Benferhat, S., Dubois, D., Kaci, S., and Prade, H., Possibilistic merging and distance-based fusion of
+propositional information, Annals of Mathematics and Artiﬁcial Intelligence, 2002, 217-252.
+[11] Berman, P., andGaray, J.A., Cloturevotes: n/4-resilientdistributedconsensusint+1rounds, Mathematical
+Systems Theory, 26 (1993), 3-20.
+[12] Blin, M.J., and Tsouki`as, A., Multiqcriteria methodology contribution to software quality evaluations,
+Software Quality Journal, 9 (2001), 113-132.
+[13] Boehm, B.W., Characteristics of Software Quality. North Holland, Amsterdam, 1978.
+[14] Bouyssou, D., Ranking methods based on valued preference relations: a characterization of the net ﬂow
+method, European Journal of Operational Research, 60 (1992), 61-68.
+[15] Bouyssou, D., Outranking relations: do they have special properties? Journal of Multi-Criteria Decision
+Analysis, 5 (1996), 99-111.
+[16] Bouyssou, D., and Perny, P., Ranking methods for valued preference relations: a characterization of a
+method based on entering and leaving ﬂows, European Journal of Operational Research, 61 (1992), 186-
+194.
+[17] Bouyssou, D., and Pirlot, M.,A characterization of strict concordance relations, in D. Bouyssou, E. Jacquet-
+Lagr`eze, P. Perny, R. S lowi´nski, D. Vanderpooten, and Ph. Vincke (eds.), Aiding Decisions with Multiple
+Criteria - Essays in Honor of Bernard Roy, Kluwer Academic, Dordrecht, 2002, 121-146.
+[18] Bouyssou, D., and PirlotM., Non-transitive decomposable conjoint measurement, Journal of Mathematical
+Psychology, 46 (2002), 677-703.
+5
+[19] Brafman, R.I., and Friedman, N., On decision-theoretic foundations for defaults, Artiﬁcial Intelligence,
+133 (2001), 1-33.
+[20] Cada, R., and Maxov´a, J., GraphTheory Day 2, Technical Report, KAM-DIMATIA SeriesTechnical Report
+99-452, 1999.
+[21] Cholvy, L., and Hunter, T., Fusion in logic: a brief overview, in Proceedings of the 4th European Conference
+on Symbolic and Quantitative Approaches to Reasoning with Uncertainty, ECSQARU’97, LNCS 1244,
+Springer Verlag, Berlin, 1997, 86-95.
+[22] Cohen, W.W., Schapire, R.E., and Singer, Y., Learning to order things, J. Artiﬁcial Intelligence Research,
+10 (1999), 243-270.
+[23] Day, W.H.E., The sequence analysis and comparison bibliography,
+http://edfu.lis.uiuc.edu/˜class/sequence/
+[24] Day, W.H.E., and McMorris, F.R., Axiomatic Consensus Theory in Group Choice and Biomathematics,
+SIAM Publications, Philadelphia, PA, to appear.
+[25] Degroot, M.H., Teaching a consensus, J. Amer. Stat. Assoc., 69 (1974), 167-182.
+[26] Della Croce, F., Paschos, V.T., and Tsouki`as, A., An improved general procedure for lexicographic bottle-
+neck problems, Operations research letters, 24 (1999), 187-194.
+[27] Dreyer, P., ApplicationsandVariationsofDominationinGraphs, Ph.D.Thesis, DepartmentofMathematics,
+RutgersUniversity, Sept.2000.H-colorablegraphswithoutagivenconﬁguration, DiscreteMath., toappear.
+[28] Dreyer, P., and Roberts, F.S., k-threshold models of the spread of disease, in preparation.
+[29] Dubois, D., Fargier, H., Perny, P., and Prade H., Qualitative decision theory: from Savage’s axioms to
+non-monotonic reasoning, Journal of the ACM, 49 (2002), 455-495.
+[30] Dwork, C., Kumar, R., Naor, M., and Sivakumar, D., Rank aggregation, spam resistance, and social choice,
+preprint, 2000.
+[31] Etzioni, O., Hanks, S., Jiang, T., Karp, R.M., Madani, O., and Waarts, O., Efﬁcient information gathering
+on the internet, 37th Annual Symposium on Foundations of Computer Science, 1996.
+[32] Fenton, N.A., and Pﬂeeger, S.L., Software Metrics, 2nd Ed., PWS Publishing Co., Boston, MA, 1997. covers
+of graphs, KAM-DIMATIA Technical Report 2000-479, 2000 (accepted by ISAAC 2001, Christchurch,
+December 2001).
+[33] Fishburn, P.C., Interval Orders and Interval Graphs, Wiley-Interscience, New York, 1985.
+[34] Fishburn, P.C., and Roberts, F.S., Axioms for unique subjective probability on ﬁnite sets, Jour. of Math.
+Psych., 33 (1989), 117-130.
+[35] Fleming, P.J., and Wallace, J.J., How not to lie with statistics: The correct way to summarize benchmark
+results, Comm. of ACM, 29 (1986), 218-221.
+[36] French, J.R.P., Jr., A formal theory of social power, Psychol. Rev., 63 (1956), 181-194.
+[37] Freund, Y., Kearns, M., and Mansour, Y., Efﬁcient algorithms for learning to play repeated games against
+computationally bounded adversaries, Proceedings 36th Symposium on Foundations of Computer Science,
+November 1995.
+6
+[38] Freund, Y., Iyer, R., Schapire, R.E., and Singer, Y., An efﬁcient boosting algorithm for combining pref-
+erences, preliminary version as extended abstract in Machine Learning: Proc. of the 15th International
+Conference 1998. Revised version: http://www.research.att.com/˜schapire.
+[39] Friedman, E.J., Greenwald, A., and Shenker, S., Learning in network contexts: Experimental results from
+simulations, Games and Economic Behavior, 35 (2001), 80-123.
+[40] Friedman, E.J., and Shenker, S., Learning and implementation on the Internet, Department of Economics,
+Rutgers University, Working Paper Series, 1998.
+[41] Goles, E., and Martinez, S., Statistical Physics, Automata Networks, and Dynamical Systems, Kluwer
+Academic Publishers, Dordrecht, Netherlands, 1992. J., and Roberts, F.S. (eds.), Contemporary Trends in
+Discrete Mathematics, DIMACS Series, Vol. 49, American Mathematical Society, Providence, RI, 1999.
+[42] Hansen, P., and Roberts, F.S., An impossibility result in axiomatic location theory , Math. of Operations
+Research, 21 (1996), 195-208.
+[43] Hassin, Y., and Peleg, D., Distributed probabilistic polling and applications to proportionate agreement,
+Proc. 26th Int. Colloq. on Automata, Languages and Programming ICALP, 1999, pp. 402-411.
+[44] Ibraev, U., Ng, K-B., and Kantor, P., Exploration of a geometric model of data fusion, Proc. 2002 Conference
+of the American Society for Information Science and Technology, 2002.
+[45] Janowitz, M., Ordinal ﬁltering in digital image processing, in E. Wegman and D. DePriest (eds.), Statistical
+Image Processing and Graphics, Marcel Dekker, 1986, pp. 25-41.
+[46] Janowitz, M., LaPointe, F-J., McMorris, F.R., Mirkin, B., and Roberts, F.S. (eds.), Bioconsensus, DIMACS
+Series, Volume 61, American Mathematical Society, Providence, RI, 2003.
+[47] Kalai, E., Bounded rationality and strategic complexity in repeated games, in T. Ichiishi, A. Neyman, and
+Y. Tauman (eds.), Game Theory and Applications, Academic Press, New York, 1990, 131-157.
+[48] Singh, S., Kearns, M., and Mansour, Y., Nash convergence of gradient dynamics in general-sum games,
+UAI 2000.
+[49] Kemeny, J.G., Mathematics without numbers, Daedalus, 88 (1959), 575-591.
+[50] Kemeny, J.G., and Snell, J.L., Mathematical Models in the Social Sciences, Blaisdell, New York, 1962.
+Reprinted by MIT Press, Cambridge, MA, 1972.
+[51] Konieczny, S., and Perez, R.P., Merging information under constraints: a logical framework, Journal of
+Logic and Computation, 12 (2002), 772-808.
+[52] Konieczny, S., and Perez, R.P., Propositional belief base merging or how to merge beliefs/goals coming
+from several sources and some links to social choice theory, European Journal of Operational Research,
+to appear.
+[53] Lin, J., Integration of weighted knowledge bases, Artiﬁcial Intelligence, 83 (1986), 363-378.
+[54] Lin, J., and Mendelzon, A.O., Merging databases under constraints, International Journal of Cooperative
+Information Systems, 7 (1998), 55-76.
+[55] Linial, N., Peleg, D., Rabinovitch, Y., and Saks, M.,
+[56] Mahadev, N.V.R., Pekec, A., and Roberts, F.S., Effect of change of scale on optimality in a scheduling
+model with priorities and earliness/tardiness penalties, Mathematical and Computer Modelling, 25 (1997),
+9-22.
+7
+[57] Mahadev, N.V.R., Pekec, A., and Roberts, F.S., On the meaningfulness of optimal solutions to scheduling
+problems: Can an optimal solution be non-optimal?, Operations Research, 46 supp. (1998), S120-S134.
+[58] Mahadev, N.V.R., and Roberts, F.S., Consensus list colorings of graphs and physical mapping of DNA, in
+M. Janowitz, F-J. Lapointe, F.R. McMorris, B. Mirkin, and F.S. Roberts (eds.), Bioconsensus, DIMACS
+Series, Volume 61, American Mathematical Society, Providence, RI, 2003, pp. 83-95.
+[59] Marcotorchino, J-F., and Michaud, P., Heuristic approach of the similarity aggregation problem, Methods
+of Oper. Res., 43 (1981), 395-404.
+[60] McCall, J.A., Richards, P.K., and Walters, G.F., Factors in software quality, RADC TR-77-369, 1977. Vols.
+I, II, III, US Rome Air Development Center Reports NTIS AD/A-049 014, 015, 055, 1977.
+[61] McMorris, F.R., Mulder, M., and Roberts, F.S., The median procedure on median graphs, Discrete Applied
+Math., 84 (1998), 165-181.
+[62] McMorris, F.R., Roberts, F.S., and Wang, C., The center function on trees, Networks, 38 (2001), 84-87.
+[63] Mirkin, B., and Roberts, F.S., Consensus functions and patterns in molecular sequences, Bull. Math. Bio.,
+55 (1993), 695-713.
+[64] Morisio, M., Stamelos, I., and Tsouki`as, A., A new method to evaluate software artifacts against predeﬁned
+proﬁles, in Proceedings of the SEKE-02 conference, ACM Press, New York, 2002, 811-818.
+[65] Morisio, M., and Tsouki`as, A., IUSWARE: A formal methodology for software evaluation and selection,
+IEE Proceedings on Software Engineering, 144 (1997), 162-174.
+[66] Ng, K-B., An Investigation of the Conditions for Effective Data Fusion in Information Retrieval, PhD thesis,
+Rutgers, The State University oF New Jersey - New Brunswick, 1998.
+[67] Paschetta, E., and Tsouki`as, A., A real world mcda application: evaluating software, Journal of Multi-
+Criteria Decision Analysis, 9 (2000), 205-226.
+[68] Pawlak, Z., Rough Sets - Theoretical Aspects of Reasoning about Data, Kluwer Academic, Dordrecht,
+1991.
+[69] Pease, M., Shostak, R., and Lamport, L., Reaching agreement in the presence of faults, JACM, 27 (1980),
+228-234.
+[70] Peleg, D., Local majority voting, small coalitions and controlling monopolies in graphs: A review, Proc.
+3rd Colloq. on Structural Information and Communication Complexity, 1996, pp. 170-179.
+[71] Peleg, D., Size bounds for dynamic monopolies, Discrete Appl. Math., 86 (1998), 263-273.
+[72] Pennock, D.M., Horvitz, E., and Giles, C.L., Social choice theory and recommender systems: Analy-
+sis of the axiomatic foundations of collaborative ﬁltering, Proc. 17th National Conference on Artiﬁcial
+Intelligence AAAI-2000, AAAI Press, Menlo Park, CA, 2000, pp. 729-734.
+[73] Pennock, D.M., Maynard-Reid, P., Giles, C.L., and Horvitz, E., A normative examination of ensemble
+learning algorithms, Proc. 17th International Conference on Machine Learning (ICML-2000), Morgan-
+Kauffmann, 2000, pp. 735-742.
+[74] Perny, P., Multicriteria ﬁltering methods based on concordance/non-discordance principles, Annals of
+Operations Research, 80 (1998), 137-167.
+[75] Perny, P., and Spanjaard, O., Preference-based search in state space graphs, in Proceedings of theAAAI’2002
+Conference, Edmonton, Canada, July 2002, 751-756.
+8
+[76] Perny, P., and Spanjaard, O., A preference-based approach to spanning trees and shortest paths problems,
+European Journal of Operational Research, to appear.
+[77] Perny, P., and Zucker, J.D., Preference-based search and machine learning for collaborative ﬁltering: the
+“ﬁlm-conseil” recommender system, Information, Interaction , Intelligence, 1 (2001), 9-48.
+[78] Pirlot, M., and Vincke, P.., Semiorders: Properties, Representations, Applications, Kluwer Academic
+Publishers, Dordrecht, 1997.
+[79] Poljak, S., and Sura, M., On periodical behavior in society with symmetric inﬂuences, Combinatorica, 3
+(1983), 119-121.
+[80] Poole, D., Decision-theoretic defaults. in Proceedings of the Ninth Biennial Conference of the Canadian
+Society for Computational Studies of Intelligence, Morgan Kaufmann, San Francisco, 1992, 190-197.
+[81] Roberts, F.S., Discrete Mathematical Models, with Applications to Social, Biological, and Environmental
+Problems, Prentice-Hall, Englewood Cliffs, NJ, 1976.
+[82] Roberts, F.S., Measurement Theory, with Applications to Decisionmaking, Utility, and the Social Sciences,
+Addison-Wesley, Reading, MA, 1979.
+[83] Roberts, F.S., Applications of the theory of meaningfulness to psychology, J. Math. Psychol., 29 (1985),
+311-332.
+[84] Roberts, F.S. (ed.), Applications of Combinatorics and Graph Theory in the Biological and Social Sciences,
+IMA Volumes in Mathematics and its Applications, Springer-Verlag, New York, 1989.
+[85] Roberts, F.S., Merging relative scores, J. Math. Anal. and Appl., 147 (1990), 30-52.
+[86] Roberts, F.S., Characterizations of the plurality function, Math. Soc. Sci., 21 (1991), 101-127.
+[87] Roberts, F.S., On the indicator function of the plurality function, Math. Soc. Sci., 22 (1991), 163-174.
+[88] Roberts, F.S., Limitations on conclusions using scales of measurement, in A. Barnett, S.M., Pollock, and
+M.H. Rothkopf (eds.), Operations Research and the Public Sector, Elsevier, Amsterdam, 1994, 621-671.
+[89] Roberts, F.S., A functional equation that arises in problems of scheduling with priorities and late-
+ness/earliness penalties, Mathematical and Computer Modelling, 21 (1995), 77-83.
+[90] Roberts, F.S., Challenges for discrete mathematics and theoretical computer science in the defense against
+bioterrorism, in C. Castillo-Chavez and H.T. Banks (eds.), Mathematical and Modeling Approaches in
+Homeland Security, SIAM Frontiers in Applied Mathematics Series, SIAM, Philadelphia, PA, in press.
+[91] Schapire, R.E., Freund, Y., Bartlett, P., and Lee, W.S., Boosting the margin: A new explanation for the
+effectiveness of voting methods, The Annals of Statistics, 26 (1998), 1651-1686.
+[92] Scott, D., Some ordered sets in computer science, i I. Rival (ed.), Ordered Sets, D. Reidel, Dordrecht, 1982,
+677-718..
+[93] Stefanowski, J., and Tsouki`as, A., Incomplete information tables and rough classiﬁcation, Computational
+Intelligence, 17 (2001), 454-466.
+[94] Stefanowski, J., and Tsouki`as, A., Valued tolerance and decision rules, in W. Ziarko and Y. Yao (eds.),
+Rough Sets and Current Trends in Computing, Springer Verlag, LNAI 2005, Berlin, 2001, 212-219.
+[95] J. Stefanowski, J., and Tsouki`as, A., Induction of decision rules and classiﬁcation in the valued tolerance
+approach, in J.J Alpigini, J.F Peters, A. Skowron, and N. Zhong (eds.) Proceedings of the RSCTC 2002
+Conference, LNAI 2475, Springer Verlag, Berlin, 2002, 271–278.
+9
+[96] Stefanowski, J., and Vanderpooten, D., Induction of decision rules in classiﬁcation and discovery-oriented
+perspectives, International Journal on Intelligent Systems, 16 (2001), 13-27.
+[97] Trotter, W.T., Combinatorics and Partially Ordered sets: Dimension Theory, The Johns Hopkins University
+Press, Baltimore, MD, 1992.
+[98] Tsouki`as, A., and Vincke, Ph., A characterization of PQI interval orders. Discrete Applied Mathematics,
+127 (2003), 387-397.
+[99] Vincke, P., Exploitation of a crisp relation in a ranking problem, Theory and Decision, 32 (1992), 221-240.
+[100] Vincke, P., Multicriteria Decision Aids, Wiley, New York, 1992.
+[101] Wakabayashi, Y., Aggregation of Binary Relations: Algorithmic and Polyhedral Investigations, Thesis,
+Augsburg, 1986.
+10

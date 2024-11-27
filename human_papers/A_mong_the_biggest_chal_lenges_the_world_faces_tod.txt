@@ -1,0 +1,452 @@
+A
+mong the biggest chal-
+lenges the world faces 
+today are the climate 
+crisis and the broader 
+issues of environmental 
+sustainability raised in books such 
+as Jared Diamond’s Collapse: How 
+Societies Choose to Fail or Succeed 
+(Viking, 2004). Part of the solution 
+to this problem depends on climate 
+science, breakthrough technologies, 
+and policy changes. 
+However, as Daniel Quinn argued 
+in his 2002 address, “The New 
+Renaissance” (http://ishmael.org/
+Education/Writings/The_New_ 
+Renaissance.shtml), “What we 
+must have (and nothing less) is a 
+whole world full of people with 
+changed minds. Scientists with 
+changed minds, industrialists with 
+changed minds, school teachers 
+with changed minds, politicians 
+with changed minds.” He goes on 
+to describe how each of us must find 
+a more sustainable way to do things 
+in businesses and at home. 
+A commonly stated goal is to 
+reduce world energy use to 1990 
+levels, thereby stabilizing atmo-
+spheric CO2 emissions at 350 parts 
+per million (J. Hansen et al., “Target 
+Atmospheric CO2: Where Should 
+Humanity Aim?” 18 June 2008, 
+http://arxiv.org/abs/0804.1126v2, 
+http://350.org). 
+Computer scientists can help reach 
+this goal in four ways. Two of these 
+involve mitigating the direct negative 
+impact of computers—their power 
+consumption as well as the economic 
+and social costs associated with the 
+manufacturing, maintenance, and 
+disposal of components. The other 
+two relate to the indirect positive 
+impact of computers—their abil-
+ity to increase energy efficiency by 
+changing systems and ways of being; 
+to potentially reduce world emissions 
+by as much as 15 percent by 2020, 
+Some Computer 
+Science Issues 
+in Creating a 
+Sustainable World
+Jennifer Mankoff, Carnegie Mellon University
+Robin Kravets, University of Illinois at Urbana-Champaign
+Eli Blevis, Indiana University
+Computer scientists have a role to play 
+in combating global climate change.
+according to the Climate Group’s 
+June 2008 report (www.smart2020.
+org); and to help provide answers to 
+important scientific questions. 
+computational  
+Energy consumption 
+A Forrester Research report proj-
+ects the number of personal com-
+puters in use in the most populous 
+countries to double to 2.25 billion by 
+2015 (S. Yates, “Ranking PC Growth 
+Markets,” 10 July 2007). Embedded 
+devices are becoming pervasive; by 
+2011, there will be three per person 
+on the planet (www.microarch.org/
+micro35/keynote/Agerwala.pdf).
+According to the Climate Group, 
+total energy consumption by com-
+puters—including the power con-
+sumption and embodied energy 
+of data centers, PCs and peripher-
+als, and networks and devices—
+accounted for 830 million metric 
+tons of carbon dioxide, or 2 percent 
+of the total world carbon footprint, 
+in 2007. As Figure 1 shows, these 
+figures are roughly equivalent to the 
+total CO2 emissions of Nigeria, Iran, 
+and Poland, respectively. Data cen-
+ters alone use almost 0.5 percent of 
+the world’s energy, and this figure is 
+likely to quadruple by 2020.
+Lowering the energy cost of com-
+putation will depend on our ability 
+to reduce processor cycles, communi-
+cation needs, and architectural inef-
+ficiencies. For example, according 
+to the US Environmental Protection 
+Agency, power adaptors consume 11 
+percent of US electricity, yet available 
+design changes soon to be mandated 
+by the Energy Star program (www.
+energystar.gov) can reduce their 
+energy use by 30 percent. 
+Hardware
+Hardware advances provide new 
+opportunities for compile-time or 
+dynamic efficiency improvement. 
+For example, heterogeneous chip 
+multiprocessors can achieve four to 
+six times energy savings per instruc-
+tion (R. Kumar et al. “Heteroge-
+neous Chip Multiprocessors,” Com-
+puter, Nov. 2005, pp. 32-38). 
+	
+94 
+Computer
+I N V I S I B L E  C O M P U T I N G
+	
+August 2008	
+95
+Recent research by Samuel Wil-
+liams and colleagues explores 
+supercomputing programming 
+paradigms for a modified Cell pro-
+cessor that can achieve up to 100 
+times the energy efficiency of lead-
+ing competitors (“The Potential 
+of the Cell Processor for Scientific 
+Computing,” Proc. 3rd Conf. Com-
+puting Frontiers, ACM Press, 2006, 
+pp. 9-20). 
+Networks
+Smarter networking can likewise 
+reduce communication costs. For 
+example, intelligent routing proto-
+cols can ensure the use of minimum 
+energy routes, and media access 
+control (MAC) protocols can reduce 
+energy consumption in idle times 
+during data transmission and recep-
+tion (C. Sengul and R. Kravets, 
+“Heuristic Approaches to Energy-
+Efficient Network Design Problem,” 
+Proc. 27th Int’l Conf. Distributed 
+Computing Systems, IEEE CS Press, 
+2007, p. 44). 
+Although much of the original 
+work in energy-aware communi-
+cation comes from the wireless 
+domain, researchers have lever-
+aged these techniques in the wired 
+domain. Protocols such as Adaptive 
+Link Rate use machine learning to 
+lower desktop computers’ energy 
+consumption by reducing Ethernet 
+transmission rates when utilization 
+is low (P. Patel-Predd, “Energy-Effi-
+cient Ethernet,” IEEE Spectrum, 
+May 2008, p. 13). 
+Data centers
+Server-based systems that support 
+many different remote individuals 
+require a different set of power-man-
+agement strategies. For example, 
+Ripal Nathuji and Karstan Schwan 
+tackle the problem through virtu-
+alization (“VirtualPower: Coordi-
+nated Power Management in Vir-
+tualized Enterprise Systems,” Proc. 
+21st ACM SIGOPS Symp. Operat-
+ing Systems Principles, ACM Press, 
+2007, pp. 265-278). 
+Although managing energy in a 
+data center might seem to be only 
+a matter of scale, researchers at 
+HP Labs have shown that it is also 
+necessary to consider the machines’ 
+thermal properties (R. Raghavendra 
+et al., “No ‘Power’ Struggles: Coor-
+dinated Multi-Level Power Man-
+agement for the Data Center,” ACM 
+SIGARCH Computer Architecture 
+News, Mar. 2008, pp. 48-49). 
+Luiz André Barroso and Urs 
+Hölzle argue that machines should 
+consume energy in proportion to 
+the amount of work performed 
+(“The Case for Energy-Propor-
+tional Computing,” Computer, 
+Dec. 2007, pp. 33-37). However, 
+achieving this goal in large data 
+centers could significantly affect 
+performance.
+A recent Microsoft Request for 
+Proposal highlights additional 
+research needed to create power-
+aware systems (http://research.
+microsoft.com/ur/us/fundingopps/
+rfps/PowerAware_RFP.aspx). This 
+includes benchmarks and metrics, 
+integration and cooperation across 
+system layers, advances in scientific 
+computing and visualization, and 
+innovations in everything from the 
+physical layout of data centers to 
+the structure of the average com-
+puter—for example, substituting 
+flash memory for other types of 
+memory.
+electronic waste
+Almost as daunting as computing 
+devices’ growing energy consump-
+tion are the high costs associated 
+with their production, support, 
+upgrading, and retirement. Beyond 
+the numerous resources used in the 
+product life cycle—including water, 
+fuel, and electricity—is the difficult-
+to-measure but often devastating 
+impact computer-related waste has 
+on human populations and the envi-
+ronment. 
+A recent Basel Action Network 
+report (“The Digital Dump: Export-
+ing Re-use and Abuse to Africa,” 
+24 Oct. 2005, www.ban.org/ 
+BANreports/10-24-05/documents/
+TheDigitalDump.pdf) predicts that 
+the US alone will retire approxi-
+mately 3 billion units of electron-
+ics—primarily computers, moni-
+tors, and TVs—by 2010. Companies 
+dump much of this refuse in develop-
+ing countries, exposing millions of 
+people to dangerous toxins such as 
+Figure 1. Carbon dioxide emissions from the energy consumed by data centers, PCs and 
+peripherals, and networks and devices are roughly equivalent to those of Nigeria, Iran, 
+and Poland and account for 2 percent of the total world carbon footprint.
+Data centers
+Networks and devices
+Nigeria
+Iran
+Poland
+Computers
+Countries
+PCs and peripherals
+CO2 emissions (million metric tons)
+100
+200
+300
+400
+500
+600
+700
+0
+116.2
+406.7
+307.1
+114.0
+433.6
+307.2
+	
+96 
+Computer
+I N V I S I B L E  C O M P U T I N G
+lead and mercury as well as wasting 
+energy embodied in the devices. 
+Computer scientists can influence 
+many steps in the computing life 
+cycle (E. Blevis, “Sustainable Inter-
+action Design: Invention & Disposal, 
+Renewal & Reuse,” Proc. SIGCHI 
+Conf. Human Factors in Computing 
+Systems, ACM Press, 2007, pp. 503-
+512). For example, one step toward 
+eliminating electronic waste is reduc-
+ing the need for new computers. 
+Innovative desktop grid comput-
+ing projects such as the Berkeley 
+Open Infrastructure for Network 
+Computing (http://boinc.berkeley.
+edu), which grew out of SETI@
+home’s efforts to search for extra-
+terrestrial intelligence, can help with 
+this. Virtualization, which allows 
+many users to share one computer, 
+also can help. 
+Incorporating modular chips or 
+components makes it possible to 
+replace a single part instead of an 
+entire system. More radically, as 
+networks become ubiquitous, we 
+can create personal devices that 
+are simple clients, shifting the more 
+intensive computation to upgrade-
+able servers and thereby reducing 
+the need to replace every individual 
+device. 
+However, this approach raises 
+tradeoffs between personal privacy 
+and control over data that research-
+ers need to address. It also creates 
+new challenges for designers: Can 
+one device fit all needs? If not, what 
+is the best way to distribute data over 
+multiple devices?  
+global energy 
+consumption 
+The Climate Group’s recent report 
+argues that computing technology 
+could facilitate significant reductions 
+in worldwide energy use, equalling 
+as much as five times the projected 
+growth in computational power 
+consumption. Energy savings could 
+be accomplished through recent or 
+future innovation in motor systems, 
+transport and storage logistics, 
+power grids, and building design, 
+management, and automation.  
+Computers’ interactive nature 
+provides an additional opportunity 
+for energy reduction—by educating 
+people, creating new ways of being, 
+and changing behavior. For example, 
+Columbia University’s Educational 
+Global Climate Modeling software 
+(http://edgcm.columbia.edu) enables 
+high school and college students to 
+visualize climate change at home 
+and in the classroom. This is possible 
+because today’s personal computers 
+can run older climate models.
+In 2006, Chicago’s Center for 
+Neighborhood Technology (www.
+cnt.org) helped reduce summer elec-
+tricity usage by 3 to 4 percent by pro-
+viding local households an ambient 
+orb, shown in Figure 2, that displays 
+the real-time cost of energy. 
+Cutting home energy use is one of 
+the major ways in which individuals 
+can shrink their carbon footprint. 
+Even small changes can collectively 
+have a large impact such as avoiding 
+the need for a new power plant.
+Wildly popular social-network-
+ing websites such as Facebook pro-
+vide yet another lever to modify the 
+energy-consumption habits of poten-
+tially millions of people (J. Mankoff 
+et al., “Leveraging Social Networks 
+to Motivate Individuals to Reduce 
+Their Ecological Footprints,” Proc. 
+40th Ann. Hawaii Int’l Conf. Sys-
+tem Sciences, IEEE CS Press, 2007, 
+p. 87). StepGreen.org is one Web 2.0 
+application exploring these ideas. 
+Climate science 
+The advent of the National Sci-
+ence Foundation’s Cyber-Enabled 
+Figure 2. To help reduce summer 
+electricity usage in Chicago, the Center 
+for Neighborhood Technology created 
+an ambient orb that displays households’ 
+real-time energy cost. Photo courtesy  
+of CNT/CNT Energy.
+Figure 3. Emerging sensor-rich mobile computing devices make it possible for “citizen 
+scientists” to capture fine-grained data on a large scale. This graphic of CO2 emissions 
+for a city in Ghana was obtained through taxi cab data. Image courtesy of Eric Paulos.
+	
+August 2008	
+97
+Discovery and Innovation initiative 
+(www.nsf.gov/news/news_summ.
+jsp?cntn_id=108366) highlights the 
+increased interest among research-
+ers in applying innovations in com-
+putational thinking to all types of 
+science, including climate science. 
+For example, recent advances in 
+scientific computation are making 
+it possible to better understand the 
+impact of forest dynamics on car-
+bon sequestration (D. Purves and S. 
+Pacala, “Predictive Models of Forest 
+Dynamics,” Science, 13 June 2008, 
+pp. 1452-1453).  
+The Earth System Grid (www.
+earthsystemgrid.org), a new proj-
+ect sponsored by the US Depart-
+ment of Energy’s Scientific Discov-
+ery through Advanced Computing 
+program (www.scidac.gov), is an 
+example of a grid computing solu-
+tion for managing access to and stor-
+ing petabytes of data generated by 
+such climate models.
+Little data is available at the micro 
+level about energy consumption, air 
+and water quality, and other environ-
+mental issues. However, as Figure 3 
+shows, emerging sensor-rich mobile 
+computing devices make it possible 
+for “citizen scientists” to capture 
+fine-grained data on a large scale 
+(E. Paulos, R.J. Honicky, and E. 
+Goodman, “Sensing Atmosphere,” 
+workshop position paper, 5th ACM 
+Conf. Embedded Networked Sensor 
+Systems, 2007, www.cs.berkeley.
+edu/~honicky/sensys07.pdf).
+This data could be integrated with 
+information from location-tracking, 
+geopositioning, and other sensing 
+sources to, for example, determine 
+air pollution levels for every block 
+of every city, each consumer good’s 
+complete transportation costs, and 
+accurate measurements of individual 
+and societal carbon footprints.
+G
+lobal climate change is one of 
+the most pressing problems of 
+our time. Government agen-
+cies, universities, and businesses 
+are starting to step up and invest 
+in research, but even more change 
+is needed, ranging from standards 
+and policies to research innovations 
+and new businesses. Now is the time 
+for computer scientists to use their 
+skills and resources to help create an 
+energy-efficient future. n
+Jennifer Mankoff is an associate pro-
+fessor at the Human-Computer Inter-
+action Institute, School of Computer 
+Science, Carnegie Mellon University. 
+Contact her at jmankoff@cs.cmu.
+edu.
+Robin Kravets is an associate profes-
+sor in the Department of Computer 
+Science at the University of Illinois at 
+Urbana-Champaign. Contact her at 
+rhk@cs.uiuc.edu.
+Eli Blevis is an associate professor in 
+the School of Informatics at Indiana 
+University. Contact him at eblevis@
+indiana.edu.
+Editor: Bill N. Schilit, Google; 
+schilit@computer.org

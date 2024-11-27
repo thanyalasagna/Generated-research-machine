@@ -1,0 +1,1157 @@
+Theoretical Computer Science 305 (2003) 409–432
+www.elsevier.com/locate/tcs
+A characterization of partial metrizability:
+domains are quanti'able
+M.P. Schellekens∗
+Department of Computer Science, National University of Ireland, University College Cork,
+Western Road, Cork, Co. Cork, Ireland
+Abstract
+A characterization of partial metrizability is given which provides a
+partial solution to an
+open problem stated by K-unzi in the survey paper Non-symmetric Topology (in: Proceedings of
+the Szekszard Conference, Bolyai Soc. Math. Studies, Vol. 4, 1993, pp. 303–338; problem 71).
+The characterization yields a powerful tool which establishes a correspondence between partial
+metrics and special types of valuations, referred to as Q-valuations (cf. also Theoret. Comput.
+Sci., to appear). The notion of a Q-valuation essentially combines the well-known notion of
+a valuation with a weaker version of the notion of a quasi-unimorphism, i.e. an isomorphism
+in the context of quasi-uniform spaces. As an application, we show that !-continuous directed
+complete partial orders (dcpos) are quanti'able in the sense of O’Neill (in: S. Andima et al.
+(Eds.), Proceedings of the 11th Summer Conference on General Topology and Applications,
+Annals of the New York Academy of Sciences, Vol. 86, 1997, pp. 304–315), i.e. the Scott
+topology and partial order are induced by a partial metric. For !-algebraic dcpos the Lawson
+topology is induced by the associated metric. The partial metrization of general domains improves
+prior Gpproaches in two ways:
+• The partial metric is guaranteed to capture the Scott topology as opposed to e.g. Smyth
+(Quasi-uniformities: Reconciling Domains with Metric Spaces, Lecture Notes in Computer
+Science, Vol. 298, Springer, Berlin, 1987, pp. 236–253), Bonsangue et al. (Theoret. Comput.
+Sci. 193 (1998) 1), Flagg (Theoret. Comput. Sci., to appear) and Flagg (Theoret. Comput.
+Sci. 177 (1) (1997) 1), which in general yield a coarser topology.
+• Partial metric spaces are Smyth-completable and hence their Smyth-completion reduces to the
+standard bicompletion. This type of simpli'cation is advocated in Smyth (in: G.M. Reed, A.W.
+Roscoe, R.F. Wachter (Eds.), Topology and Category Theory in Computer Science, Oxford
+University Press, Oxford, 1991, pp. 207–229). Our results extend Smyth (1991)’s scope of
+application from the context of 2/3 SFP domains to general domains.
+∗Tel.: +353-21903083; fax: +353-21903113.
+E-mail address: m.schellekens@cs.ucc.ie (M.P. Schellekens).
+1 “Characterize those quasi-uniformities having a countable base which are induced by a weighted
+quasi-metric”.
+0304-3975/03/$ - see front matter c⃝2002 Elsevier B.V. All rights reserved.
+PII: S0304-3975(02)00705-3
+410
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+The quanti'cation of general domains solves an open problem on the partial metrizability of
+domains2 stated in O’Neil (1997) and Heckmann (Appl. Categor. Struct. (1999) 71).
+Our proof of the quanti'ability of domains is novel in that it relies on the central notion of
+a semivaluation (Schellekens, The correspondence between partial metrics and semivaluations,
+Theoret. Comput. Sci., to appear). The characterization of partial metrizability is entirely new
+and sheds light on the deeper connections between partial metrics and valuations commented
+on in [Bukatin and Shorina (in: M. Nivat (Ed.), Foundations of Software Science and Com-
+putation Structures, Lecture Notes in Computer Science, Vol. 1378, Springer, Berlin, 1998, pp.
+125–139)]. Based on (Schellekens, The correspondence between partial metrics and semivalua-
+tions, Theoret. Comput. Sci., to appear) and our present characterization, we conclude that the
+notion of a (semi)valuation is central in the context of Quantitative Domain Theory since it can
+be shown to underlie the various models arising in the applications.
+c⃝2002 Elsevier B.V. All rights reserved.
+MSC: 54E15; 54E35; 06A12; 06B35
+Keywords: (Weightable) Quasi-metrics; Partial metrics; Valuations; Directed partial orders
+1. Introduction and related work
+Recent developments in Domain Theory indicate that additional concepts are re-
+quired in order to develop the corresponding applications. These developments include
+domain theoretic approaches to dataNow networks (e.g. [25,26]), logic programming
+(e.g. [40]), domain theoretic approaches to integration (e.g. [6]), models for probabilis-
+tic languages (e.g. [18,19]), models for real number computation [7] as well as models
+which incorporate complexity analysis (e.g. [31,35]).
+Each of these application involve “real number measurements” in some sense, and
+hence the adjective quantitative is used as opposed to the adjective qualitative which
+indicates the traditional order theoretic approach. The terminology “Quantitative
+Domain Theory” was coined in [10].
+At this point several foundations exist. The more abstract approaches include the
+Yoneda completion [2], the continuity spaces [9] and the topological quasi-uniform
+spaces [44]. These approaches are essentially equivalent (cf. [11,22]) and lead to com-
+plex completions, involving non-idempotency or subtle relations between two topolo-
+gies and a quasi-uniformity. Moreover, they involve generalized metrics which typically
+lead to topologies coarser than the Scott topology, which for instance for the case of
+topological quasi-uniform spaces is resolved by the addition of a new topology.
+In [42], the totally bounded spaces have been introduced, for which the notion of
+completion simpli'es to the bicompletion and for which the induced topology is the
+Scott topology. Other approaches include the use of valuations (e.g. [6,18]) as well as
+the use of partial metrics (e.g. [25]).
+In [28] the question is raised as to which domains are “quanti'able” in the sense
+that there exists a partial metric which induces the Scott topology. A similar question
+2 Pawel Waszkiewicz communicated recently to the author that he obtained similar results independently.
+A stronger result implying the quanti'ability of general domains is reported in [23]. O’Neill obtained the
+partial metrizability of !-algebraic domains in his thesis [29].
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+411
+has been raised by Heckmann in [17]. It is shown in [28] that Scott domains are
+quanti'able. We improve on this result by showing that !-continuous directed complete
+partial orders (dcpos) are quanti'able.
+A connection between partial metrics and valuations has 'rst been indicated in [28].
+Valuation spaces (X; ⊑; v) are introduced which are de'ned as consistent semilattices,
+i.e. semilattices for which every pair of elements which is bounded from above has
+a least upper bound, equipped with a strictly increasing real-valued valuation v. It
+is shown that these spaces can be equipped with a partial metric pv de'ned by
+pv(x; y) = −v(x ⊓y). This partial metric is generalized, in the sense that it assumes
+negative values. The relationship between valuations and partial metrics has been fur-
+ther discussed in [3] as well as in the recent [4]. These approaches all involve partial
+metrics generated from strictly increasing valuations.
+According to [4], “the existence of deep connections between partial metrics nd
+valuations is well known in Domain Theory”; a claim which is supported in part by
+the examples discussed in [3,4,28].
+It is well known that the topological characterization of partial metric spaces in
+general poses a hard problem. Some interesting partial results for restricted classes of
+spaces do exist, however, [21,23] and will be discussed below.
+One of the reasons for the intractability of the problems stated in the survey paper
+[21], seems to be that partial metric spaces do not embody as yet enough of the
+structure of the examples arising in the applications. 3 Hence, in our study of these
+structures we have aimed at isolating a “mathematically nice” subclass of partial metric
+spaces, which is still suQciently large to incorporate the domain theoretic examples
+involving partial metric spaces.
+A suitable class of spaces was obtained in [38], where we focused on the class of
+quasi-metric semilattices. This class includes the Baire partial metric spaces of [25]
+as well as the complexity spaces of [34] (cf. also [31]). It also incorporates the Scott
+Domains, whether they be represented as totally bounded quasi-metric spaces, as in
+[42], or via 0–1 Valued quasi-metrics (e.g. [41] or [2]), and the interval domain [7].
+To analyze partial metrizability, we study the slightly more general class of quasi
+uniform semilattices.
+These structures are de'ned to be semilattices equipped with a quasi-uniformity with
+respect to which the semilattice operation is quasi-uniformly continuous. Quasi-uniform
+lattices are de'ned in a similar way, where the de'nitions generalize the classical
+de'nition of a uniform lattice (e.g. [46] or [47]).
+One can show that the quasi-uniform continuity of the semilattice operation for each
+of the above mentioned examples is implied by one of the following invariance prop-
+erties (e.g. [13]): ∀x; y; z∈X:d(x ⊓z; y ⊓z)6d(x; y) and d(x ⊔z; y ⊔z)6d(x; y). This
+has motivated the study of invariant quasi-metrics; which form a subclass of the quasi-
+uniform semilattices.
+In order to study partial metric spaces, it is convenient to focus on their equivalent
+formulation as weightable quasi-metric spaces. A motivation for this choice is that
+an equivalence between weighting functions and strictly increasing valuations will be
+3 H.P. K-unzi, private communication.
+412
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+established, which will imply the equivalence between invariant partial metrics and
+strictly increasing valuations in this context. This approach has the additional bene't
+that the terminology is part of the standard theory of non-symmetric topology (e.g.
+[12,21]).
+As remarked above, several open characterization problems on weightedness have
+been stated in the survey paper Nonsymmetric Topology ([21]): 4
+“Characterize those quasi-uniformities having a countable base which are induced
+by a weighted quasi-pseudo-metric” (Problem 7)
+“Which topological spaces admit weightable quasi-pseudo-metrics?” (Problem 8)
+“Develop a concept of a weighted quasi-uniformity” (Problem 10).
+Partial results in connection to Problems 7 and 8 are known [21,23]. The results concern
+restricted classes, as for instance the class of AlexandroS topologies in relation to a
+partial solution of Problem 8 [21]. In [23] an interesting suQcient condition is given in
+connection to Problem 7 for a large class of spaces: “any totally bounded quasi-uniform
+space with a countable base can be induced by a weighted quasi-pseudo-metric”.
+We recall [35] that Problem 10 cannot be solved via an axiomatization in terms
+of the entourages of the quasi-uniform space which would guarantee the weightability
+of all quasi-pseudo-metrics which induce the quasi-uniformity (for the case of quasi-
+uniformities with a countable base).
+We present a partial solution to Problem 7 in the context of quasi-uniform semilat-
+tices and of quasi-uniform lattices. We characterize the class of quasi-uniform (semi)
+lattices which are induced by an invariant weightable quasi-metric. The solution is
+based on the notion of a Q-semivaluation. This notion intuitively is a semivaluation
+[38], which is an order quasi-unimorphism. Semivaluations have been introduced in [38]
+as a natural generalization of valuations from the context of lattices to the context of
+semilattices. Order-quasi-unimorphisms on quasi-uniform spaces (X; U) generalize the
+de'nition of a quasi-unimorphism, where the condition of injectivity has been replaced
+by strict increasingness and where the quasi-unimorphism conditions are stated on the
+ordering relation 6U. Order quasi-unimorphisms are “generalized” quasi-unimorphisms
+since, for the case of quasi-uniform spaces with an associated linear order, they reduce
+to a quasi-unimorphism.
+The solution diSers from prior work in two ways:
+• the class of partial metric spaces for which he solution has been presented has been
+directly motivated by domain theoretic examples.
+• the solution provides an equivalence, as opposed to prior results [21,23], which pro-
+vide either necessary or suQcient conditions. The same remark holds for connections
+which have been obtained between partial metrics and valuations in [3,4,28], which
+have been restricted to partial metrics generated from strictly increasing valuations,
+but not conversely.
+As an application of this result, we show that domains are partially metrizable.
+4 In [21] the problems are actually stated in terms of “quasi-metrics”, which correspond to the “quasi-
+pseudo-metrics” as originally de'ned in [12].
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+413
+The partial metrizability of domains has an interesting history. We obtained a solution
+to the problem during a visit at Imperial College in September 2000. Recently, Pawel
+Waszkiewicz communicated that he obtained similar results. On a later reading of
+O’Neill’s thesis [29], we discovered that the result was obtained priorly in this work,
+but apparently never reported in the literature. O’Neil ’s proof however fails to go
+through for !-continuous domains, as illustrated by a counterexample in Section 5.
+Finally, we remark that the quanti'cation of domains also follows from a more general
+result, obtained by K-unzi and Vajner in [23], where it is shown that each T0-space
+with a -point-bounded base admits a weighted quasi-pseudometric. So in particular
+each second-countable T0-space admits a weighted quasi-pseudometric.
+The partial metrizability of domains is interesting in two ways.
+It extends Smyth’s result on totally bounded spaces [42] to general domains, with
+preservation of the desirable property of Smyth-completability which guarantees that
+the completion simpli'es to the bicompletion. Indeed, we recall that partial metric
+spaces are Smyth-completable [21].
+The result also allows for the quanti'cation of domains via a generalized metric
+which does induce the Scott topology. This should be contrasted with prior approaches
+which, for the case of arbitrary domains, only could guarantee that the generalized
+metric involved induced a topology coarser than the Scott topology. Typically, this
+was avoided through the introduction of a second topology.
+Our work diSers from O’Neill’s in that we do not need the concept of a “gener-
+alized valuation space” [29] to obtain a partial metric from a valuation. Indeed, by
+using our characterization of partial metrizability, we can obtain our invariant par-
+tial metrics directly from Q-valuations. A similar remark applies to O’Neill’s no-
+tion of an information measure, where his extra condition on the Borel measure
+“(x ↓−(x ⊓y) ↓) = 0 ⇒x ⊑y” in our case is not required in order to generate a par-
+tial metric. Also, we show that the partial metric inducing the Scott topology can be
+generated from a function which has 'nite sum over all base elements. This may
+be contrasted with O’Neill’s approach for domains with countable base B = (an)n,
+which involves a speci'c choice of weights on base elements de'ned by w(an) =
+1=2n. Our characterization of partial metrizability for the case of quasi-uniform
+lattices, provides a much sharper result for which we not only can derive partial
+metrics
+from
+valuations,
+but
+also
+obtain
+an
+equivalence
+result
+between
+these
+notions.
+In our proof, the partial metrizability of domains is obtained by an application of the
+characterization of partial metrizability to the lattice of Scott-closed sets. It is interesting
+to note that the partial metric on general domains is obtained from a semivaluation
+on this lattice, while this can be achieved for the case of !-algebraic domains via a
+valuation on the lattice.
+The characterization sheds light on the “deep connections” between partial metrics
+and valuations mentioned in [4] (cf. also [38]).
+The proof that partial metrics on domains can be obtained from valuations on lattices,
+combined with [38], justi'es the observation that valuations can be viewed as the
+central notion of Quantitative Domain Theory which allows one to quantify domains
+in a simple and elegant way.
+414
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+Indeed, it is now clear that the notion of a (semi)valuation underlies varied and,
+on the face of it, entirely unrelated models such as the totally bounded spaces of
+[42], e.g. used as logic programming models [40], the partial metric spaces, e.g. used
+as models for dataNow networks, models for eQciency analysis and models for real
+number computation [7,25,34], and of course the models which are directly based
+on valuations, such as models for domain theoretic approaches to integration [6] and
+models for non-deterministic computation [18].
+2. Background
+The following notation is used throughout: N denotes the set of natural numbers, R
+denotes the set of real numbers, R+ = (0; ∞), R+
+0 = [0; ∞), while ˜R = R ∪{−∞; ∞};
+
+R+ = R+ ∪{∞} and 
+R+
+0 = R+
+0 ∪{∞}.
+A function d : X × X →R+
+0 is a quasi-pseudo-metric iS
+(1) ∀x∈X: d(x; x) = 0
+(2) ∀x; y; z∈X: d(x; y) + d(y; z)¿d(x; z).
+A quasi-pseudo-metric space is a pair (X; d) consisting of a set X together with a
+quasi-pseudo-metric d on X .
+In case a quasi-pseudo-metric space is required to satisfy the T0-separation axiom,
+we refer to such a space as a quasi-metric space.
+In that case, condition (1) and the T0-separation axiom can be replaced by the
+following condition:
+(1′) ∀x; y: d(x; y) = d(y; x) = 0 ⇔x = y.
+The conjugate d−1 of a quasi-pseudo-metric d is de'ned to be the function d−1(x; y) =
+d(y; x), which is again a quasi-pseudo-metric (e.g. [12]). The conjugate of a quasi-
+pseudo-metric space (X; d) is the quasi-pseudo-metric space (X; d−1). The (pseudo-)
+metric d∗induced by a quasi-(pseudo-) metric d is de'ned by d∗(x; y) = max{d(x; y);
+d(y; x)}.
+A quasi-pseudo-metric space (X; d) is totally bounded iS ∀¿0 ∃x1 : : : xn ∈X ∀x∈X ∃
+i∈{1; : : : ; n}: d∗(xi; x)¡.
+A quasi-metric space (X; d) is compact iS the associated metric space (X; d∗) is
+compact.
+The associated preorder 6d of a quasi-pseudo-metric d is de'ned by x6dy iS
+d(x; y) = 0.
+We write that a quasi-pseudo-metric space encodes a preorder when ∀x; y∈X: d(x; y)
+∈{0; 1}. In that case we also write that the encoded preorder is the preorder (X; 6d).
+Conversely, for a given preorder (X; 6), one can de'ne a quasi-pseudo-metric space
+(X; d6) which encodes the preorder, in the obvious way.
+Let (P; ⊑1) and (Q; ⊑2) be partial orders. A function f : P →Q is increasing
+(decreasing) ⇔∀x; y∈P: x ⊑1 y ⇒f(x) ⊑2 f(y)(f(y) ⊑2 f(x)).
+A function f : (X; d) →(X ′; d′) is an isometry iS f is a bijection and ∀x; y∈X: d′
+(f(x); f(y)) = d(x; y).
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+415
+We recall [35, Lemma 5], that quasi-pseudo-metrics satisfy the following property,
+which we refer t as the “Monotonicity Lemma”: if (X; d) is a quasi-pseudo-metric
+space then ∀x; x′; y; y′ ∈X: (x′6dx and y′¿d y) ⇒d(x′; y′)6d(x; y).
+We discuss a few examples of quasi-pseudo-metric spaces.
+The function d1 : R2 →R+
+0 , de'ned by d1(x; y) = y −x when x¡y and d1(x; y) = 0
+otherwise, and its conjugate are quasi-pseudo-metrics. We refer to d1 as the “left
+distance” and to its conjugate as the “right distance”. These quasi-pseudo-metrics cor-
+respond to the non-symmetric versions of the standard metric m on the reals, where
+∀x; y∈R: m(x; y) = |x −y|.
+Note that the right distance has the usual order on the reals as associated order, that is
+∀x; y∈R:x6d−1
+1 y ⇔x6y, while for the left distance we have ∀x; y∈R: x6d1y ⇔x¿y.
+The function d2: ( ˜R −{0})2 →R+
+0 , de'ned by d2(x; y) = 1=y −1=x when y¡x and
+0 otherwise, and its conjugate are quasi-pseudo-metrics.
+The complexity space (C; dC) has been introduced in [34] (cf. also [31,35]. Here
+C =
+
+f : ! →
+R+
+
+∞
+
+n=0
+2−n
+1
+f(n)¡ + ∞
+
+and dC is the quasi-pseudo-metric on C de'ned by
+dC(f; g) =
+∞
+
+n=0
+2−n
+ 1
+g(n) −
+1
+f(n)
+
+∨0
+	
+;
+whenever f; g∈C. The complexity space (C; dC) is a quasi-metric space with a maxi-
+mum ⊤, which is the function with constant value ∞.
+The dual complexity space is introduced in [31] as a pair (C∗; dC∗), where C∗=
+{f : ! →R+
+0 | ∞
+n=0 2−nf(n)¡+∞}, and dC∗is the quasi-metric de'ned on C∗by dC∗
+(f; g) = ∞
+n=0 2−n[(g(n) −f(n)) ∨0], whenever f; g∈C∗. We recall that (C; dC) is
+isometric to (C∗; dC∗) by the isometry  : C∗→C, de'ned by (f) = 1=f (see [31]).
+Via the analysis of its dual, several quasi-metric properties of (C; dC), in particular
+Smyth completeness and total boundedness, are studied in [31].
+For a given set X ,  is the identity relation. A quasi-uniform space is a pair (X; U)
+consisting of a set X with a 'lter U on X × X such that
+(1) ∀U ∈U:  ⊆U
+(2) ∀U ∈U ∃V ∈U: V ◦V ⊆U.
+In that case, U is called a quasi-uniformity on X and its elements are referred to as
+entourages.
+A uniform space is a quasi-uniform space (X; U) such that
+(3) ∀U ∈U: U −1∈U.
+In that case, U is called a uniformity on X .
+Given a quasi-uniform space (X; U) then the uniform space associated to (X; U)
+is de'ned to be the space (X; U∗) where U∗= {V ⊆X × X | ∃U ∈U such that V ⊇
+U ∩U −1}.
+The preorder associated with a quasi-uniform space (X; U) is the relation 6U
+de'ned to be the intersection of all the entourages of U.
+416
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+The quasi-uniformity Ud generated by a quasi-pseudo-metric d on a set X is the
+'lter generated on X × X by the set of relations (B¿0), where ∀¿0: B = {(x; y) |
+d(x; y)¡}. Two quasi-pseudo-metrics are equivalent iS they generate the same
+quasi-uniformity.
+The topology T(U) associated to a quasi-uniformity U on a set X is the topology
+generated by the neighborhood 'lter base U[x] = {U[x] | U ∈U}, where ∀x∈X ∀U ∈U:
+U[x] = {y | (x; y)∈U}.
+If (X; U) and (Y; V) are quasi-uniform spaces, then a base of the product quasi-
+uniformity U × V is the set of all binary relations B on X × Y, such that there is a
+U ∈U and a V ∈V such that for each (x; y) in X × Y, B[(x; y)] ⊇U[x] × V[y]. The
+topology induced by the product quasi-uniformity is the product topology.
+A function f; : (X; U) →(Y; V) is quasi-uniformly continuous iS ∀V ∈V ∃U ∈
+U: f2(U) ⊆V, where f2(U) = {(f(x); f(y))| xUy}. A quasi-unimorphism f: (X; U) →
+(Y; V) is a bijection such that both f and f−1 are quasi-uniformly continuous. A func-
+tion f: (X; d) →(Y; d′) is quasi-uniformly continuous iS the function f : (X; Ud) →
+(Y; Vd′) is quasi-uniformly continuous.
+In case the associated order of a quasi-pseudo-metric (quasi-uniform) space is a linear
+order we refer to the space as a linear quasi-pseudo-metric (quasi-uniform) space.
+A join (meet) semilattice is a partial order (X; 6) such that every two elements
+x; y∈X have a supremum x ⊔y (in'mum x ⊓y) in X . A lattice is a partial order
+which is both a join and a meet semilattice.
+We write that a quasi-pseudo-metric (quasi-uniform) space is a (semi)lattice iS the
+associated order is a (semi)lattice.
+In fact, with slight abuse of terminology, we will refer to quasi-metric spaces for
+which the associated order is a semilattice, simply as semilattices, and a similar con-
+vention holds for the case of lattices.
+In this context, the quasi-metric space is referred to as the underlying quasi-metric
+space.
+The terminology of quasi-pseudo-metric (quasi-uniform) (semi)lattice is reserved
+for quasi-pseudo-metric (quasi-uniform) spaces which are (semi)lattices for which the
+operations are quasi-uniformly continuous with respect to the product quasi-uniformity
+Ud × Ud (U × U). This is in accordance with the terminology used for the theory of
+uniform lattices (e.g. [46,47]).
+A join semilattice (X; d) is invariant iS ∀x; y; z∈X: d(x ⊔z; y ⊔z)6d(x; y). In that
+case we also write that the quasi-pseudo-metric d is invariant. The notions of an in-
+variant meet semilattice and of an invariant lattice are de'ned in the obvious way.
+One can easily verify that invariant join semilattices are quasi-pseudo-metric join semi-
+lattices and that similar results hold for the case of invariant meet semilattices and for
+invariant lattices.
+We recall that a quasi-pseudo-metric (quasi-uniform) space is T0 iS the associated
+order of the space is a partial order (e.g. [12]). We will work under the assumption that
+all spaces satisfy the T0 separation axiom; that is we will solely refer to quasi-metric
+spaces in the following.
+A non-negative real valued function f on a set X is bounded iS ∃K¿0 ∀x∈X: f(x)
+6K.
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+417
+A function f : X →R+
+0 is fading iS inf x∈X f(x) = 0. We recall the de'nition of a
+valuation on a lattice (L; ⊑).
+A function f : L →R+
+0 is a valuation iS
+(1) f is increasing.
+(2) ∀x; y∈L: f(x ⊓y) + f(x ⊔y) = f(x) + f(y).
+In case the function f is decreasing and satis'es (2), we refer to f as a
+co-valuation.
+If f only satis'es (2) we say that f satis'es the modularity law, or also that f is
+modular.
+There does not seem to be a consistent terminology in the literature. Valuations, also
+called evaluations, as used in computer science (e.g. [3] or [19]) typically satisfy (1)
+and (2) above. In the classical mathematical literature a valuation only needs to satisfy
+(2) (e.g. [1]).
+It is convenient for matters of presentation to reserve the de'nition given above for a
+valuation in order to state results on connections between partial metrics and valuations
+as they occur in Computer Science.
+Finally, a (co)valuation f on a lattice (L; ⊑) is strictly increasing (strictly decreas-
+ing) if ∀x; y∈L: x ❁y ⇒f(x)¡f(y)(f(x)¿f(y)). What we call strictly increasing
+corresponds to the strongly non-degenerate requirement of [4] and strictly increasing
+valuations are exactly the dimension functions as de'ned in [5].
+A partial order (X; 6) is directed iS ∀x; y∈X ∃z∈X: z¿x and z¿y.
+A dcpo is a partially ordered set (; ⊑) with a least element ⊥and such that every
+directed subset has a supremum. The set of elements below an element x is denoted
+by x ↓.
+Suppose that x and y are elements of a dcpo (P; ⊑), then x is way below y iS for
+all directed subsets A, y ⊑⊔sup A ⇒∃a∈A: x ⊑a. The set of elements way below a
+given element x is denoted by x ⇓. For any set A ⊆P, A ⇓= {x∈P | ∃a∈A: x≪a}. A
+compact element is an element which is way below itself. The set of compact elements
+of P is denoted by K(P).
+A subset B of a dcpo P is a basis for P iS for all x∈P, the set Bx = B ∩(x ⇓) is
+directed with supremum x.
+A dcpo P is called continuous if it has a basis and it is called algebraic if it has a
+basis of compact elements.
+An equivalent characterization of a continuous dcpo is that x = ⊔(x ⇓) for any
+element x of the continuous dcpo. Every algebraic domain is a continuous domain.
+A continuous dcpo with a countable basis is called !-continuous. An !-continuous
+dcpo is also simply referred to as a domain. Similarly, we use the terminology of an
+!-algebraic dcpo P, when K(P) is countable.
+A basis characterizes the ordering since x6y ⇔Bx ⊆By. Of course x≪y ⇒x ⊑y.
+A dcpo in which each pair of elements with an upper bound has a supremum, is
+called bounded-complete. The !-algebraic bounded-complete dcpos are called Scott
+domains. An example of a continuous dcpo which is not algebraic is the unit interval
+[0; 1], with its usual order, where x≪y ⇔(x¡y or x = 0). We discuss an example of
+a Scott domain below.
+418
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+Example. As in Example 4 of [42], let %∞denote the set of all 'nite and in'nite
+sequences (“words”) over a countable alphabet %. For any subset A of %, let A∗denote
+the set of all 'nite sequences over A. Given a sequence s∈%∞, say of length L¿1, then
+for any natural number n such that 16n6L, s(n) denotes the nth element. The pre'x
+order ⊑on %∞is de'ned as follows: for any two sequences, s; s′ ∈%∞: s ⊑s′ ⇔s is
+an initial subsequence of s′. Then (%∞; ⊑) is an example of a Scott Domain, where
+the set of 'nite elements is %∗.
+We recall some basic information from [30] on 2=3 SFP domains.
+Denition 1. Given a subset A of a partial order P, then an upper (lower) bound of A
+is an element x∈P such that ∀y∈A: x ⊒y (x ⊑y). A minimal upper bound of A is an
+upper bound for A which has no other upper bounds of A below it. The set of minimal
+upper bounds of A is complete iS every upper bound of A has a minimal upper bound
+below it.
+Denition 2. An !-algebraic domain is 2=3 SFP iS its Lawson topology is compact.
+Theorem 3 (The 2=3 SFP Theorem of Plotkin [30]). An !-algebraic domain is 2=3
+SFP i8 for any pair of compact elements of the domain, the set of minimal up-
+per bounds is complete and 9nite.
+A quasi-metric space (X; d) is weightable iS there exists a function w : X →R+
+0 such
+that ∀x; y∈X: d(x; y) + w(x) = d(y; x) + w(y). The function w is called a weighting
+function, w(x) is the weight of x and the quasi-metric d is weightable by the function
+w. A weighted space is a triple (X; d; w) where (X; d) is a quasi-metric space weightable
+by the function w.
+A quasi-metric space (X; d) is co-weightable iS its conjugate (X; d−1) is weightable.
+A co-weighting function of a quasi-metric space is a weighting function of its conjugate.
+A co-weighted space (X; d; w) is a triple consisting of a set X , a quasi-metric d on X
+and a co-weighting function w.
+A quasi-metric space (X; d) is bi-weightable iS it is weightable and co-weightable.
+We remark that any weighted space (X; d; w) of bounded weight, where say ∀x∈X: w(x)
+6K, is co-weighted by the weighting function K −w [21]. Hence any weighted space
+of bounded weight is bi-weightable. Similarly, one obtains that any co-weighted space
+of bounded co-weight is bi-weightable.
+For a detailed discussion of weightable quasi-metric spaces and the equivalent partial
+metric spaces we refer the reader to Section 4 of [38]. We recall in the following the
+de'nition of a semivaluation and its natural interpretation as a generalization of the
+notion of a valuation to the context of semilattices (cf. also [38]).
+Denition 4. If (X; 4) is a meet semilattice then a function f : (X; 4) →R+
+0 is a meet
+valuation iS
+∀x; y; z ∈X: f(x ⊓z) ¿ f(x ⊓y) + f(y ⊓z) −f(y)
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+419
+and f is meet co-valuation iS
+∀x; y; z ∈X: f(x ⊓z) 6 f(x ⊓y) + f(y ⊓z) −f(y):
+Denition 5. If (X; 4) is a join semilattice then a function f : (X; 4) →R+
+0 is a join
+valuation iS
+∀x; y; z ∈X: f(x ⊔z) 6 f(x ⊔y) + f(y ⊔z) −f(y)
+and f is join co-valuation iS
+∀x; y; z ∈X: f(x ⊔z) ¿ f(x ⊔y) + f(y ⊔z) −f(y):
+Denition 6. A function is a semivaluation if it is either a join valuation or a meet val-
+uation. A join (meet) valuation space is a join (meet) semilattice equipped with a join
+(meet) valuation. A semivaluation space is a semilattice equipped with a semivaluation.
+Proposition 7. Let L be a lattice.
+(1) A function f : L →R+
+0 is a join valuation if and only if it is increasing and
+satis9es join-modularity, i.e.:
+f(x ⊔z) + f(x ⊓z) 6 f(x) + f(z):
+(2) A function f : L →R+
+0 is a meet valuation if and only if it is increasing and
+satis9es meet-modularity, i.e.
+f(x ⊔z) + f(x ⊓z) ¿ f(x) + f(z):
+Corollary 8. A function on a lattice is a valuation i8 it is a join valuation and a
+meet valuation. A function on a lattice is a co-valuation i8 it is a join co-valuation
+and a meet co-valuation.
+The last result clearly motivates the fact that semivaluations provide a natural gen-
+eralization of valuations from the context of lattices to the context of semilattices. We
+refer the reader to [38] for the correspondence theorems which link partial metrics to
+semivaluations. We include Theorem 10 of [38] to which we will refer extensively in
+the following.
+Theorem 9 ([38, Theorem 10]). For every join semilattice (X; 4), there exists a bi-
+jection between invariant weighted quasi-metrics d on X with 6d= 4 and fading
+strictly decreasing join co-valuations f : (X; 4) →(R+
+0 ; 6). The map f →df is de-
+9ned by df(x; y) = f(y)−f(x ⊔y). The inverse is the function which to each weighted
+space (X; d) associates its unique fading weighting. Similarly one can show that for
+every join semilattice (X; 4), there exists a bijection between invariant co-weighted
+quasi-metrics d on X with 6d = 4 and fading strictly increasing join valuations
+f : (X; 4) →(R+
+0 ; 6). The map f →df is de9ned by df(x; y) = f(x ⊔y) −f(y). The
+inverse is the function which to each co-weighted space (X; d) associates its unique
+fading co-weighting.
+420
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+We end the section with the remark that the totally bounded quasi-metric Scott
+domains of [42] are neither weightable nor co-weightable in general. The fact that the
+spaces are not co-weightable, prevents a straightforward representation of such a domain
+as a meet valuation space via the dual version of Theorem 9 (cf. Theorem 11 of [38]).
+However, the problem will be eliminated, since we will show that domains allow for
+a bi-weightable quasi-metric which induces the Scott topology and their partial order
+(Proposition 7).
+Counterexample. We recall that any weightable quasi-metric space (X; d; w) is order
+convex [35], i.e. ∀x; y; z∈X: x¿dy¿dz ⇒d(x; z) = d(x; y) + d(y; z). It is easy to show
+that the same holds for co-weightable quasi-metric spaces. We show that in general,
+Scott
+Domains
+are
+not
+order
+convex
+and
+hence
+not
+co-weightable
+nor
+weightable.
+Let % be a countable alphabet, say % = (an)n¿0. We consider a Scott domain (%∞; ⊑)
+as in the example at the end of Section 2. We equip the domain with a quasi-
+metric dr, de'ned by dr(x; y) = inf{2−n | e ⊑x ⇒e ⊑y for every 'nite e of rank 6n}.
+Here the rank of a 'nite element is determined by the function r : %∗→N where
+∀w∈%∗: r(w) = the minimal n such that w∈{a0; : : : ; an}∗and length(w)6n.
+Let w1 = (a0; : : : ; ak); w2 = (a0; : : : ; al) and w3 = (a0; : : : ; am), where k¿l¿m. Then
+w1¿drw2¿drw3, but dr(w1; w2) = 2−l; dr(w2; w3) = 2−m, while dr(w1; w3) = 2−m. So
+(%∞; dr) is not order convex, and thus not co-weightable nor weightable.
+3. Quasi-uniform semilattices
+We recall the following useful characterization of invariance from [38].
+Lemma 10. A join semilattice (X; d) is invariant i8 ∀x; y∈X: d(x ⊔y; y) = d(x; y).
+A meet semilattice (X; d) is invariant i8 ∀x; y∈X: d(x; x ⊓y) = d(x; y).
+We say that a partial metric on a join semilattice is invariant iS its corresponding
+weightable quasi-metric is invariant. The de'nitions for the case of meet semilattices
+and lattices are similar.
+We will discuss several examples of quasi-uniform (semi)lattices which arise in Do-
+main Theory (cf. [38]). In each case, the quasi-uniform continuity of the (semi)lattice
+operations follows from the fact that the quasi-uniformity is generated by an invariant
+quasi-metric.
+Example 1. Any quasi-metric space which encodes a semilattice is invariant with re-
+spect to the semilattice operation. This is in particular the case for quasi-metrics which
+encode a Scott domain, since any bounded-complete algebraic cpo is a semilattice (e.g.
+[14]).
+Not only straightforward encodings of Scott domains give rise to quasi-uniform semi-
+lattices. We recall that a main example of [42], regarding totally bounded spaces as
+domains of computation (Example 2), as well as the Baire partial metric spaces of
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+421
+[26] (Example 3), the complexity space of [34] and its dual (Example 4) correspond
+to quasi-uniform semilattices [38].
+Example 2. As in [42], let (D; ⊑) be a Scott domain equipped with a rank function
+r : FD →N, where ∀n∈N: r−1(n) is a 'nite non-empty set and FD is the set of 'nite
+elements of D. Then the following function de'nes a totally bounded quasi-metric on
+D:
+dr(x; y) = inf{2−n | e ⊑x ⇒e ⊑y for every 'nite e of rank 6 n}:
+The resulting structure is a quasi-metric meet semilattice.
+Example 3. Any Baire partial metric space (%∞; p) (cf. [38]) gives rise to a quasi-
+uniform meet semilattice induced by the corresponding weightable quasi-pseudo-metric
+meet semilattice (%∞; b).
+We remark that the weighting function of a Baire quasi-metric space is bounded and
+thus such a space is bi-weightable.
+Example 4. The interval domain (I([0; 1]); p) consisting of the closed bounded inter-
+vals of [0; 1] ordered by reverse inclusion and equipped with the partial metric p (see
+[29]) de'ned by
+p([a; b]; [c; d]) = max{b; d} −min{a; c}:
+One can easily verify that the associated weighted quasi-metric space (I([0; 1]); dp) is
+a quasi-metric meet semilattice with a bounded weighting function.
+Example 5. The complexity space (C; dC) and its dual (C∗; dC∗) are examples of in-
+variant join and meet lattices, respectively. We refer the reader to [35], where the
+invariance (optimality) of the complexity space is shown and where more general ex-
+amples of invariant semilattices involving upper weighted function spaces are discussed.
+We remark that neither the weighting function of the complexity space nor of its
+dual is bounded. However, as discussed in [31], complexity functions of programs
+computing a given problem frequently can be shown to possess a complexity lower
+bound. A theoretical justi'cation for the existence of lower bounds has been given in
+[32] based on Levin’s theorem (e.g. [20]). It is remarked in [20] that “for an important
+class of problems that can occur in practice an optimal algorithm does exist”, by Levin’s
+theorem, and hence one does obtain a lower bound in general. So it is reasonable to
+restrict the complexity space to complexity functions respecting a given lower bound.
+It is easy o verify that the complexity distance is bounded on such restricted spaces
+and hence the fading weighting is bounded. So, we obtain that the restricted spaces
+are bi-weightable.
+A similar argument can be given for the dual complexity space. For more information
+on complexity spaces with a lower bound, we refer the reader to [31,32].
+Example 6. Any quasi-metric space for which the associated order is linear is invariant
+with respect to its lattice operations. We leave the veri'cations to the reader. Some
+422
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+examples are the quasi-metric space (I; d−1
+1 ) considered in [42], where I is the unit
+interval [0; 1], as well as the spaces (R+
+0 ; d1) and ( 
+R+; d2).
+The following theorem provides a partial solution to Problem 7 of [21], for the class
+of quasi-uniform join semilattices. We 'rst de'ne the useful notion of an order quasi-
+unimorphism.
+Denition 11. If (X; U) and (Y; V) are quasi-uniform spaces then a function f : (X; U)
+→(Y; V) is an order quasi-unimorphism iS
+(1) f is strictly increasing with respect to the associated orders,
+(2) ∀V ∈V ∃U ∈U ∀x; y∈X: x¿Uy ⇒(xUy ⇒(fx)V(fy)),
+(3) ∀U ∈U ∃V ∈V ∀x; y∈X: x¿Uy ⇒(f(x)Vf(y) ⇒xUy).
+If (X; d) and (Y; d′) are quasi-metric spaces then a function f : (X; d) →(Y; d′) is an
+order isometry iS
+(1) f strictly increasing with respect to the associated orders,
+(2) ∀x; y∈X: x¿dy ⇒(d′(f(x); f(y)) = d(x; y)).
+We also refer to f as an order isometry on the space (X; d).
+Clearly, every quasi-unimorphism f : (X; U) →(Y; V) is a surjective order quasi-
+unimorphism. We remark that for the case where the domain (X; U) is linear, the
+notion of a surjective order quasi-unimorphism and that of a quasi-unimorphism are
+equivalent.
+We will focus in the following on order quasi-unimorphisms with range space
+(R+
+0 ; Ud1) and (R+
+0 ; Ud−1
+1 ), respectively. These are referred to as left order quasi-
+unimorphisms and right order quasi-unimorphisms respectively. A similar terminology
+is used for order isometries.
+Denition 12. A Q-join valuation on a quasi-uniform join semilattice is a join valuation
+which is a right order quasi-unimorphism. A Q-join co-valuation on a quasi-uniform
+join semilattice is a join co-valuation which is a left order quasi-unimorphism.
+Remark. The fact that a join co-valuation is decreasing, while a Q-join co-valuation
+is increasing with respect to the associated orders is of course consistent, since the
+associated order of the left distance d1 is the opposite of the standard ordering on the
+reals.
+Theorem 13. If (X; U) is a quasi-uniform join semilattice then U is generated
+by a weightable invariant quasi-metric ⇔there exists a Q-join co-valuation on
+(X; U).
+Proof. Let (X; U) be a quasi-uniform join semilattice generated by a weightable in-
+variant quasi-metric, say d. Let w be a weighting function for the space (X; d). By
+Theorem 9, w is a join co-valuation and strictly increasing with respect to the associated
+orders.
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+423
+We show that w : (X; U) →(R+
+0 ; Ud1) is a left order quasi-unimorphism. For this it
+suQces to show that w : (X; d) →(R+
+0 ; d1) is an order isometry. Since w is strictly in-
+creasing with respect to the associated orders, we only need o verify that ∀x; y∈X: x¿dy
+⇒(d1(w(x); w(y)) = d(x; y)).
+Let x; y∈X be such that x¿dy, then, by the weighting equality, we obtain that
+d(x; y) = w(y) −w(x) = d1(w(x); w(y)).
+To show the converse implication, we assume that there exists a Q-join co-valuation
+f on (X; U). Since f : (X; 6U) →(R+
+0 ; 6) is a strictly decreasing join co-valuation and
+(X; 6U) is a join semilattice, by Theorem 9, we obtain the weighted space (X; df; f)
+where ∀x; y∈X: df(x; y) = f(y)−f(x ⊔y) and where df is invariant. We show that df
+induces U.
+For the proof, note that df(x; y) = f(y) −f(x ⊔y) = d1(f(x ⊔y); f(y)).
+For Udf ⊆U, we must show ∀¿0 ∃U ∈U: xUy ⇒df(x; y)¡. Let ¿0. Since f is
+a left-order quasi-unimorphism, there is a U ′ ∈U with [z¿Uy and zU ′y] ⇒d1(f(z);
+f(y))¡. Since (X; U) is a quasi-uniform join semilattice, there is U ∈U with aUb ⇒
+(a ⊔y)U ′(b ⊔y). Hence xUy implies (x ⊔y)U ′y. Since x ⊔y¿Uy holds, xUy implies
+¿d1(f(x ⊔y); f(y)) = df(x; y).
+For U ⊆Udf, we must show that ∀U ∈U ∃¿0: df(x; y)¡ ⇒xUy. Let U ∈U. By
+the de'nition of quasi-uniformities, there is a V ∈U such that V ◦V ⊆U. Since f is a
+left-order
+quasi-unimorphism,
+there
+is
+¿0
+with
+[z¿Uy
+and
+d1(f(z);
+f(y))¡] ⇒zVy. We remark that df(x; y)¡ implies d1(f(x ⊔y); f(y))¡. Since
+x ⊔y¿Uy holds, this implies (x ⊔y)Vy and of course xV(x ⊔y). Hence xV(x ⊔y)Vy
+and thus xUy.
+Denition 14. A Q-meet valuation on a quasi-uniform meet semilattice is a meet
+valuation which is a right order quasi-unimorphism. A Q-meet co-valuation is a meet
+co-valuation which is a left order quasi-unimorphism. A Q-semi-valuation is a
+function which is either a Q-join valuation or a Q-meet valuation.
+Finally, we give a dual version of Theorem 13.
+Theorem 15. If (X; U) is a quasi-uniform meet semilattice then U is generated
+by a co-weigh able invariant quasi-metric ⇔there exists a Q-meet valuation on
+(X; U).
+4. Quasi-uniform lattices
+Denition 16. A Q-valuation on a quasi-uniform lattice is a modular right order quasi-
+unimorphism. A Q-co-valuation on a quasi-uniform lattice is a modular left order
+quasi-unimorphism.
+We will obtain a version of Theorems 13 and 15 for the case of quasi-uniform
+lattices. We focus on the case of bounded valuations since all of the above discussed
+examples involve bounded semivaluations.
+424
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+Theorem 17. Let (X; U) be a quasi-uniform lattice. There exists a bounded Q-(co-)
+valuation f on (X; U) i8 U is generated by a bi-weightable invariant quasi-metric.
+Proof. Let (X; U) be a quasi-uniform lattice.
+Let f be a bounded Q-valuation on (X; U), say with a bound K. By Corollary 8,
+the function f is a meet valuation.
+Thus f is a Q-meet valuation and hence we obtain by (the proof of) Theorem 15
+(cf. also Theorem 11 of [38]) a quasi-metric df which is co-weightable, invariant with
+respect to the meet operation and which induces U, where ∀x; y∈X: df(x; y) = f(x) −
+f(x ⊓y).
+Since f is also join-modular and strictly increasing, we obtain that
+Uf = K −f is
+co-join-modular and strictly decreasing. Hence Uf is a Q-join co-valuation and by (the
+proof of) Theorem 13 (cf. also Theorem 9), we obtain that U is induced by the co-
+weightable quasi-metric d Uf which is invariant with respect to the join operation and
+where d Uf = Uf(y) −Uf(x ⊔y).
+By Proposition 13 of [38], we obtain that ∀x; y∈X: df(x; y) = d Uf(x; y). We denote
+these identical quasi-metrics by d.
+Clearly, the quasi-metric d is bi-weightable, invariant and induces the quasi-unifor-
+mity U.
+To show the converse, we assume that there exists a bi-weightable invariant quasi-
+metric d on X which induces U. Let f be the unique fading weighting and g the unique
+fading co-weighting of d. Then ∀x; y∈X: d(x; y) + f(x) = d(y; x) + f(y) ⇒d(x; y) −
+d(y; x) = f(y) −f(x) and d(x; y) + g(y) = d(y; x) + g(x) ⇒d(x; y) −d(y; x) = g(x) −
+g(y). Hence ∀x; y∈X: f(y) −f(x) = g(x) −g(y) ⇒f(x) + g(x) = f(y) + g(y). Thus,
+f + g is a constant function, say K. This implies that f and g are bounded by K, and
+g = K −f.
+By meet-invariance, d(x; y) = d(x; x ⊓y) = f(x ⊓y) −f(x), and by join-invariance,
+d(x; y) = d(x ⊔y; y) = f(y) −f(x ⊔y). Together, this shows that f is modular and
+thus a co-valuation. Therefore, g = K −f is a valuation.
+By (the proof of) Theorem 13, f is a left order quasi-unimorphism, hence a Q-co-
+valuation. Similarly, g is a Q-valuation.
+We recall (cf. the counterexample following Corollary 8) that Scott domains are not
+co-weightable in general. As an application of Theorem 17, we will show in the next
+section that domains are partially metrizable. In particular, we will show that domains
+can be equipped with a bi-weightable invariant quasi-metric which induces the Scott
+topology.
+5. Domains are quantiable
+Denition 18. A domain (P; ⊑) is quanti'able iS there exists a weighted quasi-metric
+d on P which induces the Scott topology on the domain and for which the associated
+order coincides with the domain order.
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+425
+We introduce the Smyth quasi-metric related to a quasi-metric discussed in [42].
+Denition 19. For a domain (X; ⊑) with a basis B = (an)n, the Smyth-quasi-metric dS
+is de'ned by
+dS(x; y) = inf
+ 1
+2n |∀i6n: ai≪x ⇒ai≪y
+
+:
+We leave the proof of the following proposition as an exercise.
+Proposition 20. Domains (P; ⊑) are quasi-metrizable by the quasi-metric dS; i.e. dS
+induces the Scott topology on (P; ⊑).
+For the case of !-algebraic domains, the quasi-metric dS can be simpli'ed by
+replacing the way below inequality “≪” by “⊑”.
+Proposition 21. Two b SFP !-algebraic domains (P; dS), equipped with the Smyth
+quasi-metric dS, are totally bounded.
+Proof. Let P be a 2/3 SFP !-algebraic domain. We show that (P; dS) is totally
+bounded, where (an)n∈! is the enumeration of the base elements which determines
+dS.
+Given ¿0, then consider a natural number N such that 1=2N¡.
+Let the 'nitely many elements which satisfy the total boundedness requirement con-
+sist of the union of the sets of the minimal upper bounds of all combinations of 'nite
+elements with an index 6N. We denote this set by X = {x1; : : : ; xn}.
+Given an element x∈X , we consider the base elements below x with index 6N.
+Note that for this set there exists an upper bound x and hence a minimal upper bound
+below x by the completeness condition. This minimal upper bound is an element of
+X , say some xi. It is easy to verify that d(x; xi)¡ and hence d∗(x; xi)¡.
+In the following P denotes a domain (P; ⊑) unless otherwise stated.
+Denition 22. Let C(P) denote the lattice of Scott-closed subsets of P, ordered by
+inclusion.
+We remark that P ↓= {x ↓x∈P} ⊆C(P).
+Denition 23. The Smyth quasi-metric is extended to the lattice of Scott-closed sets
+C(P) by
+Dc
+S(C; C′) = inf n
+ 1
+2n | ∀i 6 n: ai ∈C ⇓⇒ai ∈C′ ⇓
+
+:
+The restriction dc
+S of Dc
+S to P is de'ned by dc
+S(x; y) = Dc
+S(x ↓; y ↓).
+426
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+We leave the straightforward veri'cations of the following three lemmas to the
+reader.
+Lemma 24. Dc
+S is a join-invariant quasi-metric and hence (C(P); UDc
+S) is a quasi-
+uniform join semilattice, equipped with the subset order, i.e. C6Dc
+SC′ ⇔C ⊆C′.
+For the following lemma we use the fact that (x ↓) ⇓= x ⇓.
+Lemma 25. dc
+S coincides with the Smyth quasi-metric dS.
+Lemma 26. Let (P; ⊑) be a domain with countable base B = (an)n. We use the fol-
+lowing notation for A ⊆P : ∀n: A[n] = A ∩{ai| i6n}. Then, for any two Scott-closed
+sets, C and C′ such that C ⊇C′, we have
+Dc
+S(C; C′) = inf
+n
+ 1
+2n | (C ⇓)[n] = (C′ ⇓)[n]
+
+:
+In the following proposition, on the quanti'ability of domains (P; ⊑) with a countable
+base B = {an}n, we use the notation dw to distinguish this quasi-metric from the quasi-
+metric dw de'ned in Theorem 9. In fact, dw is dK−w (using the notation of Theorem 9),
+where K = 
+an w(an).
+Proposition 27. Let (P; ⊑) be a domain with a countable base B = (an)n and let
+w : B →R+ denote a function such that 5 ∀n: w(an)¿0 and 
+an ∈B w(an)¡∞. Then
+(P; ⊑) is quanti9able by the following bi-weightable quasi-metric:
+dw(x; y) =
+
+an∈x⇓−y⇓
+w(an):
+If (P; ⊑) is !-algebraic, then (P; ⊑) is quanti9able by the following bi-weightable
+quasi-metric:
+dw(x; y) =
+
+an∈x↓−y↓
+w(an):
+In this case, the associated metric d∗induces the Lawson topology.
+Proof. Consider a function w : B →R+ such that 
+n w(an) has 'nite value, say K.
+We apply Theorem 13 to the lattice of Scott-closed sets C(P) in order to show that
+Udc
+S is generated by a bi-weighted invariant quasi-metric. We extend w to C(P) as
+follows: for any Scott-closed set C,
+W(C) =
+
+an∈C⇓
+w(an):
+By Theorem 13, we need to show that W ′ = K −W is a Q-join co-valuation on the
+quasi-uniform lattice (C(P); Udc
+S).
+5 In case the domain has a least element ⊥, one can allow w(⊥) = 0.
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+427
+We remark that
+∀C1; C2 ∈C(P): (C1 ∪C2) ⇓= C1 ⇓∪C2 ⇓:
+However, in general one only has
+∀C1; C2 ∈C(P): (C1 ∩C2) ⇓⊆C1 ⇓∩C2 ⇓:
+Hence,
+W(C ∪C′)+W(C ∩C′) = 
+an∈(C ∪C′)⇓w(an)
++
+
+an∈(C ∩C′)⇓w(an)6
+
+an∈(C⇓∪C′⇓) w(an)+ 
+an∈(C⇓∩C′⇓) w(an) = 
+an∈C⇓w(an) + 
+an∈C′⇓w(an) = W(C)
++ W(C′).
+So W is a join valuation and hence W ′ is a join co-valuation on the lattice C(P)
+with the operations of intersection and union. To verify that W ′ is strictly decreasing,
+it suQces to verify that W : (C(P); ⊆) →(R+; 6) is strictly increasing.
+Let C; C′ be Scott-closed sets such that C is strictly included in C′. Then W(C)6
+W(C′). We show by way of contradiction that W(C)¡W(C′). Indeed, if W(C) =
+W(C′) then for any base element an, we obtain: an ∈C ⇓⇔an ∈C′ ⇓from the fact that
+∀n: w(an)¿0.
+Hence C ⇓∩B = C′ ⇓∩B. If x is an element of C′ then, since P is a domain, we
+have that x = ⊔Bx. Since x∈C′ and C′ is downwardly closed, Bx ⊆C′. Hence Bx ⊆C
+and thus x∈C. So we obtain C′ ⊆C which is a contradiction. Hence W ′ is a strictly
+decreasing join co-valuation.
+We verify that W ′ is a left order quasi-unimorphism. W ′ : (C(P); Udc
+S) →(R+; d1) is
+strictly increasing since W ′ : (C(P); ⊆) →(R+; 6) is strictly decreasing. So it remains
+to be veri'ed that
+(1) ∀ ∃2 ∀C; C′ ∈C(P): C¿Dc
+SC′ ⇒(Dc
+S(C; C′)¡2 ⇒d1(W ′(C); W ′(C′))¡).
+(2) ∀ ∃2 ∀C; C′ ∈C(P): C¿Dc
+SC′ ⇒(d1(W ′(C); W ′(C′))¡2 ⇒Dc
+S(C; C′)¡).
+We remark that for any two Scott-closed sets C; C′ with C ⊇C′, we have
+d1(W ′(C); W ′(C′)) =
+
+an∈C⇓−C′⇓
+w(an):
+In order to prove the result, we can assume that the basis B is in'nite. Indeed, in case
+B is 'nite, it is easy to verify that for C′ ⊆C in (1), requiring that Dc
+S(C; C′)¡2,
+and for C′ ⊆C in (2), requiring that d1(W ′(C); W ′(C′))¡2, for 2 suQciently small,
+implies that C = C′ and hence (1) and (2) are satis'ed.
+We assume in what follows that B is in'nite.
+To show (1), assume that ¿0 is given, C and C′ are Scott-closed sets such that
+C ⊇C′ and dc
+S(C; C′)¡2.
+If N is the largest natural number such that 1=2N62 then ∀n6N: (C ⇓)[n] = (C′ ⇓)
+[n]. Thus
+d1(W ′(C); W ′(C′)) =
+
+an∈C⇓−C′⇓
+w(an) =
+
+an∈C⇓−C′⇓and n¿N
+w(an):
+428
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+Finally, since B is in'nite and the series 
+n w(an) converges, we can choose 2 small
+enough and hence N large enough such that 
+n¿N w(an)¡ and thus
+d1(W ′(C); W ′(C′)) 6 
+n¿N
+w(an)¡:
+To show (2), we assume that ¿0 is given, C and C′ are Scott-closed sets such that
+C ⊇C′ and d1(W ′(C); W ′(C′))¡2. Let N0 be the largest number such that 1=2N06.
+We will show that dc
+S(C; C′)61=N0 for suQciently small value of 2. I.e. we need to
+verify that ∀n6N0: (C ⇓)[n] = (C′ ⇓)[n]. Let w0 = min{w(ai)| ai ∈(C ⇓)[N0]}.
+Pick 2¡w0. Then d1(W ′(C); W ′(C′))¡2 ⇒
+an∈C⇓−C′⇓w(an)¡w0 ⇒∀ai ∈(C ⇓)
+[N0]: ai ̸∈C ⇓−C′ ⇓⇒∀ai ∈(C ⇓)[N0]: ai ∈C′ ⇒(C ⇓)[N0] = C′ ⇓)[N0] ⇒dc
+S(C; C′)6
+1=2N0.
+So W ′ is a Q-join co-valuation on the quasi-uniform lattice (C(P); UDc
+S).
+Hence by (the proof of) Theorem 13, we obtain that UDc
+S is induced by the weighted
+quasi-metric DW ′ de'ned by
+DW ′(C; C′) = W ′(C′) −W ′(C ∪C′):
+We remark that
+DW ′(C; C′) =
+
+an∈C⇓−C′⇓
+w(an):
+Since UDc
+S = UDW′, we obtain that the restrictions of these quasi-uniformities to the
+product P ↓× P ↓coincide.
+We now consider the weighted quasi-metric dW ′, de'ned on P by dW ′(x; y) = DW ′
+(x ↓; y ↓).
+We recall that the Smyth quasi-metric dS coincides with the distance dc
+S, i.e. the
+restriction of the quasi-metric Dc
+S to the product P ↓× P ↓.
+Hence we obtain a (trivial) quasi-unimorphism i1 : (X; UdS) ⇒(X ↓; Udc
+S), which maps
+x to x ↓. Similarly, we obtain a quasi-unimorphism i2 : (X; Udw′ ) ⇒(X ↓; UdW′ ), where
+dw′(x; y) =
+
+an∈x⇓−y⇓
+w(an):
+Since the restrictions of UDc
+S and UDW′ to the product P ↓× P ↓coincide, we obtain,
+via the quasi-unimorphisms i1 and i2, that UdS and Udw′ coincide. Since the Smyth
+quasi-metric dS generates the Scott topology on the domain P, we obtain in particular
+that Udw′ induces the Scott topology and that its associated order is the domain order.
+So it suQces to chose dw = dw′.
+Finally, we show that !-algebraic dcpos (P; ⊑) can be quanti'ed as a weighted
+quasi-metric space (P; d), where d(x; y) = 
+an∈x↓−y↓w(an) and where the associated
+metric d∗induces the Lawson topology.
+For the case of !-algebraic dcpos (P; ⊑), one can easily verify that the above
+proof simpli'es since one does not need to refer to the way below relation. In par-
+ticular, one can de'ne W on C(P) as follows: W(C) = 
+an∈C w(an). It is easy
+to verify that this function is a strictly increasing valuation. Once can then show
+that W ′ is a Q-co-valuation and apply Theorem 17 (rather than Theorem 13) in
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+429
+order to obtain a bi-weightable invariant quasi-metric. Finally, via a restriction to
+P ↓× P ↓, one obtains that (P; ⊑) is quanti'able via the weighted quasi-metric dw,
+where dw(x; y) = 
+an∈x↓−y↓w(an).
+The proof that d∗induces the Lawson topology is a straightforward generalization of
+the one given in [29], so we only provide a sketch. First, remark that for quasi-metric
+spaces (X; d) in general Tk
+d ⊆Td−1, where Tk
+d
+is the co-compact topology. Hence
+the Lawson topology is included in the associated metric topology. So it suQces to
+verify for the quanti'ed domain (P; dw) that B∗
+ [x] = {y| d∗(x; y)¡} is Lawson-open
+for every ¿0 and for every x∈P. Pick N such that 1=2N = 
+n¿N+1 1=2n¡ and let
+2 = 1=2N. Consider the set A = {an | an ̸⊑x; 16n6N} and let B2[x] = {y | dw(x; y)¡2}
+and O = B2[x] ∩(
+an∈A(P −an ↑)). Then O is Lawson-open since B2[x] is Scott-open.
+We show O ⊆B∗
+ [x]. Consider y∈O. Then, by de'nition of O, dw(x; y)¡2¡. Finally,
+note that dw(y; x) = 
+an∈y↓−x↓w(an). If an∈y↓−x↓then an ⊑y but an ̸⊑x and thus
+n¿N. Hence dw(y; x)6 
+n¿N+1 1=2n¡.
+The case of !-continuous domains which are not !-algebraic. We remark that the
+quanti'ability for general domains cannot be obtained via an argument on the Smyth-
+quasi-metric dS de'ned via the partial order domain relation ⊑, i.e. dS(x; y) = inf{1=2n |
+∀i6n: ai ⊑x ⇒ai ⊑y}, nor from the weighted quasi-metric dw(x; y) = 
+an∈x↓−y↓w
+(an), since neither distance induces the Scott topology in general. Consider for in-
+stance the !-continuous lattice [0; 1] with as basis the dyadic rationals in [0,1). Let
+the basis be enumerated by: a1 = 0; a2 = 1
+2; a3 = 1
+4; a4 = 3
+4; a5 = 1
+8; a6 = 3
+8; : : : : Then the
+set {y | dS( 1
+2; y)¡ 1
+2} = [ 1
+2; 1] ={y | dw( 1
+2; y)¡ 1
+4} is dS-open and dw-open, but not Scott
+open. Hence the argument for the quanti'ability of !-continuous domains reported in
+[29], based on dw(x; y) = 
+an∈x↓−y↓w(an), only holds for the !-algebraic case.
+Denition 28. Given a domain (P; ⊑) with countable base B. A function w : B →R+
+which has 'nite sum over B is called a basic valuation. The valuation
+W(C) = 
+an∈C
+w(an)
+is called the valuation generated by w and the weighted quasi-metric
+dw(x; y) =
+
+an∈x⇓−y⇓
+w(an)
+is called the quasi-metric generated by w. The corresponding partial metric
+pw(x; y) =
+
+an =∈x⇓∩y⇓
+w(an)
+is called the partial metric generated by w.
+For any domain (P; ⊑), we refer to the partial metric space (P; pw) as a quanti'cation
+of the domain.
+We obtain the following immediate corollary of Proposition 27.
+430
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+Corollary 29. Quanti9cations (P; pw1) and (P; pw2) of a domain (P; ⊑) are equivalent,
+i.e. the quasi-metrics dw1 and dw2 generate the same quasi-uniformity.
+Corollary 30. For !-algebraic dcpos P the following holds: P is 2=3 SFP i8 any of
+its quanti9cations (P; pw) is compact.
+Proof. We remark that for !-algebraic dcpo’s the associated metric induces the Lawson
+topology and 2/3 SFP !-algebraic dcpo’s have a compact Lawson topology. Hence the
+result follows.
+Acknowledgements
+The author is grateful for interesting discussions on previous drafts of the paper
+with Ralph Kopperman, Hans-Peter K-unzi and Mike Smyth. The author is also grate-
+ful to an anonymous referee for an extensive critical report including helpful hints
+and corrections. The author acknowledges the support by EUROFOCS-grant ERBCH-
+BGCT940648 and by the FWO Research Network WO.011.96N.
+References
+[1] G. BirkhoS, Lattice Theory, Vol. 25, AMS Colloquium Publications, Providence, RI, 1984.
+[2] M.M. Bonsangue, F. van Breugel, J.J.M.M. Rutten, Generalized metric spaces: completion, topology,
+and powerdomains via the Yoneda embedding, Theoret. Comput. Sci. 193 (1998) 1–51.
+[3] M.A. Bukatin, J.S. Scott, Towards computing distances between programs via Scott domains, in: S.
+Adian, A. Nerode (Eds.), Logical Foundations of Computer Science, Lecture Notes in Computer Science,
+Vol. 1234, Springer, Berlin, 1997, pp. 33–43.
+[4] M.A. Bukatin, S.Y. Shorina, Partial metrics and co-continuous valuations, in: M. Nivat (Ed.),
+Foundations of Software Science and Computation Structures, Lecture Notes in Computer Science,
+Vol. 1378, Springer, Berlin, 1998.
+[5] P. Crawley, R.P. Dilworth, Algebraic Theory of Lattices, Prentice-Hall, Inc., Englewood CliSs,
+NJ, 1973.
+[6] A. Edalat, Domain Theory and Integration, Lecture Notes in Computer Science ’94, IEEE Computer
+Society Press, Silver Spring, MD, 1994.
+[7] A. Edalat, M.H. Escardo, P.J. Potts, Semantics of exact real arithmetic, Proc. Twelfth Ann. IEEE Symp.
+on Logic in Computer Science, IEEE, 1997, pp. 248–257.
+[8] B. Flagg, R. Kopperman, The asymmetric topology of computer science, in: S. Brookes, et al., (Eds.),
+Mathematical Foundations of Programming Language Semantics, Lecture Notes in Computer Science,
+Vol. 802, Springer, Berlin, 1993, pp. 544–553.
+[9] R.C. Flagg, R. Kopperman, Continuity Spaces: reconciling domains and metric spaces, Theoret. Comput.
+Sci. 177 (1) (1997) 111–138.
+[10] R. Flagg, P. S-underhauf, K. Wagner, A logical approach to quantitative domain theory, Preprint, 1996.
+[11] R.C. Flagg, P. S-underhauf, The essence of ideal completion in quantitative form, Theoret. Comput. Sci.
+278 (2002) 141–158.
+[12] P. Fletcher, W. Lindgren, Quasi-Uniform Spaces, Marcel Dekker, Inc., New York, 1982.
+[13] G. Gierz, K.H. Hofmann, K. Keimel, J.D. Lawson, M. Mislove, D.S. Scott, A Compendium of
+Continuous Lattices, Springer, Berlin, Heidelberg, New York, 1980.
+[14] C.A. Gunter, Semantics of Programming Languages, MIT Press, Cambridge, MA, 1992.
+[15] R. Heckmann, Lower bag domains, Fund. Inform. 24 (3) (1995) 259–281.
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+431
+[16] R. Heckmann, Spaces of valuations, in: Proc. 11th Summer Conf. on General Topology and Applications,
+Annals of the New York Academy Science, Vol. 806, 1996, pp. 174–200.
+[17] R. Heckmann, Approximation of metric spaces by partial metric spaces, Appl. Categor. Struct. 7 (1999)
+71–83.
+[18] C. Jones, G. Plotkin, A probabilistic powerdomain of evaluations, in: Lecture Notes in Computer
+Sciences ’89, IEEE Computer Society Press, Silver Spring, MD, 1989, pp. 186–195.
+[19] C. Jones, Probabilistic non-determinism, Ph.D. Thesis, University of Edinburgh, 1989.
+[20] N. Jones, Computability and Complexity from a Programming Perspective, Foundations of Computing
+Series, MIT press, Cambridge, MA, 1997.
+[21] H.P. K-unzi, Nonsymmetric topology, in: Proc. SzekszWard Conf., Bolyai Soc. Math. Studies, Vol. 4,
+1993, pp. 303–338.
+[22] H.P. K-unzi, M.P. Schellekens, On the Yoneda completion of a quasi-metric space, Theoret. Comput.
+Sci. 278 (2002) 159–194.
+[23] H.P. K-unzi, V. Vajner, Weighted quasi-metrics, in: Proc. 8th Summer Conf. on General Topology and
+Applications; Ann. New York Acad. Sci. 728 (1994) 64–77.
+[24] J.D. Lawson, Valuations on continuous lattices, in: R.E. HoSman (Ed.), Continuous Lattices and Related
+Topics, Mathematik Arbeitspapiere, Vol. 27, Universit-at Bremen.
+[25] S.G. Matthews, Partial metric topology, in: Proc. 8th Summer Conf. on General Topology and
+Applications, Ann. New York Acad. Sci., Vol. 728, 1994, pp. 183–197.
+[26] S.G. Matthews, An extensional treatment of lazy data Now deadlock, Theoret. Comput. Sci. 151 (1995)
+195–205.
+[27] L. Nachbin, Topology and Order, in: Van Nostrand Mathematical Studies, Vol. 4, D. Van Nostrand
+Co., Inc., Princeton, NJ, 1965.
+[28] S.J. O’Neill, Partial metrics, valuations and domain theory, in: S. Andima, et al., (Eds.), Proc. 11th
+Summer Conf. on General Topology and Applications, Annals of the New York Academy of Sciences,
+Vol. 806, Academic Science, New York, 1997, pp. 304–315.
+[29] S.J. O’Neill, A fundamental study into the theory and application of the partial metric spaces, Ph.D.
+Thesis, University of Warwick, 1998.
+[30] G. Plotkin, course notes, 1983.
+[31] S. Romaguera, M. Schellekens, Quasi-metric properties of complexity spaces, Topol. Appl. 98 (1999)
+311–322.
+[32] S. Romaguera, M. Schellekens, Duality and quasi-normability for complexity spaces, Appl. General
+Topology 3 (2002).
+[33] S. Romaguera, M. Schellekens, A characterization of norm-weightable Riesz spaces, preprint.
+[34] M.P. Schellekens, The Smyth completion: a common foundation for denotational semantics and
+complexity analysis, in: Proc. MFPS 11, Electronic Notes in Theoretical Computer Science, Vol. I,
+Elsevier, Amsterdam, 1995, pp. 211–232.
+[35] M.P. Schellekens, On upper weightable spaces, in: Proc. 11th Summer Conf. on General Topology and
+Applications. Annals of the New York Academy Science, Vol. 806, 1996, pp. 348–363.
+[36] M.P. Schellekens, Complexity Spaces Revisited, extended abstract, in: Proc. 8th Prague Topology Conf.,
+Topology Atlas, 1996.
+[37] M.P. Schellekens, Complexity spaces: lifting & directedness, Topology Proc. 22 (1999) 403–425.
+[38] M.P. Schellekens, The correspondence between partial metrics and semivaluations, Theoret. Comput.
+Sci., to appear.
+[39] M.P. Schellekens, Extendible spaces, Appl. General Topology 3 (2002).
+[40] A.K. Seda, Quasi-metrics and 'xed points in computing, Bull. EATCS 60 (1996) 154–163.
+[41] M.B. Smyth, Quasi-uniformities: reconciling domains with metric spaces, Lecture Notes in Computer
+Science, Vol. 298, Springer, Berlin, 1987, pp. 236–253.
+[42] M.B. Smyth, Totally bounded spaces and compact ordered spaces as domains of computation, in: G.M.
+Reed, A.W. Roscoe, R.F. Wachter (Eds.), Topology and Category Theory in Computer Science, Oxford
+University Press, Oxford, 1991, pp. 207–229.
+[43] M.B. Smyth, Completeness of quasi-uniform and syntopological spaces, J. London Math. Soc. 49 (1994)
+385–400.
+432
+M.P. Schellekens / Theoretical Computer Science 305 (2003) 409–432
+[44] P. S-underhauf, The Smyth-completion of a quasi-uniform space, in: M. Droste, Y. Gurevich (Eds.),
+Semantics of Programming Languages and Model Theory, Algebra, Logic and Applications, Vol. 5,
+Gordon and Breach Science Publ., London, 1993, pp. 189–212.
+[45] P. S-underhauf, Quasi-uniform completeness in terms of Cauchy nets, Acta Math. Hungar. 69 (1995)
+47–54.
+[46] H. Weber, Uniform lattices I: a generalization of topological Riesz spaces and topological Boolean
+rings, Ann. Mat. Pura Appl. 160 (1991) 347–370.
+[47] H. Weber, Uniform lattices II: order continuity and exhaustivity, Ann. Mat. Pura Appl. (IV) 165 (1993)
+133–158.

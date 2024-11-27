@@ -1,0 +1,729 @@
+Theoretical Computer Science 43 (1986) 43-58 
+North-Holland 
+43 
+ON THE CONSTRUCTION 
+OF PARALLEL COMPUTERS 
+FROM VARIOUS BASES OF BOOLEAN FUNCTIONS 
+Leslie M. GOLDSCHLAGER 
+Basser Department of Computer Science, University of Sydney, New South Wales 2006, Australia 
+Ian PARBERRY 
+Department of Computer Science, The Pennsylvania State University, University Park, PA 16802, 
+U.S.A. 
+Communicated by J.D. Ullman 
+Received April 1983 
+Revised March 1984, August 1985 
+Abstract. The effects of bases of two-input Boolean functions are characterized in terms of their 
+impact on some questions in parallel computation. It is found that a certain set of bases (called 
+the P-complete set), which are not necessarily complete in the classical sense, apparently makes 
+the circuit value problem difficult, and renders extended Turing machines and networks of Boolean 
+gates equal to general parallel computers. A class of problems called EP naturally arises from 
+this study, relating to the parity of the number of solutions to a problem, in contrast to previously 
+defined classes concerning the count of the number of solutions (~ P) or the existence of solutions 
+(NP). Tournament isomorphism is a member of EP. 
+1. Introduction 
+Complexity theory seeks to formalize our intuitive notions of computational 
+difficulty. Whilst in many cases we are intuitively sure that certain functions are 
+more difficult to compute than others, very rarely can we actually prove it (the 
+classical example is that of NP-complete problems [3, 11]). However, it is often 
+possible to classify small classes of functions according to their relative complexity, 
+as we shall do here for the two-input Boolean functions. It has also recently been 
+shown [8] that our results hold equally well for Boolean functions with more than 
+two inputs. 
+The motivation for our classification scheme comes from examining time-bounded 
+parallel (equivalently, space-bounded sequential) computations involving the two- 
+input Boolean functions. The main body of this paper is broken up into three 
+sections. The first is on the space complexity of the circuit value problem over 
+0304-3975/86/$3.50 © 1986, Elsevier Science Publishers B.V. (North-Holland) 
+44 
+L.M. Goldschlager, I. Parberry 
+two-input bases, the second the computing power of time-bounded extended Turing 
+machines over two-input bases and the third the ability of two-input bases to realize 
+parallel machines. 
+The circuit value problem over basis B (CVP, or more precisely, CVPB) is the 
+problem of determining, for a given combinational circuit and its inputs, the value 
+of the output. By a combinational circuit over basis B we mean a circuit without 
+feedback loops, built using gates which realize functions drawn from a set B. Ladner 
+[12] and Goldschlager [5] have shown that the circuit value problem over complete 
+bases and the monotone circuit value problem respectively are log space complete 
+for P. This means that circuit value problems over these bases are in a sense among 
+the most difficult in P. For if they can be computed in O(log k n) space, then so can 
+every member of P. 
+The parallel computation thesis [2, 7] states that time on any 'reasonable' model 
+of parallel computation is polynomially related to space on a deterministic Turing 
+machine. Thus, the circuit value problems over complete and monotone bases are 
+unlikely to have an exponential speedup on a parallel computer. We classify the 
+two-input Boolean functions according to the effect which their presence in a basis 
+has upon the complexity of the circuit value problem over that basis. We find that, 
+for the two-input bases B, either CVPs is log space complete for P, or it can be 
+computed in O(log 2 n) space. 
+Among the 'reasonable' models of parallel machine architecture is the alternating 
+Turing machine of [2]. This differs from the standard nondeterministic Turing 
+machine only in the manner of defining acceptance. The states of an alternating 
+Turing machine may be labelled AND (universal), OR (existential), NOT (negating), 
+ACCEPT, or RFJECT. This labelling is extended to configurations in the obvious way. 
+A configuration is deemed to be accepting if it has an accept state, or if it is universal 
+and all successor .configurations are accepting, or if it is existential and some 
+successor configuration is accepting, or if it is negating and its successor configuration 
+is not an accepting configuration. We generalize this by allowing the states to be 
+labelled with a larger range of functions, in particular, the two-input Boolean 
+functions. We prove that extended Turing machines over two-input Boolean bases 
+B are as powerful as parallel machines iff the circuit value problem over basis B is 
+log space complete for P. 
+Furthermore, there are four language classes recognized by polynomial time 
+bounded extended Turing machines over the bases whose circuit value problem can 
+be computed in log 2 space. The first three are the familiar classes P, NP, and Co-NP. 
+The fourth is a less familiar class which we shall call EP. A language in EP is the 
+set of strings for which there is an even parity (or equivalently, odd parity, since 
+we will find that EP is closed under complementation) number of solutions to a 
+given problem, just as NP is the set of strings for which there is at least one solution. 
+Another previously studied model of parallel machine architecture is the conglom- 
+erate of [7]. These are communication networks of synchronous finite-state machines. 
+We restrict these machines to bases B of two-input Boolean functions and show 
+Construction of parallel computers from bases of Boolean functions 
+45 
+that they are as powerful as parallel machines iff the circuit value problem over B 
+is log space complete for P. 
+2. The circuit value problem 
+We shall use the standard definitions of space and time on a Turing machine 
+(see, for example, [ 1, 9]). Let P be the class of languages recognizable in polynomial 
+time by a deterministic Turing machine. 
+Definition. A language A is log space transformable to B (written A ~<log B) if there 
+exists a function f computable in log space such that, for all w, w ~ A iff f(w)~ B. 
+A language B is log space complete for P if B e P and, for all A ~ P, A ~<log B. 
+Lemma 2.1. (i) If B is log space complete for P, B Clog A and A ~ P, then A is log 
+space complete for P. 
+(ii) If B is log space complete for P and is recognizable in O(log k n) space for some 
+constant k >>- 1, then every A ~ P can be recognized in O(log k n) space. 
+Definition. B, = {f: {0, 1} n --> {0, 1}} is the set of n-input Boolean functions. We will 
+denote the elements of BE by 0, 1, x, y, -nx, -ny, ,+, ~, ^, v, 1', ~, ->, ~, ~-, ¢ for 
+0, 1, left identity, right identity, left negation, right negation, equivalence, exclusive- 
+or, and, or, nand, nor, implies, not implies, is implied by, is not implied by, 
+respectively. 
+Definition. A circuit over basis B c_ B2 is a sequence C = (gl,..., g,), where each gi 
+is either a variable x~, x2, • •. (in which~ase it is called an input) or f(j, k) for some 
+function f~ B (in which case it is called a gate), i >j, k. An input assignment is an 
+assignment of values v(xi) ~ {0, 1} to the variables x~ of C. The value of a circuit C 
+at gate g~, v(C, g~), is given by 
+v(C, xj)=v(xj), 
+v(C,f(j,k))=f(v(C, gj),v(C, gk)). 
+The value of a circuit C is defined to be v( C) = v( C, g,). The circuit value problem 
+CVP~={Clv(C)=l}. 
+Lemma 2.2 (Ladner [12]). If B is a complete basis, then CVPB is log space complete 
+for P. 
+Lemma-2.3 (Goldschlager [5]). If {^, v} c_ B, then CVPB/s log space complete for P. 
+Lemma 2.4. If B n {-->, ~, ~, ~}#0, then CVPa is log space complete for P. 
+ProoL {->, -1} is complete, and hence, by I.emma 2.2, CVPI_.,-~ } is log space complete 
+for P. Furthermore, CVPI_~_~ ~ <~iog CVPa, where B = {->}, {¢~}, {.-}, or {¢:} since -nx 
+can be replaced by x-*0, 1 ¢~ x, 0~ x, or x*- 1, respectively, and x--> y can be replaced 
+by x->y, l¢~(xc~y), y~-x, or (yC-x)¢:l, respectively. 
+[] 
+46 
+L.M. Goldschlager, I. Parberry 
+Lemma 2.5. IfB contains { A, ~->}, {v, ~->}, {^,~}, or {v,~}, then CVPs is log space 
+complete for P. 
+Proof. CVP~^,v~ <~og CVPB, where B = {A, ~}, {v, <-->}, {^, 0)}, or {v, ~} since 
+avb=(a~->b)~->(aAb), 
+avb=(aO)b)O)(aAb), 
+aAb=(a~->b)~->(avb), 
+azb=(a~b)~(avb), 
+respectively. 
+[] 
+Definition. Let C =(g~,..., g~) be a circuit. Define a path of length u from gi to gj 
+as follows. There is a path of length 1 from g~ to gj if there exists a k <~ n such that 
+gj =f(gi, gk) or gj =f(gk, g~). A path of length u > 1 from g~ to g~ is a path of length 
+u- 1 from g~ to gi and a path of length 1 from gt to gj. 
+Definition. Let C = (gh..., g~) be a circuit. Define the function odds(g,, gj) to be 
+true iff there is an odd number of paths of length u from g~ to gj in C. Further, 
+define odd(g~, gj) to be true iff there is an odd number of paths (of any length) from 
+g~ to gj. Thus, 
+rl 
+odd(gi, gj)= ~) odd,,(g~, gj). 
+u=l 
+Lemma 2.6. Let C = (gl,.-., gn) be a circuit over basis {~}. For 1 <~j <~ n the value 
+of the circuit at gate gj is given by 
+v(g~) = 
+(~ 
+(odd(g,, gj) A v(gi)). 
+inputs gi 
+Proof. The proof follows by induction on j, noting that "^" distributes over "@" 
+(i.e., aA(bO)c)=(aAb)O)(aAc)). 
+[] 
+Lemma 2.7. Let C = (g~,..., gn) be a circuit over {@}. If u > d >>- 1, then 
+odd,,(g,, gj) = E) (oddd (gi, gk) ^ odd.,_d(gk, gi))" 
+k=l 
+Proof. The proof follows by induction on u. 
+[] 
+Consider the following procedure. 
+Boolean procedure path(i,L k) 
+comment returns true iff there exists an odd number of 
+paths from g, to gj of length k. 
+if k = 1 then :1 an odd number of connections from gi to gj 
+else (~ (path(/, l, [½k])^ path(/,j,/½kJ)). 
+/=1 
+Lemma 2.8. path(/,j, u) = oddu(g,, gj). 
+Construction of paraUel computers from bases of Boolean functions 
+47 
+Proof. The proof follows by induction on u, using Lemma 2.7 with d = [½u ]. 
+[] 
+Lemma 2.9. CVP{~) can be solved by a deterministic Turing machine in O(log 2 n) space. 
+Proof. Let C = (gb..., g,) be a circuit over {E)}. Consider the program which 
+computes 
+11 
+0 
+~) (path(i,n,u)Av(gi)). 
+inputs gi u = 1 
+This uses O(log 2 n) space (since the depth of recursion is O(log n)), and 
+n 
+@~ 
+@ (path(/, n, u) A v(g,)) 
+inputs gi u = a 
+inputs gi 
+u = 1 
+= v(g.) 
+by Lemma 2.6 
+as required. 
+[] 
+Lemma 2.10. CVP{e), CVP{,_,}, CVP{~ ,_,), and CVP{~,._,.~) are all log space equivalent. 
+Proof. To prove the lemma, use the identities a~b = ~(a<-->b)= (-]a)<->b. [] 
+Lemma 2.11. CVP~^) and CVP{v} can be solved by a deterministic Turing machine in 
+O(log 2 n) space. 
+Proof. A simplified version of the proof of Lemma 2.9 will suffice, since a circuit 
+built from OR gates is true precisely when there exists a path from the output to a 
+true input, and a circuit built from AND gates is false precisely when there exists a 
+path to the output from a false input. 
+[] 
+Definition. A function f(x, y) is monotone if, for all xl ~< X2 and yl <~ )'2, f(x~, y~) <~ 
+f(x2, Y2). Function f(x, y) is linear if it can be expressed in the form 
+ao~ (al ^ x)~ (a2 A y), 
+where ao, aa, a2s {0, 1}. 
+The two-input Boolean functions fall into four classes induced by the properties 
+of linearity and monotonieity (see Table 1). We call the functions which are both 
+linear and monotone 'trivial', those which are linear only 'easy', those which are 
+monotone only 'moderate', and those which are neither linear nor monotone "hard'. 
+If the gates in basis B are all easy or trivial, then CVPB is easy (i.e., can be solved 
+in log 2 space). If B contains at most one moderate gate (and the rest trivial), then 
+CVPe is easy. If B contains two moderate gates, or a moderate and an easy gate, 
+or a hard gate, the CVPB is hard. This is summed up by the following theorem, 
+which follows from the above lemmas. 
+48 
+LM. Goldschlager, L Parberry 
+Table 1 
+Complexity classes of functions in B 2. An entry of 1 under property p of gate g 
+indicates that g has property p (where p is monotonicity or linearity). 
+Function 
+Name 
+Linear 
+Monotone 
+Class 
+0 
+False 
+1 
+1 ] 
+1 
+True 
+1 
+1 
+x 
+Left identity 
+1 
+1 
+y 
+Right identity 
+1 
+1 
+-ly 
+Right negation 
+1 
+,-, 
+Equivalence 
+1 
+Exclusive-or 
+1 
+^ 
+Arid 
+0 
+1\ 
+1J 
+v 
+Or 
+0 
+Na 
+0il0 
+$ 
+Nor 
+0 
+0 
+-> 
+Implies 
+0 
+Not implies 
+0 
+Implied by 
+0 
+¢~ 
+Not implied by 
+0 
+Trivial 
+Easy 
+Moderate 
+Hard 
+Theorem 2.12. CVPs is log space complete for P if either: 
+(1) B contains a gate which is not linear, and a gate which is not monotone, or 
+(2) {^, v}_B, 
+and is solvable in O(log 2 n) space otherwise. 
+3. Extended Tnring machines 
+The definition of an alternating Turing machine (ATM) in [2] can be generalized 
+to allow the labelling of nonfinal states with any reasonable function. 
+Definition. An 
+extended 
+Turing 
+machine 
+(ETM) 
+is 
+a 
+nine-tuple 
+M= 
+(D, B, k, Q, .Y, F, 8, qo, g), where D is the problem domain (0, 1 ~ D; .L~D), B = 
+{f~, .. • ,fn} is a finite set (basis) of fixed-arity functions f~ with arity ai ~ 0 respec- 
+tively, f~ : D a, ~ D, 1 <~ i <~ n, k is the number of work tapes, Q is a finite set of states, 
+.Y 
+is 
+a 
+finite 
+input 
+alphabet, 
+F 
+is 
+a 
+finite 
+work-tape 
+alphabet, 
+8~ 
+(Q x F k x ,,T, ) x (Q x F k X {left, right} k+l) is the next-move relation, qo e Q is the initial 
+state, and g: Q -~ B u D. 
+Definitions. A configuration of an ETM M = (D, B, k, Q, .Y, F, qo, g) is an element 
+of C,,, = Q x .Y* x (F*) k xN k+l, where N denotes the set of natural numbers. If a 
+and/3 are configurations of M, we say that/3 is a successor of a (written ~,~/3) if 
+Construction of paraUel computers from bases of Boolean functions 
+49 
+follows from t~ in one step according to the transition function & The initial 
+configuration of M on input x is trM(x)= (qo, x, A k, ok+l), where A denotes the 
+empty string. 
+The semantics of an extended Turing machine are analogous to those of an 
+alternating Turing machine. We give a brief sketch, following the formalism of [2]. 
+We insist that the transition function 8 is such that, for all states q ~ Q, every 
+configuration containing q has exactly arity(g(q)) successors, where elements of 
+the domain D are interpreted as functions of arity 0. 
+/: 
+For f:D°-->D where 0eD, ±~D we define the monotone extension 
+(Du 
+{±})°~Du {_L} of f as follows. If x ~ D °, then f(x)=f(x) and, for 1 <~ m <~ a, if 
+x ~ D m-I and y e (D u {±})°-=, 
+f(x" l' Y) = {f± (x' o' y) 
+otherwise.if'f°ral' d~ D, f(x, O,y) = f(x, d, y), 
+For example, the monotone extensions of some functions in B2 are shown in 
+Table 2. 
+A labelling of configurations is a map 
+I: CM-, Du{±}. 
+Let ¢ be the operator mapping labellings to labellings defined as follows. Let 
+M = (D, B, Q, 2~, F, 8, qo, g) and a be a configuration of M with state q. Assume a 
+total ordering on the elements of 8, so that we can order the fl such that tzt--fl. Then, 
+= ~ g(q) 
+if g(q)e D, 
+¢(l)(a) 
+[f(l(fll),...,l([3,,)) 
+if g(q)=f and a~-fli, l <~i<-a. 
+If we define the relation "'~<" by £---<d for all d ~ D, then 7 has a least fixed point 
+1" with respect to "<~". 
+Definition. An ETM M accepts x iff l*(~rM(x)) = 1, M rejects x iff l*(trM(x)) = O, M 
+halts on x iff M accepts or rejects x, and the language accepted by M, L(M)= 
+{x e .Y*I M accepts x}. 
+Table 2 
+Extensions of some functions in 
+1 
+,L 
+0 
+1 
+-L 
+0 
+L 
+,L 
+0 
+0 
+0 
+0 
+B 2 to domain {0, ,L, 1}. 
+v 
+1 
+J_ 
+0 
+1 
+1 
+1 
+1 
+L 
+1 
+,L 
+,L 
+0 
+1 
+,L 
+0 
+1 
+.1. 
+0 
+1 
+,L 
+0 
+1 
+± 
+0 
+1 
+,L 
+.L 
+1 
+1 
+1 
+1 
+_L 
+0 
+1 
+± 
+0 
+0 
+-L 
+1 
+± 
+.1_ 
+-L 
+1 
+-L 
+0 
+50 
+LM. Goldschlager, L Parberry 
+Theorem 3.1. The extended Turing machines with computable bases precisely accept 
+the r.e. sets. 
+Note that extended Turing machines with domain the natural numbers and basis 
+{+} are the counting Turing machines of Valiant [15]; and if we choose the domain 
+to be the Boolean set {0, 1}, ETM's with basis {A, v,-7} are alternating Turing 
+machines, those with basis {v} are nondeterministic Turing machines, and those 
+with basis { ^ } are co-nondeterministic Turing machines. Since our interest lies with 
+the two-input Boolean functions, we will henceforth restrict ourselves to extended 
+Turing machines with D = {0, 1}, B ~ B2. 
+The concepts of ETM time and space can be defined in the same manner as ATM 
+time and space [2]. 
+Definition. TIMEs(T(n)) and SPACEB(S(n)) are the class of languages accepted by 
+an ETM over basis B in T(n) time and S(n) space, respectively. 
+Definition. PTIMEB = [---Jk>o TIMEs( nk)" 
+Definition AP = I>I'IME{^,v,-~}, NP = PrIME{v}, and Co-NP = PTIME{^}. 
+Definition. A basis is called P-complete iff CVPs is log space complete for P. 
+Theorem 3.2. For all P-complete bases B, B' ~ B 2, 
+TIMEB(T(n)) c_ TIMEw(d.T(n)), 
+SPACEB(S(n)) C___ SPACEB,(S(n)) 
+for some constant d. 
+Proof. In [2, Theorem 2.5] the result is proved for B = { A, v, -1} and B' = { ^, v}. 
+The technique used is similar to the one used to show that the monotone circuit 
+value problem is log space complete for P (Lemma 2.3). De Morgan's laws are used 
+to push the negations down to the final states in the same manner as they are 
+used to push the negations back to the inputs in the monotone circuit value problem. 
+A similar modification to the proofs of the P-completeness of all such B gives the 
+required results. 
+[] 
+Thus, extended Turing machines over the P-complete two-input Boolean bases 
+are just as powerful, to within a constant factor, as alternating Turing machines. 
+Chandra, Kozen and Stockmeyer [2] have shown that alternating Turing machines 
+are as powerful, to within a polynomial, as any parallel machine. Theorem 3.2 
+implies that the complexity results on alternating Turing machines (notably [2, 
+Theorems 3.1-3.4, and Corollaries 3.5 and 3.6]) apply equally well to extended 
+Turing machines over P-complete bases. 
+Construction of parallel computers from bases of Boolean functions 
+51 
+Theorem 3.3 
+TIME{@}(T(n)) = TIME{.,.)}(T(n)) = TIME{@,o}(T(n)) = TIME{@,o,--~}(T(n)). 
+Proof. A simple modification to the proof of Lemma 2.10 suffices to give this 
+result. 
+[] 
+Definition. ETIME(T(n)) = TIME{@}(T(n)) and EP = PTIME{@} 
+At this stage we have four interesting classes of languages accepted by polynomial 
+time bounded extended Turing machines. The most powerful class is that recognized 
+by machines over a P-complete basis, exemplified by alternatihg Turing machines. 
+In the light of Theorem 3.3, we see that the remaining languages fall into the three 
+classes accepted by polynomial time bounded extended Turing machines over the 
+bases {^ }, { v }, and {~B}. Machines over the first two bases are nondeterministic and 
+co-nondeterministic Turing machines, respectively. Languages in the corresponding 
+polynomial time bounded classes NP and Co-NP are well-studied (see, for example, 
+[ 1, 4]). 
+The last class is EP, the class of languages accepted in polynomial time by extended 
+Turing machines over basis {~} (E for Equivalence of Exclusive-or). The classical 
+open problems regarding the relationships between P, NP, and Co-NP can be 
+extended to include EP. For example, one might wonder whether or not NPc~ 
+Co-NPc~EP=P (see Fig. 1)? As with the question 'P# NP?' there are complete 
+problems for the question 'P # EP?' 
+Definition A language A is (many-one) reducible to B (written A ~<p B) if there 
+exists a function f computable in polynomial time such that, for all w, w ~ A iff 
+f(w) a B. A language B is said to be EP-complete if B a EP and, for all A a EP, A ~< p B. 
+Fig. I. The class EP. 
+52 
+LM. Goldschlager, L Parberry 
+Definition. Parity-SAT is the set of Boolean formulae which have an odd number 
+of satisfying assignments. 
+Theorem 3.4. Parity-SAT is EP-complete. 
+Proof. Clearly, parity-SATe EP. We follow the proof of Cook's theorem (see, for 
+example, [1]). Given an extended Turing machine M with L(M)e EP, we can 
+encode it as a Boolean formula, as if it were a nondeterministic Turing machine. 
+Without loss of generality, assume that M has only exclusive-or states. Then M 
+accepts input x iff there is an odd number of accepting computation paths of x iff 
+there is an odd number of satisfying assignments to the Boolean formula of M. 
+[] 
+Similarly, determining the parity of the number of solutions to NP-complete 
+problems is EP-complete providing the reduction from SAT is solution-preserving. 
+The generalized Ladner's theorem [10] tells us that (provided EP~ P) there are 
+problems in EP which are neither in P nor EP-complete. A candidate is tournament 
+isomorphism, which is not known to be in P (the best known algorithm is the n °(~°g ") 
+time algorithm of [13]). Tournament isomorphism is in EP since the automorphism 
+group of a tournament has odd order (hence, the number of isomorphisms between 
+two tournaments is either zero or odd). 
+4. Networks 
+In Section 2 we classified the two-input Boolean functions according to the effect 
+which their presence in a basis has upon the complexity of the circuit value problem 
+over that basis. Subsequently, we showed that this classification has relevance to 
+the computational power of extended Turing machines. In this section we give a 
+further application of the classification in terms of the computational power of 
+(possibly cyclic) networks of two-input Boolean gates. 
+Cyclic networks are formalized in a similar manner to 'conglomerates' which are 
+a parallel machine model introduced in [7]. Informally, conglomerates consists of 
+synchronous finite state machines communicating via an interconnection network. 
+When the pattern of the intereonnections is computable in polynomial space (or 
+equivalently polynomial parallel time), then the resulting class of conglomerates 
+turns out to be as powerful, to within a polynomial, as any parallel machine. 
+Definition. A network over basis B is a four-tuple C = (I, G,f, h), where G is an 
+infinite set of gates Gi for all integers i ~ 7 such that each gate in G realizes a 
+function from the basis B, and 
+(1) I is the finite input alphabet, J~ ~ I, 
+(2) h" Z -> {1, 2,..., [B[} is defined so that h(j) = i if G~ realizes the ith function 
+in B, 
+Construction of paraUel computers from bases of Boolean functions 
+53 
+(3) f:{1,2,...,r}*-> Zu{TP.uE, FALSE, d~, ~b2} is 
+the 
+connectior, 
+defined 
+similarly to that of conglomerates, where r is the maximum fan-in of any function 
+in B, TRUE and FALSE represent an input being always 1 or always 0 respectively, 
+and ~b~, ¢~2 represent an input being connected to the corresponding ports of a 
+two-phase clock (see Fig. 2). 
+A computation of the network over basis B begins at time 0 with the outputs of 
+gates G1, G3,..., G2,-1 being set to wl,..., w,, where Wl,..., w~ is a Boolean 
+representation of the input string over alphabet I. This Boolean representation of 
+the symbols in I w {~} is such that some fixed number of bits are used to represent 
+each symbol. The outputs of gates G2,+~, G2,+3,... and G_~, G_3,... are initially 
+set to the Boolean representation of an infinite sequence of blanks ~, and, for all 
+integers i, the output of gate G2i will initially be set to the negation of the output 
+of gate G2i-~. The reason for this input convention will become apparent shortly. 
+Note that the network can detect the end of the input string by checking for the 
+first trailing blank character. 
+I I V 
+,J 
+) 
+i ) L 
+Fig. 2. Two-phase clock. 
+Each type of gate has an associated delay time--some integral number of time 
+quanta--during which it computes its corresponding function of the values on its 
+inputs, setting its output value equal to the result. The computation proceeds in 
+discrete steps so that an input connected to ~bl of the clock will have the value 
+i mod 2, and an input connected to ~b2 will have the value (i + 1) rood 2, during step 
+i of the computation. Each discrete step of the computation represents some fixed 
+period of time, measured as an integral number of time quanta. 
+The network over basis B is said to accept its input w iff the output of Go is ever 
+equal to 1. C accepts w within time t iff the output of Go is equal to 1 on or before 
+step t of the computation. C accepts a language L_c I* in time T(n) if, for each 
+we L, C accepts w within time T(JwJ), and, for each w~t L, C does not accept w. 
+Both conglomerates and networks have enormous computational power depend- 
+ing on the complexity of the connection function f and the function h. However, 
+it has been shown [7] that if f and h are computable in polynomial space (i.e., 
+parallel polynomial time), then the computational power of conglomerates does not 
+exceed that of other parallel computer models such as alternating Turing machines. 
+54 
+L.M. Goidschlager, L Parberry 
+So we are interested in studying the relationship between our classification of the 
+two-input Boolean functions and the computational power of networks whose 
+functions are computable in polynomial space. 
+Theorem 4.1 
+NETWORK-TIMEs ( T( n ) ) __ CONGLOM E~TE-TIM E( d'T( n ) ) 
+for some constant d. 
+Proof. The gates of the network over basis B can be simulated by finite controls. 
+Each finite control can 'know' which gate from B it is simulating by leaving 
+appropriate inputs to that finite control unconnected. Also, each finite control will 
+count up to the number of time quanta which represent the delay time of the gate 
+being simulated. Only after that delay time has elapsed will the finite control update 
+its output value. The two-phase clock can be simulated by two finite controls, one 
+representing 01 and the other 02, which simply count the number of time quanta 
+starting from time 0, the count being modulo the number of quanta which comprise 
+one step of the computation of the network. It is straightforward to check that the 
+connection function of the conglomerate as constructed above can be computed in 
+polynomial space, given that f and h of the network can be computed in polynomial 
+space. 
+[] 
+Theorem 4.2. For all complete bases B, 
+CONGLOME~TE-TIME(T(n)) _c NETWORK-TIME~ (2 T(n )). 
+Proof. Each finite state machine in the conglomerate can be replaced by an 
+equivalent combinational circuit over basis B, and a finite number of memory 
+elements. These memory elements can be clocked by the regular clock pulses and 
+their inputs fed back into the inputs of the combinational circuit in order to simulate 
+the finite state machines in the standard way. If B is complete, the memory etements 
+may be constructed using a cyclic network of gates of B forming 'flip-flop' circuits, 
+e.g., if B = {A, v, -a}, the flip-flop could be as in Fig. 3. The number of time,quanta 
+comprising one step of the computation should be chosen to be greater than the 
+input 
+- 
+i) 
+ou~ut 
+Fig. 3. Standard flip-flop. 
+Construction of parallel computers from bases of Boolean functions 
+55 
+longest delay through any of the combinational circuits as constructed above. So, 
+each step of the conglomerate is simulated by two steps of the network. It is 
+straightforward to check that fand h of the network can be computed in polynomial 
+space, given that the connection function of the conglomerate can be computed in 
+polynomial space. 
+[] 
+Theorem 4.3. For aH P-complete bases B, 
+CONGLOMERATE-TIME( T( n ) ) _c NETWORK-TI MEB (2 T( n )). 
+Proof. Consider the case when B = { ^, v }. We will perform a similar simulation to 
+that of Theorem 4.2, except that no NOT gates are available for use in the network. 
+The standard memory element shown in Fig. 3 can be replaced by a 'monotone 
+memory' element shown in Fig. 4. 
+input,, 
+~
+~
+ 
+output 
+Fig. 4. 'Monotone memory' element. 
+This monotone memory element operates in a similar fashion to the standard 
+flip-flop. When ~bl = 0 and ~b2 = 1, x and y retain their previous values, independent 
+of any change in the input value. Furthermore, the value of x (=y) will be copied 
+into the second stage (i.e., output = x = y). This two stage memory element is used 
+to eliminate 'race conditions' which could otherwise occur in a cyclic network. 
+The combinational circuits introduced in the proof of Theorem 4.2 may also 
+contain NOT gates, which need to be eliminated in the current simulation. The idea 
+is to use 'double rail logic' [5]. Assuming that for each input x to a combinational 
+circuit another input • is available which carries its negation 7x, each AND, OR, 
+and NOT gate may be replaced by only AND and OR gates as shown in Table 3. 
+It is clear from Table 3 that for every output z of the new combinational circuit 
+there will be an additional output ~ which carries its negation -~z. Therefore, if two 
+monotone memory elements are utilized, one for z and the other for -~z, then our 
+assumption that the negation of each input to the combinational circuit is available 
+will be met. In addition, any input connected to TRUE or FALSE will have to have 
+its negation connected to FALSE or TRUE, respectively. It remains to ensure that the 
+values on all the wires start correctly at the beginning of the simulation. This is 
+achieved by the input convention which has the negation of each input initially 
+available. 
+56 
+L.M. Goldschlager, I. Parberry 
+original gato 
+ii 
+x 
+y 
+II 
+z 
+x 
+y 
+c iJ 
+Table 3. 
+'Double rail logic'. 
+I 
+~pl~e by 
+x 
+y 
+E 
+II I';J 
+\ 
+Y 
+z 
+E 
+x 
+y 
+E II 
+Ii;J 
+z 
+g 
+y 
+z 
+Thus, the theorem holds when B ={ ^, v}, the complexity of the network increasing 
+by no more than a constant factor. The theorem holds for all other P-complete bases 
+B using the techniques of Lemma 2.4 and 2.5. 
+[] 
+Theorem 4.4. If B is not P-complete, then networks over basis B cannot in general 
+simulate conglomerates (or any other general purpose parallel computer). 
+Proof. Assume to the contrary that some basis B which is not P-complete can be 
+used to simulate an arbitrary conglomerate. Then, in particular, it can be used to 
+simulate the conglomerate which computes the NAND function NAND(b~, b2)= 
+f(b~, -761, b2, 7b2). Thus, a (possibly cyclic) network of gates from B can simulate 
+the NAND function in some particular time t. Now, such a network can be 'unrolled' 
+into a combinational circuit with depth at most dt for some constant d [14]. Also 
+note that any clock signals coming into a gate in the unrolled circuit can be set to 
+a constant value representing the value of the clock signal at the particular time in 
+Construction of parallel computers from bases of Boolean functions 
+57 
+the computation which the depth of that gate represents. Thus, there is a fixed 
+combinational circuit over basis B which computes the NAND function from the 
+values of two inputs and their negations. Hence, CVPt~ <~og CVPB and so B is 
+P-complete, contradiction. 
+[] 
+Loosely speaking we can summarize this section by saying that a particular basis 
+B __ BE can be used to build general purpose machines iff B is P-complete. 
+5. Conclusions 
+We have examined bases of two-input Boolean functions, and defined the notion 
+of a basis being P-complete. With reference to Table 1, a basis is P-complete if it 
+contains at least one 'hard' function, or two 'moderate', or a 'moderate' and an 
+'easy' one. The remaining bases of two-input Boolean functions are not believed to 
+be P-complete (unless P= SPACE(log k n) for some constant k). 
+If a basis is P-complete, then the circuit value problem over that basis is probably 
+inherently sequential, and extended Turing machines and Boolean networks over 
+that basis are powerful parallel machines. The remaining bases are not suitable for 
+building general purpose parallel machines, and the circuit value problem over them 
+can be solved quickly on a parallel machine. 
+However, the bases which do not appear to be P-complete can be further classified 
+into four groups according to their apparent effect on the computational power of 
+extended Turing machines. These four groups are exemplified by {v}, {^}, the 
+one-input functions, and {~}, corresponding to nondeterministic, co-nondeter- 
+ministic, deterministic, and the new class of 'parity' computations. 
+6. Further work 
+How do planar circuits behave over different bases? For example, it appears that 
+{A, v} is not a powerful computational basis for planar circuits [6]. It would be 
+nice to know more about the class EP. (For example, is it identical to a previously 
+studied class?) What is the relationship between EP, P, NP, and Co-NP? Is there a 
+'natural' problem which is EP-complete? 
+Acknowledgment 
+We would like to thank Michael Hickey for his contribution to the 'monotone 
+memory' elements of Section 4. 
+58 
+LM. Gotdschlager, I. Parberry 
+References 
+[1] A.V. Aho, J.E. Hopcroft and J.D. Ullman, The Design and Analysis of Computer Algorithms 
+(Addison-Wesley, Reading, MA, 1974). 
+[2] A.IC Chandra, D.C. Kozen and L.J. Stockmeyer, Alternation, J. ACM 28(1) (1981) 114-133. 
+[3] S.A. Cook, The complexity of theorem proving procedures, Proc. 3rd ACM Syrup. on Theory of 
+Computing (1971) 151-148. 
+[4] M.R. Garey and D.S. Johnson, Computers and Intractability: A Guide to the Theory of NP- 
+Completeness (Freeman, San Francisco, CA, 1979). 
+[5] L.M. Goidschlager, The monotone and planar circuit value problems are log space complete for 
+P, SIGACT News 9(2) (1977) 25-29. 
+[6] L.M. Goldschlager, A space efficient algorithm for the monotone planar circuit value problem, 
+Inform. Process. Lett. 10(I) (1980) 25-27. 
+[7] L.M. Goldschlager, A universal interconnection pattern for parallel computers, J. ACM 29(4) 
+(1982) 1073-1086. 
+[8] L.M. Goldschlager, A characterization of sets of n-input gates in terms of their computational 
+power, Tech. Rept. 216, Basser Dept. of Computer Science, Univ. of Sydney, 1983. 
+[9] N.D. Jones and W.T. Laaser, Complete problems for deterministic polynomial time, Theoret. Comput. 
+SCI. 3 (1977) 105-117. 
+[10] T. Kamimura and G. Slntzki, Some results on pseudopolynomial algorithms, Tech. Rept. TR-80-6, 
+Dept. of Computer Science, Univ. of Kansas, 1980. 
+[11] R.M. Karp, Reducibility among combinatorial problems, in: J.W. Thatcher, ed., Complexity of 
+Computer Computations (Plenum Press, New York, 1972). 
+[12] ILE. Ladner, The circuit value problem is log space complete for P, SIGACTNews 7 (1) (1975) 18-20. 
+[13] E.M. Luks, Isomorphism of graphs of bounded valence can be tested in polynomial time, Proc. 
+21st Ann. IEEE Symp. on Foundations of Computer Science (1980) 42-49. 
+[14] J.E. Savage, Computational work and time on finite machines, J. ACM 19(4) (1972) 660-674. 
+[15] L.G. Valiant, The complexity of enumeration and reliability problems, SIAM J. Comput. 8(3) 
+(1979) 410-421. 

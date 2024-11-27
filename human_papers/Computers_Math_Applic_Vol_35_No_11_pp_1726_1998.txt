@@ -1,0 +1,574 @@
+Computers Math. Applic. Vol. 35, No. 11, pp. 
+17-26, 1998 
+Pergamon 
+© 
+1998 Elsevier Science Ltd 
+Printed in Great Britain. All rights reserved 
+0898-1221/98 $19.00 + 0.00 
+Plh S0898-1221 (98)00080-7 
+Topological Optimization of Computer 
+Network Expansion with Reliability Constraint 
+FANG-MING 
+SHAO 
+AND LIAN-CHANG 
+ZHAO 
+Department of Basic Science 
+Dalian Maritime University 
+Dalian, Liaoning, 116024, P.R. China 
+(Received and accepted December 1997) 
+Abstract--This 
+paper considers an optimization of a computer network expansion with a reliabil- 
+ity constraint. Computer network expansion is achieved by adding a new node and communication 
+links to a computer network such that reliability of the computer network is not less than a given 
+level. In order to speed up the procedure of solution, an upper bound on system reliability in terms of 
+node degrees is applied. The main problem is split into several small problems, the small problem is 
+decomposed subpmblems and the subproblems are solved effectively by a new method, forest search 
+algorithm. © 1998 Elsevier Science Ltd. All rights reserved. 
+geywords--Sys-reliability, 
+Algorithm, Network. 
+NOMENCLATURE 
+No 
+node set with IN01 nodes 
+Lo 
+link set with IL01 links 
+(hi,j) 
+link between new node ni and node j of Go 
+p, q 
+link reliability/unreliability, respectively, and p + q --- 1 
+Go(No,Lo,p) 
+original graph (No, L0), including p 
+G(N, L,p) 
+network obtained by adding a node and links to Go 
+R(G) 
+reliability of G (all node-pairs in G can communicate) 
+xn~,j 
+xn~,j = 1 if (nl,j) 6 G, else Xn,,j = 0 
+X 
+(Xnl,1, Xnl,2,... ,Xnl,INoI,Xn2,1,Xn2,2,... ,Xnm,lNol) 
+z,~ 
+if ni is selected to add to Go, xn~ = 1, otherwise xn~ = 0 
+ni 
+the ith node given to add to Go 
+A/ 
+set of given nodes preparing to add to Go, A f --- {nl, n2,... ,nm} 
+IJY'l 
+number of nodes in iV" 
+c,, 
+cost of node ni 
+A/e 
+cost set of n~, n~ 6 iV'; A/"c = {cn,, cn~,. • •, Cnm } 
+Ln~ 
+set of links incident with nl 
+ILr*, I 
+number of links in Ln~ 
+c~ ,j , c( e ) 
+cost of (hi, j ) , link e 
+Lel 
+set of cost cn, j, (nl,j) 6 Ln~ 
+m 
+number of nodes in Af, m = [.hf I 
+Typeset by A~S-TEX 
+17 
+18 
+F.-M. SHAO AND L.-C. ZHAO 
+MP 
+main mathematical problem 
+SPn~ (/i) 
+subproblem of MP, l~ 6 {1, 2,..., IL,~ I} for ni 
+SP(I) 
+subproblem of MP is consisted of SPn~ (l), n~ EAf 
+z,~ (li) 
+optimal solution of SPnl (li) 
+z 
+optimal solution of MP 
+~n~(/i) 
+minimum SPni(li) for li 
+z__(li) 
+minimum SP(I), z(li) = min{zn~(li) I ni E .hf} 
+RL.~ (li) 
+subproblem li of MP 
+r.~(li) 
+solution to RL.~(li), viz., maximum for Ii links 
+rni (li) 
+upper bound of rni (li) 
+1. INTRODUCTION 
+One of the practical problem in the computer network design is a cost optimization under the 
+system reliability. Network expansion deals with an ever growing need for more computing across 
+a network. In order to meet this demand, the size of the network is incrementally expanded 
+according to the user requirements. It is critical that new nodes and links are added in an 
+economical manner to meet the reliability demand of the network. 
+Many papers [1-5] consider the optimization for maximizing network reliability subject to 
+cost constraints and for maximizing cost subject to reliability constraint, especially, the genetic 
+algorithm [2,5] which gives a new technology to the reliability optimization of network expansion 
+with cost constraints. This paper presents a practical method, the forest search algorithm, for 
+exactly solving the cost optimization problem of network expansion under reliability constraint. 
+The approach of Branch and Bound is extended to search the optimal solution among several 
+combinatorial trees, a combinatorial forest. In the procedure of solution, the algorithm does not 
+test each feasible solution in all of the trees one after another, however, it searches some feasible 
+solutions in different trees simultaneously. Hence, the optimal solution is realized efficiently. 
+Section 2 states the optimal problem of network expansion and gives a mathematical expression. 
+Section 3 illustrates the solution method of the main problem and its subproblems. Section 4 
+discusses the forest search algorithm. Section 5 provides two examples with some experimental 
+results. 
+2. THE MATHEMATICAL 
+DESCRIPTION OF THE PROBLEM 
+ASSUMPTION 1. The network G and Go with bidirectional/inks do not have any redundant/inks. 
+ASSUMPTION 2. The set A f of nodes preparing to add to the network, the set of possible selected 
+/inks Ln,, and the set of~ink cost Lc~, corresponding to ni are known. If (ni, j) f[ Ln,, then 
+Cn,,j = 0 (i = 1,2,... ,m;j = 1,2,..., IN01). 
+ASSUMPTION 3. The network Go and G have perfectly re/iable status nodes, s-independent 2- 
+state (good or failed)/inks. The re/iabi/ity of every/ink is p. 
+The problem is to add a node and some links incident with the node from a given node set A f 
+and link set Ln, to a network such that the sum of a node cost and links cost is minimized and 
+reliability of the resulting network is not less than given level P0. 
+The main problem can be stated mathematically: 
+{-- 
+} 
+Problem MP: 
+i=1 j=l 
+i=1 
+subject to: 
+R(G) > P0, 
+Trt 
+E Xni = i. 
+i=I 
+Topological Optimization 
+19 
+3. THE DECOMPOSITION 
+OF MAIN 
+PROBLEM 
+AND 
+SOLUTION 
+METHOD 
+First, the main problem can be split into small problems, SPa,, ni E .Af. 
+~,j=l 
+subject to: 
+R(G) > Po. 
+Obviously, MP consists of IA/'I small problems, SP,~,, n~ e Af. 
+Second, the small problem SPn~ can be decomposed into subproblems, SPn~(l~) 1 < li <_ [Ln, I, 
+by number of links incident with ni. 
+} 
+Problem SPn,(l,): 
+Zn,(l,) = min ~ ~ 
+Xn,,jCn,,j + Ca, 
+, 
+subject to: 
+R(G) > Po, 
+INol 
+E Xn~,j = li. 
+j=l 
+This means that subproblem SPa, consists of SPa, (1), SP,~, (2),..., SPa, (ILn, I)" 
+Third, the subproblems of the small problem, SPa1 (/1), SPa2 (12),..., SPa, (lm), can be denoted 
+together as 
+problem SP(l) : 
+z(l) = min {zn, (l~) I n~ e ./V'} , 
+where l = (/1,/2,... ,lm) and 1 < li < IL,,,I. 
+In order to save the search time, the best way is to find l* such that R(Go) <_ Po, and then 
+.
+.
+.
+.
+ 
+* • 
+= 
+1,l~+l,..., 
+considerSP(l*),SP(l*+l),.. 
+,SP(l*+k) wherel* =(/~, l~, 
+,Ira), /*+1 
+(ll+ 
+l~n + 1); k = max{IL m h ILn2I,'",lLn,,,I} • In the procedure of solution, remove ni satisfied 
+li > [Ln, I from A/', this is, delete problem SPa, (ILn, I + 1). If SP(I*), SP(l* + 1),..., SP(I* + k) 
+are all solved, then the main problem, z = min{z(/) I l = (11,12,...,Im); 1 < li <_ ILN, I}" Based 
+on the idea, Algorithm 1 is given as the following. 
+ALGORITHM 1. Main Algorithm for MP 
+1. Find a lower bound l* of the minimal number of links incident with ni such that R(G) 
+> Po. Set l = l* = (l~,l~,...,Im) and current solution z* = 00. 
+2. While MP is not solved, perform the loop: 
+(a) solve SP(l) by using the forest research algorithm and obtain z(1). If z(l) < z*, then 
+set z* = z(/); 
+(b) remove nk satisfied lk + 1 > [Lnk I from A/', then 
+z(l + 1) = min {Zn,(li + 1) I nie iV'} ; 
+(c) if z_(l + 1) < z*, then set l = l + 1 and go to Step (a). 
+3. z* is the optimal value for MP. STOP. 
+In Step 2, the symbols are denoted in the mathematical expression as follows: 
+• zn,(l~ + 1) is the minimal bound of z,~,(li + 1): 
+_z~, (/, + 1)= min (c,,, ~,j eL c cn"J+~'ILCcL~"IL~I=I'+I) 
+' 
+• _z(l + 1) = min{_z,,(h + 1) n~ e A/'}. 
+20 
+F.-M. SHAO AND L.-C. ZHAO 
+NOTE. In SP.~ (l~), I~ are considered from 1 to [L.~ [. If [L.~ I subproblems are solved, then small 
+problem SP.~ is z.~ = min{z.~(li) I l~ = 1,2,..., [L.~I }, The initial idea is to solve SP.~, and 
+then the main problem is z = min{zn~ I i = i, 2,..., m}. However, this method is not maximally 
+efficient, because we have to test each feasible solution of the small problems and subproblems. 
+Algorithm 1 develops the method in another manner, the method using SP(1) to consider all of 
+the subproblems of small problems, SP.~ (li), n~ E A f, is effective to solve the main problem. 
+In order to determine a lower bound l* of the minimal number of links incident with ni such 
+that RiG ) > Po, it is necessary to know the maximum reliability for a fixed l~. 
+Consider 
+Problem RLn~ (/~): 
+rn, (l~) = max RIG), 
+Igol 
+subject to: 
+Z Xn~,j = l~. 
+j=l 
+v.INol 
+RL,, (li) maximizes the reliability such that Z.O= 1 xn~,j = l~, where n~ is selected to add to Go. 
+Ifrn,(l~) < Po, then SPn,(li) does not have any feasible solution. In addition to rn,(1) <_ rn,(2) <__ 
+• .. < rn,(ILn, I), we can determine the smallest k such that rn~(k) >_ Po and rn,(k - 1) < P0. In 
+fact, we can use ~n,(l~) instead of rn,(li). Because it is easy to compute ~n,(l~) and if ~n,(k) > Po 
+and ~n, (k - 1) < Po, we also can determine k, but k _< l*. If we set l~ = k, we might do more 
+loops in Algorithm 1. 
+Since resulting network G(N, L, p) is obtained by adding node ni and l~ links incident with n~ 
+to Go(No, Lo,p), G(N,L,p) has IN[(= [No[ + 1) nodes and ILl(= [L0[ +li) links. Let k = IN[, 
+from [1,6,7], we know the following. 
+If li + [L0[ = k - 1, then ~,,(li) = pk-1. 
+If li + [L0[ = k, then Yn,(/i) = pk + kpk-Xq. 
+If li + [L0[ = k + 1, then Yn,(li) = pk+l + (k + 1)pkq + ((k + 1)2/3)pk-lq. 
+If li + [L0[ > IN[ + 1, then 
+t'--'f[Nl d# r'I 
+j-1 
+} 
+Yn,(li)= H(d)= I- ~Z q 
+(1-qd~-l) 
+H 
+(1-qdh) 
+' 
+k=l 
+k=mj+l 
+where rnj = min(dj,j- 1) and d = (dl,d2,... ,din I) (dx < d2 < ... _< diN I) is the degree sequence 
+satisfied [di - djl _< 1 (i ~ j) and z-,i=tv'lN[ di = ILl. 
+EXAMPLE 3.1. Network Go(No, Lo,p) given as Figure la, 
+L0 = ((1, 2), (2, 3), (2, 4), (3, 4), (4,5)}, 
+N0 = {1,2,3,4,5}, 
+--~ {nl, n2}, 
+Lna = {(nl, 1), (nl,3), (nl,4)}, 
+L. 2 = {(n2, 1), (n2, 3), (n2, 4), (n2, 5)}. 
+When nl is selected, suppose that we get two links from Lnl, links (nl, 1) and (nl,3) should 
+be selected (Figure lb), and the resulting degree sequence is d = (1, 2, 2, 2, 2, 3). When n2 is 
+selected, links (n2, 1) and (n2, 5) should be selected (Figure lc), and the degree sequence of the 
+new network is dl = (2,2,2,2,2,2). 
+H(dl) is maximum over all possible d in G. From the 
+example, we can clearly grasp that no matter how many links we want to get, the maximum 
+bound of reliability can be gotten by the method above. 
+The detail of ~m (l~) and ~., (l~) as follows. 
+Topological Optimization 
+21 
+(a) 
+(b) 
+(c) 
+Figure 1. A given network Go and G. 
+Let p ---- 0.91 and P0 = 0.8. 
+If ~1 = 
+12 = 
+1, then Fnl(1) = p5 + 2pSq = 0.7364 and ~n2(1) = p5 + 2pSq = 0.7364, where 
+[Lol + 1 = 6. 
+If ll = 12 = 2, then Ynl (2) = pS +4p5q+6pSq2 = 0.8790 and Yn2 (2) = p5+6p5q+8pSq2 = 0.9453, 
+where ILol + 2 = 7. 
+If 11 = 12 = 3, then Yn,(3) = H(1,2,2,3,3,4) 
+= 0.91 andYn2(3) = H(2,2,2,2,3,3) 
+= 
+0.9832731, where [Lo[ + 3 = 8. 
+Because ~n,(2) > P0, rnl(1) < /90, Yn2(2) > P0, and Yn2(1) < P0, the bound of minimum 
+number of links l* = (/1,/2)--(2,2). 
+The next section presents the solution method of SP(l). 
+4. FOREST 
+RESEARCH 
+ALGORITHM 
+In order to illustrate the method, we give an example. 
+EXAMPLE 4.1. An original network Go is given as Figure 2a, 
+No = {1,2,3,4,5}, 
+L0 -- {(1, 2), (1, 3), (1,4), (2.3), (3, 5), (4, 5)}, 
+p -- 0.9, 
+Ln, = {(Ttl, 1), (nl, 2), (nl, 3), (nl, 5)}, 
+Ln2 = {(n2, 2), (n2,4), (n2,5)}, 
+Ln3 = {(n3, 1), (n3,3)}. 
+The cost sets corresponding to each n~ E A/" are 
+Nc = 
+= 
+= 
+=6}, 
+LCl = {Cn,,1 -- 1, cm,2 = 5, Cnl,3 = 
+3, Cn1,5 = 6}, 
+LC2 = {cn2,1 = 2, cn2,4 = 5, cn2,s = 8}, 
+LC3 = {cn3,1 = 3, cn3,3 = 6}. 
+To each given node hi, the solution space consists of (IL:'I / combinations, in order to 
+solve P,,~(l~), we order the links according to cn,j in an nondecreasing sequence. 
+The links 
+are relabeled: the link with rank k becomes link e k .n' All of combinations are represented by IAfl 
+trees. For instant, in Figures 2a-2c are trees corresponding to nl, n2, n3, respectively. According 
+to L~,~, link sets in Example 4.1 should be 
+Ln, = {e•' -- (nl,1),e~' -- (nl,3),e~ 1 = (nl,2),e~' = (nl,5)}, 
+Ln2 = {e? 2 = (n2,2),e~ 2 = (n2,4),e~ 2 = (n2,5)}, 
+Ln3 = {e? 3 = (us, 1), e~' -- (n3, 3)}. 
+22 
+F.-M. SHAO AND L.-C. ZHAO 
+nl 
+n2 
+n3 
+(a) 
+(b) 
+(c) 
+(d) 
+Figure 2. A given network and combinatorial trees corresponding to hi,n2, us. 
+In general, hi-tree denotes the tree determined by node n~. The links from the root (level-0) 
+r nh ~[L,~h[-l+l 
+node to level-1 nodes in rib-tree are specified by (ej ~j=l 
+Links from the level-k node 
+r nh'~[Lnhl--l'~kq "1 
+pointed by the link with label e~ h to level-(k + 1) nodes are specified by (ej ~j=i+l 
+. The 
+path from the root node to the leaf node defines a possible choice of li links. All of solutions of 
+problem Pn,(li), ni E A/" are defined by all of the paths from the root node to the leaf nodes. 
+[ 
+SP(2) 
+4 
+Such as the number of solutions of 
+are .[2.] + (3) + (]) = 10. (In hi-tree, there are (4) 
+\ 
+leaf nodes. In n2-tree, (3) leaf nodes. In n3-tree, (2) leaf nodes.) Thus, the solution space of 
+SP(l) can be represented by all of the trees corresponding to nl, n2,..., nm. In Example 4.1, the 
+solution space of SP(I) is defined by trees of Figure 2b-2d. 
+To find an optimal solution, we may consider all of the combinations of the trees. However, 
+it is time-consuming, we can apply the branch and bound algorithm among different trees. This 
+means that we do not need to search the tree one by one, we take all of the trees as a forest 
+and jump the search among them, instead. All of the combinatorial trees do not need to list all 
+simultaneously, we should enable the tree to live according to gns (2) (hi E A/'), the lower bound 
+of the objective function at node 2 of hi-tree. 
+According to the idea above, we provide the method in detail as follows. 
+STEP 1. Enable rib-tree to live according to the lowest gn,(2),ni EAf, which is the lower bound 
+of the objective function. 
+The lower bound gnk (v) of the objective function in an arbitrary node v of hi-tree is computed 
+as follows. 
+Senh ~k 
+Let U be the set of 
+Because links defined by the path from the root to node v is t it Jj=l. 
+~f en h .t lL,~h [-/+(k-t-l) 
+ILn~,[ - k links in Ln~ needed to be chosen from the remaining link set t j Jj=~+l 
+, gnh (v) 
+is the smallest cost that appears in the complete choices generated from node U. 
+g~,(v) 
+rain 
+c e~j 
+j=l 
+eEU 
+k 
+l-k 
+nl 
+j----1 
+jffil 
+STEP 2. Feasibility testing at a leaf node of n~-tree. 
+For the difficulty of computing R(G), we use ~n~ (l) to estimate R(G), if ~r,,(1) < Po, then the 
+leaf node is infeasible. Otherwise, compute R(G) by the algorithm in [8]. Verify if R(G) > Po. 
+STEP 3. Selection of a branching node and jumping the tree. 
+Topological Optimization 
+23 
+In the procedure of search, 9nk (2) is used as a controller to determine whether to enable the 
+nk-tree to live or not (Example 5.1 in the next section gives the specific illustration). The branch 
+search method of ni-tree is the same as [i]. 
+ALGORITHM 
+2. The Forest Algorithm 
+1. initialize the live-node list K to be empty; 
+/*live-node list is a priority queues storing live nodes*/ 
+2. enable the combinatorial tree such that gn~ (2) is the lowest of gnj (1), ni E IV'; 
+3. first child v0 in n~-tree on the live-node list K; 
+4. setg:=0; 
+5. set uc := oo; 
+6. WHILE live-node list is not empty DO 
+7. BEGIN 
+8. choose node v with the minimum value of gn~ (v) corresponding to its tree from the live- 
+node list; g := min{gn,(2) I n~ E g}; 
+9. set S = 0; 
+10. IF g > uc THEN 
+11. remove node v from the live-node list K; 
+12. ELSE; 
+13. BEGIN 
+14. put the first child, next brother of v and the first child of the tree which gnh = min{gn~ : 
+nie Af} into set S/*the search jumping or the branch selecting*/ 
+15. FOR each node u in S DO 
+16. BEGIN 
+17. IF node u is a leaf node and gn, (u) < g THEN 
+18. BEGIN/*feasibility testing*/ 
+19. IF the network specified by the path from v0 to u is that H(d) < Po, THEN node u is 
+infeasible 
+20. ELSE IF R(G) > Po THEN node u is feasible, set uc = min(uc, g(u)) 
+21. END; 
+22. ELSE IF gnh (u) < uc(nh e S) THEN 
+23. insert node u into the live-node list K; 
+24. ELSE remove u from S 
+25. END; 
+26. remove node v from the live-node list K; 
+24 
+F.-M. SHAO AND L.-C. ZHAO 
+27. END; 
+28. END; 
+29. output the answer: node n~ and the optimal value g(v) = uc. 
+5. EXAMPLES AND RESULTS 
+EXAMPLE 5.1. The condition is the same as Example 4.1. The decision variable x = {xnl, 1, xnl,2, 
+• .., xnx,5, xn2,1, xn2,2,..., Xnm,5} are selecting status of the link (n~, j). 
+nl 
+n2 
+n3 
+H(d) > PO 
+H(d) > PO 
+R(G) < Po 
+R(G) > PO 
+Figure 3. The procedure of the search by using the forest algorithm. 
+The details of the solution are as follows. 
+1. p ----0.9, P0 -- 0.95, ~n, (2) = H(2, 2, 3, 3, 3, 3) = 0.9777867, l*, = 2; ~n2 (2) -- H(2, 2, 2, 3, 
+3, 4) = 0.9713706, l~, 2 -- 2; ~'*s (2) = H(2, 2, 2, 3, 3, 4) = 0.964748, l* s = 2. 
+2. Do the loops 
+(a) the procedure of applying Algorithm 2 to solve SP(I) is show in Figure 3. Symbol 
+nh(v) denotes node v in rib-tree. 
+K=0 
+For gnl (2) = min{g,~x (2), g,~2 (2), gns (2)} 
+Put nl(2) into K,uc = o0,9 = 0 
+For g = {n1(2)} ~t 0 
+BEGIN 
+S = 0;g -- min{gn,(v) I n~(v) e K} 
+For g < uc and gn2 (2) = g 
+Put n1(3), n1(5), n2(2) into S, S = {hi(3), nx(5), n2(2)} 
+BEGIN 
+For nl(3) is a leaf node, test n1(3) 
+For g(d) > Po, R(G) < Po 
+hi(3) is not a feasible solution 
+For gn,(5) < uc, gn2(2) < uc, gnl(3) < uc, add nl(5),nx(3),n2(2) into K 
+END 
+remove nx(2) from K 
+END 
+g = {nl(5), nl(3), n2(2)} 
+Topological Optimization 
+25 
+For K #0 
+BEGIN 
+S = 0;g = min{g,,~(v) I n~(v) ~ K} 
+For g < uc and gn~ (3) = g 
+Put nl(4),n2(2) into S, S = {nl(4),n2(2)} 
+BEGIN 
+For gnu(4) < g, add n1(4) into K 
+END 
+remove hi(3) from K 
+END 
+g = {n1(5), n1(4), n2(2)} 
+For K#0 
+BEGIN 
+S = O;g = min{g,,,(v)]ni(v) e K} 
+For g < uc and g,*2 (2) = g 
+Put n2(3), n~(5), ns(2) into S, S = {n~(3), n~(5), n3(2)} 
+BEGIN 
+For n2(3) is a leaf node, test n1(3) 
+For H(d) > Po, R(G) > Po 
+n2(3) is a feasible solution, let uc = gn2(3) 
+For gn2(5) > uc, gns(2) > uc, do not add n2(5),ns(2) into K 
+END 
+remove n2(2) from K 
+END 
+g = {hi(5), n1(4)} 
+For K #0 
+BEGIN 
+S = O;g = min{gn,(v) I n~(v) e K} 
+For g > uc 
+remove n1(5) and n1(4) from K 
+END 
+For K = 0 and z*(2) = uc = gn2(3) is optimal value of SP(l). 
+The optimal solutions (xn~,l, xnl,2,..., xm,5, xn2,x, xn2,2,..., x~s,5) = (0 0 0 0 0 0 1 0 
+1000000) 
+z*(2) = 11 
+(b) Because R(G) < Po, remove n3, z(l + 1) = 15 > z* = 11; 
+(c) z(l + 1) > z*, then z* -- 11. 
+3. z* = 11 is optimal value, the procedure of solution is finished. 
+3S:II-B 
+26 
+F.-M. SHAO AND L.-C. ZHAO 
+EXAMPLE 5.2. Go(No, Lo, p) are given: 
+N0 = {1, 2,3,4,5,6}, 
+p = 0.94, 
+L0 = {(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)}, 
+= {nl, n2, n3, n4, nS}, 
+./q'c = 
+{c-a1 = 5, c, 2 = 8, cn3 = 6, c-n4 = 9, cn5 = 12}. 
+Table I. Table for L m and L c 
+n i " 
+Lnl 
+(hi, 1) 
+(nl, 2) 
+(nl, 5) 
+(nl, 6) 
+Ln2 
+(n2, 1) 
+(n2,3) 
+(n2, 6) 
+e; ~1 
+e? 1 
+ep 
+e~' 
+e~ 
+e; ~ 
+e?' 
+e~' 
+d '~ 
+cns j 
+2 
+3 
+6 
+8 
+c.n2 j 
+2 
+6 
+9 
+n. 3 
+(n3, 1) 
+(n3,5) 
+n.. 
+(n4, 5) 
+(n4, 6) 
+n.~ 
+(as, 1) 
+(as, 2) 
+e~3 
+e~3 
+e~ 
+e~' 
+e~' 
+e~' 
+e~ 5 
+e?5 
+e~'~ 
+c~ 3 j 
+4 
+8 
+Ca4 j 
+8 
+9 
+cns j 
+6 
+9 
+Find a network G(N, L, p) by adding a node and its links to Go such that its cost is minimal 
+and its reliability is larger than that of the original network. 
+The problem is formulated as: 
+5 
+7 
+subject to: z = min Z 
+Z cn, jx.,j, 
+i=l j--1 
+R(G) > Po. 
+Optimal solution is that node nl is selected, links are (nl, 1), (nl, 2), and z* = 10. 
+REFERENCES 
+1. R.-H. Jan, F.-J. Hwang and S.-T. Cheng, Topological optimization of a communication network subject to a 
+reliability constraint, IEEE Trans. Reliab. 42, 63-70, (1993). 
+2. A. Kumar, R.M. Pathak and K.P. Gupta, Genetic-algorithm-based reliability optimization for computer 
+network expansion, IEEE Trans. Reliab. 44 (1), 63-70, (1995). 
+3. A.N. Venetsanopoulos and I. Singh, Topological optimization of communication networks subject to reliability 
+constraints, Problem of Control and Information Theory 15, 63-78, (1982). 
+4. K.K. Aggarwal, Y.C. Chopra and J.S. Bajwa, Topological layout of links for optimizing the s-$ reliability in 
+a computer communication system, Microelectron. Reliab. 22, 347-351, (1982). 
+5. A. Kurnar, R. P&thak and Y. Gupta, Computer network expansion using genetic algorithm approach, Tech- 
+nical Report, AK-EMCS-94-3, University of Louisville, (1994). 
+6. C.J. Colbourn, The Combinations of Network Reliability, Oxford University Press, (1987). 
+7. R.-H. Jan, Design of reliable networks, Computers and Operations Research 20, 25-34, (1993). 
+8. M. Ball and P~M. Slyke, Backtracking algorithms for network reliability analysis, Ann. Dis. Math. 1, 49-64, 
+(1977). 
+9. Y.C. Cholsr, B.S. Sohi, R.K. Tiwari and K.K. Aggaxwal, Network topology for maximizing the terminal 
+reliability in a computer communication network, Microelectron. Reliab. 24, 911-913, (1984). 
+10. R.-S. Chen, D.-J. Chen and Y.S. Yeh, Reliability optimization of distributed computing systems subject to 
+capacity constrgints, Computers Math. Applic. 29 (4), 93-99, (1995). 

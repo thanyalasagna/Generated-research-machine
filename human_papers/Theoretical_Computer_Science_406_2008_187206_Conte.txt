@@ -1,0 +1,2236 @@
+Theoretical Computer Science 406 (2008) 187–206
+Contents lists available at ScienceDirect
+Theoretical Computer Science
+journal homepage: www.elsevier.com/locate/tcs
+A new model for selfish routing
+$
+Thomas Lücking a, Marios Mavronicolas b,∗, Burkhard Monien a, Manuel Rode a
+a Faculty of Computer Science, Electrical Engineering and Mathematics, University of Paderborn, Fürstenallee 11, 33102 Paderborn, Germany
+b Department of Computer Science, University of Cyprus, P.O. Box 20537, Nicosia CY-1678, Cyprus
+a r t i c l e
+i n f o
+Keywords:
+Game theory
+Nash equilibrium
+Coordination ratio
+a b s t r a c t
+In this work, we introduce and study a new, potentially rich model for selfish routing
+over non-cooperative networks, as an interesting hybridization of the two prevailing such
+models, namely the KP model [E. Koutsoupias, C.H. Papadimitriou, Worst-case equilibria,
+in: G. Meinel, S. Tison (Eds.), Proceedings of the 16th Annual Symposium on Theoretical
+Aspects of Computer Science, in: Lecture Notes in Computer Science, vol. 1563, Springer-
+Verlag, 1999, pp. 404–413] and the W model [J.G. Wardrop, Some theoretical aspects of
+road traffic research, Proceedings of the of the Institute of Civil Engineers 1 (Pt. II) (1952)
+325–378].
+In the hybrid model, each of n users is using a mixed strategy to ship its unsplittable
+traffic over a network consisting of m parallel links. In a Nash equilibrium, no user can
+unilaterally improve its Expected Individual Cost. To evaluate Nash equilibria, we introduce
+Quadratic Social Cost as the sum of the expectations of the latencies, incurred by the
+squares of the accumulated traffic. This modeling is unlike the KP model, where Social Cost
+[E. Koutsoupias, C.H. Papadimitriou, Worst-case equilibria, in: G. Meinel, S. Tison (Eds.),
+Proceedings of the 16th Annual Symposium on Theoretical Aspects of Computer Science,
+in: Lecture Notes in Computer Science, vol. 1563, Springer-Verlag, 1999, pp. 404–413] is the
+expectation of the maximum latency incurred by the accumulated traffic; but it is like the
+W model since the Quadratic Social Cost can be expressed as a weighted sum of Expected
+Individual Costs. We use the Quadratic Social Cost to define Quadratic Coordination Ratio.
+Here are our main findings:
+• Quadratic Social Cost can be computed in polynomial time. This is unlike the #P -
+completeness [D. Fotakis, S. Kontogiannis, E. Koutsoupias, M. Mavronicolas, P. Spirakis,
+The structure and complexity of Nash equilibria for a selfish routing game, in:
+P. Widmayer, F. Triguero, R. Morales, M. Hennessy, S. Eidenbenz, R. Conejo (Eds.),
+Proceedings of the 29th International Colloquium on Automata, Languages and
+Programming, in: Lecture Notes in Computer Science, vol. 2380, Springer-Verlag, 2002,
+pp. 123–134] of computing Social Cost for the KP model.
+• For the case of identical users and identical links, the fully mixed Nash equilibrium
+[M. Mavronicolas, P. Spirakis, The price of selfish routing, Algorithmica 48 (1) (2007)
+91–126], where each user assigns positive probability to every link, maximizes
+Quadratic Social Cost.
+$ A preliminary version of this work appeared in the Proceedings of the 21st International Symposium on Theoretical Aspects of Computer Science, V. Diekert
+and M. Habib eds., pp. 547–558, Vol. 2996, Lecture Notes in Computer Science, Springer-Verlag, Montpellier, France, March 2004. This work has been
+partially supported by the IST Program of the European Union under projects ALCOM-FT (contract number IST-1999-14186). FLAGS (contract number
+IST-2001-33116) and DELIS (contract number 001907).
+∗Corresponding author.
+E-mail addresses: luck@uni-paderborn.de (T. Lücking), mavronic@ucy.ac.cy (M. Mavronicolas), bm@uni-paderborn.de (B. Monien),
+rode@uni-paderborn.de (M. Rode).
+0304-3975/$ – see front matter © 2008 Elsevier B.V. All rights reserved.
+doi:10.1016/j.tcs.2008.06.045
+188
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+• As our main result, we present a comprehensive collection of tight, constant (that
+is, independent of m and n), strictly less than 2, lower and upper bounds on the
+Quadratic Coordination Ratio for several, interesting special cases. Some of the bounds
+stand in contrast to corresponding super-constant bounds on the Coordination Ratio
+previously shown in [A. Czumaj, B. Vöcking, Tight bounds for worst-case equilibria, ACM
+Transactions on Algorithms 3 (1) (2007); E. Koutsoupias, M. Mavronicolas, P. Spirakis,
+Approximate equilibria and ball fusion, Theory of Computing Systems 36 (6) (2003)
+683–693; E. Koutsoupias, C.H. Papadimitriou, Worst-case equilibria, in: G. Meinel,
+S. Tison (Eds.), Proceedings of the 16th Annual Symposium on Theoretical Aspects
+of Computer Science, in: Lecture Notes in Computer Science, vol. 1563, Springer-
+Verlag, 1999, pp. 404–413; M. Mavronicolas, P. Spirakis, The price of selfish routing,
+Algorithmica 48 (1) (2007) 91–126] for the KP model.
+© 2008 Elsevier B.V. All rights reserved.
+1. Introduction
+1.1. Motivation and framework
+1.1.1. Outline
+We propose a new model for selfish routing over non-cooperative networks, as a hybridization of the two prevailing
+such models, namely the KP model, due to Koutsoupias and Papadimitriou [26], and the W model due to Wardrop [36].
+Although proposed only recently in the context of studying selfish traffic over the Internet, the KP model has yet received
+a lot of interest — see, e.g., [3,12,13,15,16,18,20,23,25,28,29] or [17,24] for surveys. The W model dates back to studies of
+transportation networks in the 1950s; however, much recent work on selfish routing (see [34] and references therein), has
+witnessed a revival of interest into the W model.
+Within the new model, we study an interesting strategic game, originally proposed in [26]; we are especially interested in
+the associated Nash equilibria [31,32]. At a Nash equilibrium, no player (here, user) can unilaterally improve their objective
+by switching to a different strategy (here, link). In a pure Nash equilibrium, each player chooses exactly one strategy (with
+probability one); in a mixed Nash equilibrium, each player uses a probability distribution over strategies, and in the fully
+mixed Nash equilibrium [29] all probabilities are (strictly) positive.
+1.1.2. The KP model and the W model
+The two models differ with respect to their assumptions about the following parameters:
+• The structure and topology of the underlying network they consider; in both cases, two distinguished nodes, the source
+and the destination, are considered.
+• The splittability or unsplittability of the selfish traffic; unsplittable traffic is routed all together along a single path, while
+splittable traffic may split into infinitesimal pieces.
+• The type of equilibria (pure or mixed) they consider.
+• The definition of (Expected) Individual Cost they adopt; these are used for defining Nash equilibria and Wardrop equilibria,
+respectively.
+• The definitions of Social Cost (a performance measure for equilibria) and Optimum (an optimality measure for general
+assignments). In turn, these are used for defining Coordination Ratio [26], as the worst-case ratio of Social Cost over
+Optimum, over all equilibria. A worst-case equilibrium maximizes the particular Social Cost.
+We continue to describe separately the KP model and the W model.
+• The KP model has considered a simple network consisting of m parallel links, from source to destination; each link bears
+a capacity — its traffic processing rate. Selfish traffic is modeled as a finite collection of users, each bearing an unsplittable
+traffic, and shipping it using a mixed strategy — a probability distribution over links. The Expected Individual Cost of a
+user is its expected (conditional) latency on a link it chooses; in a Nash equilibrium, no Expected Individual Cost can be
+unilaterally decreased. The Social Cost is the expectation of the maximum link latency; the Optimum is the least possible
+maximum link latency. The KP model may be viewed as a weighted congestion game [30] equipped with Social Cost and
+Coordination Ratio.
+• The W model has considered arbitrary multicommodity networks (that is, networks with multiple sources and
+destinations), with a latency function for each link. Selfish traffic is modeled as a splittable flow. The Individual Cost for
+a path (from source to destination), is the sum of the latencies incurred on its links. In a Wardrop equilibrium, all (used)
+paths have the same Individual Cost. In the W model, users may be thought of as (infinitely many) non-atomic entities,
+each carrying infinitesimal traffic; then, the definitions of Individual Cost for the W and the KP models are the same,
+while pure and mixed equilibria coincide in the W model. The Social Cost is the sum, over all paths, of Individual Costs.1
+The Optimum is the least possible, over all flows, Social Cost.
+1 Social Cost as the expectation of maximum latency has also been considered for the W model [11,35].
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+189
+1.1.3. The hybrid model
+We follow the KP model to consider the parallel links network, unsplittable traffic, and mixed Nash equilibria. The
+Expected Individual Cost we adopt is the expected latency incurred to a user. This generalized definition applies to arbitrary
+latency functions, while it matches the original definition of Expected Individual Cost for the KP model [26], in the case of
+linear latency functions. Hence, the Nash equilibria for our new model are exactly those for the KP model. However, we follow
+the W model to model Social Cost as some kind of total latency, which turns out to be a certain sum of Expected Individual
+Costs. So, our hybrid model represents the first step towards accommodating unsplittable traffic and mixed strategies within
+the W model, but also the first step towards accommodating total latency within the KP model.
+We continue to describe the hybrid model in some more detail. For any link, consider the latency incurred by the square
+of the total traffic on the link; add up the expectations of these latencies over all links. This results in Quadratic Social
+Cost. (Similar modelings that have employed quadratic cost functions can be found in both the scheduling literature [1,
+8,10,27], and the networking literature [2].) Quadratic Optimum is the best possible Quadratic Social Cost, over all pure
+assignments. Quadratic Coordination Ratio is the worst-case ratio, over all Nash equilibria, of Quadratic Social Cost over
+Quadratic Optimum.
+Note that expectation and maximum used in the definition of Social Cost for the KP model do not commute. However,
+expectation and sum used, in the definition of Quadratic Social Cost for our model do commute. This commutativity allows
+some hope for a more tractable analysis of Nash equilibria in the hybrid model.
+1.2. Contribution and significance
+Some of our results deal specifically with the cases of identical users and identical links, with equal (unit) user traffics and
+link capacities, respectively; the most general cases are those of arbitrary users and related links, respectively.
+1.2.1. Quadratic social cost
+We observe that Quadratic Social Cost can be expressed as a weighted sum of Expected Individual Costs, where the
+weight is the user traffic. This observation allows for the computation of Quadratic Social Cost for any mixed assignment in
+polynomial time O(mn) (Theorem 4.1).
+For the fully mixed Nash equilibria, we obtain two very simple combinatorial expressions for Quadratic Social Cost,
+in the two cases of identical links and identical users (Theorems 4.2 and 4.4, respectively). For these two cases, the two
+expressions imply corresponding polynomial time algorithms (Corollaries 4.3 and 4.5). For the case of identical users, the
+link capacities enter the expression for Quadratic Social Cost, via their sum appearing in the denominator. This dependence
+excludes Braess-like paradoxes [7], while it implies that the Quadratic Social Cost of the fully mixed Nash equilibrium is
+insensitive to reallocating capacity among the links.
+We use a combinatorial analysis to prove that, for the case of identical users and identical links, the fully mixed Nash
+equilibrium is the worst-case Nash equilibrium with respect to Quadratic Social Cost (Theorem 4.8). We formulate the
+Quadratic Fully Mixed Nash Equilibrium Conjecture (Conjecture 4.1) to speculate that this happens in the general case.
+1.2.2. Quadratic coordination ratio
+As our main result, we obtain a collection of tight bounds on the Quadratic Coordination Ratio. All bounds we prove are
+either equal to or bounded by a constant strictly less than 2.
+• We first consider pure Nash equilibria.2 To establish upper bounds, we prove some new structural properties of optimal
+assignments and pure Nash equilibria, which may be of independent interest. For example, Proposition 3.2 provides
+an efficient characterization of optimal assignments in the hybrid model, which implies that those can be decided in
+polynomial time (Corollary 3.3). We obtain:
+· For the case of identical users, the Quadratic Coordination Ratio is 4
+3 (Theorem 5.1).
+· For the case of identical links, the Quadratic Coordination Ratio is 9
+8 (Theorem 5.2).
+These different tight bounds imply a Quadratic Coordination Ratio separation between the cases of identical links and of
+identical users, restricted to pure Nash equilibria.
+• We continue to consider mixed Nash equilibria.
+· For the case of identical links, we prove a tight bound of 1 + min{n,m}−1
+m
+on Quadratic Coordination Ratio for the fully
+mixed Nash equilibrium.
+· For the case of identical users and identical links, we prove a (sometimes better) upper bound of 1 + min{ m−1
+n , n−1
+m },
+which holds for all Nash equilibria.
+2 These always exist as they coincide with those for the KP model, which are known to exist [18, Theorem 1].
+190
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+1.3. Directly related work and comparison
+Computing the Social Cost of a Nash equilibrium in the KP model is known to be #P -complete [18, Theorem 8]; this
+applies even if links are identical. This stands in contrast to the obtained polynomial computation of Quadratic Social Cost,
+in the hybrid model.
+Fully mixed Nash equilibria were introduced and analyzed in [29]. The (yet unproven) Fully Mixed Nash Equilibrium
+Conjecture asserts that the worst-case Nash equilibrium for the KP model, is the fully mixed Nash equilibrium. This conjecture
+has been motivated by some results in [18]; it was explicitly formulated in [23] and further studied in [21,22,28].
+Bounds on Coordination Ratio for the KP model were proved in [3,13,16,20,25,29]. These include (tight) bounds of
+Θ( lg m
+lg lg m) for the case of identical links [13,25,26,29], and of Θ(
+lg m
+lg lg lg m) for the case of related links [13]. These bounds are
+contrasted by the corresponding constant bounds on the Quadratic Coordination Ratio, proved here for the hybrid model.
+(For the W model, there have been shown constant bounds on Coordination Ratio — see [34] and references therein.)
+1.4. Organization
+Section 2 presents the hybrid model. Some preliminary properties of Nash equilibria, and optimal assignments are
+articulated in Section 3. The Quadratic Social Cost is studied in Section 4. The bounds on the Quadratic Coordination Ratio
+are presented in Section 5. We conclude, in Section 6, with a discussion of our results and some open problems.
+2. The model
+Our definitions for the new model are built on top of those for the KP model [26]; those definitions are extended to
+accommodate features from the W model [36]. The definitions for the KP model are patterned after those in [29, Section 2],
+[18, Section 2], [16, Section 2], [23, Section 2] and [28, Section 2], which, in turn, were based on those in [26, Sections 1 & 2].
+Throughout, denote for any integer m ≥1, [m] = {1, . . . , m}; take [0] = ∅. For a random variable X, with associated
+probability distribution P; denote EP(X) the expectation of X. For a probability p, denote p = 1 −p.
+2.1. General
+We consider a simple network consisting of a set of m parallel links 1, 2, . . . , m, from a source node to a destination node.
+Each of n users 1, 2, . . . , n wishes to route a particular amount of traffic along a (non-fixed) link, from source to destination.
+Assume throughout that m ≥2 and n ≥2. (Throughout, we will be using subscripts for users and superscripts for links.)
+Denote wi the traffic of user i ∈[n]. Define the n×1 traffic vector w in the natural way. Without loss of generality, assume
+that w1 ≥w2 ≥· · · ≥wn. Denote W = P
+i∈[n] wi, W1 = P
+i∈[n] w2
+i and W2 = P
+i,j∈[n],i<j wiwj. (These quantities will be
+used in our later proofs.) Note that W 2 = W1 + 2W2. It is a well known simple fact that W1 ≥W 2
+n .
+Denote cℓ> 0 the capacity of link ℓ∈[m], representing the rate at which the link processes traffic. So, the latency for
+traffic w through link ℓequals w/cℓ. Assume throughout, without loss of generality, that c1 ≥c2 ≥· · · ≥cm. Denote
+C = P
+j∈[m] cj. An instance is a pair ⟨w, c⟩.
+In the case of identical users, all user traffic is 1; in the case of identical links, all link capacities are 1. In the general case,
+we talk about arbitrary users and related links.
+2.2. Strategies and assignments
+A pure strategy for user i ∈[n] is some specific link. A mixed strategy for user i ∈[n] is a probability distribution over
+pure strategies; so, it is a probability distribution over links.
+A pure assignment is an n-tuple L = ⟨ℓ1, ℓ2, . . . , ℓn⟩∈[m]n; a mixed assignment is an n × m probability matrix P of
+nm probabilities p
+j
+i, i ∈[n] and j ∈[m], where p
+j
+i is the probability that user i chooses link j. Throughout, we will cast a
+pure assignment as a special case of a mixed assignment, in which all (mixed) strategies are pure. Moreover, the mixed
+assignment P can be cast as a collection of pure assignments LP = ⟨ℓ1, ℓ2, . . . , ℓn⟩, such that for all users i ∈[n], pℓi
+i > 0;
+any such pure assignment LP will be called consistent with P. So, a mixed assignment P induces a probability distribution PP
+on the space of all pure assignments consistent with P. A mixed assignment P is fully mixed [29, Section 2.2], if for all users
+i ∈[n] and links j ∈[m], p
+j
+i > 0. A user i ∈[n] is solo in the pure assignment L if no other user is assigned to link ℓi; in such
+case, say that link ℓi is solo as well.
+Fix now a mixed assignment P. The load δℓ(P) on link ℓ∈[m], induced by P is the total traffic assigned to the link
+according to P; so, δℓ(P) is a random variable. For each link ℓ∈[m], denote θℓ(P) the expected load on link ℓ∈[m]; thus,
+θℓ(P) = EP(δℓ(P)) = P
+i∈[n] pℓ
+i wi. The latency ∆ℓ(P) on link ℓ∈[m], induced by P is the latency due to the load assigned to
+the link according to P; so, ∆ℓ(P) is a random variable and ∆ℓ(P) = δℓ(P)
+cℓ.
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+191
+2.3. Costs
+2.3.1. Individual cost and expected individual cost
+For a pure assignment L, the Individual Cost for user i ∈[n], denoted λi(L), is λi(L) = ∆ℓi(L); so, the Individual Cost for
+a user is the latency of the link it chooses. For a mixed assignment P, the Expected Individual Cost for user i ∈[n], denoted
+λi(P), is the expectation according to P of the Individual Cost for the user in any pure assignment LP consistent with P; so,
+λi(P) = EP (λi(LP)).
+2.3.2. Quadratic social cost
+Associated with an instance ⟨w, c⟩, and a mixed assignment P is the Quadratic Social Cost, denoted as QSC(w, c, P), which
+is the expectation according to P, of the sum of the link latencies due to the squares of the incurred loads, in a pure assignment
+L, consistent with P; so,
+QSC(w, c, P) = EP
+ X
+ℓ∈[m]
+(δℓ(LP))2
+cℓ
+!
+.
+For a pure assignment LP = ⟨ℓ1, . . . , ℓn⟩, changing the summation order, and using the definition of Individual Cost, yields
+that P
+ℓ∈[m]
+(δℓ(LP))2
+cℓ
+= P
+i∈[n] wi · δℓi(LP)
+cℓi
+= P
+i∈[n] wiλi(LP). So, linearity of expectation and the definition of Expected
+Individual Cost imply that
+QSC(w, c, P) =
+X
+i∈[n]
+wi λi(P).
+Thus, the Quadratic Social Cost is a weighted sum of Expected Individual Costs, where the weight is the user traffic. There is
+a counterpart of Quadratic Social Cost in the KP model. Associated with an instance ⟨w, c⟩, and a mixed assignment P is the
+Maximum Social Cost [26], denoted MSC(w, c, P), which is the expectation according to P, of the maximum of the incurred
+link latencies in a pure assignment LP; so,
+MSC(w, c, P) = EP
+
+max
+ℓ∈[m] ∆ℓ(LP)
+
+.
+2.3.3. Quadratic optimum
+Associated with an instance ⟨w, c⟩is the Quadratic Optimum, denoted QOPT(w, c), which is the least possible, over all
+pure assignments, sum of link latencies incurred by the squares of the total traffic on the links; so,
+QOPT(w, c) = min
+L∈[m]n
+X
+ℓ∈[m]
+(δℓ(L))2
+cℓ
+.
+Note that QOPT(w, c) refers to the optimal pure assignment. Formally, a pure assignment L is optimal for the instance ⟨w, c⟩,
+if QSC(w, c, L) = QOPT(w, c). Clearly, for the case of identical users and identical links, QOPT(w, c) ≥max{n, n2
+m } =
+n max{1, n
+m}. There is a counterpart of Quadratic Optimum in the KP model. This is the Maximum Optimum [26], denoted
+MOPT(w, c), and defined as the least possible, over all pure assignments, maximum incurred link latency; so,
+MOPT(w, c) = min
+L∈[m]n max
+ℓ∈[m] ∆ℓ(L).
+2.4. Nash equilibria
+Given an instance ⟨w, c⟩, the mixed assignment P, is a Nash equilibrium [26, Section 2] if for each user i ∈[n], it minimizes
+the Expected Individual Cost λi(P), over all mixed assignments Q that differ from P, only with respect to the mixed strategy
+of user i; that is, for all such mixed assignments Q , λi(P) ≤λi(Q). Thus, in a Nash equilibrium, there is no incentive for a
+user to unilaterally deviate from its mixed strategy.
+Denote a fully mixed Nash equilibrium as F. In the case of identical links, a fully mixed Nash equilibrium exists always
+and uniquely [29, Lemma 15]; there, all links are equiprobable (each chosen with probability
+1
+m) for each user. The fully
+mixed Nash equilibrium does not necessarily exist in the case of identical users [29, Lemma 22]; when it exists, it is unique,
+but for each user, each link ℓ∈[m] is now chosen with probability m+n−1
+(n−1)C cℓ−
+1
+n−1.
+192
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+2.5. Quadratic coordination ratio
+The Quadratic Coordination Ratio, denoted QCR, is the worst-case ratio QSC(w,c,P)
+QOPT(w,c) , over all instances ⟨w, c⟩, and associated
+Nash equilibria P. This is similar to Maximum Coordination Ratio, denoted MCR, which was defined in [26] as the worst-case
+ratio MSC(w,c,P)
+MOPT(w,c) , over all instances ⟨w, c⟩and associated Nash equilibria P.
+3. Preliminaries
+We present some properties of Nash equilibria, and optimal assignments in the new model. We first prove that the
+Expected Individual Cost takes a special form for any (mixed) assignment.
+Lemma 3.1. Fix an instance ⟨w, c⟩, and a mixed assignment P. Then, for each user i ∈[n],
+λi (P) =
+X
+ℓ∈[m]
+pℓ
+i
+wi +
+X
+k∈[n]:k̸=i
+pℓ
+kwk
+cℓ
+.
+Proof. By the definition of Individual Cost and Expected Individual Cost, we obtain that
+λi(P) =
+X
+LP∈[m][n]
+PP(LP) · λi(LP)
+=
+X
+j∈[m]
+
+
+X
+LP∈[m][n]: li=j
+PP(LP) · λi(LP)
+
+
+=
+X
+j∈[m]
+
+
+X
+LP∈[m][n]\{i}: li=j
+p
+j
+i PP(LP) · λi(LP)
+
+
+=
+X
+j∈[m]
+p
+j
+i
+
+
+X
+LP∈[m][n]\{i}: li=j
+PP(LP) · λi(LP)
+
+
+=
+X
+j∈[m]
+p
+j
+i
+
+
+X
+LP∈[m][n]\{i}
+PP(LP) · λi(LP) |li=j
+
+
+=
+X
+j∈[m]
+p
+j
+i
+
+
+X
+LP∈[m][n]\{i}
+PP(LP) ·
+
+
+X
+k∈[n]:lk=j
+wk
+cj
+
+
+
+
+=
+X
+j∈[m]
+p
+j
+i
+
+
+X
+LP∈[m][n]\{i}
+PP(LP) ·
+
+
+wi +
+X
+k∈[n]\{i}:lk=j
+wk
+cj
+
+
+
+
+=
+X
+j∈[m]
+p
+j
+i
+
+
+wi
+cj +
+X
+LP∈[m][n]\{i}
+PP(LP) ·
+
+
+X
+k∈[n]\{i}:lk=j
+wk
+cj
+
+
+
+.
+Reorder users so that i = n. We prove by backward induction on r, 0 ≤r ≤n −1, that
+λi(P) =
+X
+j∈[m]
+p
+j
+i
+
+
+wi
+cj +
+X
+k∈[n−1]\[r]
+p
+j
+kwk
+cj
++
+X
+LP=⟨l1,...,lr⟩∈[m][r]
+PP(LP) ·
+
+
+X
+k∈[r]:ℓk=j
+wk
+cj
+
+
+
+.
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+193
+For the basis case, where r = n −1, P
+k∈[n−1]\[r]
+pj
+kwk
+cj
+= 0; so, the claim reduces to
+λi(P) =
+X
+j∈[m]
+p
+j
+i
+
+
+wi
+cj +
+X
+LP∈[m][n−1]
+PP(LP) ·
+
+
+X
+k∈[n−1]:ℓk=j
+wk
+cj
+
+
+
+,
+which has been shown. Assume the claim for r, 0 < r ≤n −1. and prove it for r −1. So,
+X
+LP∈[m][r]
+PP(LP)
+
+
+X
+k∈[r+1]:ℓk=j
+wk
+cj
+
+
+=
+X
+LP∈[m][r]:ℓr=j
+PP(LP)
+
+
+X
+k∈[r]:ℓk=j
+wk
+cj
+
++
+X
+LP∈[m][r]:ℓr̸=j
+PP(LP)
+
+
+X
+k∈[r]:ℓk=j
+wk
+cj
+
+
+=
+X
+LP∈[m][r]:ℓr=j
+PP(LP)
+
+
+wr +
+X
+k∈[r−1]:ℓk=j
+wk
+cj
+
++
+X
+LP∈[m][r]:ℓr̸=j
+PP(LP)
+
+
+X
+k∈[r−1]:ℓk=j
+wk
+cj
+
+
+=
+X
+LP∈[m][r−1]
+PP(LP) pj
+r
+
+
+wr +
+X
+k∈[r−1]:ℓk=j
+wk
+cj
+
++
+X
+LP∈[m][r−1]
+PP(LP) p
+j
+r
+
+
+X
+k∈[r−1]:ℓk=j
+wk
+cj
+
+
+=
+X
+LP∈[m][r−1]
+PP(LP)
+
+
+p
+j
+rwr
+cj
++
+X
+k∈[r−1]:ℓk=j
+wk
+cj
+
+
+=
+p
+j
+rwr
+cj
++
+X
+LP∈[m][r−1]
+PP(LP)
+
+
+X
+k∈[r−1]:ℓk=j
+wk
+cj
+
+.
+Hence, by induction hypothesis, it follows that
+λi(P) =
+X
+j∈[m]
+p
+j
+i
+
+
+wi
+cj +
+X
+k∈[n−1]\[r]
+p
+j
+kwk
+cj
++
+p
+j
+rwr
+cj
++
+X
+LP∈[m][r−1]
+PP(LP)
+
+
+X
+k∈[r−1]:ℓk=j
+wk
+cj
+
+
+
+
+=
+X
+j∈[m]
+p
+j
+i
+
+
+wi
+cj +
+X
+k∈[n−1]\[r−1]
+p
+j
+kwk
+cj
++
+X
+LP∈[m][r−1]
+PP(LP)
+
+
+X
+k∈[r−1]:ℓk=j
+wk
+cj
+
+
+
+,
+as needed to prove the claim for r. Setting now r = 0 yields that
+λi (P) =
+X
+j∈[m]
+p
+j
+i
+wi +
+X
+k∈[n]:k̸=i
+p
+j
+kwk
+cj
+.
+as needed.
+■
+For each user i ∈[n] and link j ∈[m], define the Conditional Expected Individual Cost [26] of user i on link j as
+λ
+j
+i (P) =
+wi + P
+k∈[n]:k̸=i p
+j
+kwk
+cj
+.
+194
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+By Lemma 3.1, λi(P) = P
+j∈[m] p
+j
+i λ
+j
+i (P); thus, the definition of Nash equilibrium implies that for each link j ∈[m], such that
+p
+j
+i > 0, for each link j′ ∈[m], either λ
+j
+i = λ
+j′
+i , if p
+j′
+i > 0 or λ
+j
+i ≤λ
+j′
+i if p
+j′
+i = 0. (This property was used for defining Nash
+equilibria in the original work of Koutsoupias and Papadimitriou [26].)
+We now consider the case of identical users, where we characterize optimal assignments.
+Proposition 3.2 (Global Optimality = Local Optimality). Consider a pure assignment Q, for an instance ⟨w, c) in the case of
+identical users. Then, Q is optimal, if and only if for every pair of distinct links j, j′ ∈[m],
+2δj(Q) + 1
+cj
+≥
+2δj′(Q) −1
+cj′
+.
+Proof. Assume first that Q is optimal, so that QSC(w, c, Q) = QOPT(w, c). Consider any pair of distinct links j, j′ ∈[m], and
+use Q to construct a new pure assignment Q′, by switching any single user from link j′ to link j. Then, clearly,
+QSC(w, c, Q′) −QSC(w, c, Q) = (δj(Q) + 1)2
+cj
++ (δj′(Q) −1)2
+cj′
+−(δj(Q))2
+cj
+−(δj′(Q))2
+cj′
+=
+2δj(Q) + 1
+cj
+−
+2δj′(Q) −1
+cj′
+.
+Since Q is optimal, QSC(w, c, Q′) ≥QSC(w, c, Q), so that
+2δj(Q) + 1
+cj
+≥
+2δj′(Q) −1
+cj′
+,
+as needed.
+Assume now that for every pair of links j, j′ ∈[m],
+2δj(Q) + 1
+cj
+≥
+2δj′(Q) −1
+cj′
+.
+We will prove that Q, is an optimal assignment for the instance ⟨w, c⟩. To do so, we will consider an optimal assignment
+R for the same instance, and we will prove that QSC(w, c, Q) = QSC(w, c, R). If δℓ(Q) = δℓ(R) for all links ℓ∈[m], then
+QSC(w, c, Q) = QSC(w, c, R), and the optimality of Q follows. So assume otherwise. Since P
+ℓ∈[m] δℓ(Q) = P
+ℓ∈[m] δℓ(R) =
+n, it follows that there exist distinct links j, j′ ∈[m] such that δj(R) > δj(Q) and δj′(Q) > δj′(R); that is, link j is assigned
+more traffic in R than in Q, while link j′ is assigned more traffic in Q than in R. Since loads are integral in the case of identical
+users, it follows that δj(R) −δj(Q) ≥1 and δj′(Q) −δj′(R) ≥1.
+Since R is optimal, it holds for links j′, j ∈[m] that
+2δj′(R) + 1
+cj′
+≥
+2δj(R) −1
+cj
+.
+On the other hand, our assumption on Q, implies that
+2δj(Q) + 1
+cj
+≥
+2δj′(Q) −1
+cj′
+.
+It follows that
+2δj′(R) + 1
+cj′
+≥
+2δj(R) −1
+cj
+≥
+2δj(Q) + 1
+cj
+(since δj(R) ≥δj(Q) + 1)
+≥
+2δj′(Q) −1
+cj′
+≥
+2δj′(R) + 1
+cj′
+(since δj′(Q) ≥δj′(R) + 1).
+It follows that all terms in this sequence of inequalities are equal. In particular,
+2δj(R) −1
+cj
+=
+2δj(Q) + 1
+cj
+,
+or δj(R) = δj(Q) + 1; also,
+2δj′(Q) −1
+cj′
+=
+2δj′(R) + 1
+cj′
+,
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+195
+or δj′(Q) = δj′(R) + 1. Thus, the difference of the loads on each of the links j, j′ ∈[m] is exactly 1 (in absolute value) in both
+Q or R. Since P
+l∈[m] δl(Q) = P
+l∈[m] δl(R), this implies that the number of links j ∈[m], such that δj(R) > δj(Q) and the
+number of links j′ ∈[m] such that δj′(Q) > δj′(R) are equal. It also follows from the preceding sequence of inequalities that
+2δj′(R) + 1
+cj′
+=
+2δj(Q) + 1
+cj
+,
+which implies that
+(δj(Q))2
+cj
++ (δj′(R) + 1)2
+cj′
+= (δj′(R))2
+cj′
++ (δj(Q) + 1)2
+cj
+.
+Since δj(R) = δj(Q) + 1 and δj′(Q) = δj′(R) + 1, it follows that
+(δj(Q))2
+cj
++ (δj′(Q))2
+cj′
+= (δj′(R))2
+cj′
++ (δj(R))2
+cj
+.
+Thus, links j, j′ ∈[m] have the same contribution to the Quadratic Social Cost in both Q and R. Since the number of links
+j ∈[m], such that δj(R) > δj(Q) and the number of links j′ ∈[m], such that δj′(Q) > δj′(R) are equal, the total contribution
+to the Quadratic Social Cost of links j ∈[m] such that δj(R) > δj(Q), is equal to the total contribution to the Quadratic
+Social Cost of links j′ ∈[m] such that δj′(Q) > δj′(R). It follows that QSC(w, c, Q) = QSC(w, c, R), so that Q is optimal, as
+needed.
+■
+Proposition 3.2 establishes that the (global) optimality of a pure assignment is equivalent to a collection of Θ(m2) local
+conditions – one for each pair of distinct links, and each checkable in time Θ(1), given the link loads. Hence, an immediate
+consequence of Proposition 3.2 follows.
+Corollary 3.3. Consider the case of identical users. Then, the optimality of a pure assignment can be decided in time O(n + m2).
+We continue to prove a relation between pure Nash equilibria, and optimal (pure) assignments, in the case of identical
+users.
+Lemma 3.4 (Optimal Assignment versus Nash Equilibrium). Consider an optimal assignment Q, and a pure Nash equilibrium P
+for an instance ⟨w, c⟩in the case of identical users. Then, for each link j ∈[m], δj(Q) −δj(P) ≤1.
+Proof. Assume, by way of contradiction, that there is some link j ∈[m] such that δj(Q) −δj(P) ≥2. Since P
+l∈[m] δl(Q) =
+P
+l∈[m] δl(P), there also exists some link j′ ∈[m], such that δj′(Q) −δj′(P) ≤−1. Since Q is optimal, Proposition 3.2 implies
+that
+2δj(Q) −1
+cj
+≤
+2δj′(Q) + 1
+cj′
+≤
+2(δj′(P) −1) + 1
+cj′
+(since δj′(Q) ≤δj′(P) −1)
+=
+2δj′(P) −1
+cj′
+≤2 δj(P) + 1
+cj
+−
+1
+cj′ (since P is a Nash equilibrium)
+≤2 δj(Q) −2 + 1
+cj
+−
+1
+cj′ (since δj(P) ≤δj(Q) −2)
+=
+2δj(Q) −1
+cj
+−
+1
+cj −
+1
+cj′ .
+It follows that 1
+cj +
+1
+cj′ ≤0. A contradiction.
+■
+We now consider an instance ⟨w, c⟩, for the case of identical links. Call user i ∈[n] bursty if wi >
+W
+m . Intuitively, the
+traffic of a bursty user exceeds the fair share of traffic for a link. We prove a simple property of bursty users:
+Lemma 3.5 (Bursty Users are Solo). Consider any instance in the case of identical links. Then, a bursty user is solo in either an
+optimal assignment, or a pure Nash equilibrium.
+Proof. Fix an instance ⟨w, c⟩and a bursty user i ∈[n].
+196
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+Consider first an optimal assignment Q = ⟨q1, . . . , qn⟩. Note that δqi(Q) ≥wi. Since i is a bursty user, it follows that
+δqi(Q) > W
+m ; Since P
+l∈[m] δl(Q) = W, there is some other link j ∈[m] with j ̸= qi, such that δj(Q) < W
+m . Assume, by way of
+contradiction, that some user k ̸= i is assigned to link qi. Modify Q to obtain Q′ by switching user k to link j. Then,
+QSC(w, c, Q′) −QSC(w, c, Q) =
+ δqi(Q′)
+2 +
+ δj(Q′)
+2 −
+ δqi(Q)
+2 −
+ δj(Q)
+2
+= w2
+i +
+ δj(Q) + wk
+2 −(wi + wk)2 −
+ δj(Q)
+2
+= 2wk
+ δj(Q) −wi
+
+.
+Since δj(Q) <
+W
+m and wi >
+W
+m , it follows that δj(Q) −wi < 0, so that QSC(w, c, Q′) < QSC(w, c, Q). Since Q is optimal,
+QSC(w, c, Q′) ≥QSC(w, c, Q). A contradiction.
+Consider now a pure Nash equilibrium P = ⟨ℓ1, . . . , ℓn⟩. Note that δℓi(P) ≥wi >
+W
+m . Since P
+l∈[m] δl(P) = W, there
+is some other link j ∈[m], with j ̸= ℓi, such that δj(P) <
+W
+m . Assume, by way of contradiction, that some user k ̸= i is
+assigned to link ℓi. Then, λk(P) ≥wi + wk >
+W
+m + wk. However, if user k switches to link j, its Individual Cost becomes
+δj(P) + wk < W
+m + wk. Since P is a Nash equilibrium, δj(P) + wk ≥λk(P) > W
+m + wk. A contradiction.
+■
+Say that an instance ⟨w, c⟩is bursty, if some user i ∈[n] is bursty; otherwise, the instance is non-bursty. We start with a
+very simple observation about pure Nash equilibria associated with non-bursty instances, in the case of identical links.
+Lemma 3.6 (Non-Zero Loads in Nash Equilibrium for NonBursty Instance). Consider a pure Nash equilibrium P, for a non-bursty
+instance ⟨w, c⟩in the case of identical links. Then, for each link j ∈[m], δj(P) > 0.
+Proof. Assume, by way of contradiction, that there is a link j ∈[m] with δj(P) = 0. This implies that there is also some
+link j′ ∈[m] with δj′(P) ≥
+W
+m−1 >
+W
+m . Consider any user i ∈[n], assigned to link j′. Then, λi(P) = δj′(P) >
+W
+m , while
+λ
+j
+i(P) = wi ≤W
+m (since no user is bursty). This contradicts the assumption that P is a Nash equilibrium.
+■
+We continue with another preliminary property of pure Nash equilibria, associated with non-bursty instances, in the
+case of identical links; roughly speaking, we prove that link loads are balanced in a pure Nash equilibrium, for a non-bursty
+instance.
+Lemma 3.7 (Balanced Loads in Nash Equilibrium for NonBursty Instance). Consider a pure Nash equilibrium P for a non-bursty
+instance ⟨w, c⟩in the case of identical links. Then, for each link j ∈[m], δj(P) ≤2 minl∈[m] δl(P).
+Proof. Assume, by way of contradiction, that there is some link j ∈[m] such that δj(P) > 2 minl∈[m] δl(P). Choose link j so
+that it maximizes δl(P), over all links l ∈[m].
+Clearly, δj(P) ≥W
+m . Moreover, if δj(P) = W
+m , then δl(P) = W
+m for all links l ∈[m] and the claim follows. So, assume that
+δj(P) > W
+m . We proceed by case analysis.
+• Assume first that there is a single solo user i ∈[n] on link j, so that δj(P) = wi. Since link j maximizes latency, wi ≥δl(P)
+for all links l ∈[m]. Moreover, our assumption implies that wi > minl∈[m] δl(P). It follows that mwi > P
+l∈[m] δl(P) = W,
+or wi > W
+m . Since ⟨w, c⟩is a non-bursty instance, wi ≤W
+m . A contradiction.
+• Assume now that at least two users are assigned to link j. Consider the smallest traffic wi of some user i ∈[n] among
+all users assigned to link j. Then, clearly, wi ≤
+δj(P)
+2 . Hence, δj(P) −wi ≥
+δj(P)
+2
+> minl∈[m] δl(P) (by assumption). So,
+minl∈[m] δl(P) + wi < δj(P). Since P is a Nash equilibrium, minl∈[m] δl(P) + wi ≥δj(P). A contradiction.
+Since we obtained a contradiction in all possible cases, the proof is now complete.
+■
+4. Quadratic social cost
+Some combinatorial expressions for the Quadratic Social Cost, and corresponding efficient algorithms, are presented in
+Section 4.1. Section 4.2, determines the worst-case Nash equilibrium with respect to the Quadratic Social Cost.
+4.1. Combinatorial expressions
+Recall that the Quadratic Social Cost can be expressed as the weighted sum of Expected Individual Costs. Hence,
+Lemma 3.1 implies that the Quadratic Social Cost of any mixed assignment P, for the instance ⟨w, c⟩can be written as
+QSC(w, c, P) =
+X
+i∈[n]
+wi
+ X
+j∈[m]
+p
+j
+i
+p
+j
+i wi + θ j(P)
+cj
+!
+,
+which immediately implies:
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+197
+Proposition 4.1 (Quadratic Social Cost of Mixed Assignment). The Quadratic Social Cost of any mixed assignment can be
+computed in time O(nm).
+Since a probability matrix P has size O(nm), Proposition 4.1 implies that the Quadratic Social Cost of any mixed
+assignment can be computed in linear time. We remark that this achieved efficiency has not needed the assumption that
+the mixed assignment is a Nash equilibrium. We next establish that the Quadratic Social Cost takes a particularly nice form,
+for the case of the fully mixed Nash equilibrium. We prove:
+Theorem 4.2 (Quadratic Social Cost of Fully Mixed Nash Equilibrium). Consider an instance ⟨w, c⟩in the case of identical links.
+Then,
+QSC(w, c, F) = W1 +
+2
+m
+W2 =
+W 2
+m +
+
+1 −
+1
+m
+
+W2.
+Proof. Since W 2 = W1+2W2, it suffices to prove the first equality. Recall that f
+j
+i =
+1
+m for all users i ∈[n] and links j ∈[m] in
+the fully mixed Nash equilibrium F. Thus, by Lemma 3.1, λi(F) = P
+ℓ∈[m]
+1
+m
+
+wi + P
+k∈[n]:k̸=i
+1
+m wk
+
+= wi +P
+k∈[n]:k̸=i
+1
+m wk.
+Since QSC(w, c, F) = P
+i∈[n] wiλi(F), the claim follows from the definitions of W1 and W2.
+■
+Theorem 4.2 immediately implies:
+Corollary 4.3. Consider the case of identical links. Then, the Quadratic Social Cost of the fully mixed Nash Equilibrium can be
+computed in time O(n2).
+We continue to prove:
+Theorem 4.4. Consider an instance ⟨w, c⟩, in the case of identical users, for which the fully mixed Nash equilibrium F exists. Then,
+QSC(w, c, F) =
+n (n + m −1)
+C
+.
+Proof. Recall that in the case of identical users, for all users i ∈[n] and each link j ∈[m], f
+j
+i
+=
+m+n−1
+(n−1)C cj −
+1
+n−1.
+Hence, by Lemma 3.1, λi(F) = P
+j∈[m]
+
+f
+j
+i
+1+P
+k∈[n]:k̸=i f j
+k
+cj
+
+= P
+j∈[m]
+
+f
+j
+i
+1+(n−1)f j
+i
+cj
+
+= P
+j∈[m]
+
+f
+j
+i
+m+n−1
+C
+
+=
+m+n−1
+C
+. Since
+QSC(w, c, F) = P
+i∈[n] λi(F), the claim follows.
+■
+Theorem 4.4 immediately implies:
+Corollary 4.5. Consider the case of identical users. Then, the Quadratic Social Cost of the fully mixed Nash Equilibrium can be
+computed in time O(m).
+For the special case of identical users and identical links, Theorem 4.4 immediately implies:
+Corollary 4.6. Consider the case of identical users and identical links. Then,
+QSC(w, c, F) =
+n (n + m −1)
+m
+.
+4.2. The worst-case Nash equilibrium
+We restrict our attention to the case of identical users, and identical links, for which the fully mixed Nash equilibrium
+always exists. We start by proving:
+Lemma 4.7. Consider the case of identical users, and identical links, and let P be any (mixed) Nash equilibrium. Then, for all users
+i ∈[n], λi(P) ≤λi(F).
+Proof. Assume, by way of contradiction, that λi(P) > λi(F), for some user i ∈[n].
+For the Nash equilibrium P, recall that all Conditional Expected Individual Costs λ
+j
+i for those links such that p
+j
+i > 0 are
+equal; hence, Lemma 3.1 implies that λi(P) = λ
+j
+i(P) = 1+P
+k∈[n]:k̸=i p
+j
+k. Moreover, all Conditional Expected Individual Costs
+for those links j ∈[m], such that p
+j
+i = 0 are no less than λi(P). For the fully mixed Nash equilibrium F, the same argument
+implies that λi(F) = λ
+j
+i(F) for any link j ∈[m].
+By Lemma 3.1, λ
+j
+i(P) = 1 + P
+k∈[n]:k̸=i p
+j
+k and λ
+j
+i(F) = 1 + P
+k∈[n]:k̸=i f
+j
+k. Since λi(P) > λi(F), P
+k∈[n]:k̸=i p
+j
+k > P
+k∈[n]:k̸=i f
+j
+k.
+But P
+ℓ∈[m]
+P
+k∈[n]:k̸=i pℓ
+k
+
+= P
+ℓ∈[m]
+P
+k∈[n]:k̸=i f ℓ
+k
+
+= n −1. It follows that there exists some link j′ ∈[m] such that
+P
+k∈[n]:k̸=i p
+j′
+k < P
+k∈[n]:k̸=i p
+j′
+k. By definition of Conditional Expected Individual Cost, this implies that λ
+j′
+i (P) < λ
+j′
+i (F).
+However, λi(P) ≤λ
+j′
+i (P), while λi(F) = λ
+j′
+i (F). It follows that λi(P) < λi(F). A contradiction.
+■
+198
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+Since the Quadratic Social Cost is a weighted sum of Expected Individual Costs, Lemma 4.7 immediately implies:
+Theorem 4.8. Consider the case of identical users and identical links. Then, for any arbitrary Nash equilibrium P, QSC(w, c, P) ≤
+QSC(w, c, F).
+Theorem 4.8 proves that the fully mixed Nash equilibrium maximizes Quadratic Social Cost in the case of identical users
+and identical links. It is natural to ask if the same holds in all cases. In analogy to the yet unproven Fully Mixed Nash Equilibrium
+Conjecture [23], we conjecture:
+Conjecture 4.1 (Quadratic Fully Mixed Nash Equilibrium Conjecture). When it exists, the fully mixed Nash equilibrium maxi-
+mizes Quadratic Social Cost.
+5. Quadratic coordination ratio
+Some of our proofs in this section will make use of the following notation. Consider an instance ⟨w, c⟩with an associated
+pure assignment P. Fix a set of links L, inducing a set of users U that are assigned by the assignment P to links in L. Then,
+w \ U and c \ L, denote the vectors resulting from w and c, respectively, by eliminating the entries corresponding to users
+in U, and links in L, respectively; P \ (U, L) denotes the assignment induced by these eliminations. Pure and mixed Nash
+equilibria are considered in Sections 5.1 and 5.2.
+5.1. Pure Nash equilibria
+Identical users and identical links are considered in Sections 5.1.1 and 5.1.2, respectively.
+5.1.1. Identical users
+As our main result, we prove:
+Theorem 5.1. Consider the case of identical users, restricted to pure Nash equilibria. Then, QCR = 4
+3.
+Proof. We first prove the upper bound. We start with an informal outline of our proof. We shall partition the set of links
+into a number of groups, so that in each group, the total loads on links of the group incurred by a Nash equilibrium, and an
+optimal assignment match each other. We then separately sum up the loads on links that are loaded more (resp., less)
+in the Nash equilibrium, than in the optimal assignment. We use simple properties of Nash equilibria to compare the
+corresponding partial sums of the Nash equilibria, and the optimal assignment. Adding together these two partial sums
+provides the required relation between the Quadratic Social Costs of the Nash equilibrium and the optimal assignment. We
+now continue with the details of the formal proof.
+Consider any arbitrary instance ⟨w, c⟩, and an associated pure Nash equilibrium P. Let Q be an optimal (pure) assignment
+for the instance ⟨w, c⟩; so, QSC(w, c, Q) = QOPT(w, c).
+Call a link j ∈[m] overloaded if δj(P) > δj(Q), underloaded if δj(P) < δj(Q) and indifferent otherwise. Lemma 3.4 implies
+that δj(P) = δj(Q) −1, is the only possibility for an underloaded link j. Note also that δj(Q) ≥1, for each underloaded link
+j. Let j1, . . . , jk be the overloaded links. Partition the set of links [m] into k + 1 groups I, L1, . . . , Lk as follows:
+• I = {j ∈[m] | δj(P) = δj(Q)} is the set of indifferent links. So, clearly, P
+j∈I δj(P) = P
+j∈I δj(Q).
+• For each l ∈[k], the set Ll contains the overloaded link jl andδjl(P)−δjl(Q) underloaded links. So,|Ll| = δjl(P)−δjl(Q)+1.
+Such a partition is possible due to Lemma 3.4. Note that for each l ∈[k],
+X
+j∈Ll
+δj(P) = δjl(P) +
+X
+j∈Ll\{jl}
+δj(P)
+= δjl(P) +
+X
+j∈Ll\{jl}
+(δj(Q) −1)
+= δjl(P) +
+X
+j∈Ll\{jl}
+δj(Q) −(|Ll| −1)
+= δjl(P) +
+X
+j∈Ll\{jl}
+δj(Q) −(δjl(P) −δjl(Q))
+=
+X
+j∈Ll
+δj(Q).
+We proceed to analyze the Quadratic Social Costs of P and Q.
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+199
+• By definition of I, it follows that
+X
+j∈I
+(δj(P))2
+cj
+=
+X
+j∈I
+(δj(Q))2
+cj
+.
+• For each overloaded link jl, l ∈[k], our construction implies that δjl(P) = δjl(Q) + |Ll| −1. So,
+X
+l∈[k]
+(δjl(P))2
+cjl
+=
+X
+l∈[k]
+(δjl(Q))2 + 2 (|Ll| −1)δjl(Q) + (|Ll| −1)2
+cjl
+.
+• For each underloaded link j ∈S
+l∈[k] (Ll \ {jl}), δj(P) = δj(Q) −1. So,
+X
+l∈[k]
+X
+j∈Ll\{jl}
+(δj(P))2
+cj
+=
+X
+l∈[k]
+X
+j∈Ll\{jl}
+(δj(Q))2 −2δj(Q) + 1
+cj
+≤
+X
+l∈[k]
+X
+j∈Ll\{jl}
+(δj(Q))2 −δj(Q)
+cj
+.
+Summing up we obtain that
+X
+j∈I
+(δj(P))2
+cj
++
+X
+l∈[k]
+(δjl(P))2
+cjl
++
+X
+l∈[k]
+X
+j∈Ll\{jl}
+(δj(P))2
+cj
+≤
+X
+j∈I
+(δj(Q))2
+cj
++
+X
+l∈[k]
+(δjl(Q))2 + 2 (|Ll| −1)δjl(Q) + (|Ll| −1)2
+cjl
++
+X
+l∈[k]
+X
+j∈Ll\{jl}
+(δj(Q))2 −δj(Q)
+cj
+=
+X
+j∈I
+(δj(Q))2
+cj
++
+X
+l∈[k]
+(δjl(Q))2
+cjl
++
+X
+l∈[k]
+X
+j∈Ll\{jl}
+(δj(Q))2
+cj
++
+X
+l∈[k]
+2 (|Ll| −1)δjl(Q) + (|Ll| −1)2
+cjl
+−
+X
+l∈[k]
+X
+j∈Ll\{jl}
+δj(Q)
+cj
+or
+QSC(w, c, P) ≤QSC(w, c, Q) +
+X
+l∈[k]
+2 (|Ll| −1)δjl(Q) + (|Ll| −1)2
+cjl
+−
+X
+l∈[k]
+X
+j∈Ll\{jl}
+δj(Q)
+cj
+= QSC(w, c, Q) +
+X
+l∈[k]
+(|Ll| −1)δjl(Q)
+cjl
++
+X
+l∈[k]
+(|Ll| −1)(δjl(Q) + |Ll| −1)
+cjl
+−
+X
+l∈[k]
+X
+j∈Ll\{jl}
+δj(Q)
+cj
+= QSC(w, c, Q) +
+X
+l∈[k]
+(|Ll| −1)δjl(Q)
+cjl
++
+X
+l∈[k]
+X
+j∈Ll\{jl}
+δjl(Q) + |Ll| −1
+cjl
+−
+X
+l∈[k]
+X
+j∈Ll\{jl}
+δj(Q)
+cj
+= QSC(w, c, Q) +
+X
+l∈[k]
+(|Ll| −1)δjl(Q)
+cjl
++
+X
+l∈[k]
+X
+j∈Ll\{jl}
+δjl(Q) + |Ll| −1
+cjl
+−δj(Q)
+cj
+
+= QSC(w, c, Q) +
+X
+l∈[k]
+(|Ll| −1)δjl(Q)
+cjl
++
+X
+l∈[k]
+X
+j∈Ll\{jl}
+δjl(P)
+cjl
+−δj(Q)
+cj
+
+.
+We will analyze separately each sum in the last right expression.
+• Recall that for every x, y ∈R, xy ≤1
+4 (x + y)2. So, for every overloaded link jl, (|Ll| −1)δjl(Q) ≤1
+4 (δjl(Q) + |Ll| −1)2 =
+(δjl(P))2. Summing up over all overloaded links yields that
+X
+l∈[k]
+(|Ll| −1)δjl(Q)
+cjl
+≤
+1
+4
+X
+l∈[k]
+(δjl(P))2
+cjl
+≤
+1
+4
+QSC(w, c, P).
+• Consider any pair of an overloaded link jl, and an undeloaded link j ∈Ll \ {jl}. Recall that δj(Q) = δj(P) + 1. Hence, since
+P is a Nash equilibrium, δjl(P)
+cjl
+≤δj(P)+1
+cj
+= δj(Q)
+cj . This implies that the second sum is non-positive.
+200
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+Hence, it follows that QSC(w, c, P) ≤QSC(w, c, Q) + 1
+4 QSC(w, c, P), or QSC(w,c,P)
+QOPT(w,c) ≤4
+3. Since the instance ⟨w, c⟩, and the
+associated pure Nash equilibrium P were chosen arbitrarily, this implies that QCR ≤4
+3, and the proof of the upper bound is
+complete.
+We continue to prove the lower bound. Fix an instance ⟨w, c⟩, with n = 2(m−1); for each link l ∈[m], set cl = 2(m−1)
+if l = 1 and 1 otherwise. Consider pure assignments P and Q, such that:
+• In P, all users are assigned to link 1. Note that for each user i ∈[2(m −1)] λ1
+i = 2(m−1)
+2(m−1) = 1 and for each link l ∈[m],
+l ̸= 1, λl
+i = 1; so, P is a Nash equilibrium. Clearly, QSC(w, c, P) = (2(m−1))2
+2(m−1)
+= 2(m −1).
+• In Q, m −1 users are assigned to link 1 and each of the rest is assigned to each link 2, . . . , m, respectively. Clearly,
+QSC(w, c, Q) = (m−1)2
+2(m−1) + (m −1) 12
+1 = 3
+2 (m −1).
+So, QCR ≥QSC(w,c,P)
+QOPT(w,c) ≥QSC(w,c,P)
+QSC(w,c,Q) = 4
+3, as needed.
+■
+5.1.2. Identical links
+We prove:
+Theorem 5.2. Consider the case of identical links, restricted to pure Nash equilibria. Then, QCR = 9
+8.
+Proof. We first prove the upper bound. Consider any arbitrary instance ⟨w, c⟩, with associated pure Nash equilibrium P and
+optimal assignment Q. We consider two cases:
+(1) The instance ⟨w, c⟩is non-bursty. Recall that in this case, by Lemma 3.7, for each link j ∈[m], δj(P) ≤2 minl∈[m] δl(P). So
+transform the set of loads
+
+δl(P) | l ∈[m]
+	
+, into a new set of loads
+bδl(P) | l ∈[m]
+	
+as the output of the following repetitive
+procedure:
+for each link l ∈[m], do
+bδl(P) := δl(P);
+while there are distinct j, j′ ∈[m] with min
+l∈[m] δl(P) <bδj(P) ≤bδj′(P) < 2 min
+l∈[m] δl(P) do
+bδj(P) :=bδj(P) −min
+
+bδj(P) −min
+l∈[m] δl(P), 2 min
+l∈[m] δl(P) −bδj′(P)
+
+;
+bδj′(P) :=bδj′(P) + min
+
+bδj(P) −min
+l∈[m] δl(P), 2 min
+l∈[m] δl(P) −bδj′(P)
+
+end while
+Intuitively, our transformation procedure chooses at each step, two intermediate loads δj(P) and δj′(P) (that is, two loads
+that are not yet pushed either to the upper end or to the lower end of the interval of link loads); it transfers the (strictly)
+positive quantity min
+n
+bδj(P) −minl∈[m] δl(P), 2 minl∈[m] δl(P) −bδj′(P)
+o
+, from the small load δj(P), to the large load δj′(P).
+Clearly, each step of the procedure either pushes the small load δj(P), to the lower end minl∈[m] δl(P) of the interval of link
+loads, or pushes the large load δj′(P), to the upper end 2 minl∈[m] δl(P) of the interval of link loads (or both). So, when the
+procedure terminates, there is at most one intermediate load. Hence, by reordering links, we obtain that there exists an
+integerbj, 0 ≤bj ≤m −1, such that for each link j ∈[m],
+bδj(P) =
+
+
+
+2 min
+l∈[m] δl(P),
+j ∈[bj]
+(1 + x) min
+l∈[m] δl(P),
+j =bj + 1
+min
+l∈[m] δl(P),
+j ∈[m] \ [bj + 1]
+where 0 ≤x ≤1. Intuitively,bj is the number of overloaded links.
+Note that this procedure maps a set of loads to a new set of loads, without explicitly mapping an instance to a new
+instance. However, for the sake of analysis, we will also consider that the procedure maps an instance ⟨w, c⟩, and a Nash
+equilibrium P to a new instance ⟨b
+w,bc⟩and a new Nash equilibrium bP. Note also that the procedure preserves (at each
+step) the sum of loads. So, it also preserves the total traffic, so that W = b
+W. For any single step transforming the load set
+
+δl(P) | l ∈[m]
+	
+into
+bδl(P) | l ∈[m]
+	
+,
+QSC(b
+w,bc,bP) −QSC(w, c, P)
+=
+
+bδj(P) −min
+
+bδj(P) −min
+l∈[m] δl(P), 2 min
+l∈[m] δl(P) −bδj′(P)
+2
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+201
++
+
+bδj′(P) + min
+
+bδj(P) −min
+l∈[m] δl(P), 2 min
+l∈[m] δl(P) −bδj′(P)
+2
+−
+ bδj(P)
+2 −
+
+bδj′(P)
+2
+= 2 min
+
+bδj(P) −min
+l∈[m] δl(P), 2 min
+l∈[m] δl(P) −bδj′(P)
+
+·
+
+bδj′(P) −bδj(P)
+
++ 2
+
+min
+
+bδj(P) −min
+l∈[m] δl(P), 2 min
+l∈[m] δl(P) −bδj′(P)
+2
+> 0.
+Hence,
+QSC(w, c, P) ≤QSC(b
+w,bc,bP)
+=
+ 4bj + (1 + x)2 + (m −bj −1)
+
+·
+
+min
+
+bδj(P) −min
+l∈[m] δl(P), 2 min
+l∈[m] δl(P) −bδj′(P)
+2
+=
+ x2 + 2x + m + 3bj
+
+·
+
+min
+
+bδj(P) −min
+l∈[m] δl(P), 2 min
+l∈[m] δl(P) −bδj′(P)
+2
+.
+On the other hand,
+QOPT(w, c) ≥
+W 2
+m
+=
+b
+W 2
+m
+=
+ X
+j∈[m]
+bδj(P)
+!2
+m
+=
+ 2bj + (1 + x) + (m −bj −1)
+2
+m
+·
+
+min
+
+bδj(P) −min
+l∈[m] δl(P), 2 min
+l∈[m] δl(P) −bδj′(P)
+2
+=
+ x + m +bj
+2
+m
+·
+
+min
+
+bδj(P) −min
+l∈[m] δl(P), 2 min
+l∈[m] δl(P) −bδj′(P)
+2
+.
+It follows that
+QCR ≤(x2 + 2x + m + 3bj) m
+(x + m +bj)2
+.
+Define the real function
+f (k) = (x2 + 2x + m + 3bj)m
+(x + m +bj)2
+of a real variablebj. (The quantity x is taken as a parameter, while m is a fixed constant.) Clearly, QCR ≤supbj f (bj). So, we will
+determine supbj f (bj).
+To gain some intuition, write
+f (bj) =
+
+m
+bj
+2
++ 3 m
+bj + m(x2+2x)
+bj2
+
+m
+bj + 1 + x
+bj
+2
+=
+y(y + 3) + m(x2+2x)
+bj2
+
+y + 1 + x
+bj
+2
+,
+where y =
+m
+bj is the ratio of the total number of links to the number of overlaodad linksbj. Since we are interested in the
+ratio m
+bj and x ∈[0, 1], we can assume thatbj is so large that x
+bj is negligibe. Then, f (bj) essentially behaves as the function
+g(y) = y(y+3)
+(y+1)2 , which is maximized for y = 3, achieving the value 9
+8. We now return to the formal proof.
+202
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+To maximize the function f (bj), observe that the first and second derivatives of f (bj) are
+df (bj)
+dbj
+=
+m
+(x + m +bj)3 ·
+ −2x2 −x + m −3bj
+
+and
+d2f (bj)
+dbj2
+= m ·
+ 
+−3(x + m +bj)3 −(−2x2 −x + m −3bj) · 3(x + m +bj)2
+(x + m +bj)6
+!
+,
+respectively. The only root of df (bj)
+dbj
+isbj0 = m−x−2x2
+3
+. Forbj =bj0, d2f (bj)
+dbj2
+evaluates to
+−81m
+8(x+2m−x2)3 < 0. Thus,bj0 is a local maximum
+of the function f (bj). Since f (bj) is a continuous function with a single extremum point that is a local maximum, it follows that
+f (bj) ≤f (bj0) =
+9m
+4(2m+x−x2) ≤9
+8 (since x ∈[0, 1]), as needed.
+(2) The instance ⟨w, c⟩is bursty. Denote U the (non-empty) set of bursty users. Recall that, by Lemma 3.5, U induces sets
+of solo links LP, and LQ for the Nash equilibrium P and the optimal assignment Q, respectively, so that |LP| = |U| and
+|LQ| = |U|. Since links are identical, we assume that LP = LQ = L, with |L| ≥1. So,
+QSC(w, c, P) =
+X
+l∈L
+ δl(P)
+2 + QSC(w \ U, c \ L, P \ (U, L))
+=
+X
+i∈U
+w2
+i + QSC(w \ U, c \ L, P \ (U, L))
+and
+QOPT(w, c) = QSC(w, c, Q)
+=
+X
+l∈L
+ δl(P)
+2 + QSC(w \ U, c \ L, Q \ (U, L))
+=
+X
+i∈U
+w2
+i + QSC(w \ U, c \ L, Q \ (U, L)).
+Note first that the assignment P \ (U, L), is a Nash equilibrium for the instance ⟨w \ U, c \ L⟩. Moreover, since Q is an
+optimal assignment for the instance ⟨w, c⟩, it follows that Q\(U, L) is an optimal assignment for the instance ⟨w\U, c\L⟩,
+so that QSC(w \ U, c \ L, Q \ (U, L)) = QOPT (w \ U, c \ L). Thus,
+QOPT(w, c) =
+X
+i∈U
+w2
+i + QOPT (w \ U, c \ L) .
+It follows that
+QSC(w, c, P)
+QOPT(w, c)
+=
+P
+i∈U w2
+i + QSC(w \ U, c \ L, P \ (U, L))
+P
+i∈U w2
+i + QOPT (w \ U, c \ L)
+≤
+QSC(w \ U, c \ L, P \ (U, L))
+QOPT (w \ U, c \ L)
+.
+So consider the instance ⟨w \ U, c \ L⟩, and the associated pure Nash equilibrium P \ (U, L). There are two possibilities
+according to the burstiness of the instance ⟨w \ U, c \ L⟩.
+• Assume first that the smaller instance ⟨w\U, c\L⟩is non-bursty. Then, we are reduced to the previous case of non-bursty
+instances, and the upper bound follows inductively.
+• Assume now that the smaller instance ⟨w \ U, c \ L⟩is bursty. We repeatedly identify the set of bursty users for the
+smaller instance, and we reduce this smaller instance to an even smaller instance that may be bursty or non-bursty. This
+procedure eventually yields a non-bursty instance (even the trivial one with one user), and the claim for the original
+bursty instance follows inductively.
+The proof of the upper bound is now complete. We continue to prove the lower bound. Fix n = 8 and m = 3. Set
+wi = 1 for 1 ≤i ≤2 and wi =
+1
+3 otherwise. Observe that P = ⟨1, 1, 2, 2, 2, 3, 3, 3⟩, is a pure Nash equilibrium with
+QSC(w, c, P) = 22 + 12 + 12 = 6. Moreover, consider the pure assignment Q = ⟨1, 2, 1, 2, 3, 3, 3, 3⟩that achieves
+QSC(w, c, Q) = 3 ·
+  4
+3
+2 = 16
+3 . Thus, QCR ≥QSC(w,c,P)
+QSC(w,c,Q) =
+6
+16
+3 = 9
+8, as needed.
+■
+5.2. Mixed Nash equilibria
+Throughout this section, we focus on the case of identical links. The fully mixed Nash equilibrium is treated in
+Section 5.2.1. The case of identical users is considered in Section 5.2.2.
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+203
+5.2.1. Identical links and fully mixed Nash equilibrium
+We prove:
+Theorem 5.3. Consider the case of identical links. Then, restricted to the fully mixed Nash equilibrium,
+QCR = 1 +
+min{n, m} −1
+m
+.
+Proof. We first prove the upper bound. Consider any arbitrary instance ⟨w, c⟩, with an associated fully mixed Nash
+equilibrium F, and optimal (pure) assignment Q. Assume, without loss of generality, that δ1(Q) ≥. . . ≥δm(Q); that is, the
+links are indexed in non-increasing order of their loads in Q. Clearly, QSC(w, c, Q) = P
+l∈[m](δl(Q))2, while by Theorem 4.2,
+QSC(w, c, F) = W 2
+m +
+ 1 −1
+m
+
+W1.
+Transform the instance ⟨w, c⟩to an instance ⟨b
+w,bc⟩with m identical links and min{n, m} users with weights bwi = δi(Q)
+for i ∈[min{n, m}]. Clearly, b
+W = W and b
+W1 ≥W1, while b
+W1 ≥
+b
+W 2
+min{n,m}. Notice that if n ≤m, then δl(Q) = 0 for all links
+l > n = min{n, m}, and the two instances are identical.
+Denote bQ the pure assignment for the new instance ⟨b
+w,bc⟩, that assigns user i ∈[min{n, m}] to the link i ∈[m]. Clearly,
+QSC(b
+w,bc,bQ) = QSC(w, c, Q). Moreover, by construction QSC(b
+w,bc,bQ) = b
+W1.
+Denote also bF, the fully mixed Nash equilibrium for the new instance ⟨b
+w,bc⟩. By Theorem 4.2, QSC(b
+w,bc,bF) =
+b
+W 2
+m +
+ 1 −1
+m
+ b
+W1 ≥W 2
+m +
+ 1 −1
+m
+
+W1 = QSC(w, c, F). Hence,
+QSC(w, c, F)
+QOPT(w, c)
+=
+QSC(w, c, F)
+QSC(w, c, Q)
+≤
+QSC(b
+w,bc,bF)
+QSC(b
+w,bc,bQ)
+=
+ 1 −1
+m
+ b
+W1 +
+b
+W 2
+m
+b
+W1
+= 1 −
+1
+m +
+1
+m
+b
+W 2
+b
+W1
+≤1 −
+1
+m +
+1
+m
+min{n, m}
+= 1 +
+min{n, m} −1
+m
+.
+Since the instance ⟨w, c⟩was chosen arbitrarily, it follows that QCR ≤1 + min{n,m}−1
+m
+, and the proof of the upper bound is
+complete.
+We continue to prove the lower bound. Fix n = m. Set wi = 1 for all users i ∈[n]. Then, clearly, QSC(w, c, F) =
+W1 + 2
+m W2 = m · 12 + 2
+m
+m(m−1)
+2
+· 1 = 2m −1. Moreover, QOPT(w, c) = m · 12 = m. Thus, QCR ≥QSC(w,c,F)
+QOPT(w,c) = 2 −1
+m, as
+needed.
+■
+Note that since n ≥2 and m ≥2, the tight bound of 1 + min{n,m}−1
+m
+is at least 3
+2 and strictly less than 2.
+5.2.2. Identical users and identical links
+We prove:
+Theorem 5.4. Consider the case of identical users and identical links. Then,
+QCR ≤1 + min
+
+m −1
+n
+,
+n −1
+m
+
+.
+Proof. Consider any arbitrary instance ⟨w, c⟩, with an associated Nash equilibrium P. Theorem 4.8, and Corollary 4.6 imply
+that QSC(w, c, P) ≤n(n+m−1)
+m
+. Since QOPT(w, c) ≥n max
+
+1, n
+m
+	
+, it follows that
+QSC(w, c, P)
+QOPT(w, c)
+≤
+n + m −1
+m
+min
+n
+1,
+m
+n
+o
+= (n + m −1) min
+
+1
+n,
+1
+m
+
+= min
+
+1 +
+m −1
+n
+, 1 +
+n −1
+m
+
+204
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+= 1 + min
+
+m −1
+n
+,
+n −1
+m
+
+,
+as needed.
+■
+A simple case analysis on the relation between n and m reveals that for all m ≥2, and n ≥2, min
+ m−1
+n , n−1
+m
+	
++
+max
+ 1
+n, 1
+m
+	
+≤
+min{n,m}−1
+m
+. This implies that the upper bound in Theorem 5.4, for the case of identical users and identical
+links, not only applies to all (mixed) Nash equilibria, but it is no worse than the tight bound in Theorem 5.3, for the case of
+identical links, which applies only to the fully mixed Nash equilibrium. So, intuitively, Theorems 5.3 and 5.4 together, suggest
+that for the case of identical links, considering arbitrary users, but restricting to the fully mixed Nash equilibrium, may have
+a more severe influence on the Quadratic Coordination Ratio, than considering all mixed Nash equilibria, but restricting to
+identical users.
+6. Epilogue
+6.1. Summary
+We have presented a new, potentially rich model for selfish routing over non-cooperative networks, as an interesting
+hybridization of the two prevailing models for selfish routing, namely the KP model [26] and the W model [36]. Within
+this model, we focused on certain algorithmic and combinatorial properties of Nash equilibria; we also introduced and
+studied the Quadratic Social Cost and Quadratic Coordination Ratio, as interesting variants of the well studied Social Cost
+and Coordination Ratio, respectively, from the KP model [26].
+Most interestingly, we presented a collection of tight bounds on the Quadratic Coordination Ratio for our model; these
+are the first known constant (or bounded by a constant) bounds (independent of the number of users and the number of
+links) for models with unsplittable traffic. Some of our proof techniques highlight several interesting transformations of
+instances (user traffics and link capacities), which could be useful for other applications.
+6.2. Subsequent work
+Some subsequent work has touched issues similar to those addressed in this work.
+• Gairing et al. [22] introduce and study a discrete routing game as yet another hybridization of the KP model and the W
+model. In their model, the latency on a link is determined by an arbitrary, non-decreasing, convex function; in turn, the
+latency defines the Expected Individual Cost for a user (in the same way as in the KP model). However, the Social Cost is
+taken to be the sum of the Expected Individual Costs (as in the W model). When users are identical, and latency functions
+are linear, this discrete routing game reduces to the special case of identical users for the model studied in this paper.
+We note that the set of Nash equilibria for the model of Gairing et al. [22] (defined through arbitrary, convex latency
+functions) is (in general) different from the set of Nash equilibria for the model in this paper (which coincides with the
+set of Nash equilibria for the KP model).
+The following results in the work of Gairing et al. [22], are related to the model studied in this paper; some of them,
+although more general, become less tight than corresponding results in this paper for the special cases we considered.
+· Gairing et al. [22, Theorem 1] prove that the fully mixed Nash equilibrium (when it exists) is the worst-case Nash
+equilibrium for the case of identical users in their model. This extends our Theorem 4.8 to the case of links with
+arbitrary, convex latency functions.
+· For the case of identical users, and identical links with latency functions f (x) = xd, where d ≥1, Gairing et al. [22,
+Theorem 5] prove a tight bound of Bd+1, the (d+1)-th Bell number, on Coordination Ratio (for their model). For d = 1,
+this implies an upper bound of B2 = 2 on the Quadratic Coordination Ratio for the case of identical users, and identical
+links in our model, which applies to all (mixed) Nash equilibria. Theorem 5.4 in this work provides a slightly better
+upper bound.
+· For the case of identical users, and arbitrary links with polynomial latency functions of maximum degree d, Gairing
+et al. [22, Corollary 1], prove an upper bound of d + 1 on the Coordination Ratio, restricted to pure Nash equilibria.
+For d = 1, this implies an upper bound of 2 on the Quadratic Coordination Ratio, for the case of identical users and
+identical links in our model, restricted to pure Nash equilibria. Theorem 5.1 provides a significantly better bound ( 4
+3).
+• Finally, Gairing et al. [20] introduce and study yet another hybridization of the KP model, and the W model. In their model,
+the latency on a link is a linear function of load on the link (as in both the KP model and the model studied in this paper).
+However, a so called Polynomial Social Cost is adopted that extends Quadratic Social Cost to arbitrary degrees. In turn,
+this yields Polynomial Coordination Ratio. Gairing et al. [20] only consider the case of identical users and identical links.
+For this case, they present a collection of upper bounds on Polynomial Coordination Ratio.
+• Two recent papers [4,9] make significant progress towards determining the Coordination Ratio in the more general,
+related contexts of congestion games [33] and weighted congestion games [30].
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+205
+· Awerbuch et al. [4] consider multicommodity weighted network congestion games [19] in general networks with linear
+latency functions; they study the Coordination Ratio with respect to total latency, which coincides with our Quadratic
+Coordination Ratio. Thus, our model can be cast as the special case of the model in [4] with a single commodity, and a
+parallel links network. Awerbuch et al. [4] prove that the Coordination Ratio is precisely 3+
+√
+5
+2
+≈2.618 in the general
+case, but, restricted to pure Nash equilibria and identical users, it reduces to 5
+2. Both bounds clearly apply as upper
+bounds to our model as well, but not as lower bounds since the constructions employed in [4] for the lower bounds
+use a multicommodity network, different from the parallel links network. Moreover, Theorem 5.1 implies that the 5
+2
+bound is not tight for our model; the tightness of the 3+
+√
+5
+2
+bound for our model is posed as an open problem.
+· Christodoulou and Koutsoupias [9] consider general unweighted congestion games, both single-commodity and
+multicommodity, with linear cost functions; they study the Coordination Ratio, with respect to both the sum of
+Individual Costs and the maximum Individual Cost, the latter coinciding with our Quadratic Coordination Ratio (in
+the case of identical users). For single-commodity congestion games and pure Nash equilibria, Christodoulou and
+Koutsoupias [9] prove a tight bound of 5n−2
+2n+1 on the Coordination Ratio, which is strictly less than the corresponding
+(tight) bound of 5
+2 shown by Awerbuch et al. [4] for multicommodity networks, pure Nash equilibria and identical
+users. This bound clearly applies as an upper bound to our model as well, but not as a lower bound, since the
+construction employed in [9] for the lower bound uses a congestion game other than the parallel links network. Again,
+Theorem 5.1 implies that this bound is not tight for our model. Christodoulou and Koutsoupias [9] prove independently
+the same tight bound of 5
+2 on the Coordination Ratio for multicommodity congestion games with identical users and
+for pure Nash equilibria, and similar bounds on the Coordination Ratio as the maximum Individual Cost (for both
+single-commodity and multicommodity congestion games).
+6.3. Open problems
+We conclude this article with a collection of questions that naturally pose themselves within the new model for selfish
+routing, introduced in this work.
+(1) What is the time complexity of computing the Quadratic Social Cost of an arbitrary Nash equilibrium? Proposition 4.1
+provides a polynomial algorithm with time complexity O(mn) for any arbitrary assignment. Is this optimal? (Lower
+bounds are totally missing.) Can this be improved for Nash equilibria?
+(2) What is the time complexity of deciding optimality (with respect to Quadratic Social Cost) for a given pure assignment?
+Proposition 3.2 implies an O(n + m2) upper bound for the case of identical users. Is there a polynomial upper bound for
+the general case?
+(3) Prove the Quadratic Fully Mixed Nash Equilibrium Conjecture (Conjecture 4.1).
+(4) What is the value of the Quadratic Coordination Ratio, when restricted to pure Nash equilibria, for the new model?
+Theorems 5.1 and 5.2 consider separately the two cases of identical links and identical users. It is challenging to merge
+the two separate proofs for the two special cases into one, for the general case (restricted to pure Nash equilibria). (An
+upper bound of 3+
+√
+5
+2
+follows from the recent works [4,9].)
+(5) What is the value of the Quadratic Coordination Ratio when all Nash equilibria are considered? (Again, the upper bound
+of 3+
+√
+5
+2
+from [4,9] applies here as well.)
+Acknowledgments
+We are grateful to the two anonymous referees for the numerous helpful comments and suggestions they provided. We
+especially thank one of the two referees for providing vast simplifications to our own original proofs of Theorems 5.1 and
+5.3. We also thank Rainer Feldmann and Martin Gairing for several helpful discussions.
+References
+[1] N. Alon, Y. Azar, G.J. Woeginger, T. Yadid, Approximation schemes for scheduling, in: Proceedings of the 8th Annual ACM-SIAM Symposium on Discrete
+Algorithms, pp. 493–500, 1997.
+[2] E. Altman, T. Basar, T. Jimenez, N. Shimkin, Competitive routing in networks with polynomial costs, IEEE Transactions on Automatic Control 47 (1)
+(2002) 92–96.
+[3] B. Awerbuch, Y. Azar, Y. Richter, D. Tsur, Tradeoffs in worst-case equilibria, Theoretical Computer Science 361 (2–3) (2006) 200–209.
+[4] B. Awerbuch, Y. Azar, A. Epstein, The price of routing unsplittable flow, in: Proceedings of the 37th Annual ACM Symposium on Theory of Computing,
+2005, pp. 57–66.
+[5] M.J. Beckmann, On the theory of traffic flow in networks, Traffic Quart. 21 (1967) 109–116.
+[6] M. Beckmann, C.B. McGuire, C.B. Winsten, Studies in the Economics of Transportation, Yale University Press, 1956.
+[7] D. Braess, Über ein Paradoxen aus der Verkehrsplanung, Unternehmensforschung 12 (1968) 258–268.
+[8] A.K. Chandra, C.K. Wong, Worst-case analysis of a placement algorithm related to storage allocation, SIAM Journal on Computing 4 (3) (1975) 249–263.
+[9] G. Christodoulou, E. Koutsoupias, The price of anarchy for finite congestion games, in: Proceedings of the 37th Annual ACM Symposium on Theory of
+Computing, 2005, pp. 57–66.
+[10] R.A. Cody, E.G. Coffman Jr., Record allocation for minimizing expected retrieval costs on crum-like storage devices, Journal of the ACM 23 (1) (1976)
+103–115.
+206
+T. Lücking et al. / Theoretical Computer Science 406 (2008) 187–206
+[11] J.R. Correa, A.S. Schulz, N.E. Stier Moses, Computational complexity, fairness and the price of anarchy of the maximum latency problem,
+in: G.L. Nemhauser, D. Bienstock (Eds.), Proceedings of the 10th Conference on Integer Programming and Combinatorial Optimization, in: Lecture
+Notes in Computer Science, vol. 3064, Springer-Verlag, 2004, pp. 59–73.
+[12] A. Czumaj, P. Krysta, B. Vöcking, Selfish traffic allocation for server farms, in: Proceedings of the 34th Annual ACM Symposium on Theory of Computing,
+2002, pp. 287–296.
+[13] A. Czumaj, B. Vöcking, Tight bounds for worst-case equilibria, ACM Transactions on Algorithms 3 (1) (2007).
+[14] S.C. Dafermos, F.T. Sparrow, The traffic assignment problem for a general network, Journal of Research of the National Bureau of Standards, Series B
+73B (2) (1969) 91–118.
+[15] E. Even-Dar, A. Kesselman, Y. Mansour, Convergence time to Nash equilibria in load balancing games, ACM Transactions on Algorithms 3 (3) (2007).
+[16] R. Feldmann, M. Gairing, T. Lücking, B. Monien, M. Rode, Nashification and the coordination ratio for a selfish routing game, in: J.C.M. Baeten,
+J.K. Lenstra, J. Parrow, G.J. Woeginger (Eds.), Proceedings of the 30th International Colloquium on Automata, Languages and Programming, in: Lecture
+Notes in Computer Science, vol. 2719, Springer-Verlag, 2003, pp. 514–526.
+[17] R. Feldmann, M. Gairing, T. Lücking, B. Monien, M. Rode, Selfish routing in non-cooperative networks: A survey, in: B. Rovan, P. Vojtáš (Eds.),
+Proceedings of the 28th International Symposium on Mathematical Foundations of Computer Science, in: Lecture Notes in Computer Science, vol.
+2747, Springer-Verlag, 2003, pp. 21–45.
+[18] D. Fotakis, S. Kontogiannis, E. Koutsoupias, M. Mavronicolas, P. Spirakis, The structure and complexity of Nash equilibria for a selfish routing game,
+in: P. Widmayer, F. Triguero, R. Morales, M. Hennessy, S. Eidenbenz, R. Conejo (Eds.), Proceedings of the 29th International Colloquium on Automata,
+Languages and Programming, in: Lecture Notes in Computer Science, vol. 2380, Springer-Verlag, 2002, pp. 123–134.
+[19] D. Fotakis, S. Kontogiannis, P. Spirakis, Selfish unsplittable flow, Theoretical Computer Science 348 (2–3) (2005) 226–239.
+[20] M. Gairing, T. Lücking, M. Mavronicolas, B. Monien, Computing Nash equilibria for scheduling on restricted parallel links, in: Proceedings of the 36th
+Annual ACM Symposium on Theory of Computing, 2004, pp. 613–622.
+[21] M. Gairing, T. Lücking, M. Mavronicolas, B. Monien, The price of anarchy for polynomial social cost, Theoretical Computer Science 369 (1–3) (2006)
+116–135.
+[22] M. Gairing, T. Lücking, M. Mavronicolas, B. Monien, M. Rode, Nash equilibria in discrete routing games with convex latency functions, in: J. Diaz,
+J. Karhumäki, A. Lepistö, D. Sannella (Eds.), Proceedings of the 31st International Colloquium on Automata, Languages and Programming, in: Lecture
+Notes in Computer Science, vol. 3142, Springer-Verlag, 2004, pp. 645–657.
+[23] M. Gairing, T. Lücking, M. Mavronicolas, B. Monien, P. Spirakis, Structure and complexity of extreme Nash equilibria, Theoretical Computer Science
+343 (1–2) (2005) 133–157.
+[24] M. Gairing, T. Lücking, B. Monien, K. Tiemann, Nash equilibria, the price of anarchy and the fully mixed Nash equilibrium conjecture, in: L. Caires,
+G.F. Italiano, L. Monteiro, C. Palamidessi, M. Yung (Eds.), Proceedings of the the 32nd International Colloquium on Automata, Languages and
+Programming, in: Lecture Notes in Computer Science, vol. 3580, Springer-Verlag, 2005, pp. 51–65.
+[25] E. Koutsoupias, M. Mavronicolas, P. Spirakis, Approximate equilibria and ball fusion, Theory of Computing Systems 36 (6) (2003) 683–693.
+[26] E. Koutsoupias, C.H. Papadimitriou, Worst-case equilibria, in: G. Meinel, S. Tison (Eds.), Proceedings of the 16th Annual Symposium on Theoretical
+Aspects of Computer Science, in: Lecture Notes in Computer Science, vol. 1563, Springer-Verlag, 1999, pp. 404–413.
+[27] J.Y.T. Leung, W.D. Wei, Tighter bounds on a heuristic for a partition problem, Information Processing Letters 56 (1) (1995) 51–57.
+[28] T. Lücking, M. Mavronicolas, B. Monien, M. Rode, P. Spirakis, I. Vrto, Which is the worst-case Nash equilibrium? in: B. Rovan, P. Vojtas (Eds.), Proceedings
+of the 28th International Symposium on Mathematical Foundations of Computer Science, in: Lecture Notes in Computer Science, vol. 2747, Springer-
+Verlag, 2003, pp. 551–561.
+[29] M. Mavronicolas, P. Spirakis, The price of selfish routing, Algorithmica 48 (1) (2007) 91–126.
+[30] I. Milchtaich, Congestion games with player-specific payoff functions, Games and Economic Behavior 13 (1) (1996) 111–124.
+[31] J.F. Nash, Equilibrium points in N-person games, Proceedings of the National Academy of Sciences 36 (1950) 48–49.
+[32] J.F. Nash, Non-cooperative games, Annals of Mathematics 54 (2) (1951) 286–295.
+[33] R.W. Rosenthal, A class of games possessing pure strategy Nash equilibria, International Journal of Game Theory 2 (1) (1973) 65–67.
+[34] T. Roughgarden, Selfish Routing and the Price of Anarchy, The MIT Press, 2005.
+[35] T. Roughgarden, The maximum latency of selfish routing, in: Proceedings of the 15th Annual ACM-SIAM Symposium on Discrete Algorithms, 2004,
+pp. 973–974.
+[36] J.G. Wardrop, Some theoretical aspects of road traffic research, Proceedings of the of the Institute of Civil Engineers 1 (Pt. II) (1952) 325–378.

@@ -1,0 +1,219 @@
+Theoretical Computer Science 322 (2004) 175–179
+www.elsevier.com/locate/tcs
+Winning strategies for in$nite games: from large
+cardinals to computer science extended abstract
+Jean-Pierre Ressayre1
+Equipe de Logique Mathemathique URA 753, CNRS et Universite Paris VII,
+2 place Jussieu Tour 44-55 (5eme) Paris Cedex 05 75251, France
+Denis Richard in his roaring sixtie
+Abstract
+(1) Set Theory’s topic of Large Cardinals is the most in
+nitary part of Mathematics. At the
+other end, the study of Finite State machines is the very $rst chapter of Computer Science. Can
+we combine these two opposite extremes fruitfully and use ideas coming from large cardinals
+to produce results about $nite state machines?
+(2) Using the large cardinal axiom of “sharps” Martin proved analytic determinacy: the exis-
+tence of a winning strategy for one of the players in every in$nite game of perfect information
+between two players, provided the winning set of one of the players happens to be an an-
+alytic one. I modify and complement his proof so as to obtain a new proof of the Rabin,
+Buechi-Landweber, Gurevich-Harrington theorem of 
+nite state determinacy: existence of a win-
+ning strategy computed by a $nite state machine, when the player’s winning sets are themselves
+$nite state accepted. This 4th proof of $nite state determinacy is again a totally new one—as
+must be the case since it still makes use of the large cardinal axiom, to prove such an e=ective
+result!
+(3) Thus to our question (1) the new proof answers with a clear and surprising yes ... of
+modest bearing, since it only concerns an old result. But we shall explain why the new proof
+is more suggestive and useful than former ones, in order to address today’s two main unsolved
+problems connecting e=ective determinacy with Computer Science: the P-time realization of $nite
+state strategies, and the P-time decision of the winner of a parity game. Indeed: adding to our
+proof an e=ective elimination of the very restricted part of the axiom of sharps that it really
+uses, may lead to useful new results, ideas and methods around these two hard, crucial problems.
+(Of course our use of sharps is eliminated in advance in 3 ways: namely the 3 former proofs of
+Rabin, of Buechi-Landweber and of Gurevich-Harrington. But the new proof seems to be more
+suggestive than the old ones when feasibility questions are at stake....)
+c⃝2004 Published by Elsevier B.V.
+E-mail address: ressayre@logique.jussieu.fr (J.-P. Ressayre).
+1 Partially supported by INTAS project 2000-447.
+0304-3975/$ - see front matter c⃝2004 Published by Elsevier B.V.
+doi:10.1016/j.tcs.2004.03.029
+176
+J.-P. Ressayre / Theoretical Computer Science 322 (2004) 175–179
+1. Introduction
+Let A be a set of binary “in$nite words”: A ⊂2!; the associated game G(A) lets
+player I and player II choose z ∈2!. This play z is won by player I i= z belongs to A,
+and by player II otherwise. (Thus A is player I ’s winning set; while the winning set of
+player II is the complement 2! −A). The choice of z is made in an in$nite succession
+of turns: at turn n player I chooses z(2n) ∈2 and player II replies with z(2n + 1) ∈2.
+G(A) is determined i= one of the player has a winning strategy. That is, a map
+ : 2¡! −→2 such that the player is guaranteed to win every play z in which he
+played z(n) = (z|n) whenever it was his turn to play.
+Martin proved “analytic determinacy”: determinacy of G(A) in case the winning
+set of one of the players belongs to the class of all analytic sets. The latter is the
+most important class of well behaved, non pathological sets of in$nite sequences—
+in Mathematics, in Physics and in Computer Science as well. Of course this analytic
+class includes all “e=ective” sets such as the FS (:= $nite state) accepted sets; but
+it is immensely richer. To the e=ect that in order to deal with them, Martin’s proof
+uses “sharps”: a large cardinal axiom, much stronger and daring than ordinary Set
+Theory although the strength of the latter is already way beyond the current needs of
+mathematics (as of today). And Harrington proved a form of converse, to the e=ect
+that this axiom is in a sense required to prove analytic determinacy. This underlies
+the fact that the winning strategy proved to exist is in the general case of the most
+extremely non e=ective kind. In fact, the theory of large cardinals is the most in$nitary
+part of mathematics; and analytic (more generally projective) determinacy is the most
+spectacular outcome of this in$nitary riot.
+See [2] for a self-contained exposition of these results.
+Nevertheless we shall supplement Martin’s proof so that it yields again “
+nite state
+determinacy”—which is one of the few mathematical theorems of recognized bearing
+for Computer Science: existence of some FS computable winning strategy in G(A),
+whenever the winning set A itself is FS accepted.
+The present paper is only the extended abstract of [3]; the latter gives our new proof
+in full details, eliminates the use of a large cardinal from it. Ressayre [3] also gives
+quite a few reasons why our new proof of FS determinacy should be of interest for
+many experts in TCS; even the original analytic determinacy proof of Martin should be
+valuable to them. Therefore Ressayre [3] in addition presents Martin’s proof in a way
+we hope appropriate for TCS: in particular we use a new form of the large cardinal
+axiom “sharps” (since the original one is hopelessly far away from CS).
+2. FS determinacy
+Recall that A is a 
+nite state accepted subset of 2! if there is an FS machine such
+that A consists of the words z ∈2! which are accepted by this machine. We call it the
+acceptor A, we denote Q its set of states (so Q is $nite) and for every s ∈2¡! we
+denote q(s) the state which the acceptor A enters upon reading the word s. Thus when
+J.-P. Ressayre / Theoretical Computer Science 322 (2004) 175–179
+177
+acceptor A reads an in$nite word z ∈2!, Q has a subset Inf z := {q; q = q(z|n) for
+in$nitely many n¡!} which forms a loop in the transition graph of the acceptor A.
+And the acceptor has a $xed family F of accepting loops such that z is accepted i=
+Inf z belongs to F.
+Let us call rejecting all other loops in Q. In order for player I to win the game
+G(A), he must make sure that no rejecting loop gets eventually repeated during the
+play z. Here is an idea that player I could apply to ensure this: ∗) player I plays
+ordinals in addition to his moves, in such a way that whenever a rejecting loop gets
+repeated by the acceptor A (reading the play z during its performance), the ordinals
+chosen by player I at successive occurrences of the repetition are strictly decreasing.
+Remark 1. All If player I manages for the whole play z to ensure (*), then every
+sequence of repetitions of any rejecting loop is $nite; hence z ∈A and this play of
+G(A) is won by player I.
+This idea can be made precise in di=erent ways, which are not equivalent. Indeed,
+the whole sequel depends on a carefully selected form of (*)—given in the full version
+of this work. For any ordinal  we denote G() the version of the game G(A) in which
+in addition to his moves z(2n), player I produces (and shows to player II) ordinals
+¡ in the way (*); and he wins i= he manages to do so for the whole in$nite play.
+If he cannot, player II immediately wins. Thus the only cases where player II wins z∗
+are the 
+nite steps of the plays where player I is unable to provide an ordinal subject
+to (*). Hence G() is an open game for player II: she wins i= she already does so at
+a $nite stage of the play. Openness of the game G() provides an easy way to de$ne
+(but not to compute e=ectively!) a winning strategy  for one of the players:  is
+based on backtrack analysis from the set of all positions in G() that are already won
+by player II. (Nota Bene: this simply recalls in a particular case the Gale–Stewart
+theorem—determinacy of all games that are open in the above sense.)
+Below we distinguish two cases: in Case 1, player I has a winning strategy for the
+original game G(A) and in Case 2 it is player II.
+Case 1: There is some  such that the above strategy  is winning for player I.
+Then by the above Remark,  is winning for player I also in the original game G(A)
+(just omitting to exhibit the ordinals provided by ).
+Case 2: Not Case 1, hence  is winning for player II for any . In contrast with
+the $rst case, this strategy  for player II in G() is no longer a strategy at all in
+G(A): for it depends on ordinals that player I provides in G() but not in G(A). Here
+enter the axiom “sharps” and Martin’s analytic determinacy proof: as soon as A is
+analytic (and the more so when it is FS), sharps enable Martin to de$ne a mean value
+ =
+
+  of these strategies for all countable ’s. This mean value no longer depends
+on the ordinals provided by player I during the play of G(). In this way  becomes a
+strategy for player II in the original game G(A). And using the fact that the strategies
+ which  comes from were winning ones, Martin’s proof shows that  is winning
+for player II.
+The disjunction between the two cases produced a winning strategy for G(A) in any
+case, hence proves its determinacy. But it does so in a way that seems in$nitely far
+178
+J.-P. Ressayre / Theoretical Computer Science 322 (2004) 175–179
+away from FS determinacy. For the set of countable ordinals, and the strategies —let
+alone their “mean value”, are everything but e=ective—let alone FS!
+Nevertheless there are many possible small variations in the de$nition of the open
+games G() and their winning strategy . And we found one of these variations
+which in Case 2 yields an average strategy  that is FS. (For full details, see our full
+version [3].) This shows FS determinacy in case player II has a winning strategy. And
+interchanging the roles of the two players in the proof allows to show the other case,
+thus ending the proof.
+3. Conclusion
+Let us recall that behind FS determinacy there is an issue of great practical and
+e=ective content. For present days industry raises a large number of problems of the
+form: design a (non-terminating and FS) processor P working in real time interaction
+with its environment, which satis$es for a certain speci$cation. FS determinacy is the
+theoretical background of a successful modelization of this problem.
+(a) One imagines an in$nite game in which player player I is the environment: its
+possible moves are all stimuli which the environment might send at once to
+the processor. Player player II is the processor: its possible moves are all the
+reactions which the processor might have to make at once. The plays are all
+in$nite sequences of alternate moves of player I and player II—coded so as to
+coincide with all elements of 2!.
+(b) The speci$cation is then represented by the set A of all plays z ∈2! such that the
+moves of player II are a satisfactory response to the moves of player I, according
+to the speci$cation; thus our problem becomes: $nd a transducer  which is a
+w.s. (:= winning strategy for player II in the game G(A)).
+(c) If A happens to be FS accepted, then by FS determinacy one of the players has a
+w.s.  which is an FS transducer. If this player is player II, then  is the abstract
+form of the desired processor P; and if it is player I, then no processor of any kind
+will ever satisfy the speci$cation. Moreover using BRuchi’s lemma saying that an
+FS acceptor accepts an in$nite word i= it accepts an ultimately periodic one, we
+can e*ectively determine which player has the w.s.—and $nd out the transducer
+ which realizes it.
+The in$nite length of G(A) is an imaginary feature; and one expects that this turns
+the above “model of real world processors” to a particularly crude, falsely idealized
+one. But if a w.s.  for G(A) is performed by an FS processor P then  does everything
+it has to do every time a loop is completed in the transition graph of P. (For otherwise
+player I could induce in$nite repetition of the unsatisfactory loop, to win the play and
+defeat ). Now suppose P is a real world processor: it has about 106 states, say. Today,
+its speed is counted in Gigaherz: P completes a loop every fraction of a second!
+Thus although G(A) seems to allow  unlimited amounts of time to complete its
+tasks, in practice  is very quickly e=ective. So that the above model of processor
+design has some (heuristic) value for a very large class of applications—for instance,
+in the design of processors used in modern planes. Indeed, the expanding mathematical
+J.-P. Ressayre / Theoretical Computer Science 322 (2004) 175–179
+179
+theory of this model should give guide marks and ideas of algorithms to the engineers
+in charge of designing such processors. Which is an extraordinary fate for a theoretical
+research about in
+nite games...
+But FS determinacy is only the beginning of this remarkable story. Today, behind
+the problem solved by the theorem of FS determinacy there are unsolved theoretical
+problems which are as beautiful, but much $ner and of much stronger bearing on
+applied CS... only they are much harder. Namely (see [4] for their precise form and
+motivation):
+(1) P-time realization of FS strategies.
+(2) P-time decision of the winner of a parity game (= a special case of FS games).
+While FS determinacy contents itself with the mere existence of a FS winning strategy,
+these problems ask to quickly compute it and to quickly decide which of the two
+players has it. In fact if N is the number of states of the acceptor A, then these
+problems allocate you only constant time N k (where k¡! is independent of A) to
+compute the next move of the winning strategy or to decide which player has it. The
+$rst, obvious step in the study of these two problems is to examine the now 4 existing
+proofs of FS determinacy and see whether we might extract from them the required
+additional information (on the strategy, or on the player). The answer looks negative
+for the proofs of Rabin, of BRuchi-Landweber. In my opinion and for some precise
+reason the answer is also negative even in case of the optimal Gurevich-Harrington
+proof (as reshaped in [4]). Whereas our new proof o=ers at least the beginning of a
+track:
+• The choices of G(), of  and of the averaging procedure have many possible
+variants.
+• Girard (unpublished) de$ned one very subtle variant of Martin’s averaging procedure
+and proved that it also yields analytic determinacy.
+• Berardi [1] has studied Girard’s procedure in a case where it becomes e=ective
+(while Martin’s procedure remains une=ective in that case).
+• Applying this to the two above P-time problems has not been tried so far, but should
+lead to very novel algorithms.
+• Other e=ective determinacy problems might also bene$t from these ideas.
+In conclusion, beyond the present work there is a series of ideas, methods and
+results, as a base of future research on the P-time version of FS determinacy and other
+challenges of e=ective determinacy.
+References
+[1] S. Berardi, Equalization of $nite Sowers, J. Symbolic Logic 53 (1) (1988) 105–123.
+[2] A. Kanamori, The Higher In$nite, Springer, Berlin, 1997.
+[3] J.-P. Rassayre, Winning strategies for in$nite games: from large cardinals to computer science Collecteana
+Matematica, submitted to.
+[4] W. Thomas, Automata on in$nite objects, in: J. van Leeuwen (Ed.), Handbook of Computer Science,
+Vol. B, Elsevier, Amsterdam, 1990, pp. 133–191.

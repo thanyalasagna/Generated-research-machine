@@ -1,0 +1,1817 @@
+Theoretical Computer Science 136 (1994) 387-417 
+387 
+Elsevier 
+A quadtree algorithm for template 
+matching on a pyramid computer 
+H. Senoussi and A. Saoudi* 
+LIPN, Institut Galilbe, UniversitO Paris XIII Av. J.B. Cli~ment, 93430 Villetaneuse, France 
+Communicated by M. Nivat 
+Received September 1993 
+Revised January 1994 
+Abstract 
+Senoussi, H. and A. Saoudi, A quadtree algorithm for template matching on a pyramid computer, 
+Theoretical Computer Science ! 36 (1994) 387 477. 
+We present an algorithm to perform template matching of an N x N image with an M x M template 
+on a (log N + 1 )-levels pyramid computer. The time complexity of the algorithm is upper bounded by 
+~log N+ [~M 2, where ~ and [J are constants. 
+O. Introduction 
+The template matching is a basic operation in image processing and computer 
+vision. It is used in image registration, scene matching, edge and object detection, 
+filtering, finding lines spots and curves, and image location [15, 1]. Its complexity on 
+a single processor is O(NZM2), where N x N is the size of the image and M x M the 
+size of the template. Because of this high complexity, many researchers developed 
+parallel algorithms on various architectures. Since mesh-connected computer (MCC) 
+is suited for this operation, it was one of the most used architectures [3, 5, 9, 10, 12]. 
+Hypercube was well studied too [-4,5, 11, 13,22] for SIMD, and [14] for MIMD. 
+Some researchers designed algorithms for systolic chips [7,21]. An algorithm for 
+shuffle-exchange is presented in [5], At the knowledge of the authors, the pyramid 
+computer was used only once, in [2]. All these algorithms assume that both the image 
+Correspondence to: H. Senoussi, Institut Galilee, LIPN, Universit~ de Paris XIlI, Av. J.B. Clement, 93430 
+Villetaneuse, France. Email: senou~lipn.univ-parisl3.fr. 
+t Deceased 11 August 1993. 
+0304-3975/94/'$07.00 ~ 
+1994 
+Elsevier Science B.V. All rights reserved 
+SSDI 0304-3975(94)00020-J 
+388 
+H. Senoussi and A. Saoudi 
+and the template are represented by matrix. It is well known that matrices are 
+neither the only data structure for representing images nor the most suited to all 
+the situations. Another very useful data structure is the region quadtree [16]. In 
+this article, which is the full version of our paper [19], our motivation is to develop 
+an efficient algorithm using quadtree as data structure. For this, we design an 
+algorithm to perform template matching of an NxN 
+image with an M× M 
+template on a (logN+l)-levels pyramid computer. The time complexity of the 
+algorithm is upper bounded by c~logN+~M z, where c~ and /~ are constants. In 
+another paper [201, we have presented algorithms to perform template matching 
+on a mesh-connected computer when the image and/or the template are represented 
+by quadtrees. 
+We suppose that N and M are, respectively, equal to 2" and 2". 
+This paper is organized as follows: The first section contains some basic definitions. 
+The second section deals with quadtrees. In the third section, we introduce a family of 
+blocks that we will use in the design of our algorithm. In the fourth section, we present 
+the algorithm. 
+Because of space limitations, this paper will give propositions without proving 
+them. The proofs appear in [181. 
+1. Basic definitions 
+In this section, we start by defining the operation that we will study. The parallel 
+computer model for which we will develop our parallel algorithm is described in the 
+second subsection. In the third subsection, we introduce a path in two-dimensional 
+arrays. 
+1.1. Template matching 
+Template matching of an image I[0...N-I,0...N-1] 
+with a 
+T[0... M- 1, 0... M- 11 
+is 
+the 
+problem 
+to 
+compute 
+the 
+CONV[0... N- 1,0... N- 1] defined by 
+template 
+matrix 
+M-1M-1 
+CONV[i,j1= ~. 
+~ 
+T[u,v]*l[(i+u)modN,(j+v)modN]. 
+u-0 
+v=0 
+Intuitively, to obtain CONV[i,j], we put the template over the image such that 
+the north-western point of T coincides with the point of I whose coordinates are 
+(i,j), than the superimposed values are multiplied together and their products are 
+added. 
+In the following, "rood P" will be understood every time we will deal with coordin- 
+ates in a P x P array. 
+Quadtrere algorithm,for template matching 
+389 
+1.2. Pyramid computer 
+The machine that we will use is defined as follows: 
+• It has a control unit (CU) and log N + 1 levels of processing elements (PEs). 
+• Each PE has an index (post, posj, post) such that O<...post<.logN and O<-..post, 
+posj <~ 2 l°g N - poss __ 1. 
+• Each processing element PE(pos~, posj, post) is connected to PE(post + 1, posj, post), 
+PE(post - 1, posj, post), PE(posi, posj + l, post) and PE(post, posj- l, post). In other 
+words, the PEs of a given level are connected via a mesh interconnection network 
+with wrap-around connections. 
+• Each processing element PE(post, posj,post) such that post > 0 is connected to the 
+four 
+processors 
+PE(2 * post, 2 * posj, post - 1 ), 
+PE(2 * post, 2 * posj + 1, post- 1), 
+PE(2 • post + l, 2 * posj, post - 1 ), and PE(2 * post + 1, 2 * posj + 1, post- 1 ) called its 
+sons. 
+• Each processor consists of an ALU with registers and a local memory. 
+• The PEs memory is capable of holding data only. Hence PEs need be able to perform 
+only basic operations. Fetching and decoding operations are performed by the CU. 
+• The PEs are synchronized to perform the same function at the same time. 
+• The control unit broadcasts instructions and enable masks. The enable mask is 
+used to select a subset of the PEs to execute the instruction. 
+Fig. 1 shows the PEs of a 4-level pyramid computer (Each © represents a PE, the 
+wrap-around connections are not represented). 
+In this paper, we will use the following notations: 
+• Parentheses ( ) are used to index the PEs (e.g. VAL (post, posj, post) is the variable 
+VAL of PE (post, posj, post)). 
+• Brackets I- ] are used to index an array (e.g. CONVEi,j] is the element of the ith row 
+and the jth column of the matrix CONV.) 
+• The symbol := denotes the intraprocessor assignment. 
+• The symbol ~ denotes interprocessor assignment. 
+The main two interprocessor operations that we will use are the following. 
+procedure SHIFT(VAL, di, d j) 
+begin 
+VA L (posl, posj, post) --* VA L (posi + d~, posj + d j, post). 
+end. 
+procedure SEND(VAL) 
+begin 
+VAL(posi, posj, post)--* VAL(2 • posi, 2 • posj, post- 1 ). 
+VAL(posi, posj, post)--* VAL(2 • posl, 2 • posj + 1, post - 1 ). 
+VAL(posi, posj, post)~VAL(2 * posi+ 1,2 * posj, post- 1 ). 
+VAL(posi, posj, post)--*VAL(2 * posi + 1,2 * posj + 1, post- 1 ). 
+end. 
+390 
+H. Senoussi and A. Saoudi 
+Fig. 1. A 4-level pyramid computer. 
+Quadtrere alyorithm,/br template matehin9 
+391 
+1.3. A path in a two dimensional array 
+Let A be an array of size 2z× 2 ~. As we use them here, the coordinates (abs, ord) 
+of an element of A (denoted A labs, ord]) are such that 0 ~< abs, ord ~< 2 t- 1. Such 
+an array can be subdivided into four quadrants which are denoted as NW, NE, SW 
+and SE. 
+Definition 1. 
+For each (abs, ord) such that O<~abs, ord<~2 t- l, for each k such that 
+0 <~ k <<. l, SAk(abs, ord) is the 2 k × 2 k subarray of A containing (abs, ord), whose north- 
+western element is of coordinates ((abs/2 k) * 2 k, (ord/2 k) * 2k). 
+A path in A is a list of points (Pk)k=O ..... Nb- a of A, where Nb is the number of points 
+visited. If we denote by (Ctk, fig) the coordinates of Pk, then the length of the path will be 
+equal to 
+Nb- 1 
+,~, (l~k-- ~k-, I + I/~k--/~k-, I) • 
+k=l 
+In the following, we will use a path verifying the following conditions: 
+(1) It starts at the point of coordinates (0,0). 
+(2) It is hamiltonian. 
+(3) After an element (abs, ord), it visits the points belonging to the subarray 
+SA~ (abs, ord), than the other points of the subarray SA2(abs, ord), etc. 
+Such a path is defined as follows using the Freeman notations (Fig. 2): (# is the 
+operator of concatenation): Construct P(1,NW, CW) or P(1,NW, CCW) by the 
+following rules: 
+k>l 
+P(k, NW, CW) = P (k - 1, NW, CCW) # 0 # P(k - 1, NW, CW) 
+# 3 # P(k- I, NW, CW) # 2 # P(k- I, SE, CCW). 
+21 
+)0 
+3 
+Fig. 2. The Freeman notation. 
+392 
+H. Senoussi and A. Saoudi 
+and 
+P(k, NW, CCW) = P(k- 1, NW, CW) # 3 # P(k- 1, NW, CCW) 
+# 0 # P(k-1, NW, CCW) # l #P(k- l, SE, CW). 
+P(k, NE, CW)= P(k - 1, NE, CCW) # 3 # P(k- 1, NE, CW) 
+# 2 # P(k- 1, NE, CW) # 1 # P(k- 1, SW, CCW). 
+P(k, NE, CCW) = P(k - 1, NE, CW) # 2 # P(k- 1, NE, CCW) 
+# 3 # P(k-1, NE, CCW) #0 # P(k- 1, SW, CW). 
+P(k, SW, CW) = P(k- 1, SW, CCW) # 1 #P(k-1, SW, CW) 
+#O# P(k-I, SW, CW)# 3 # P(k- I,NE, CCW). 
+P (k, SW, CCW) = P (k - l, SW, CW) # 0 # P(k - 1, SW, CCW) 
+# 1 #P(k-I, SW, CCW)#2#P(k-1,NE, CW). 
+P(k, SE, CW) = P(k- 1, SE, CCW) # 2 # P(k- 1, SE, CW) 
+# 1 # P(k-1, SE, CW)#0# P(k- 1, NW, CCW). 
+P(k, SE, CCW) = P(k- 1, SE, CW) # 1 # P(k- 1, SE, CCW) 
+# 2 # P(k- 1, SE, CCW) # 3 # P(k- 1, NW, CW). 
+P(1,NW, CW)=032. 
+P(1, NW, CCW)= 301. 
+P(1,NE, CW)= 32l. 
+P(1, NE, CCW) = 230. 
+P(1, SW, CW)= 103. 
+P(I, SW, CCW)=012. 
+P(I, SE, CW)=210. 
+P(1, SE, CCW) = 123. 
+P(k, Q,CW) (resp. P(k, Q, CCW)) is the path which visits the four quadrants of 
+a 2 k × 2 k array clockwise (resp. counterclockwise) starting by the quadrant Q. 
+Example. Let us take l= 3 and find the two paths verifying the conditions (1)-(3). 
+P(3, NW, CW) 
+= P(2, NW, CCW) # 0 # P(2, NW, CW) # 3 # P(2, NW, CW)# 2 # P(2, SE, CCW). 
+=P(1,NW, CW)# 3# P(1,NW, CCW)#O# P(1,NW, CCW)# 1#210#0# 
+P(1, NW, CCW) # 0 # P(I, NW, CW) # 3 # P(I, NW, CW) # 2 # P(1, SE, CCW) # 3 
+Quadtrere alqorithm.[or template matehing 
+393 
+ll] 
+II 
+I 
+li 
+I,,11, 
+(a) 
+(b) 
+Fig. 3. The two paths P(3, NW,*). 
+# P(1,NW, CCW)#O# P(1,NW, CW)# 3 # P(1,NW, CW)# 2 # P(1, SE, CCW)# 2 
+# 210 # 1 # P(1, SE, CCW) # 2 # P(1, SE, CCW) # 3 # P(1, NW, CW). 
+=032#3#301 #0#301# 1#210#0#301 #0#032#3#032#2# 
+123#3#301 
+#0#032#3#032#2# 
+123#2#210# 1#123#2# 123#3#032. 
+=032330103011210030100323032212333010032303221232210112321233032. 
+This path is shown by the Fig. 3(a). 
+P(3, NW, CCW) 
+= P(2, NW, CW) # 3 # P(2, NW, CCW) # 0 # P(2, NW, CCW) # 1 # P(2, SE, CW). 
+= P(1,NW, CCW)#O# P(1,NW, CW)# 3 # P(1,NW, CW)# 2 # P(1,SE, CCW)# 3 
+# P(1, NW, CW)# 3 # P(1,NW, CCW)#O# P(1,NW, CCW)#1 # P(1,SE, CW)#0 
+#P(1,NW, CW)#3#P(1, NW, CCW)#O#P(1,NW, CCW)# 1 #P(1, SE, CW) # 1 
+# P(1, SE, CCW)# 2 # P(1, SE, CW)# 1 #P(1,SE, CW)#O#P(1,NW, CCW). 
+=301 #0#032#3#032#2# 
+123#3 #032#3#301 #0#301# 1 #210#0#032#3 
+#301 #0#301# 1 #210# 1 # 123#2#210# 1 #210#0#301. 
+= 301003230322123303233010301121000323301030112101123221012100301. 
+This path is shown by the Fig. 3(b). S is the starting point of the path. 
+In the following we will use the path P( * ,NW, CW) and call it H 4. 
+2. Quadtrees 
+Given a 2 k x 2 k binary image, its quadtree is the tree of degree four which is defined 
+as follows: The root of the tree is associated with the entire image. For each node of 
+394 
+H. Senoussi and A. Saoudi 
+the tree, if the region of the image associated with it has only one value (Black or 
+White) than this node is a leaf, else the region is subdivided into four equal-sized 
+quadrants (labeled in order NW, NE, SW and SE) and the node has four sons, each of 
+them being associated with one of the four quadrants. 
+In the following, we will refer to items in the quadtree (e.g. nodes) and mean their 
+counterparts in the picture (blocks), or vice versa. 
+The level ofa quadtree's node is defined as in [-17] by saying that the root has level 
+k and other nodes have a level that is one lower than their father's level. 
+There are two kinds of quadtree representations: pointer-based and pointer-less. 
+The pointer-less representations are termed linear quadtree [17]. 1 
+The quadtree representation that we use in this work is a variation of the linear 
+quadtree and is defined as follows: 
+(*) Since we deal only with binary images, the quadtree can be described by its 
+black leaves only. 
+(*) If we know the level lev of a black leaf and the coordinates (a, b) of one of its 
+points, the other points of this leaf are those whose coordinates (abs, ord) verify 
+(a/'2 le~ ) * 2 ~v ~ abs <~ ((a/2 le~') + 1 ) * 2 tev -- 1, 
+(b/2 lev) * 2 l~ <~ ord ~ ((b/2 l~v) + 1 ) * 2 lev - 1. 
+The quadtree is then described by a set QD( ) of triples (a,b, lev). Each triple 
+corresponds to a black leaf. The point of coordinates (a, b) is a point of the block called 
+its representant and lev is the level of the leaf in the quadtree. In the following, we will 
+use two types of representant: 
+• The NW-representant of a leaf is its Northwestern point. If the NW-representant is 
+used for all the leaves, we will talk about the N W-representation of the quadtree. 
+• The SE-representant of a leaf is its Southeastern point. If the SE-representant is 
+used for all the leaves, we will talk about the SE-representation of the quadtree. 
+We can associate with a quadtree the following parameters: 
+• The number of its black leaves, that is the cardinality of the set QD(). This number 
+will be denoted NL(). 
+• The number of its black pixels which is obtained by summing for all the elements of 
+QD( ) the values 2 21ev. This number will be denoted S(). 
+• The highest (lowest) value of lee in the set {(., * ,lev)}, that is the highest (lowest) 
+level of the quadtree containing a black leaf. This parameter will be denoted 
+LEV MAX()(LEV 
+MIN()). 
+In the following, we will need to order the black leaves of a quadtree. We will say that 
+QD( ) is ordered by H 4 when an element (al, bl, let:l) is used before another element 
+(a:, b2, lev2) if (/7 4 visits (al, bl) before (a2, b2)). 
+Now, we define two transforms on the quadtree of a binary image. The first one is 
+the symmetry and the second is the projection onto a level let,. 
+1 As Samet note, this is more general than the original definition of Gargantini [6], who termed linear 
+quadtree a sorted list of the black nodes. 
+Quadtrere alyorithm ji~r template matching 
+395 
+2.1. Symmetrical of a quadtree 
+Let us consider the quadtree of a binary image T(0...2"-1,0...2"-1), 
+whose 
+SE-representation is given by the set QD(T) = { (:ti, fli, levi) 0 <~ i <~ NL (T)- 1 }, NL(T) 
+being the number of black leaves of the quadtree, and let us define the "function" 
+Sym,, as follows. 
+For (~, fi, lev) such that 0 ~ c~, fl ~< 2"- 1 and 0 ~< lev <~ m 
+Sym,,(c~,/~, lev)=(2 m- 1 -~, 2"- 1 -/3, lev). 
+Let us call QS(T) the set Sym,,(QD(T)). It is easy to see that there exists a 2 m x 2" 
+binary image 
+T' whose quadtree's NW-representation 
+is given by the set 
+QD(T') = QS(T). The quadtree of T' will be called the symmetrical of the quadtree of 
+T. 
+Example. Let us consider the image of Fig. 4(a). Its quadtree is shown by Fig. 5(a) 
+and Fig. 6(a) shows the blocks corresponding to the leaves of this quadtree. The 
+SE-representation of this quadtree is given by the set QD(T)= {(1,1, 1),(3, 1,0), 
+(0, 3, 0), (1, 3, 0),(7, 3, 2), (1,5, 0),(4, 5, 0), (3, 6, 0), (1, 7, 1), (3, 7, 0), (7, 7, 1)}. 
+The NW-representation of the symmetrical of this quadtree is given by the set: 
+QS(T)= {(6, 6, 1),(4, 6, 0), (7,4, 0), (6, 4, 0),(0, 4, 2),(6, 2, 0), (3, 2,0), (4, 1,0),(6, 0, 1), 
+(4, 0, 0), (0, 0, 1)}. 
+This quadtree is shown by Fig. 5(b), the image corresponding to it by Fig. 4(b) and 
+the blocks corresponding to its leaf nodes by Fig. 6(b). 
+(a) 
+(b) 
+Fig. 4. (a) Image T; [b) image T' corresponding to the symmetrical of the quadtree of T. 
+396 
+fl. Senoussi and A. Saoudi 
+kL. 
+I 
+"~.9 
+w 
+m 
+Quadtrere algorithm.[br template matchin¢t 
+397 
+(a) 
+(b) 
+Fig. 6 (a) Blocks of T; (b) Blocks of T' 
+2.2. Projection of a quadtree onto a level 
+Given a quadtree of a binary image T[0...2 m-l,0...2 m-l]. For L verifying 
+0 ~< L ~< m, we define the following transform. 
+The N W-Projection of the quadtree onto the level L is the graph constituted by the 
+arrays TPze~[0...2 m-lev- 1,0...2 "-tev- 1], lev=O ..... L defined as follows: 
+lev=O ..... L- 1 
+TP~e~,[a', b'] = lev 
+If (a'2 lev, b'2 le~) is a representant of leaf node of the level lev, 
+= -1 
+else. 
+and TP~v[a',b'] is joined by an edge to TPt~,+~ [a'/2, b'/'2] (Its father). 
+TPL [a', b'] = L + 
+if (a'2 L, b'2 L) is the representant NW of a leaf node of the 
+level L +, L + =L ..... m. 
+=-- 1 else. 
+Example. Figs. 7 and 8 show, respectively, the projections of an 8 x 8 image 
+quadtree, and the arrays TPte~ of the NW-projection corresponding to the image T of 
+Fig. 4(a): 
+3. Blocks B, 
+Given two integers p and q such that p>~q>~O, the block Bp,q is the square array of 
+side 2P+2q-1 
+constituted by the subblocks T1, T2, 7-3, T,, 7"5, 7"6, TT, T8 and 
+T9 placed as shown by Fig. 9 and defined as follows: 
+398 
+H. Senoussi and ,4. Saoudi 
+(a) 
+Fig, 7. # Projection onto (a) level 3; (b) level 2; (c) level 1; (d) level 0. 
+-O 
+Quadtrere algorithm jor template matching 
+399 
+"O 
+~b) 
+Fig. 7. (continued) 
+Till...2 q-l,1...2 a-l] 
+is such that Tl[abs, ord] = abs*ord, 
+T2[l...2q-l,1...2P-2q+l] 
+is such that Tz[abs, ord] = abs*2 q, 
+Ts[l...2P- 2q +l,1...2P- 2q + l] is such that Ts[abs, ord] = 22q. 
+In other words, T1, is the multiplication table of the first 2 q- 1 positive integers, the 
+elements of the absth row of T2 are equal to the product of abs by 20 and T5 is the 
+400 
+H. Senoussi and A. Saoudi 
+(c) 
+Fig. 7. (continued~ 
+(2P-2q+ 1)* (2~-2q+1) block whose elements are equal to 22q. T3, 7"7, and T9 are 
+obtained from T1, respectively, by a symmetry in relation to the vertical axis a sym- 
+metry in relation to the horizontal axis and a compound of the two symmetries. 
+T6, Ts, and T4 are obtained from T2 by, respectively, rotations by 11/2, 11 and 31I/2. 
+Note that if q = 0, only T 5 is not empty. 
+Another definition-building of the blocks Bp,q is given by the following algorithm, 
+and illustrated by Fig. 10. 
+Quadtrere algorithm jbr template matching 
+401 
+(d) 
+Fig. 7. (continued) 
+Algorithm construct block 
+/*Construct the block Bp,qp ~ q ~0" / 
+(1) Build the first row, that is Bp,q[O,s], as follows: 
+(1.1) The first and the last elements are equal to 1. 
+(1.2) Starting from first (resp. the last) element move to the right (resp. to the 
+left) and give to the current element the value one higher than the previous. 
+(1.3) Repeat (1.2) while the current value is less or equal to 2 q. 
+(1.4) Give to the remaining elements the value 2 0 . 
+(2) Copy the first row in the first column that is do Bp,q[r,O] =B~,q[O,r]. 
+(3) Each remaining element Bp,q [r, s] of the block is equal to Bp,q [0, s] * Bp,q [r, 0]. 
+402 
+H. Senoussi and A. Saoudi 
+0 
+1 
+2 
+0 
+0 
+1 
+1 
+D 
+0 
+0 
+0 
+0 
+(a) 
+0 
+0 
+0 
+0 
+(b) 
+I 
+2 
+I 
+I 
+0 
+I 
+2 
+0 
+0 
+] 
+1 
+0 
+0 
+0 
+0 
+(c) 
+Fig. 8. Arrays of the NW-projections onto (a) level 3; (b) level 2; (c) level l; (d) level 0. 
+Quadtrere algorithm jbr template matchino 
+403 
+mmmmmmmE 
+lnnnnmn 
+0 
+0 
+0 
+0 
+1 
+0 
+(d) 
+Fig. 8. (continued) 
+T 1 
+T 2 
+T 3 
+T 4 
+T 5 
+T 6 
+T 7 
+T 8 
+T 9 
+Fig. 9 Subblocks of B,,,. 
+We now give some examples of blocks B,., 
+Particular case: q = 0. The block Bp,o is of size 2 p, 2 p and all its elements are equal 
+to 1. We recognize the blocks used to describe the quadtree of a binary image. 
+Example 1:p=2 and q= 1. The block B2,1 shown in Fig. 11. 
+Example 2: p = 3 and q = 2. The Block B3.2 is shown in Fig. 12 
+Properties of B,,, 
+We have called B,,, a block rather than an array, because we will not use it as an 
+independent array but as a block of an array. In the following, we will deal with arrays 
+A [0...N- 1, 0...N- 1 ] defined as sets of blocks {Bi = (Bp,,q,, (xi, yi))}, where (xi, Yi) is 
+the position in A of the northwestern point of Bi. In other words, we obtain A as 
+follows: 
+404 
+H. Senoussi and A. Saoudi 
+oo*[] 
+ooo 
+• 
+I 
+[] 
+12° 12° 12 ° 
+Fig. 10 Building of B,,, 
+1 
+2 
+2 
+2 
+1 
+2 
+4 
+4 
+4 
+2 
+2 
+4 
+4 
+4 
+2 
+2 
+4 
+4 
+4 
+2 
+1 
+2 
+2 
+2 
+1 
+Fig. 11 
+For each i 
+begin 
+For r = 0 ..... 2 "~ + 2ql - 2 Do 
+begin 
+For s = 0 ..... 2 p' + 2 q~ - 2 Do 
+begin 
+A[xi+ r, yi+ s]:= A[xi+ r, yi+ s] + Bv.q~[r,s]; 
+end 
+end 
+end. 
+13121~1 
+Quadtrere algorithm.~Jr template matching 
+405 
+l 
+2 
+3 
+4 
+4 
+4 
+4 
+4 
+3 
+2 
+1 
+2 
+4 
+6 
+8 
+8 
+8 
+8 
+8 
+6 
+4 
+2 
+3 
+6 
+9 
+12 
+12 
+12 
+12 
+12 
+9 
+6 
+3 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+16 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+16 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+16 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+16 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+16 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+16 
+12 
+8 
+4 
+3 
+6 
+9 
+12 
+12 
+12 
+12 
+12 
+9 
+6 
+3 
+2 
+4 
+6 
+8 
+8 
+8 
+8 
+8 
+6 
+4 
+2 
+1 
+2 
+3 
+4 
+4 
+4 
+4 
+4 
+3 
+2 
+1 
+Fig. 12. 
+We will say that A has a block Bp,,q i located at (xi, yi), or that (x~, y~) is the position of 
+a block Bp,.q. Note that two blocks can overlap and have the same position. 
+Now, let us suppose that we have the NW-representation QD(I) of the quadtree of 
+an image I, the S E-representation QD(T) of the quadtree of a template T and that we 
+want to calculate the template matching CONV of I with T. To obtain the contribu- 
+tion of a couple (((a,b, lev),(c~,[~,lev'))) of QD(I)xQD(T) 
+to a given value 
+CONV[i,j], we must proceed as follows: 
+(*) We put a 2~" x 2 t~' black block over I such that its southeastern point 
+coincides with the point of coordinates (i+ c~,j+/~). 
+(*) The contribution is the surface of the intersection of this block with the black 
+block defined by the triple (a, b, lev). 
+We have the following properties. 
+Proposition 1. The contribution of an element (a,b, lev),(~,fl, let,')) of QD(I) x QD(T) 
+(that is of a couple of black blocks of I x T) to the template matching of l with T is a block 
+BMAX~Ie~,, le~,), iIN<le~, te~,' ) located at the position (a - 2, b - fl) in CON V. 
+406 
+H. Senoussi and A. Saoudi 
+Proposition 2. A block Bp, q such that p>q>~O, located at (x,y) can be decomposed into 
+four blocks Bp_ l, q located at (x,y), (x + 2 ply), 
+(x, y + 2P 1), and (x+2p-l,y+2p-1). 
+This process will be called the decomposition with respect to p. 
+Proposition 3. A block Bp, q such that p >lq >0, located at the position (x,y) can be 
+decomposed into [bur blocks Bp,q 1 located at (x,y), (x+2 q 1, y), (x,y+2 q t), 
+and (x + 2 q- 1,y+2q-t). This process will be called the decomposition with respect 
+to q. 
+1 
+2 
+3 
+4 
+5 
+6 
+7 
+8 
+8 
+8 
+7 
+6 
+5 
+4 
+3 
+2 
+'1 
+2 
+4 
+6 
+8 
+10 
+12 
+lz 
+1( 
+16 
+16 
+14 
+12 
+]C 
+8 
+6 
+4 
+2 
+3 
+6 
+9 
+12 
+15 
+18 
+21 
+2z 
+24 
+24 
+21 
+18 
+15 
+12 
+9 
+6 
+3 
+4 
+8 
+12 
+16 
+20 
+24 
+2~ 
+32 
+32 
+32 
+28 
+24 
+2C 
+16 
+12 
+8 
+4 
+S 
+lO 
+15 
+20 
+2..5 
+30 
+32 
+4C 
+40 
+40 
+35 
+30 
+25 
+2C 
+15 
+10 
+5 
+6 
+12 
+18 
+24 
+30 
+36 
+42 
+4 c 
+49 
+49 
+42 
+36 
+30 
+24 
+l~ 
+12 
+6 
+7 
+14 
+2 
+28 
+35 
+42 
+4£ 
+5C 
+56 
+56 
+49 
+42 
+35 
+28 
+2 
+14 
+7 
+8 
+161 24 
+32 
+40 
+48 
+5~ 
+6" 
+64 
+64 
+56 
+48 
+40 
+32 
+2z 
+16 
+8 
+8 
+1~ 
+24 
+32 
+40 
+48 
+56 
+64 
+6 z 
+64 
+56 
+48 
+40 
+32 
+2 z 
+]6 
+8 
+8 
+'IC 
+24 
+32 
+40 
+48 
+56 
+64 
+6z 
+64 
+56 
+48 
+40 
+32 
+2z 
+"16 
+8 
+7 
+14 
+2 
+28 
+35 
+42 
+49 
+56 
+56 
+56 
+49 
+42 
+35 
+28 
+21 
+1 z 
+7 
+6 
+12 
+18 
+24 
+30 
+36 
+42 
+48 
+48 
+4~ 
+42 
+36 
+30 
+24 
+18 
+17 
+6 
+5 
+1C 
+15 
+20 
+25 
+30 
+35 
+4C 
+4C 
+4C 
+35 
+30 
+25 
+20 
+15 
+1C 
+S 
+4 
+8 
+12 
+16 
+20 
+24 
+28 
+32 
+32 
+32 
+28 
+24 
+20 
+16 
+12 
+8 
+4 
+3 
+6 
+9 
+12 
+15 
+18 
+21 
+24 
+24 
+2,4 
+21 i 
+18 
+15 
+12 
+9 
+6 
+3 
+2 
+4 
+6 
+8 
+10 
+12 
+14 
+16 
+16 
+ll2 
+"lz 
+12 
+lO 
+8 
+6 
+4 
+2 
+1 
+2 
+3 
+4 
+5 
+6 
+7 
+8 
+8 
+8 
+7 
+6 
+5 
+4 
+3 
+2 
+1 
+Fig. 13. Decomposition w.r.t.q. 
+Quadtrere algorithm.]br template matchin.q 
+407 
+Proposition 4. Given a block Bp,q located at the position (x,y) of an array. The two 
+Jollowin9 operations have the same result: (1) Translate the block by (dl,d2) then 
+decompose it w.r.t, p or q and (2) Decompose the block w.r.t, p or q then translate the 
+resulting blocks by (all,d2). 
+Example. Now, we give an example of decomposition w.r.t.q. Fig. 13 shows the 
+decomposition of a block B3,3 into 4 blocks B3, 2. 
+I 
+2 
+3 
+4 
+4 
+4 
+4 
+4 
+3 
+2 
+I 
+2 
+4 
+6 
+8 
+8 
+8 
+8 
+8 
+6 
+4 
+2 
+3 
+6 
+9 
+12 12 12' 12 12 9 
+6 
+3 
+4 
+8 
+12 16 16 16 16 16 ]2 8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+16 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16i 
+16 
+16 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+16 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+16! 
+16 
+12 
+8 
+4 
+3 
+6 
+9 
+";2 
+12 
+12 
+12 
+12 
+9 
+6 
+3 
+2 
+4 
+6 
+8 
+8 
+8 
+8 
+8 
+6 
+4 
+2 
+1 
+2 
+3 
+4 
+4 
+4 
+4 
+4 
+3 
+2 
+1 
+I 
+Fig. 13. (continued) 
+408 
+H. Senoussi and A. Saoudi 
+1 
+2 
+3 
+4 
+4 
+4 
+4 
+4 
+3 
+2 
+1 
+2 
+4 
+6 
+8 
+8 
+8 
+8 
+8 
+6 
+4 
+2 
+3 
+6 
+9 
+12 
+12 
+12 
+12 
+12 
+9 
+6 
+3 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+l~ 
+17 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+1C 
+17 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+16 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+1C 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+1E 
+12 
+8 
+4 
+3 
+6 
+9 
+12 
+12 
+12 
+12 
+12 
+9 
+6 
+3 
+2 
+4 
+6 
+8 
+8 
+8 
+8 
+8 
+6 
+4 
+2 
+1 
+2 
+3 
+4 
+4 
+4 
+4 
+4 
+3 
+2 
+1 
+Fig. 13. (continued) 
+4. The algorithm 
+4.1. Principle 
+We suppose that we have the NW-representation of the l's quadtree and the 
+SE-representation of the T's quadtree. As we said before (Proposition 1), the contribu- 
+tion of a couple ((a,b, lev), (~.,fi, lev')) belonging to QD(I)x QD(T) to the template 
+matching of I with T is a block BMAX~lev, tev'), MIN~ev, lev,) located at (a-- ~, b -/~). Let us 
+Quadtrere algorithm Jor template matehin.q 
+409 
+1 
+2 
+3 
+4 
+4 
+4 
+4 
+4 
+3 
+2 
+1 
+2 
+4 
+6 
+8 
+8 
+8 
+8 
+8 
+6 
+4 
+2 
+3 
+6 
+9 
+12 
+12 
+12 
+12 
+12 
+9 
+6 
+3 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+16 
+12 
+8 
+4 
+4 
+8 
+12 16 16 16 16 16 12 8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+16 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+'16 
+16 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+16 
+16 
+12 
+8 
+4 
+3 
+6 
+9 
+12 
+12 
+12 
+12 
+"12 
+9 
+6 
+3 
+2 
+4 
+6 
+8 
+8 
+8 
+8 
+8 
+6 
+4 
+2 
+1 
+2 
+3 
+4 
+4 
+4 
+4 
+4 
+3 
+2 
+1 
+I 
+I 
+I 
+Fig. 13. (continued) 
+transform these coordinates: 
+a-~=a 
++2"- 
+1 --~--2m+ 
+1, 
+b-fl=b+ 2m- I-/~--2" + 1. 
+That is 
+a--,7=a 
++~--2"+ 
+1, 
+b-/~=b 
++/~-2"+ 
+1, 
+where (~s,/~,, lev') = Symm((~, fl, lev')). 
+(1) 
+(2) 
+410 
+H. Senoussi and A. Saoudi 
+1 
+2 
+3 
+4 
+4 
+4 
+4 
+,4 
+3 
+2 
+1 
+2 
+4 
+6 
+8 
+8 
+8 
+8 
+8 
+6 
+4 
+2 
+3 
+6 
+9 
+12 
+12 
+12 
+12 
+12 
+9 
+6 
+3 
+4 
+8 
+12 
+16 
+16 
+16 
+1~ 
+16 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+1~ 
+1~ 
+16 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+16 
+161 
+16 
+12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+1~ 
+16 
+16 
+"12 
+8 
+4 
+4 
+8 
+12 
+16 
+16 
+1~ 
+16 
+16 
+"i2 
+8 
+4 
+3 
+6 
+9 
+12 
+12 
+12 
+12 
+12 
+9 
+6 
+3 
+2 
+4 
+6 
+8 
+8 
+8 
+8 
+8 
+6 
+4 
+2 
+1 
+2 
+3 
+4 
+4 
+4 
+4 
+4 
+3 
+2 
+1 
+I 
+I 
+I 
+Fig. 13. (continued) 
+The relations (1) and (2) mean that to obtain the template matching CONV of 
+I with T, we must proceed as follows. 
+Foreaeh element ((a, b, lev), (cq, [J~, lev')) of QD(1) x QS(T) 
+begin 
+(1) Put a block BMAX(lev, let.,,), MIN(lev, let,,,) at (a + 7s, b + fl~). 
+(2) Shift the block by --(2m--l,2m--1). 
+(3) Decompose this block using the Properties 2 and 3. 
+end. 
+Now, let us consider a level lev such that O<~lev<<.m and let us suppose that QD(I) 
+has an element (a =a'2 let,', b=b'2 te~, lev) We have the following proposition. 
+Quadtrere alqorithm Jor template matchin.q 
+411 
+Proposition 5. If we put the N W-projection of the symmetrical of the quadtree of T onto 
+the level lev, such that the N W corner of its highest level (that is lev) coincides with the 
+point ( a', b', lev ) of the (n + 1)-levels pyramid, then the point (~s, fls, lev' ) of this projection 
+will coincide with the point ((a + ~)/2 tev'', (b + fi~)//2z~"= MIN(lev, lev')) of the (n + 1)- 
+levels pyramid. 
+The principle of our algorithm will be the following: 
+(*) At the beginning, every processor PE(posi, posj, 0) contains CONV(posi,posj) 
+initialized 
+to 
+0, 
+and 
+each 
+element (a,b, lev) 
+of QD(I) 
+is 
+contained 
+by 
+PE(a/2 le~, b /2 zev, lev). 
+First step (Proposition 5) 
+( * ) For lev >1. m, for each element (a, b, lev) of QD (I), for each ( *, *, m) descendant of 
+PE(a/2 ~¢~, b/2 l¢~, lev), we put the NW-projection of QS(T) onto the level m, such that 
+its root coincides with (*,,,m) and then put a block Bm.~¢v, in each point of the 
+pyramid that coincides with a value lev' from the projection of QS(T). 
+(*) For lev<~m, for each element (a,b, lev) of QD(I), we put the NW-projection 
+of QS(T) onto the level lev, such that the NW corner of its highest level (that is 
+lev) coincides with (a/2te~,b/2 t~, lev) and then put a block BMAX~Iev, 
+lev,),MlN(let,,, lev') 
+in each point of the pyramid that coincides with a value let,' from the projection of 
+QS(T). 
+Second step (Propositions 2 and 3) 
+(*) Decompose the blocks B,.le~ contained by the level lev of the pyramid, such 
+that when they reach the level 0, we obtain blocks B,,o. For this, every processor 
+PE( ,, ,, lev) containing a block B,, lev must send a block B,, zev- ~ to each son of its. 
+Third .step (Proposition 2) 
+(*) Decompose the blocks B,,o within the level 0. For this, every processor 
+PE(posi,posi,O) containing a block Bp.o must send a block Bp 1.o to each one of the 
+processors 
+PE(posi+2P-l,posj, O) PE(posi,posj+2p-l,0) 
+and 
+PE(posi+2 p-l, 
+posi + 2 p- t, 0). At the end of this decomposition we have only blocks Bo,0 that we add 
+to CONV. 
+Fourth step 
+(*) Shift CONV by -(2"-1,2"-1). 
+4.2. Description of the algorithm 
+Every processor PE(posi, posj, lev) needs O(m) memory and contains the following 
+variables: 
+( * ) VAL_LI which is equal to 1 if QD(I) has an element (posl * 2 ~, posj • 2 z"~, lev), 
+and to 0 if it has not. 
+412 
+H. Senoussi and A. Saoudi 
+( • ) QDP is a 4-tuple initialized to (0, 0, -1, -l) and that will be updated as it will 
+be explained in the following. 
+( * ) STATE which is equal to BEFORE if the level has not received the first element 
+of QS(T) yet, AFTER if it has already received the last one and DURING otherwise. 
+( • ) FT_PRC and FT_PRS which depend on the present and the previous elements 
+of QS(T) in the processor. 
+(.) The processors PE(pos~,posj,O) have arrays Tab[O...m] which are defined by 
+Tab [i] = number of blocks Bt.o whose position is (post, posj), 
+The elementary operations used by the algorithm are the following: 
+( • ) PE( ) transmits QDP to its four sons, this is performed by the procedure SEND 
+( ) defined above. 
+(.) PE ( ) updates QDP. 
+(*) PE(post,posj, lev) sends VAL LI to PE(posi+xze~,posj+y~,lev), 
+where 
+0 < Xtev, Ytev < 2n-tev are the same for all the processors of the level. This is performed 
+by the procedure SHIFT(). defined above. 
+( • ) PE(post, posj, 0) sends a data Tab [ ] to PE(pos~ + 2 q, posj, 0), PE (post, posj + 2 ~, O) 
+and PE(posi+2q,posj+2q,O) where 0<q<m is the same for the Tprocessors of the 
+level 0. This is performed by the SHIFT(). 
+The algorithm using these operations to achieve the four steps described above is as 
+follows: 
+First and second steps 
+(*) The elements (~s,t~s, lev') of QS(T) are ordered by the path /7,,. They are 
+introduced at the apex in the form QDP=(%,~s,lev',-1), 
+and each processor 
+receiving this 4-tuple transmits it to its sons, after having updated it if necessary. 
+(.) To describe the different updating of QDP, we must envisage 2 cases: 
+(**) If lev>~m, each processor PE(posl,posj, lev) such that VAL_LI = 1 updates 
+QDP to (~,[_]~,lev',lev) (that is creates a block Ble~,lev,). Then, for each son 
+PE(posil,posjl,m) 
+of PE(pos, pos~,lev) 
+we 
+must 
+send 
+a 
+block 
+Bm,lev, to 
+PE(posla * 2"+C~s)/2tev',(posjl * 2m+(/3~)/2 tev', let/) which can be done as follows: 
+(***) Between the levels lev-1 and m, each processor PE(posi2,posjz,levl) that 
+receives the 4-tuple (.,., led, lev~ + 1) updates it to (*, *, let/, levi). 
+(***) Between the levels m and let/ the block must be transmitted without 
+modification 
+until 
+it 
+reaches 
+its 
+destination, 
+that 
+is 
+the 
+processor 
+PE(pOSil, * 2" + ~,)/2 le~', 
+( posjl, * 2 ~ +/~)/2 t~' led) 
+The 
+path 
+going 
+from 
+PE(pOStl, posjl, m) to PE((pos, • 2" + 7~)/2 ~', {pOS)l * 2" + [3~)/2 l~', led) traverses 
+only one processor in each level lev~ such that lev'<~ levi <~m, this processor is the only 
+predecessor of PE((pos, * 2 m + ~)/2 le~', (posjl, * 2" + ~)/21~v', led) belonging the level 
+levt 
+( PE((posil * 2" +O:s)/2 le~', (posit, * 2" + fl~)/2 tev', let/) itself if levi =-led). Hence 
+the transmission of QDP is done as follows: each processor PE(., ,levi) which 
+receives a 4-tuple (,,. ,led,m) such that lev' <~lev~ does not modifyit if it is a prede- 
+cessor of PE((posta *2"+C~)/'2te~',posjl *2"+fl~)/2tev',lev') and updates it to (*, *, 
+lev',-l) 
+else. PE(post2,posj2,levi) 
+is a 
+predecessor of (pos~l*2"+~)/2 ~'', 
+Quadtrere al,qorithm [br template matchin,q 
+413 
+(posjl * 2"+/~)/2 le~'') if posi~ * 2"+.% (resp. posjl *2m+fl~) has the same (n-levi) 
+high bits as posi2 * 2 ~e~' (resp. posj2 * 2 zeal). Since these two processors are successors of 
+the same processor of the level m, we know that posil * 2"+~ (resp. pos~l * 2"+/3~) 
+has the same (n-m) high bits as posi2*2 levi (resp. posjz*2l~l), hence we need to 
+compare only the bits between the positions m- 1 and lev~. By induction, it is easy to 
+prove that PE(pos~z,pos~2, lev~ ) needs to compare the bits of the position levi only. 
+The bit of the position [ev I in pos~a * 2" + % (resp. posjl * 2" -+- fls) is the same as that of 
+% (resp. fl~) because pos~l * 2 m (resp. posjl * 2") is a multiple of 2". We conclude that: 
+When a processor PE(posi2,posjz,leVl) such that O<~levl<m receives a 4-tuple 
+(~,fl~,lev',m) 
+such that lev'<<,levl, it compares the bits of the position lev~ of 
+pos~2 * 2 ~'~ and ~ (resp. posj2 * 2 ~'' and fl~). If equality, it transmits QDP to its sons 
+without modification, else updates it to (*, *, led,-1). 
+(***) Starting from the level lev' the block B,,j~, must be decomposed into blocks 
+B,,.l~,- 1, Bm,ze~, 2 ..... B,,.o. This can be done as follows: If a processor PE( *, *, lev2) 
+receives a 4-tuple (.,., [ev2 + 1, m) it updates it to (*, *, [ev2 ,m). 
+(**) If lev<m, the destination of the block is 
+PE((posi * 2 lev+ %)/2 l~v'', (posj * 2 t~' + [3~)/2 l~'', lev"= MIN(/ev, led)). We can write 
+pos i * 2 lev + % = pos i * 2 le~ + (9~s/2 lev) 2 t¢~' + (~ mod 2 lev ) 
+=(posi+~l) 
+* 21~v + %2, 
+posj * 2 l~ + fi~ = posj • 2 z~ + (fix/2t¢~') 2l~v + (fi~ mod 2 t¢~) 
+= ( pos j "k- flsl ) * 21ev + fls2. 
+The creation of the block BMax~e~, ~e~'), M1N~Z~, Z~'I (that is first updating of QDP) will 
+be done by the processor PE(pos~l = posi + ~ , posjl = posj + fl~l , lev ). Hence, we need 
+first to do a shift within the level lev on VAL LI by (~,1,fl~1), then ifVAL LI= 1 in 
+a processor of this level, this processor will create a block BMAX~, t~,'~, MIN~,, Z~'), that 
+is it updates QDP to (7~, fl~, lev', lev). 
+(***) 
+After that, 
+this 
+block 
+must 
+be sent 
+to 
+PE((posil.2te~'+e,z)/'2te~", 
+2~+ a 
+~/'~" lev") without any modification. For this, every processor 
+(posjl * 
+p~2~/- 
+, 
+PE(posiz,posj2, lev~) receiving this 4-tuple will decide if it is destined for it, that is if 
+this processor PE(pos~2, posj2, levi) is a predecessor of PE((pos~l * 2 z~ + cqz)/2 re<, 
+(posjl .2~'+[~2)/2~",1m/') 
+as follows: it compares the bits of the position lev~ of 
+posi2 * 2 ~e~'' (resp. posj2 * 2 z~') and e~2 (resp./~2). Given the relation between (~2,/~2) 
+and (~,/~), this is the same thing as comparing the bits of the position levi of 
+posi~ • 2 ~'' (resp. posj2 * 2 tev~ ) and % (resp. tq~). If equality, the processor concludes that 
+the block is destined for it, else it is not and the processor updates the 4-tuple to 
+(~, tq~, lev',-1 ). This must be done while not reaching the level led'-l. 
+( *** ) Starting from the level lev" the block B.,~ev, must be decomposed into blocks 
+B*,lev"- 1, B..lev" 2 ..... B,, O. This can be done as follows: |fa processor PE ( *, *, leve) 
+receives a 4-tuple (.,., lev', lev2 + 1), it updates it to (*, *, lev', lev~), else if it receives 
+a 4-tuple (.,., let;2 + 1, lev) it updates it to ( *, *, lev2, lev). 
+414 
+H. Senoussi and A. Saoudi 
+Third and jburth step 
+See above. 
+Let us recapitulate. The algorithm is the following. 
+Algorithm TM_Pyr 
+begin 
+/*Initialize the variables*/ 
+( • ) FT_PRC := (0, 0). 
+(,) FT_PRS := (0,0). 
+( • ) STATE := BEFORE. 
+(,)QDP:= 
+(0,0,-1,-1). 
+,,'*First step*/' 
+While (STATE :~ AFTER 
+begin 
+( • ) SEND(QDP); 
+( • ) Receive (~, fl~, q, p); 
+( * ) QDP := (~, fl~, q, p); 
+( * ) If ((STATE = BEFORE) and (QDP. q ¢ -1)) then STATE=DURING; 
+else If ((STATE=DURING) and (QDP. q=-1)) then STATE:= AFTER; 
+( • ) if (STATE = DURING) 
+begin 
+(**) If (QDP. p ~ -1)/*Receives a block from its father*/ 
+begin 
+If (lev >~m) QDP. p:= lev; 
+else 
+begin 
+If (M IN(QDP. q, QDP. p) = lev + 1) MIN (QDP. q, QDP. p):= lev; 
+else/*(MIN(QDP, q, QDP. p) < lev + 1)*/ 
+begin 
+If ((the bits of the position lev of ~, and posi* 2 lay) 
+or (those of fi~ and posj * 2 ~ev) are different) then QDP.p:= -1; 
+end; 
+end; 
+end; 
+• ,) FT PRC:=FT PRS; 
+• ,) FT PRS:=(~s/2lev, fls/21ev); 
+• * ) (di.l~,, dj,tev):= FT PRS- FT_PRC; 
+• *) For lev=m-1 ..... 0 SHIFT(di, t~,,dj,I~,VAL LI); 
+• *) If (VAL LI = 1) then QDP. p:= lev;/* Creation of a block*,, / 
+end; 
+( * ) If (let, = O) 
+begin 
+If (QDP. p~-I) 
+then 
+Tab[MAX(QDP.q, QDP.p)]:=Tab[MAX(QDP.q, 
+Quadtrere algorithm for template matchin9 
+415 
+QDP.p)]+ 
+t; 
+else If (STATE = AFTER) then Start the second step; 
+end; 
+end; 
+/*Second step*/ 
+/*For the processors of the level 0 only*/ 
+For ord = m .... ,1 Do 
+begin 
+val := Tab[ord]; 
+SHIFT (2 °'a- 1, O, val); 
+Tab[ord-1] := Tab[oral-i] +val; 
+SHIFT (0, 2 °'a- 1, val); 
+Tab[ord-1] := Tab[ord-1] +val; 
+SHIFT (--2 °re- 1, 0, val); 
+Tab[ord-1]:= Tab[ord-1] + val; 
+end; 
+CONV := Tab[O]; 
+/*Third step*/ 
+/'*For the processors of the level 0 only*,/ 
+( • ) SHIFT (-(2"-1), -(2m-l), CONV); 
+end. 
+/*PE(pos~, pos s, 0) contains CONV [ posl, posj] in Tab 1-0] */ 
+Example. As an illustration of this algorithm, let us suppose that n = 10, m = 6 and 
+that QD(I) has an element (0, 0, 5) and QD(T) an element (23, 15, 3). The contribution 
+of this couple of elements to the template matching is a block B5,3 located at 
+(0-23, 0-15)= (1001, 1009). 
+This contribution is computed by the algorithm as follows: 
+• The element 64-1-23, 64-1-15, 3) = (40, 48, 3) of QS (T) is entered at the apex (level 10 
+of the pyramid) in the form QDP=(40, 48, 3,-1). 
+• Between the levels 10 and 6 the predecessors of PE(0,0,5) do not modify this 
+4-tuple. 
+• Since 40 = 1 * 2s+ (40 rood 25) and 48 = 1 * 25 +(48 mod 25), when the level 5 of the 
+pyramid receives the 4-tuple (40, 48, 3, -1) it shifts the values of VAL_I( ) by (1, 1). 
+• After this shift, PE(1, 1, 5)has VAL_I= 1 (from PE(0,0, 5)). 
+• PE(1, 1, 5) creates a block Bs, 3 that it updates QDP to (40, 48, 3, 5). 
+• This value of QDP 
+is destined for PE((0+40)/23,(0+48)/23, MIN(5,3)) = 
+PE(5,6,3). It must reach this processor - and only this processor - without 
+modification. 
+• PE(1, 1, 5) transmits QDP to PE(2, 2, 4), PE(2, 3, 4), PE(3, 2, 4), and PE(3, 3, 4) (its 
+sons). These four processors PE(posi,posj,4) compare the bits of the position 4 of 
+posi * 24 (resp. posj * 24) and ~ = 40 = 101000 (resp. /~ = 48 = 110000). 
+416 
+It. Senoussi and A. Saoudi 
+• Only PE(2,3,4) has equality. It does not modify QDP. The others update it to 
+(40, 48, 3, -1). 
+• PE(2, 3, 4) transmits QDP to PE(4, 6, 3), PE(4, 7, 3), PE(5, 6, 3) and PE(5, 7, 3). 
+• After comparison of bits, all processors but PE(5,6,3) update QDP to 
+(40, 48, 3, -1). 
+• Decomposition of the block B5,3 starts: Each processor PE( ,, *, lev) descendant of 
+PE(5, 6, 3) receives QDP =(40, 48, lev + 1, 5) and updates it to (40, 48, lev, 5). 
+• At the end of this decomposition, each descendant PE( *, *,0) of PE(5, 6, 3) has 
+a block Bs,o. These processors cover the area whose northwestern point is of 
+coordinates (5 * 23, 6 * 23)=(40,48). 
+• Now, these blocks need to be decomposed w.r.t.p. 
+• Finally, the result of the decomposition is shifted by (-63, -63). After this shift, the 
+contribution of the element ((0,0, 5), (23, 15,3)) of QD(I)x QD(T) cover an area 
+whose northwestern point is of coordinates (40-63, 48-63)= (1001, 1009). 
+4.3. Complexit.v 
+(1) The cost of vertical transmissions is log N+NL(T). 
+(2) Since the elements of QS(T) are ordered by HA, an upper bound of the cost of 
+the VAL LI's horizontal shifts in each level lev is (M/21ev) 2. It results that the cost of 
+all the shifts of VAL LI is upper bounded by M 2 + ( M/2) 2 -}- ..- + 2 2 = (4/3) (M 2 - 1). 
+(3) The cost of the decomposition within the level 0 (second step) is 3(2" 1+ 
+2"-2+... + 1)= 3(M- 1). 
+(4) The cost of the horizontal shifts of CONV (the last step) is 2(M- 1). Hence, an 
+upper bound of the total complexity is logN+NL(T)+(4/3) 
+(M 2- 1)+5(M- 1). 
+Given that the number of black leaves of the T's quadtree is upper bound by (3/4)M 2, 
+this total complexity is upper bounded by ~ log N +/~M 2, where ~ and/~ are constants. 
+5. Conclusion 
+In this paper we presented a parallel algorithm on a pyramid, performing the template 
+matching of an image I with a template T when both the image and the window are 
+represented by their quadtrees. The complexity of this algorithm is comparable with the 
+one presented in the only paper dealing with the same problem [2], since the two 
+complexities are of the form ~ log N + tiM 2. The difference between the two works is the 
+data structure used to describe the image and the template: quadtree and matrix. 
+References 
+[1] D.H. Ballard and C.M. Brown, Computer Vision (Prentice Hall, Englewood Cliffs, NJ, 1985). 
+[2] J.H. Chang, O.H. Ibarra, T.-C. Pong and S.M. Sohn, Two-dimensional convolution on a pyramid 
+computer, Internat. Con[~ on Parallel Processing [1987) 780-782. 
+Quadtrere algorithm.[or template matching 
+417 
+[3] C. Chakrabarti and J.F. Jajfi, A parallel algorithm for template matching on an SIMD mesh 
+connected computer, Internat. Con[2 on Pattern Recognition, Vol II (1990) 362 367. 
+[4] Z. Fang, X. Li and L.M. Ni, Parallel algorithms for image template matching on hypercube SIMD 
+computers, Comput. Architecture Pattern Anal. Image Database (1985) 33 40. 
+[5] Z. Fang, X. Li and L.M. Ni, Parallel algorithms for 2-D convolution, lnternat. Conll on Parallel 
+Processing (1986) 262 269. 
+[6] I. Garagantini, An effective way to represent quadtrees, Commun. ACM, 25 (12) (1982) 905-910. 
+[7] H.T. Kung and S.W. Song, A systolic 2-D convolution chip, in: Multicomputers and Image Processing 
+Algorithms and Programs (Academic Press, New York, 1982) 373 384. 
+[8] J.P. Lauzon, D.M. Mark, L. Kikushi and J.A. Guevara, Two dimensional runencoding for quadtree 
+representation, Comput. Vision, Graphics Image Process. 30 (1985) 56-69. 
+[9] S.-Y. Lee and J.K. Aggarwal, Parallel 2-D convolution on a Mesh connected array processor, 
+Computer I/ision Pattern Recognition (1986) 305 310. 
+[10] M. Maresca and H. Li, Morphological operations on mesh connected architecture: a generalized 
+convolution algorithm, Computer Vision Pattern Recognition (1986) 299 304. 
+[11] V.K. Prasana Kumar and V. Krishnan, Efficient image template matching on hypercube SIMD 
+arrays, lnternat. Conf. on Parallel Process. (1987) 765 771. 
+[12] S. Ranka and S. Sahni, Convolution on an SIMD mesh connected computer, lnternat. Col!fl on 
+Parallel Process., Vol 3 (1988) 212-217. 
+[13] S. Ranka and S. Sahni, Convolution on an SIMD hypercube multicomputers, Internat. Con[i on 
+Parallel Process., Vol 3 (1988) 84 91. 
+[14] S. Ranka and S. Sahni, Image template matching on MIMD hypercube multicomputers, J. Parallel 
+Distributed Comput. 10 (1990) 79 84. 
+[15] A. Rosenfeld and A.C. Kak, Digital Picture Processing (Academic Press, New York, 1982). 
+[16] H. Samet, The Quadtree and related hierarchical data structures, Comput. Sureeys. 16 (1984) 187-260. 
+[17] H. Samet and M. Tamminen, Computing geometric properties of images represented by linear 
+quadtrees, IEEE Trans Pattern Anal. Math. Intelligence PAMI-7 11985) 229 240. 
+[18] H. Senoussi and A. Saoudi, Quadtree algorithms for template matching on pyramid computer, 
+Internal Report, L1PN, lnstitut Galil6e, Universit6 Paris XII1. 
+[19] H. Senoussi and A. Saoudi, Quadtree algorithms for template matching on pyramid computer, in: 
+Proe. Asian Cor~[i on Computer Vision, Osaka Japan (1993 November 23-25). 
+[20] H. Senoussi and A. Saoudi, Quadtree algorithm for template matching on mesh connected computer, 
+in Proc, Computer Architecture,s Jbr Machine Perception "93, CAMP "93, New Orleans, Louisiana, 
+USA (15 17 December 1993), to appear. 
+[21] P.J. Varman and I.V. Ramakrishnan, A tree algorithm for two-dimensional convolution, Internat. 
+Confl on Pattern Recognition (1984) 358 360. 
+[22] E.L. Zapata, J.1. Benavides, O.G. Plata and F.F. Rivera, Image template matching on hypercube 
+SIMD computers, Signal Proce,ssing 21 (1990) 49 60. 

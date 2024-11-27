@@ -1,0 +1,969 @@
+Theoretical Computer Science 257 (2001) 85–105
+www.elsevier.com/locate/tcs
+Computer science and the  ne structure of Borel sets
+J. Duparc, O. Finkel, J.-P. Ressayre ∗
+Equipe de Logique Mathemathique, CNRS URA 753 et Universite Paris VII, U.F.R. de
+Mathematiques, 2 place Jussieu, 75251 Paris Cedex 05, France
+Abstract
+(I) Wadge de ned a natural re nement of the Borel hierarchy, now called the Wadge hierarchy
+WH. The fundamental properties of WH follow from the results of Kuratowski, Martin, Wadge
+and Louveau. We give a transparent restatement and proof of Wadge’s main theorem. Our
+method is new for it yields a wide and unexpected extension: from Borel sets of reals to a class
+of natural but non Borel sets of in nite sequences. Wadge’s theorem is quite ine9ective and
+our generalization clearly worsens in this respect. Yet paradoxically our method is appropriate
+to e9ectivize this whole theory in the context discussed below. (II) Wagner de ned on B<uchi
+automata (accepting words of length !) a hierarchy and proved for it an e9ective analog of
+Wadge’s results. We extend Wagner’s results to more general kinds of automata: counters,
+push-down automata and B<uchi automata reading trans nite words. The notions and methods
+developed in (I) are quite useful for this extension, and we start to use them in order to look
+for extensions of the fundamental e9ective determinacy results of B<uchi–Landweber, Rabin; and
+of Courcelle–Walukiewicz.
+c⃝2001 Elsevier Science B.V. All rights reserved.
+0. Introduction
+This is a survey trying to avoid technicalities; its main theme is the interplay between
+the study of the Wadge Hierarchy – a set-theoretic, none9ective subject – and some
+questions in computer science (CS) – also of theoretical nature but intimately related to
+practical aspects. The set theoretic work we have to report on is in a rather de nitive
+state while on the side of CS our work is at its very beginning. For that reason
+Section 1 is devoted to the set theory, which in particular involves ordinals. But the
+reader unfamiliar with such a topic should not worry: Section 2 belongs to theoretical
+computer science (TCS) and relates the ordinals with concrete objects such as B<uchi
+and push-down automata.
+∗Corresponding author.
+E-mail addresses: duparc@logique.jussieu.fr (J. Duparc),  nkel@logique.jussieu.fr (O. Finkel), ressayre@
+logique.jussieu.fr (J.P. Ressayre).
+0304-3975/01/$ - see front matter c⃝2001 Elsevier Science B.V. All rights reserved.
+PII: S0304-3975(00)00111-0
+86
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+1. The Wadge hierarchy (WH)
+We work on product spaces ! = in nite words of alphabet , equipped with the
+product topology: basic open sets are conditions on a word x in ! that depend only
+on a  nite number of coordinates xi
+Vs = {x ∈! : x  n = s};
+n ¡ !; s ∈n:
+Open sets are unions of such elementary open sets Vs; in other words U is open if
+whenever x belongs to U there is n¡! such that U contains all words of ! extending
+x  n.
+The Borel sets of ! are all sets which result from the open and the closed sets
+by countable unions and intersections. And the Borel rank of such a set is the ordinal
+which counts the number of nested unions and intersections needed to obtain the set in
+this way. More precisely, open sets and closed sets have rank 1; “G” sets (countable
+unions of closed sets) have rank at most 2 as well as their complements the F sets,
+etc. Up to the  rst uncountable ordinal !1. This is the Borel hierarchy, of fundamental
+role in analysis, statistical physics, etc.
+Denition 1. For A; B ⊆!!, A6WB i9 A has a continuous reduction to A: there is
+a continuous map f : !! →!! such that “x ∈A” reduces to “f(x) ∈B”. A¡WB i9
+A6WB but not B6WA; A ≡WB i9 A6WB6WA.
+WH is the class of Borel subsets of !!, equipped with 6W and ≡W. WH is a
+natural re nement of the Borel hierarchy. In fact, the relation A6WB is not only  ner,
+but also more natural than the relation r(A)6r(B); so WH is more natural than BH!
+However the Wadge hierarchy is terribly re ned compared to BH: see Theorem 2 and
+Remark 1(a) below. This has put severe limitations on the use of WH in mathematical
+practice; which are also limitations to the audience of the beautiful work on WH done
+by Martin, Wadge, Louveau and others (see [17–21] and [26, 27]). We tried to add to
+their work a postscriptum – barely sketched below, but fully exposed in [3–7]. Let us
+hope that it will help in making the subject more accessible.
+We end Section 1 by recalling the fundamental results about WH. The complement
+!! r A of a set A ∈WH is denoted −A.
+Theorem 1 (Martin). Up to the complement and ≡W; WH is a well-ordered hierarchy:
+there is an ordinal |WH| (called the length of the hierarchy) and a map d◦
+W from
+WH onto |WH|; such that for all A; B ∈WH
+d◦
+WA ¡ d◦
+WB ↔A ¡W B;
+d◦
+WA = d◦
+WB ↔A ≡W B or A ≡W
+−B:
+After Theorem 1, a natural question is: determine the ordinal |WH|. The answer to
+this question is Wadge’s main theorem:
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+87
+Theorem 2. |WH| is the Veblen ordinal.
+Remark 1. (a) The Veblen ordinal is large beyond measure (fortunately no other
+knowledge of this ordinal is needed by the reader here)... Thus, |WH| is so large
+that it was a “gageure” to conjecture Theorem 4, let alone to prove it. Hence the 300
+page-thesis of Wadge became famous among the Set theorists – even though the thesis
+was never published, and no proof existed from any other source before [4–7] (which
+also expose new results; one is presented in Section 5). We shall give the main ideas
+of our proof: they make the structure of WH become more transparent.
+(b) The size beyond measure of |WH| also means that it is extremely re ned with
+respect to the Borel hierarchy. In Analysis and Set theory this  nesse has been so far
+more cumbersome than useful; but it is exactly the  nesse one needs for the e:ective
+study of Borel sets – which plays an important role in Computer Science. This appears
+in Section 2 which investigates a small e9ective portion of WH.
+We end Section 1 with other results of Wadge.
+Denition 2. (a) Given sets A ⊆!
+A and B ⊆!
+B, the Wadge game W (A; B) denotes
+the following in nite game between two players, I and II.
+(i) I chooses x ∈!
+A and II chooses y ∈!
+B: at move p ¡ !, I chooses xp ∈1
+A.
+And II replies with yp ∈1
+B, or chooses to skip, in which case yp is the empty
+sequence ⟨⟩; after ! moves, the play is (x; y), where x = x0 a x1 a : : : and
+y = y0 a y1
+a : : : .
+(ii) II wins play (x; y) i9 his play y is in nite and (x ∈A ↔y ∈B).
+Lemma 1 (The Wadge lemma).
+A6WB
+i: II has a w:s: in W(A; B):
+Denition 3. We say that A is selfdual i9 A6W −A.
+For every set A of words, let ±A denote the set 0:A ∪1:−A.
+Example 1. {x : x(0) = 0} is self-dual, while {x : x(n) = 0 for some n} is not. Clearly
+±A is self-dual for every A: it is reduced to its complement by an application f such
+that f(0:x) = 1:x, f(1:x) = 0:x and f(y) = some  xed suitable element y0 if y is not
+of the form 0:x or 1:x. Also it is clear that if A already was self-dual then A ≡W ±A.
+The next proposition is just as easy but its sequel is a deeper result due to Wadge.
+Proposition 1. For every A in WH; if A is nonself-dual then A¡W ±A. In fact; ±A is
+the upper bound for the relation ¡W of A and −A.
+88
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+Theorem 3. For every set B in WH with a  nite alphabet; B is self-dual i: B ≡W ±A
+for some nonself-dual A in WH.
+(The general form of Wadge’s result includes the case of a countable alphabet, see
+Section 3.)
+Put together, the above two results make it simple to deduce the full structure of WH
+from its restriction to nonself-dual sets. So henceforth, by abuse, we let WH denote
+the Wadge hierarchy restricted to nonself-dual sets.
+2. E'ective Borel sets and CS
+Let us  rst recall the fundamental work on automata reading in nite words, and its
+signi cance for CS (this work is due to B<uchi–Landweber, Rabin, Harrington–Gurevich
+and still others. For a good introduction see [24]).
+• A B<uchi automaton A is an automaton reading in<nite words x ∈!
+A, and having an
+acceptance condition which tells whether or not A accepts x – in a way that only
+depends on the set of states which are visited in nitely often by A while reading x.
+We denote by BA the class of these automata. For A in BA we denote also A the set
+of in nite words accepted by the automaton A. And we play on both terminologies,
+speaking of the set A and of the automaton A. The set A is Borel; in fact it is a
+boolean combination of G sets.
+Moreover, every A in BA is e:ective, in the sense that one can decide whether A
+accepts at least one in nite word: one uses
+B>uchi’s lemma A B>uchi automaton A is non empty i: it accepts an ultimately
+periodic word.
+• A transducer is an automaton  which while it reads x ∈6!
+A
+writes a word
+∗x ∈6!
+B
+on an input tape (henceforth all alphabets are <nite).
+• Given any set Z ⊆!
+Z the in<nite game G(Z) let the two players choose z ∈!
+Z (at
+move p ¡ !, I chooses z(2p) and II replies with z(2p + 1)). The winner of this
+play z is II i9 z ∈Z. A strategy for a player is a function which applied to the
+sequence of previous moves of his enemy produces the next move of the player. It
+is a winning strategy (w.s.) if the player always wins when applying it.
+Theorem 4 (e9ective determinacy). For every A in BA; the winner of G (A) has a w.s.
+which is a transducer (in other words: every in<nite game refereed by an automaton
+is won by some automaton ...)
+This last result is of great practical and e9ective content. For present days, industry
+raises a large number of problems of the form: design a processor working in real time
+interaction with its environment, which satis es for a certain speci cation. The above
+theorem is the theoretical background of a successful modelization of this problem.
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+89
+(a) One imagines an in nite game in which player I is the environment: its possible
+moves are all stimuli which the environment might send at once to the processor.
+Player II is the processor: its possible moves are all the reactions which the pro-
+cessor might have to make at once. The plays are all in nite sequences of alternate
+moves of I and II – each move coded by a letter of a suitable alphabet .
+(b) The speci cation is then represented by the set A of all plays z ∈! such that
+the moves of II are a satisfactory response to the moves of I, according to the
+speci cation; thus our problem becomes:  nd a transducer  which is a w.s. for II
+in the game G (A).
+(c) If A happens to be accepted by a B<uchi automaton, then by the e9ective determi-
+nacy theorem one of the players has a w.s.  for G (A) which is a transducer. If
+this player is II, then  is the desired processor; and if it is I, then no processor
+of any kind can satisfy the speci cation. Moreover, by B<uchi’s lemma we can
+e:ectively determine which player has the w.s. – and  nd out the transducer which
+realizes it.
+The in nite length of G (A) is an imaginary feature; but when a real world real time
+processor has a short looping time (which is usually the case), if a w.s. for G (A) is
+performed by such a processor then it is quickly e9ective. So that the above model
+of processor design is accurate in a very large class of applications – for instance, in
+the design of processors used in modern planes. Which is an extraordinary fate for
+theoretical results about in<nite games, etc.
+Remark. (a) For the development of computers and data bases, the problem of de-
+signing a processor meeting a given speci cation must be extended to the case of
+processors working in polynomial time, satisfying speci cations which are Borel but
+not just boolean combinations of G sets. So one would like to extend the above work
+in a way appropriate to this extended problem.
+(b) This gives one motivation for extending e9ective determinacy beyond the above
+case. But there is another motivation provided by Rabin’s work: in addition to proving
+e9ective determinacy, he obtains it under the form of a quanti er elimination result in
+Monadic Second Order Arithmetic with two successors. Once second-order quanti ers
+have been (partially) eliminated this way from a sentence, he is able to decide its
+truth by use of an extension of B<uchi’s lemma. He thus obtains the decidability of
+MSA with two successors, a result widely applied in CS. So if one succeeds to extend
+e9ective determinacy one may also extend such results.
+To the two perspectives of the above remark belongs the work of Courcelles [1, 2]
+and Walukiewicz [29]: every game refereed by a deterministic push-down automaton
+(DPDA) has a w.s. which is also a DPDA; and one can decide which player is the
+winner. Clearly this is a signi cant progress; yet in terms of the Borel hierarchy the
+progress is invisible. The DPDAs have the same Borel rank as the BAs. In contrast we
+are going to see that the Wadge Hierarchy precisely captures the di9erence in power
+between BAs and stronger “automata”. To this end we study below the restriction of
+90
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+WH successively: to the “Wadge closure” [BA] of BA (that is to the class of all sets
+which are 6W to some element of BA); to BA; to DPDA; and to “blind” counters
+(denoted BC, and BC(k) when restricted to k counters).
+Remark 2. Together with the Wadge lemma, the e9ective determinacy theorem implies
+that if A and B are BAs then A6WB i9 A can be reduced to B by a transducer  :
+a word x is in A i9  ∗x (the word written by  once he read x) belongs to B. In
+other words, B simulates A via composition with the transducer  . So WH  BA is
+an e9ective, decidable hierarchy. (We conjecture that the same applies with DPDA
+acceptors and transducers, although a Wadge game between the two DPDA’s does
+not always have his winning set accepted by a single DPDA). WH  BA is called the
+Wagner hierarchy because Wagner [28] provided a particularly e9ective and thorough
+description of its structure.
+Theorem 5. (a) There are natural Borel operations on sets A; B (of in<nite words):
+A ˆ+B; Aˆ:∞; Aˆ:! (where ! is any countable ordinal) such that:
+d◦
+W(A ˆ+B) = d◦
+W(A) + d◦
+W(B);
+d◦
+W(Aˆ:∞) = d◦
+W(A):!1;
+d◦
+W(Aˆ:!) = d◦
+W(A):!:
+(b) Up to complement and ≡W; WH  [BA] is the closure of {} under ˆ+; ˆ:∞;
+ˆ:! (! ¡ !1).
+(c) Up to complement and ≡W; WH  BA is the closure of {} under just ˆ+ and
+ˆ:∞. And WH  DPDA is the closure of {} under the same operations plus ˆ:!.
+Put simply, the theorem says that the di9erence between BA and DPDA lies in the
+operation ˆ:!, which is de ned on DPDA but not on BA. Similarly, the di9erence
+between DPDA and [BA] lies in ˆ:! for !!6!¡!1.
+Let us  rst de ne A ˆ+B and Bˆ:∞.
+Denition 4. (a) Assume A = B ∪{e+; e−} (disjoint union); then Bˆ:∞= (∗
+A:e+)∗:
+B ∪(∗
+A:e−)+:−B, and A ˆ+B = B ∪∗
+B:e+:A ∪∗
+B:e−:−A.
+Nota Bene 1:
+(i) This de nes Bˆ:∞in all cases and A ˆ+B in a special case. But we can always
+assume this special case to hold, by renaming the variables of A ∪B and adding
+dummy variables.
+(ii) It is rather clear that BA, BC(k) and DPDA are closed under these two opera-
+tions; to illustrate this let us give examples, when the graph of an automaton is
+represented with the following conventions:
+• a state which has a trivial loop in the graph is represented by  if the loop
+is rejecting and by ⊕otherwise. Thus  is the graph of the automaton which
+accepts the empty set of words (it is also our notation for this empty set)
+• an arrow is labeled with −if every loop of the graph including it is rejecting.
+With these conventions consider A = B = ; then A ˆ+B and Bˆ:∞have the pictures
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+91
+And this is extended to all DPDAs A and B by substituting to ⊕and  the whole
+machines B, A and −A in the above pictures.
+Next, we de ne Aˆ:! for <nite !: Aˆ:1 = A, and by induction on n: Aˆ:(n + 1) = Aˆ:n ˆ+A.
+Since BAs are closed under ˆ+ as we just saw, they are closed under Aˆ:n. And
+DPDAs are closed as well. In addition the de nition of Aˆ:n can be simpli ed for
+certain A’s: for instance ˆ:n can be simpli ed to the automaton with picture
+ →⊕→· · · · · · →⊕→ →⊕→· · · · · ·
+
+
+
+n
+(alternating n times  and ⊕).
+Next, we give an abstract, none9ective de nition of Aˆ:! in case ! is in nite: the
+successor case is as in the  nite case
+(b) Aˆ:(% + 1) = (Aˆ:%) ˆ+A
+(c) and for ! limit ordinal, Aˆ:! = ˆ
+sup%¡!Aˆ:%. Where sup is the following operation.
+(d) For all sets Ai; i ∈I, set
+ˆ
+supi∈IAi = 
+i∈Ii:Ai.
+Nota Bene 2: (a) In de ning
+ˆ
+sup Ai we assume that this family is in nite and has
+no maximal element for ¡W; for the other case is pointless. But this in nite case
+makes sup Ai be a self-dual set whereas we took the convention that WH is restricted
+to nonself-dual sets. So by convention
+ˆ
+sup Ai denotes a nonself-dual set which in the
+order 6W comes immediately after: 
+i∈Id∗:i:Ai where d is any additional letter.
+(b) In case self-dual sets with countable alphabets are included in WH, Theorem 3
+has the following extension:
+A is self-dual i9
+
+
+
+
+
+
+
+A ≡W
+±B for some nonself-dual set B;
+or
+A ≡W
+
+i∈I
+d∗:i:Ai for some family of nonself-dual sets Ai:
+We next discuss all the above set theoretic operations from the Wadge game point of
+view: this will help to understand the last ones. We start with Aˆ:∞; consider a player
+in charge of this set (player I in W (Aˆ:∞; B) or II in W (B; Aˆ:∞)). Then it looks as if
+(a) the player starts to play in charge of A
+92
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+(b) but at any time before the end of the play he may erase his former moves and
+decide to be in charge of A or of −A for the rest of the play
+(c) he may repeat (b) even an in<nite number of times: in such a case his play is
+considered to be in the complement of the set he is in charge of.
+For in practice (a) holds as long as the player plays only letters from A; (b)
+becomes true if he plays the letter e+ or e−, and only letters from A afterwards; and
+(c) is true since every word in Aˆ:∞has a  nite number of occurrences of the letter
+“e”. Properties ((a)+(b)+(c)) are what we call the playful characterization of Aˆ:∞:
+they de ne this set only up to Wadge equivalence but in this way they tell the essence
+of this operation. It is easy to convince oneself that the operations other than the above
+have the following playful characterization.
+• The player in charge of A ˆ+B starts every play in charge of B; but at any time
+during each play he may decide to be in charge of A for the rest of the play, or in
+charge of −A. Then his former moves are erased (but not those of his enemy).
+• The player in charge of
+ˆ
+supi∈I Ai chooses at the start of each play which one of
+the sets Ai he will be in charge of (for the whole play). Indeed, in the self-dual
+version his very  rst move chooses Ai; and in the nonself-dual version, by playing
+the letter d (for “delay”) he may wait before choosing Ai. He may wait for ever
+by playing d! then his play is not in his set.
+• The player in charge of Aˆ:! is a player in charge of Aˆ:∞(as rede ned by ((a)+(b)
++(c)) but subject in addition to the following requirement: at the beginning of the
+play he is given the ordinal !, and he must decrease this ordinal at each move
+where he applies (b). (Thus, during any play he can apply (b) only a  nite number
+of times: as long as he did not reach 0 this way.)
+When A is any DPDA, let us turn Aˆ:! to a DPDA, using this playful characterization
+(and forgetting about the former set theoretic de nition). This DPDA involves the
+DPDA A, and works like it at the start (so the player starts in charge of A). But, in
+addition, it involves a one turn counter C: the content of C is an integer which can
+increase to any value n¡! but can only stay or decrease once it started to decrease.
+And the player can choose letters that increase C to n; then whenever he decreases n
+to a value n −i, the DPDA starts functioning anew, like −A if i is odd and like A if i
+is even.
+Remark 3. • We did not specify the way by which the counter C may be increased
+or decreased. But clearly there are many precise ways which allow for the playful
+characterization of the DPDA Aˆ:! to be satis ed. Any such DPDA version of Aˆ:!
+satis es Theorem 2 as required. And DPDA becomes closed under the operation Aˆ:!.
+• The closure of DPDA under Aˆ:! and A ˆ+B easily implies its closure under Aˆ:! for
+every !¡!!.
+Now, we see concretely the content of Theorem 5(b); but we can be much more
+precise than this theorem, by completely telling the structure of WH restricted to:
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+93
+[BA], BA, BC(k) and DPDA. To this end we restate Theorem 5(a); let ⟨!!
+1 ⟩denote
+the structure of the ordinals ⟨!!
+1 , equipped with its “arithmetical” notions: ¡; +; 1,
+and all multiplications :! where !6!1. And let ⟨WH⟩denote the structure
+⟨WH; ¡W;
+ˆ+; ; (ˆ:!)!¡!1 or !=∞⟩;
+then the theorem says that the two structures ⟨!!
+1 ⟩and ⟨WH⟩ bc(G) are isomorphic
+via the map d◦
+W. Now any ordinal !¡!!
+1 has a Cantor Normal Form which is a
+canonical term
+CNF(!) = !n0
+1 :+0 + · · · + !nk
+1 :+k
+(with 06ni ∈N and 16+i¡!1), denoting ! inside the structure ⟨!!
+1 ⟩. Let us evaluate
+this term CNF(!) in the isomorphic structure ⟨WH⟩:
+!0
+1 = 1 gets evaluated to ;
+!2
+1:+ to ((ˆ:∞)ˆ:∞)ˆ:+; etc:
+Thus the evaluation of CNF(!) in ⟨WH⟩produces a set of [BA] which we denote
+,(!). To say that d◦
+W is an isomorphism of the structures is to say that d◦
+W,(!) is
+just !; and by de nition of d◦
+W, whenever d◦
+W(A) = ! then A or its complement is ≡W
+to ,(!). In this way Theorem 5(a) gets re ned to Theorem 6(a) below.
+Theorem 6 (Theorem 5 re ned). (a) Up to complement and ≡W; [BA] consists of the
+sets ,(!); !¡!!
+1
+(b) Up to complement and ≡W; BA consists of ,(!) where the parameters +i of
+CNF(!) = !ni
+1 :+i are <nite. BC(k) is the case +i¡!k+1; and DPDA the case +i¡!!.
+In the case of BA, 6(b) follows from Wagner’s theorem [Wa]; but the cases con-
+cerning BC(k) and DPDA are new: see [8, 12, 13]. Note the analogy between this
+theorem and Cantor’s Normal Form theorem: Cantor’s theorem provides a canonical
+and unique way to obtain each !¡!! as a term CNF(!); this theorem provides ,(!)
+as the normal form of BAs, BCs and DPDAs: : :
+Nota Bene: BC(k) is not closed under ˆ:!, for otherwise it would also be closed under
+ˆ:!k+1 contradicting the theorem.
+2.1. Conclusions
+• While the Borel Hierarchy does not see any di9erence between BA, BC(k), DPDA
+and [BA], the canonical operations of WH pinpoint the di9erences between these
+classes, etc.
+• This is nice but not too important, because we already know the e9ective deter-
+minacy of BA and DPDA. But the phenomenon that canonical operations of WH
+are precisely relevant for capturing the main classes of Borel sets occuring in TCS,
+continues beyond DPDA. This may help to extend the e9ective determinacy: add
+94
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+one more canonical operation of WH, ∞A to the ones which generate WHDPDA;
+and take the closure of DPDA under these operations. The resulting class is a part
+of NPDA (non deterministic PDA) which may lead to new e9ective determinacy
+results. (This cannot happen with NPDA as a whole: see Theorem 7 below). Thus,
+in Section 3 we study WH in order to introduce ∞A.
+Theorem 7. (a) NPDA contains Borel sets of every <nite rank [11].
+(b) Alas; one cannot decide which player is the winner of a game G (A) ; when A
+is NPDA [11]. Also one cannot decide the Wadge class of an NPDA [11, 12].
+• So much for the interest of WH in CS; what about the converse? The above descrip-
+tion of WH  [A] (by canonical generators ,(!) resulting from the normal form of ordi-
+nals)
+and
+its
+proof
+(seen
+in
+Section
+3),
+were
+ rst
+developed
+just
+for
+the
+Wagner hierarchy WH  BA and were suggested by this initial case. And this  rst
+success of the method provided the crucial idea to understand the structure of WH and
+prove Wadge’s theorem: consider the canonical operations on ordinals which generate
+Veblen’s ordinal =|WH|, providing a Veblen Normal Form for each ordinal ¡ |WH|,
+and  nd isomorphic operations on WH.
+3. The conciliatory hierarchy
+Denition 5. (a) We call Sets (with capital S) all sets A of  nite or in nite strings:
+A ⊆6!
+A
+, where 1
+A is any set – called the alphabet of A.
+(b) Given Sets A and B; C (A; B) denotes the following in nite game between the
+two players, I and II.
+(i) I chooses x ∈6!
+A
+and II chooses y ∈6!
+B
+: at move p¡!, I chooses xp ∈1
+A,
+or chooses to skip, in which case xp is the empty sequence ⟨⟩. And II replies
+with yp ∈1
+B ∪{⟨⟩}; after ! moves, the play is (x; y), where x = x0ax1a : : :
+and y = y0ay1a : : : :
+(ii) II wins play (x; y) i9 (x ∈A ↔y ∈B).
+(This is the Wadge game except that both players may skip as much as they
+want to, so that the plays x; y may be  nite.)
+(c) We set:
+A6cB ⇔II has a winning strategy (w:s:) in C(A; B);
+A¡c B ⇔A6cB but not conversely;
+A ≡c B ⇔A6cB6cA:
+The conciliatory hierarchy CH is the class of all Sets A ⊆6!
+A
+with countable alphabet
+and such that A ∩!
+A is Borel. CH is equipped with 6c and ≡c.
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+95
+(a) Our de nition of C (A; B) of course derives from W(A; B): it is W(A; B) made
+symmetric w.r. to the players, so that it has no importance as to which player
+starts the  rst move.
+(b) The complement of a Set A, denoted −A, is 6!
+A
+rA. Using (a) it is immediate
+that A ≡c −A, never holds; so the hierarchy CH has no “self-dual” Sets.
+Suppose we modify the outlook of C(A, B) by deciding that whenever a player wants
+to skip, he chooses a special letter b (for “blank”) not in the alphabets of Sets –
+instead of choosing ⟨⟩. Thus every play in the game becomes an in nite sequence,
+and C(A, B) is turned to a Wadge game W(Ab; Bb) with Ab = {x ∈(A ∪b)! : x′ ∈A}
+where x′ denotes the sequence x in which every occurrence of “b” has been removed.
+Clearly this change is purely formal: a player wins C (A; B) i9 he wins W(Ab; Bb).
+Thus A¡c B i9 Ab ¡W Bb: we constructed a trivial and canonical embedding of CH
+into WH. In the opposite sense there is an embedding which is almost the identity,
+too: it chooses for every set B a set s(B) of <nite sequences from B (hence B ∪s(B)
+becomes a Set) so that the map: B →B ∪s(B) is an embedding of WH into CH, in
+fact it is equivalent for a player:
+• to be in charge of B and be applied the rules of the Wadge game, and
+• to be in charge of B ∪s(B) and be applied the rules of the conciliatory game.
+[The choice of s(B) is not obvious: for B in BA or B in bc(G) it is easy to de-
+ ne, but we do not know how to prove the general case without proving along that
+|CH|= Veblen’s ordinal =|WH| : : :] We summarize the above two-way correspondence
+between CH and WH by
+Theorem 8. CH and WH are isomorphic.
+Thus, we prove Wadge’s theorem by
+• proving its analog for CH (Theorem 9 below): |CH|=Veblen’s ordinal,
+• and then proving Theorem 8.
+[This detour through CH allows an essential simpli cation of the proof. For it is CH
+and not WH which has really simple operations generating it from .]
+Theorem 9. There is a map d◦
+c from Borel Sets onto the Veblen ordinal such that
+A ≡c B i: dc(A)¡ dc(B):
+As a warmup to the proof of Theorem 9, we prove its restriction to [BA] (which here
+denotes all Sets which are 6cA for some A in BA):
+Theorem 10.
+|CH[BA]| = !!
+1
+96
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+Step 1: We de ne a Set ,(!) for each !¡!!
+1 and prove: !¡% i9 ,(!)6c,(%).
+To that end we extend to CH the operations of ˆ+;ˆ:!;ˆ:∞: the de nition is unchanged,
+only it is applied to Sets, which involve  nite words as well.
+Lemma 2.
+(a) A6cA′ implies A + B6cA′ + B; B ¡c B′ implies A + B ¡c A + B′.
+(b) A:!6cA:∞; for any ordinal !.
+Lemma 2(a). By assumption II has a w.s. against I in C (A; A′) and C (B; B′) ; but
+not in C (B′; B). Using these strategies and the playful characterization of A ˆ+B it is
+easy to devise a w.s. for player II in C
+
+A ˆ+B; A ˆ+B′
+: namely II applies his w.s. in B′
+as long as I is remaining in charge of B. And if I decides to become in charge say
+of A; II decides the same thing and wins by playing the same letters as I later on.
+And a similar playful argument applied to I’s play shows that II cannot have a
+w.s. in C (A′ + B; A + B) or in C
+
+A ˆ+B′; A ˆ+B
+
+: it would induce a w.s. for him in
+C (B′; B).
+Lemma 2(b). Obvious from the playful characterizations.
+We de<ne the Set ,(!) from CNF(!) just as in Section 2; but using the conciliatory
+extension of the operations. Then Step 1 follows easily from the lemma by induction
+on !.
+Step 2: Separation lemma.
+Lemma 3. For every Set A; if
+A6c,(!)
+and
+A6c
+−,(!) ⇒A6c,(%) or A6c
+−,(%); for some % ¡ !:
+Lemma 3(a). By induction on !: ! = 1 is trivial; so we assume !¿1 and that the
+lemma holds for every %¡!.
+Case 1: ,(!) is of the form B ˆ+C. The complement of B ˆ+C is B ˆ+−C (because of
+the symmetry between B and −B in the de nition); thus the assumption on A is that II
+is given w.s. + and −in the games C
+
+A; B ˆ+C
+
+and C
+
+A; B ˆ+−C
+
+. Recall that by
+the playful de nition of B ˆ+C, strategies + and −may ask to become in charge of
+B or −B during any play; but let F denote the set of all in nite words x in A such
+that if I in charge of A plays x, then neither + nor −make use of this right. Thus
++ shows that A ∩F6c C and −shows that A6c−C. By de nition of ,(!) = B+C,
+there is .¡! such that C is ,(.). So by the induction hypothesis, A ∩F6c /,(.)
+where / = + or −. Let % = ! + ., so ,(%) = B + ,(.). Then II has a w.s.  in charge
+of ,(%), against I in charge of A: as long as I’s play did not go out of F,  plays so
+as to remain in /,(.) and win against A ∩F. And if I chooses to go in /B;  does the
+same and starts repeating every move of I. Thus  wins in any case, and the induction
+is done.
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+97
+Case 2: ,(!) is of the form Bˆ:∞. Similar to case 1: the assumption provides II
+with two strategies + and −against I in charge of A. Since + is in charge of Bˆ:∞
+and −in charge of its complement, it never happens that both strategies will play an
+in nite number of letters “e+” or “e−”. For they both would have their play rejected so
+one of them would win and the other lose. Then from + and −one can manufacture
+a w.s.  for II in charge of Bˆ:∞which never plays an in nite number of “e’s”: roughly
+speaking at each move  chooses between mimicking + and dually mimicking −.
+In addition,  makes this choice so as to avoid playing “e” except when both options
+require it. Thus  is a w.s. not only when II is in charge of Bˆ:∞, but also when it is
+in charge of B:∞restricted so as to never play an in nite number of “e”. One can
+show for every strategy  with this property that there is an ordinal . (depending on  )
+such that  actually wins against Bˆ:.. Thus A6c Bˆ:., and this completes the induction
+in case 2.
+Case 3: ,(!) is of the form
+ˆ
+supc(Bi)i¡!. This case is simple.
+Step 3:
+Lemma 4.
+a Set A is in [BA] i: A6c,(!) for some !:
+Lemma 4(a). [BA] is closed under the operations building ,(!); this proves the “if”
+direction. Opposite direction: A6c,(!n) for some n; this can be proved <rst when
+A is an automaton. Then it applies to all A’s just by transitivity of 6c.
+Step 4: Final step.
+Lemma 5. Let A be any Set in [BA];
+A or its complement is ≡c to ,(!) for some !:
+Lemma 5(a). Let ! be the smallest ordinal such that A or its complement is 6c ,(!).
+Only one of the two inequalities holds; for the above separation lemma says that
+otherwise ! would not be the smallest possible. So for instance II wins C (A; ,(!))
+but not C
+−A; ,(!)
+
+. But the latter game is determined: if II has no w.s. then it is
+I who has a w.s.; say . (This holds because −A and ,(!) are boolean combinations
+of G sets; and for such games determinacy is a consequence – for instance – of the
+Gurevich–Harrington proof of e:ective determinacy. But more generally Martin has
+proved the determinacy of all Borel games) Now the perfect symmetry between the
+two players in a conciliatory game implies that if  is a w.s. for I in C
+−A; ,(!)
+
+then it is also a w.s. for II in C (,(!); A). Thus we showed A ≡c ,(!) and the proof
+is done.
+We remark it is now easy to prove Theorem 8 for [BA]; then as corollaries of the
+theorem just proved we obtain Theorem 5, and the restriction to [BA] of Theorem
+5(a).
+98
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+4. WH and CH on sets of nite Borel rank
+In order to go beyond [BA] a new operation on sets ∞A is needed; we introduce it
+in the playful way.
+Lemma 6.
+(a) ∞ ≡c .
+(b) ∞A ˆ+ ≡c (∞A)ˆ:∞.
+(c) ∞supn¡! An ≡c supn(∞An)ˆ:∞.
+.
+This lemma is a corollary of Theorem 11 to come. However, its proof is left to the
+reader because it is an instructive exercise. It starts making the new operation ∞A
+resemble ordinal exponentiation, which we now recall.
+For all ordinals . and !; .! is de<ned by induction on ! : .1 = .; .!+1 = .!:. and
+.supi !i = supi .!i. The resemblance between ∞A and exponentiation of base !1 is an
+isomorphism except for a (small) imperfection /:
+Theorem 11.
+dc(∞A) = !dc(A)+/
+1
+where / is −1; 0 or + 1
+(depending on the value of dc(A)).
+The preceding lemma (a) shows the result in the initial case where dc(A) = 1. So
+inductively assume it true for dc(A)¡some ordinal .. Then the lemma proves it when
+. is ! + 1 and when . is supn !n. The remaining case is more delicate: full proof of
+Theorem 9 is needed to obtain it in general. The case where A is of  nite rank is a
+corollary to the next theorem.
+Let /0(.) denote supn .n, where .1 = .; .n+1 = ..n. Thus /0(!) is Cantor’s ordinal /0,
+and /0(!1) is the  rst ordinal closed under exponentiation of base !1.
+Remark. Suppose !¡/(!1); ! has a Cantor normal form just as in the former case
+!¡!!
+1 , except that the additional operation !x
+1 is used at some stages. This allows to
+extend the de nition of ,(!), simply by additional clauses
+,(!) = ∞,(%)
+or (depending on the value of /, in Theorem 11 applied to A = ,(%))
+,
+
+sup
+n¡!
+!n
+
+=
+ˆ
+sup
+n¡!
+,(!n):
+Theorem 12.
+Set A is of <nite Borel rank i: A or −A ≡c ,(!) for some ! ¡ /(!1):
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+99
+Then dc(A) = ! i: A or −A ≡c ,(!).
+Theorem 12(a). We make the same proof in four steps as for [BA]; except that we
+take care in addition of the operation ∞A.
+Step 1: !¡% i9 ,(!) ¡c ,(%). This step was an easy consequence of Lemma 2.
+Here we only need to extend this lemma to the new operation:
+A ¡c B implies ∞A ¡c ∞B.
+This is easy.
+Step 2: Separation Lemma. If A and −A6c,(!), then there is %¡! such that A or
+−A6c,(%).
+Proof. We only have to consider the case where ,(!) is of the new form ∞B, because
+the other cases are handled by the former proof.
+Case 1: B is not itself of the form ∞B′. Thus B is for instance of the form C ˆ+D;
+and a player in charge of ∞B is in charge of C ˆ+D (...with an additional right to erase).
+If we forget the remark in parenthesis, we are thus proving the separation lemma in
+one of the cases handled by the former proof. Then it is possible to imitate that proof
+so as to transfer it from C ˆ+D to ∞C ˆ+D = B...
+Not case 1: Even in that case, there is B′ not of the form ∞B′′, such that B results
+from B′ by the operation ∞A iterated a  nite number of times. Then the idea of case
+1 can be applied, using B′ in place of B...
+Step 3: Set A is of  nite rank i9 A or −A6c,(!) for some !¡/(!1).
+Proof. The operations used to build ,(!) all are Borel, and they increase the Borel
+rank at most by 1. So ,(!) is Borel; and its rank is  nite by easy induction on !.
+Let ,n denote the result of ∞A applied n times to :2; one can show that A is of
+rank6n exactly when A or −A6c,n. Hence the result, since ,n is of the form ,(!)
+for some !.
+Step 4: One takes the smallest ! such that A or −A6c,(!) and shows that A or
+−A ≡c ,(!). Proof of step 4 is exactly the former one.
+Remark. As corollaries one can obtain the case of  nite rank of Theorems 12, 8, 9
+and of Wadge’s main theorem.
+5. The set-theoretic logarithm
+The operation ∞A acts like exponentiation on sets; it can be inverted: for every Set
+A we de ne a Set AF such that roughly (∞A)F ≡c A. Remembering that a player in
+charge of ∞A is in charge of A but has an extra right to change the past of his play,
+100
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+we see that a player in charge of AF should be in charge of A but have an extra
+duty: the duty to inform in advance about his future moves. To that end one carefully
+chooses a countable family F of closed subsets of the space !
+A; the player in charge
+of AF is the usual player in charge of A with the additional duty to inform already
+at move n whether or not his  nal play will eventually belong to the nth set of the
+family F.
+A case where AF is easy to understand is when A = ∞B; then we take for F all sets
+of the form {x ∈!
+A : x(i) = a} (i¡! and a ∈B). A player in charge of (∞B)F is
+forced during the play to decide all these sets; eventually he is thus forced to eventually
+decide the value of each of his moves. But after he has done it for a move, he can
+no longer erase it. So taking ∞B gave him the right to erase, but then applying “F”
+gradually suppresses this right! It is then easy to see that (∞B)F ≡c B: the operation
+acted as a kind of logarithm, etc. This is a powerful tool reducing questions about
+a Set of the form ∞B to questions about B. Remember that the idea to prove the
+Separation lemma is to deduce it from his former version by such a reduction. The
+new “logarithm” AF o9ers the best way to realize this idea precisely.
+6. E'ective Borel sets
+In Section 3 we saw that ˆ:! is a basic notion for WH; and in Section 2 we had seen
+that it also is the right notion in some e9ective studies. What about other basic notions
+about WH: ∞A; AF; CH; are they useful in the same e9ective way? This question is
+recent so we only have preliminary remarks and results about it.
+(a) In Section 3 we used CH to prove results about WH because CH is much simpler.
+This is good news here, for the conciliatory framework seems more natural in
+connection to TCS: it certainly is more realistic to allow words and plays to be
+ nite!
+(b) Remember that in nite games modelize interacting processors. And that the opera-
+tion ∞A not only allows but even forces players to erase. For if a player in charge
+of ∞A does not erase then he is only in charge of A which is much weaker. May
+be this could be used to modelize processors interacting in a memory saving way:
+if their speci cation can be expressed in a way that involves Sets of the form ∞A
+in a suitable way, then a processor satisfying the speci cation will be a fanatical
+eraser!
+(c) Alas, in CS if Set B arises in a model for a speci cation, in practice, it will not
+present itself under the form ∞A for some A. But it may be possible to use the
+“logarithm”, putting B in the form ∞(BF). For it seems that if B is e9ective in
+some sense, then in a similar sense BF is e9ective too.
+Thus, the notions we have come to in the none9ective theory may have applications
+in the e9ective domain. But there are several ways for a Borel set to be e9ective, and
+to pursue the discussion we need to specify the one we consider.
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+101
+6.1. (nondeterministic) PDAs
+Proposition 2.
+(a) PDA ∩co-PDA is closed under the operations ˆ+; ˆ:!; ˆ:∞; ∞A;
+and the same holds for NAPDA (that is nonambiguous PDAs) ∩co-NAPDA.
+(b) Let DA−denote the closure of DPDA under the above operations; the ordinal
+length of CHDA−is Cantor’s /0. And provided CHDPDA is decidable with
+w.s. performed by DPDA transducers (something we expect to be proved soon)
+then the same holds for CHDA−.
+(c) In addition for every game G (A) with A in DA−one can decide which player
+has a w.s.; and DPDA transducers suEce to win.
+This sounds very nice, since DA−contains sets of every  nite Borel rank: it looks as
+if DA−is the extension of DPDA one is looking for, beyond the results of Courcelles–
+Walukiewicz! The trouble is that the proof of the proposition is too easy, reTecting the
+fact that DA−is not rich enough: its sets modelize rather limited kinds of speci cations.
+Thus, in reality, one needs to extend the proposition to some richer class DA. But it
+is plausible that this can be done relying on the existing ideas: the case of DA−is
+so unchallenging that there is room for strengthenings... So let DA denote the set of
+all PDA’s that are 6c to some element of DA−via a rational transducer; does every
+game G(A) with A in DA have an e9ective w.s.?
+The undecidability results of Theorem 7 suggest that one has to restrict NAPDA in
+some explicit way if one is to obtain e9ective determinacy results. It is not easy and
+clear how to make this restriction; and the method based on ∞A we used to de ne
+DA−, is the only way which we see, etc. Thus, the operation ∞A seems particularly
+useful to study NAPDA. On the other hand, its inverse AF quickly leads outside of
+PDA. This is one of the many reasons to consider the notion of e9ective set we will
+introduce in Section 4.C.
+6.2. Trans<nite BAs
+By slightly generalizing the acceptance condition of BAs one enables them to read
+trans nite words x in ! for !¿!; the case ! = !n is the main one: we then speak of
+an !n −BA. At  rst this seems too far from the real world to ever have applications.
+But this impression is due to a misunderstanding: when A in !n −BA is considered,
+people think that the associated game G (A) takes place in !n moves – a pure fantasy.
+But actually the associated game takes ! steps as before, producing a word x′ of length
+!. It is the referee of the game which in order to determine the winner decodes x′ into
+a word x of length !n, and takes this number of steps to read x – just as for accepting
+words of length l many processors make computations of a longer length ln. Put this
+way, !n −BAs are natural. And in fact they de ne some of the most basic and natural
+e9ective Borel sets of rank up to 2n + 1.
+Proposition. The hierarchy CH!! −BA is of length at least /0(!!) = /0.
+102
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+We expect that this bound will turn out to be the exact length, that the hierarchy is
+decidable and that every reduction between two !! −BAs can be done by an e9ective
+transducer (some partial results in this direction are obtained). This is not using ∞A
+which leads to an undecidable extension of CH!! −BA. But !! −BA is closed under
+a variant of ∞A denoted (1; A), which has a quite similar theory.
+6.3. Local sets
+A local sentence is a universal  rst order sentence 2 such that in all models of 2,
+the set of all terms reduces to a  xed <nite set T of terms. This is possible in the
+following way: for each term t(x1 · · · xk) having all its proper subterms in T, we can
+write a  nite disjunction Dt of equations which asserts that the value of t(x1 · · · xk)
+equals the value of some terms of T applied to some of the variables x1 : : : xl. Let 2
+include the universal closure of disjunctions Dt: then clearly, in any model of 2, every
+term s in which parameters from the model are substituted to all variables reduces to a
+term s′ of T (s′ depends on the model and on the parameters, not only on s itself). In
+other words, as soon as the rest of the sentence 2 is universal, 2 will be local. Clearly
+every model M of a local sentence 2 is locally  nite in the sense that any  nite part
+X of M generates a  nite substructure A (in fact the cardinal of A is bounded by a
+polynomial of card X). This is the origin of the terminology “local”.
+A class C of words is local if for some local sentence 2 it is of the form:
+{x ∈!: the structure x can be extended to a model of 2}
+(when the word x is considered as a structure in the usual way).
+One can show the existence of local Sets in this sense which are Borel of in nite
+rank or even analytic. Still all local Sets are e9ective in the sense that there is an
+algorithm to decide whether they contain at least one in nite word. This analog of
+B<uchi’s lemma proved in [22, 23] also shows that any weaker combinatorial principle
+than the in nite Ramsey theorem does not suVce to justify the algorithm. This is in
+sharp contrast with B<uchi’s lemma, which rests on a particularly weak combinatorial
+principle – namely: the form of the pigeon hole principle asserting that there is no
+injection from an in nite set into a  nite one! The contrast suggests that local Sets
+form a particularly rich class of e9ective Sets. It is an open question whether they
+include all PDA’s; but any concrete and usable example of PDA which we know of is
+easily seen to be local. In addition every !n −BA is local [15]. Local Sets are closed
+under union but not under complement [10]; but Sets local and co-local are closed
+under the operations
+ˆ+; Aˆ:!; Aˆ:∞; ∞A. Work has started to show that the class of
+local Sets of  nite Borel rank is in addition closed under the operation AF, and that it
+is close to the class of !!−BA. This would be nice because local sentences are a much
+more Texible way to de ne Sets than !n −BAs. On the other hand, !n −BAs have
+good decidability properties, so one would have both advantages. Finkel has started to
+show that the ordinal length of CH(local and co-local sets) is much larger than /0;
+so that this notion of e9ective set is a story at its very beginning.
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+103
+6.4. Conclusion
+So much about using the none9ective theory of WH to help the investigation of
+e9ective determinacy (both of G(A) and W(A; B) games). What about the converse –
+using CS to help the Set Theory of WH? Our initial goal was to study the e9ective part
+WH!!-BA rather than WH itself. This study lead to the operation (1; A) (used in
+the study of trans nite BAs) and to the “conciliatory” framework, which lead to ∞A,
+which lead to AF. The latter concepts were up to the challenge of giving full proof and
+extension of Wadge’s main theorem. This lead the  rst author to concentrate on the
+none9ective aspects of WH until the challenge was won. Consequently the e9ective
+investigations we have told in this section only started recently: there is still a wealth
+of ideas to be developed.
+7. Climbing to the top of WH
+One reaches the Veblen ordinal by a clever iteration of ordinal exponentiation of
+base !1. The cleverness is used to monstrously prolongate this iteration without loosing
+control of the process. So that the Veblen ordinal thus reached and de ned is very
+large, yet has a “Veblen Normal form” for all its predecessors, as /(!1) has a Cantor
+Normal form. The isomorphism between CH and the Veblen ordinal is then constructed
+by using the Veblen Normal form and converting it to a normal form ,(!) of every
+Borel Set, in four steps as before. The additional work needed w.r.t. to Section 3
+consists:
+(i) in iterating the operation ∞A in a way clever enough to make these iterations
+correspond to Veblen’s iterations of ordinal exponentiation,
+(ii) and in iterating the operation AF so that it provides the inverse of the iterated
+∞A.
+This is hard work but in some sense all the ideas are to be found in Section 3
+except for the Veblen construction, to be found in [25]. Thus |CH| = Veblen or-
+dinal gets proved (Theorem 8). There remains to prove WH isomorphic to CH
+(Theorem 8). This is done by induction on all ordinals ¡|CH|, using the knowl-
+edge of CH provided by the proof of Theorem 9.
+8. WH extended to uncountable alphabets
+So far the alphabet  of any set of words was of cardinal 6!; and the Veblen
+ordinal was the one we now denote by V(!), which uses exponentiation of base !1.
+But the proof of |WH| = V(!) can be extended to the case where  has cardinal ¡ 5
+(5 any in nite cardinal); and where V(!) is replaced by V(5) (de ned as V(!), but
+when exponentiation of base 5 is used). And the extended proof determines |WH|
+104
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+when 5 replaces !. There is however a signi cant di9erence in the result one obtains,
+whenever 5 is uncountable: namely |WH| is much smaller than V(5).
+Since not many people are aware of WH even in the countable case, one may wonder
+if it makes sense to consider this uncountable case, still less e9ective. Here are two
+reasons to do so.
+Reason 1. A missing part of WH. The fact that |WH| becomes strictly less than the
+Veblen
+ordinal
+V(5)
+raises
+the
+question:
+is
+there
+a
+hierarchy
+WH(5)
+which coincide with WH in the countable case but is larger in the uncountable case, so
+that |WH(5)| = V(5) becomes true for all values of 5? This problem of the “missing
+part” WH(5)rWH has been solved by Duparc [8]: the length of WH and CH does
+jump precisely to V(5) if the hierarchy is extended to all analytic∩co-analytic – sets;
+where a set A included in ! is analytic if it is the projection of some closed subset
+of ! × !!. (If  is countable, by Suslin’s celebrated theorem these analytic ∩co-
+analytic sets reduce to the Borel ones. It is only if  is uncountable that they contain
+substantially more than the Borel sets – providing for the “missing part” of WH).
+Reason 2. the extension of WH goes in the direction of more e9ectivity! For Girard-
+Vauzeille [16] extended the Veblen hierarchy to a Veblen functor V of ordinals, which
+is e:ective in the following sense: the restriction of this functor to <nite objects (inte-
+gers and morphisms between them) is primitive recursive and this restriction uniquely
+determines all of Veblen’ functor, in an utterly direct way. Now once WH is extended
+to WH(5) we have turned WH to a function of the cardinals 5 which is partially
+isomorphic to this Veblen functor. It is then easy to de ne more generally WH(!)
+for every ordinal ! so that the function: ! →|WH(!)| coincides with the function:
+! →V(!). We intent to enrich the function: ! →WH(!) to a functor, so that the
+above isomorphism of functions becomes an isomorphism of functors: one that pre-
+serves their categorical structure and not only the order. Our proof of Wadge’s main
+result proceeded by turning the equality |CH| = V(!) to be proved, into a isomor-
+phism between ⟨CH⟩(Sets with their natural structure), and ⟨V(!)⟩( = ordinals with
+their natural structure); this projected extension is the analog when functors over the
+ordinals (called dilators) replace ordinals. Its goal is to apply to e:ective determinacy
+the beautiful ideas of Girard – see [10] – connecting dilators with large cardinals and
+determinacy. This is a long-term program; there is plenty to do in the meantime...
+Acknowledgements
+The new results announced in the set theoretic part of this note are due to the  rst
+author. Part of them belongs to his thesis made under the supervision of the third
+author.
+The  rst author owes a debt of gratitude to J.P. Ressayre for suggesting the problem,
+pointing out some of the fundamental ideas of that work, and supporting its achievement
+by many stimulating remarks and advices. He also wants to thank A. Louveau for
+careful checking of part of the proofs and helping to correct some imperfections.
+J. Duparc et al. / Theoretical Computer Science 257 (2001) 85–105
+105
+Thanks also to P. Simonnet who introduced the third author to the Wagner and
+Wadge hierarchies and persuaded him that the two hierarchies should be studied to-
+gether.
+References
+[1] B. Courcelles, The monadic second-order logic of graphs IX: Machines and their behaviours, Theoret.
+Comput. Sci. 151 (1995) 125–162.
+[2] B. Courcelles, The monadic second-order logic of graphs X: Linear orders, Theoret. Comput. Sci. 160
+(1996) 87–143.
+[3] J. Duparc, The normal form of Borel sets of  nite rank, manuscript.
+[4] J. Duparc, La forme normale des BorWeliens de rangs  nis, ThXese de Doctorat, UniversitWe Denis Diderot
+Paris VII, Juillet 1995.
+[5] J. Duparc, Wadge degrees of Louveau’s (Wadge) classes, 1995, unpublished.
+[6] J. Duparc, Wadge hierarchy and Veblen hierarchy: part I Borel sets of  nite rank, J. Symbolic Logic,
+in preparation.
+[7] J. Duparc, A normal form for Borel sets of any rank, J. Symbolic Logic, submitted for publication.
+[8] J. Duparc, Hierarchy of push down automata, 1998, unpublished.
+[9] O. Finkel, Langages de B<uchi et !-langages Locaux, C.R.A.S. Paris, t.309, SWerie 1, pp. 991–999.
+[10] O. Finkel, Closure Properties of Locally Finite !-languages, 1994, preprint.
+[11] O. Finkel, Topological properties of context free !-languages, Theoret Comput. Sci., 1998, submitted
+for publication.
+[12] O. Finkel, Wadge Hierarchy and context free !-languages, 1999, in preparation.
+[13] O. Finkel, Wadge hierarchy and counter !-languages, 1999, in preparation.
+[14] O. Finkel, Locally  nite !-languages, 1999, in preparation.
+[15] O. Finkel, Locally  nite languages, Theoret. Comput. Sci., in preparation.
+[16] J.-Y. Girard, J. Vauzeilles, Functors and ordinal notations I: A functorial construction of the Veblen
+hierarchy, J. Symbolic Logic 49 (1984) 713–729.
+[17] A. Louveau, Some Results in the Wadge Hierarchy of Borel Sets, Cabal Sem 79–81, Lecture Notes in
+Mathematics, Vol. 1019, 1983, pp. 28–55.
+[18] A. Louveau, J. St. Raymond, The strength of Borel Wadge determinacy, Cabal Sem 81–85, Lecture
+Notes in Mathematics, Vol. 1333, 1985, pp. 1–30.
+[19] A. Louveau, J. St. Raymond, Les propriWetWes de rWeduction et de norme pour les classes de BorWeliens,
+Fund. Math. vol. 131 (1988) 223–243.
+[20] D.A. Martin, Borel Determinacy, Ann. Math. 102 (1975) 363–371.
+[21] D.A. Martin, A purely inductive proof of Borel Determinacy, Rec. Theory, Proc. Symp. Pure Math. 42
+(1985) 303–308.
+[22] J.-P. Ressayre, Formal languages de ned by the underlying structure of their words, J. Symbolic Logic
+53 (4) (1988) 1009–1026.
+[23] J.-P. Ressayre, O. Finkel, Stretchings, J. Symbolic Logic 61 (2) (1996) 563–585.
+[24] W. Thomas, Automata on In nite Objects, in: Handbook of Theoretical Computer Science, J. van
+Leeuwen (Ed.), Elsevier Science, Amsterdam, 1990 (Chapter 4).
+[25] O. Veblen, Continuous increasing fonctions of  nite and trans nite ordinals, Trans. Amer. Math. Soc.
+9 (1908) 280–292.
+[26] W.W. Wadge, Degrees of complexity of subsets of the Baire space, Notices Amer. Math. Soc. (1972)
+714.
+[27] W.W. Wadge, Ph.D. Thesis, Berkeley, 1984.
+[28] W. Wagner Klaus, On !-regular sets, Inform. and Control 43 (2) (1979) 123–177.
+[29] I. Waluliewicz, Pushdown processes: games and model checking, CAV’96, Inform. and Comput. 1996,
+32pp. in preparation.

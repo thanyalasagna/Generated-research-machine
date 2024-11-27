@@ -1,0 +1,3662 @@
+ELSEVIER 
+Theoretical Computer Science 201 (1998) 99-136 
+Theoretical 
+Computer Science 
+Dynamical recognizers: real-time language recognition 
+by analog computers 
+Cristopher 
+Moore* 
+Santa Fe Institute, 
+1399 Hyde Park Road, Santa Fe, NM 87501, USA 
+Received June 1996; revised December 1996 
+Communicated by F. Cucker 
+Abstract 
+We consider 
+a model of analog computation 
+which can recognize 
+various languages 
+in real 
+time. We encode an input word as a point in [Wd by composing 
+iterated maps, and then apply 
+inequalities 
+to the resulting point to test for membership 
+in the language. 
+Each class of maps and inequalities, 
+such as quadratic functions with rational coefficients, 
+is 
+capable of recognizing 
+a particular class of languages. 
+For instance, 
+linear and quadratic maps 
+can have both stack-like and queue-like 
+memories. 
+We use methods 
+equivalent 
+to the Vapnik- 
+Chervonenkis 
+dimension 
+to separate some of our classes from each other: linear maps are less 
+powerful than quadratic or piecewise-linear 
+ones, polynomials 
+are less powerful than elementary 
+(trigonometric 
+and exponential) 
+maps, and deterministic 
+polynomials 
+of each degree are less 
+powerful than their non-deterministic 
+counterparts. 
+Comparing 
+these dynamical 
+classes with various discrete 
+language 
+classes helps illuminate 
+how iterated maps can store and retrieve 
+information 
+in the continuum, 
+the extent to which 
+computation 
+can be hidden in the encoding from symbol sequences 
+into continuous 
+spaces, and 
+the relationship 
+between analog and digital computation 
+in general. 
+We relate this model to other models of analog computation; 
+in particular, 
+it can be seen as 
+a real-time, 
+constant-space, 
+off-line version of Blum, Shub and Smale’s real-valued 
+machines. 
+@ 1998 Published by Elsevier Science B.V. 
+All rights 
+reserved 
+1. Introduction 
+Suppose 
+that for each 
+symbol 
+a in a finite 
+alphabet, 
+we have 
+a map 
+fa acting 
+on 
+a continuous 
+space. 
+Given 
+an input word, 
+say abca, we start with an initial point and 
+apply 
+the maps fa, 
+f&fc and fa 
+in that 
+order. 
+We then 
+accept 
+or reject 
+the input 
+word depending 
+on whether 
+or not the resulting 
+point x&a 
+is in a particular 
+sub- 
+set of the space; the set of words we accept forms a language recognized 
+by the 
+system. 
+* Tel.: I 505 986 2071; fax: 505 982 0565; e-mail: moore@santafe.edu. 
+0304-3975/98/$19.00 
+@ 1998 Published 
+by Elsevier Science B.V. All rights reserved 
+PII SO304-3975(97)00028-5 
+100 
+C. Moore/ Theoretical Computer Science 201 (1998) 
+99-136 
+We will call such systems 
+dynamical 
+recognizers; 
+they were formally 
+defined by 
+Jordan Pollack in [36]. To define them formally, 
+we will use the following 
+notations 
+(slightly 
+different from his): 
+A* is the set of finite words in an alphabet 
+A, with E the empty word. If w is 
+a word in A*, then IwI is its length and wi is the ith symbol, 
+1 <i 6 ]wl. We write 
+ak for a repeated 
+k times. The concatenation 
+of two words u . v, or simply 
+UV, is 
+2.41 ..’ +[a1 . ” q,j. 
+Suppose we have a map fa on Rd for each symbol 
+a E A. Then for any word w, 
+fw = fw,,, O . . ’ 0 fw, o fw, is the composition 
+of all the fw,, and x, = fw(xo) is the 
+encoding 
+of w into the space where x0 =x, 
+is a given initial point. 
+Then a real-time deterministic dynamical recognizer p consists of a space M = Rd, 
+an alphabet A, a function 
+fa for each a E A, an initial point ~0, and a subset H,,, c M 
+called the accepting subset. The language recognized by p is then L, = (w/x, 
+E HyeS}, 
+the set of words for which iterating the maps fw, on the initial point yields a point in 
+the accepting 
+set Hyes. 
+For example, 
+suppose M = R, A = {a, b}, fa(x) =x + 1, fb(x) =x - 1, x0 = 0, and 
+H,,, = [0,x1). Then if #,(w) and #b(w) are the number of a’s and b’s in w, respectively, 
+x, =#&w) 
+- #b(w) and L(p) is the set of words for which #,(w)>#&w). 
+We can also define non-deterministic dynamical 
+recognizers: 
+for each a E A, let there 
+be several choices of function 
+fa(*), fj2) etc. Then we accept the word w if there exists 
+a set of choices that puts x, in H,,,, i.e. 
+X(k)=j$~l)o...O 
+j-L& 
+j-$1’ 
+w 
+(x0) E H,,, for some sequence 
+k. 
+In this paper, we will look at classes of dynamical 
+recognizers 
+and the corresponding 
+language 
+classes they recognize. 
+For a given class %? of functions 
+and a given subset 
+U c R such as B or Q, we define the class U(U) 
+as the set of languages 
+recognized 
+by dynamical 
+recognizers 
+where 
+(1) XOEU, 
+(2) 4,s 
+is defined by a Boolean 
+function 
+of a finite number 
+of inequalities 
+of the 
+form h(x)30, 
+and 
+(3) the h and fa for all a are in %? with coefficients 
+in U. 
+We will indicate a non-deterministic 
+class with an N in front. In particular: 
+Poly,(U) 
+and NPoly,( U) are the language 
+classes 
+recognized 
+by deterministic 
+and non-deterministic 
+polynomial 
+recognizers 
+of degree k with coefficients 
+in U. 
+Lin( U) = Poly, (U) and NLin( U) = NPoly, (U) are the deterministic 
+and non-deter- 
+ministic 
+linear languages. 
+Poly( U) = Uk Poly,( U) and NPoly( U) = Uk NPoly,( U) are the deterministic 
+and 
+non-deterministic 
+polynomial 
+languages 
+of any degree. 
+PieceLin( U) and NPieceLin( U) are the languages 
+recognized 
+by piecewise-linear 
+recognizers 
+with a finite number 
+of components, 
+whose coefficients 
+and component 
+boundaries 
+are in U. 
+C. Moore I Theoretical 
+Computer Science 201 (1998) 
+99-136 
+101 
+Elem( U) and NElem( U) are languages 
+recognized 
+by elementary 
+functions, 
+meaning 
+compositions 
+of algebraic, 
+trigonometric, 
+and exponential 
+functions, 
+whose constants 
+can be written as elementary 
+functions 
+of numbers 
+in U. 
+We will take U to be Z, Q, or R. We will leave U out if it doesn’t 
+affect the 
+statement 
+of a theorem. 
+2. Memory, encodings, analog computation, and language 
+There are several reasons one might want to study such things. 
+First, by restricting 
+ourselves 
+to real time (i.e. one map is applied for each symbol, 
+with no additional 
+processing 
+between) 
+and only allowing 
+measurement 
+at the end 
+of the input process, 
+we are in essence 
+studying 
+memory. If a dynamical 
+system is 
+exposed 
+to a series of influences 
+over time (a control 
+system, 
+say, or the external 
+environment), 
+what can we learn about the history of those influences 
+by performing 
+measurements 
+on the system afterwards? 
+What kinds of long-time 
+correlations 
+can it 
+have? What kinds of information 
+storage and retrieval can it do? For instance, 
+we will 
+show that linear and quadratic 
+maps can have both stack-like 
+(last in, first out) and 
+queue-like 
+(first in, first out) memories. 
+Secondly, 
+a number 
+of recent papers [30,32,10, 
+l] have shown that various 
+kinds 
+of iterated maps (piecewise-linear, 
+differentiable, 
+C”, 
+analytic, etc.) in low dimensions 
+are capable of various kinds of computation, 
+including 
+simulation 
+of universal 
+Turing 
+machines. 
+However, in and of themselves, 
+these statements 
+are ill-defined; 
+for a contin- 
+uous dynamical 
+system to simulate discrete computation, 
+we need to define an interface 
+between the two. We illustrate 
+this conceptually 
+in Fig. 1: we encode a discrete input 
+w as a point x = f(w) 
+in the continuous 
+space, iterate the continuous 
+dynamics 
+until 
+some halt condition 
+is reached, and then measure the result by mapping the continuous 
+state back into a discrete output h(x). 
+The problem 
+is that with arbitrary encoding 
+and measurement 
+functions, 
+the identity 
+function, 
+with no dynamics 
+at all, can recognize 
+any language! 
+All we have to do is 
+hide all the computation 
+in the encoding 
+itself: let f(w) = 1 if w EL and 0 otherwise, 
+and let h(x) be ‘yes’ if x >O. We can do the same thing on the measurement 
+side by 
+letting h(x,) 
+be ‘yes’ if w E L and ‘no’ otherwise. 
+Clearly there is something 
+unreasonable 
+about such encoding 
+and measurement 
+fimc- 
+tions; the question 
+is how to define reasonable 
+ones. Most of these papers use the best- 
+known 
+encoding 
+from discrete to continuous, 
+namely 
+the digit sequence 
+x = .aoa~ . . . 
+of a real number. 
+Finite words correspond 
+to blocks in the unit interval. 
+If we add 
+gaps between 
+the blocks, we get a Cantor set; for instance, 
+the middle-thirds 
+Cantor 
+set consists 
+of those reals with no l’s in their base-3 expansion. 
+This encoding 
+can be carried out by iterating affine maps: if A = {0,2}, let x0 = 0.1, 
+f,(x) 
+= fx and fz(x) = 4x + $. Then &(x0) = .wl,l . . ~2~11 is the point in the center 
+of the block corresponding 
+to w. We could say then that this encoding 
+is reasonable 
+to whatever 
+extent that affine maps are. 
+102 
+C. Moore! Theoretical Computer Science 201 (1998) 99-136 
+Fig. 1. The interface between discrete and continuous 
+computation: 
+encoding a discrete word in a continuous 
+space, evolving 
+the dynamics, 
+and performing 
+a measurement 
+to extract a discrete result. 
+This suggests the following 
+thesis: that reasonable 
+encodings 
+consist of reasonable 
+maps, iterated in real time as the symbols 
+of the word are input one by one. If we 
+accept this, then this paper is about how much computation 
+can be hidden 
+in the 
+encoding 
+and measurement 
+process, depending 
+on what kinds of maps are allowed. 
+Thirdly, 
+there is an increasing 
+amount 
+of interest 
+in models 
+of analog 
+computa- 
+tion, such as Blum, Shub, and Smale’s flowchart machines 
+with polynomial 
+maps and 
+tests [3] and other models [28] with linear or trigonometric 
+maps as their elementary 
+operations. 
+In this context, dynamical 
+recognizers 
+form a hierarchy of analog computers 
+with varying sets of elementary 
+operations. 
+We show below that dynamical 
+recognizers 
+can be thought of as off-line BSS-machines 
+with constant 
+space. 
+Finally, 
+recurrent 
+neural networks 
+are being studied as models of language 
+recogni- 
+tion [36] for regular 
+[16], context-free 
+[13,16], 
+and context-sensitive 
+[39] languages, 
+as well as fragments 
+of natural 
+language 
+[14], where grammars 
+are represented 
+dy- 
+namically 
+rather than symbolically. 
+The results herein then represent 
+upper and lower 
+limits on the grammatical 
+capabilities 
+of such networks in real time, with varying sorts 
+of nonlinearities. 
+Perhaps, these are ‘baby steps’ toward understanding 
+the cognitive 
+processes of experience, 
+imagination, 
+and communication, 
+so important to our everyday 
+lives [33], in a dynamical, 
+rather than digital, way. 
+3. Discrete computation classes 
+We will relate our dynamical 
+classes to the following 
+language 
+classes from the 
+standard theory of discrete computation 
+[2 1,341: 
+Reg, the regular languages, are recognizable 
+by finite-state 
+automata 
+(FSAs) 
+and 
+are representable 
+by expressions 
+using 
+concatenation, 
+union, 
+and the Kleene 
+star * 
+(iteration 
+0 or more times). For instance, 
+(a+ba)* 
+consists of those strings where two 
+adjacent b’s never appear and which end with an a. 
+CF, the context-free languages, are recognizable 
+by pushdown automata (PDAs), 
+which are FSAs with access to a single stack memory. A word is accepted either when 
+the FSA reaches a certain 
+state or when the stack is empty. Context-free 
+languages 
+C. Moore/ Theoretical 
+Computer Science 201 (1998) 99-136 
+103 
+are also generated 
+by context-free 
+grammars where single symbols 
+are replaced 
+by 
+strings. 
+For instance, 
+the Dyck language 
+{E, ( ), (( )), ( )( ), . . .} of properly matched parenthe- 
+ses is generated from an initial symbol X by a grammar where the initial symbol X can 
+be replaced with (X)X or erased. It is recognized 
+by a PDA that pushes a symbol onto 
+its stack when it reads a “(” and pops one when it reads a “)“. Since this PDA is de- 
+terministic, 
+this language 
+is actually in DCF, the deterministic context-free languages. 
+CS, the context-sensitive languages, are recognizable 
+by Turing machines which only 
+use an amount 
+of memory 
+proportional 
+to the input size. For instance, 
+the language 
+{x”} of words of prime length is context-sensitive. 
+We have Reg c DCF c CF c CS, with all containments 
+proper. 
+TIME( f 
+(n)), NTIME( f (n)), SPACE( f (n)), and NSPACE( f (n)) are the langu- 
+ages recognizable 
+by a multi-tape 
+Turing machine, 
+deterministic 
+or non-deterministic, 
+using 
+only time or memory 
+proportional 
+to f(n) 
+where n is the length 
+of the in- 
+put. For instance, 
+NSPACE(n) 
+= CS, and lJk TIME(&) 
+and Uk NTIME(n’) 
+are the 
+(distinct?) 
+classes P and NP of problems 
+that can be solved deterministically 
+and non- 
+deterministically 
+in polynomial 
+time - not to be confused with the Poly and NPoly 
+of 
+this paper! 
+NCk is the class of languages 
+recognizable 
+by a Boolean 
+circuit 
+of depth logk n 
+and polynomial 
+size, or equivalently 
+by a parallel computer with a polynomial 
+number 
+of processors 
+in time logk n. The union 
+NC = lJk NCk, Nick’s 
+Class, is the set of 
+problems 
+that can be solved in polylogarithmic 
+parallel 
+time; it is believed 
+to be a 
+proper subset of P. 
+4. Closure properties and general results 
+Closure properties are a useful tool in language theory. We say a class % of languages 
+is closed under a given operator (union, 
+intersection, 
+complementation, 
+and so on) if 
+whenever 
+languages 
+Li, LZ are in %? then L1 U L2,Li n L2,zi . . . are also. 
+Then we can prove the following 
+easy lemmas. 
+Most of these are axiomatic 
+in 
+nature, and would be equally true for any recognition 
+machine 
+with a read-only 
+input 
+whose state spaces are closed under simple operations. 
+Lemma 1. Any deterministic or non-deterministic class of real-time dynamical rec- 
+ognizers for which the set of allowed fa is closed under direct product, and for which 
+the set of allowed H,,, is closed under direct product and union, is closed under union 
+and intersection. 
+Proof. Suppose we have two recognizers 
+p1 and p2 with functions 
+fa and ga on spaces 
+M and N and accepting 
+subsets J,,, c M and KY,, c N, respectively. 
+Then define a new 
+recognizer 
+p with h, = fa x ga on M x N; in other words, simply run both recognizers 
+in parallel. 
+104 
+C. Moore1 Theoretical Computer Science 201 (1998) 99-136 
+Then to recognize 
+L,, n L,, or L,, U L,, , let H& = Jyes x KY,, or H,,, = (Jyes x N) u 
+(44 x K,,,) respectively. 
+0 
+This includes 
+all of the recognizer 
+classes under discussion. 
+Lemma 2. Any deterministic class of recognizers for which the set of allowed Hyes 
+is closed under complementation is closed under complementation. 
+Proof. Let Hi,, = Hyes. 0 
+This includes 
+all of the deterministic 
+classes under 
+discussion. 
+It does not work 
+for non-deterministic 
+ones, since the complement 
+of a non-deterministic 
+language 
+is 
+the set of words for which all computation 
+paths reject, namely 
+a set defined by a 
+‘d quantifier 
+(“for all”) rather than a 3 (“there exists”). 
+This is typically 
+not another 
+non-deterministic 
+language. 
+A homomorphism from one language to another is a map h from its alphabet to the 
+set of finite words in some (possibly 
+different) 
+alphabet. For instance, 
+if h(a)=b 
+and 
+h(b) = ab, then h(bab) = abbab. If L is a language, 
+then its image and inverse image 
+under h are h(L) = {h(w) 1 w E L} and h-‘(L) = {w 1 h(w) EL}. 
+A homomorphism 
+is E-free if no symbol is mapped to the empty word, and alphabetic 
+if each symbol is mapped to a one-symbol 
+word. 
+Lemma 3. Deterministic and non-deterministic recognizer classes for which the set 
+of allowed fa is closed under composition are closed under inverse homomorphism. 
+All recognizer classes are closed under alphabetic inverse homomorphism. 
+Proof. If we have a recognizer 
+p for a language 
+L, we can make a recognizer 
+for 
+h-‘(L) 
+by converting 
+the input word w to h(w) and feeding h(w) to p. To do this, 
+simply replace fa with f&j 
+(where fC is the identity 
+function 
+z), i.e. just compose 
+the maps for the symbols in h(a). If the homomorphism 
+is alphabetic, 
+h(a) is a single 
+symbol and no composition 
+of functions 
+is necessary. 
+0 
+Since linear, polynomial 
+and piecewise-linear 
+functions 
+are closed under composition, 
+we have 
+Corollary. 
+Lin, NLin, Poly, NPoly, PieceLin 
+and NPieceLin 
+are closed under inverse 
+homomorphism. 
+We actually mean Lin(U),NLin(U), 
+Poly(U) 
+and so on are each closed under h-’ 
+for U = 7, Q or R. These are potentially 
+distinct classes (see Theorem 
+3). 
+Lemma 4. Any non-deterministic language is an alphabetic homomorphism of a lan- 
+guage in the corresponding deterministic class. 
+C. Moore! Theoretical Computer Science 201 (1998) 99-136 
+105 
+Proof. If each symbol a has several choices of map j$, 
+make the recognizer 
+deter- 
+ministic 
+by expanding 
+the alphabet to {(a, i)} so that the input explicitly 
+tells it which 
+map to use. Then h((a, i)) = a is an alphabetic 
+homomorphism. 
+0 
+Lemma 5. FSAs with n states can be simulated by linear maps in n dimensions. 
+Proof. Simply use the unit vectors ei = (0,. . . , 1,. . . , 0) to represent the states of a FSA, 
+with fa acting as the transition 
+matrix when it reads the symbol a. Then let xo be the ei 
+corresponding 
+to the start state, and let H,,, pick out the ei corresponding 
+to accepting 
+final states. (Deterministic 
+maps suffice, since non-deterministic 
+and deterministic 
+finite 
+state automata 
+can both recognize 
+the regular languages 
+[21].) 
+0 
+Corollary. Reg c Lin(Z). 
+This containment 
+is proper, since the example 
+{w 1 #,(w) a#b(w)} 
+given in the in- 
+troduction 
+is a non-regular 
+language. 
+Lemma 6. Non-deterministic 
+recognizer 
+classes containing linear maps are closed 
+under E-free homomorphism. 
+Proof. We have to show that a recognizer 
+p for a language 
+L can be converted 
+into 
+one p’ for h(L). Specifically, 
+p’ will work by guessing a pre-image 
+h-‘(w) 
+of the input 
+word, and applying 
+p to that pre-image. 
+Consider a non-deterministic 
+FSA with states labelled (a, i), representing 
+a guess that 
+we are currently 
+reading the ith symbol of h(a) where a is a symbol in the pre-image 
+of w. Add a start state I and a reject state R. Let it make transitions 
+based on the 
+current input symbol u in the obvious way: 
+Z+(a,l) 
+if u=h(a), 
+Fyi+ 1) if u=h(a)i+l, 
+otherwise, 
+(a, Ih(a)I) 
+1) if u=h(bh, 
+R+R. 
+In order to plug the original recognizer 
+p into this FSA, we apply fa to x whenever 
+we complete 
+a word h(u), i.e. when the FSA arrives at the state (a, Ih(a) 
+and leave 
+x unchanged 
+otherwise. 
+We next show how to do this. 
+Suppose p acts on a space M. Then let the new recognizer 
+p’ act on M’ = M” where 
+n is the total number 
+of states in the FSA. At all times, the state x’ EM’ will be a 
+vector with only one non-zero 
+component 
+xi =x, where s is the current FSA state and 
+x is the simulated 
+state of p. Denote this vector Xs. 
+106 
+C. Moore1 Theoretical Computer Science 201 (1998) 99-136 
+Then for each symbol a and each allowed transition s -+ t of the FSA, define a 
+non-deterministic map 
+f(t)= 
+fa 
+if t = (a, Ih(a) 
+4s 
+1 
+otherwise, 
+where 1 is the identity function. Then let fi be the non-deterministic map 
+where we non-deterministically choose a transition s --+ ts for each s. Finally, let xt, = 4 
+and let Hi,_, = U~@$‘h(0)‘) so that we accept only when we have completed the last 
+symbol in the pre-image and x is in Hyes. 0 
+Non-determinism is required here in general, since most homomorphisms are many- 
+to-one. However, deterministic maps suffice for one-to-one (or constant-to-one) ho- 
+momorphisms where we only need to look ahead a constant number of symbols to 
+determine the pre-image, such as the h(a) = b, h(b) = ab example above. 
+Recall [Zl] that a trio is a class of languages closed under inverse homomorphism, 
+s-free homomorphism, and intersection with a regular language. (For a formal treatment 
+of trios and other families of languages closed under various operations, see [2].) Then 
+we have shown that 
+Theorem 1. NLin, NPoly and NPieceLin are trios. 
+Proof. Lemma 3 applies since all 
+Lemmas 1, 5, and 6 also apply. 
+q 
+these classes are closed under composition. 
+The interleave of two languages L1 1 Lz is the set of words 
+where the wi and Xi are words, including possibly E. For instance, {ab} 1 {cd} = {abed, 
+acbd, acdb, cabd, cadb, cdab}. The concatenation of two languages L1. L2 is the set of 
+words {wx]wEL~,xEL~}. 
+Then 
+Lemma 7. Non-deterministic classes closed under direct product are closed under 
+interleaving, and non-deterministic classes that include linear maps are closed under 
+concatenation. Deterministic classes are closed under these operations if L1 and L2 
+have disjoint alphabets, 
+Proof. Suppose L1 and L2 are recognized by pt and p2 with maps go and h, on spaces 
+A4 and N, with initial points yo and zo and accepting subsets JyeS and Kyes, respectively. 
+Then L1 l Lz is recognized by p on A4 x N with x0 = (yc,zo), HyeS = JyeS x Kyes, and 
+where fO non-deterministically chooses between ga x z and 1 x h,; in other words, with 
+C. Moore1 Theoretical Computer Science 201 (1998) 99-136 
+107 
+each symbol we update either pi or ~2, and we demand that both reach an accepting 
+state by the end. If Li and LZ have disjoint 
+alphabets, 
+there is no ambiguity 
+about 
+which map to apply and deterministic 
+maps suffice. 
+To recognize 
+L1 . L2, expand the space to M x N x R2, and let x0 = (ys,zs, 1,O). We 
+can use the last two components 
+as a finite-state 
+machine 
+to enforce 
+that we never 
+follow a map from p2 by one from pi by letting &(y,z,s, 
+t) choose between 
+(&Y),z,s,O) 
+and 
+(y,Uz),O,s 
++ t). 
+Then if we ever follow the second map with the first, both s and t will be zero. So 
+let 
+H,,, = Jyes x KY,, x K4W 
+More abstractly, 
+we can use an alphabetic 
+inverse homomorphism 
+h-’ 
+to send L1 and 
+L2 to disjoint 
+alphabets Al and AZ. Then 
+L1 .L2 =h((h-‘(L,) 
+l h-1(L2)) n (4 .A2)) 
+is in the class of Lemmas 
+1, 3, 5, and 6 (since Al . A2 is a regular language). 
+If L1 
+and L2 already have disjoint 
+alphabets, 
+then no homomorphism 
+is necessary: 
+L1 .Lz=(L1 
+lL2)n(A1 
+.A2) 
+and deterministic 
+maps suffice by Lemmas 
+1 and 5. 
+q 
+This ability to run several recognizers 
+in parallel gives dynamical 
+recognizers 
+some 
+closure properties 
+that not all trios have. For instance, 
+the context-free 
+languages 
+are 
+not closed under interleaving 
+or intersection. 
+Now let a =0-recognizer be one for which H,,, = {x ) h(x) = 0} for some h, and call 
+a class of such recognizers 
+a =0-class. 
+Define 
+> 0 and 20-classes 
+similarly. 
+Write 
+subsets of the classes we’ve already 
+defined as NPoly,,, 
+NPieceLindo, and so on. 
+Then 
+Lemma 8. For PieceLin and NPieceLin, the =0-classes and 
+a@classes 
+coincide. 
+Proof. Let f(x) = 1x1 - x and g(x) = - 1x1. Then f(x) = 0 if and only if x 2 0, and 
+g(x) 20 
+if and only if x = 0. Then if h is a measurement 
+function 
+in the =0-class 
+(resp. >O-class) 
+then g o h (f o h) is in the >O-class 
+(=0-class). 
+0 
+As alluded 
+to in the definition 
+of regular 
+languages 
+above, the Kleene star of a 
+language L consists of zero or more concatenations 
+of it, L* = Uiao L’ = v-kL+(L.L)+ 
+. . . The positive closure of a language L is L+ = Uial L’, one or more concatenations. 
+Lemma 9. Non-deterministic =O-classes that are closed under composition, and that 
+contain a function fA such that j,,(x, y) = 0 zf and only tfx = y = 0, are closed under 
+positive closure and Kleene star. Similarly for > O-classes and 2 O-classes. 
+108 
+C. Moore1 Theoretical 
+Computer 
+Science 201 (1998) 
+99-136 
+Proof. For the =0-classes, 
+let M’ = A4 x R! with XI, = (x0,0). Then define f,‘(x, y) non- 
+deterministically, 
+fa’(x7 y, = 1 
+(fa(x), Y )> 
+(fa(xo), fn(h(x), y)). 
+That is, either iterate fa on x or transfer 
+h(x) to y and start over with x0. Let 
+h/(x, y) = fA(h(x), y). Then if w = wiw2 . . . wk, 
+h’(xw, Yw) = f~(&, 
+), fn@(xwk-, ), . . 
+fAvGl>, 
+0))) 
+and h’ = 0 if and only if h(wi) = 0 for all i, SO all the wi are in L. 
+As in Lemma 6, non-determinism 
+is required 
+to guess how to parse the input into 
+subwords, 
+unless there is some way of determining 
+this with a bounded 
+look-ahead 
+(such as a symbol that only occurs at the beginning 
+of each word). 
+If the empty word E is a member 
+of L, then Lf = L*. If not, add a variable z with 
+zo = 1 and fa(z) = 0 for all a and let 
+H,,, = {(x, y,z) ] h/(x, y) = 0 or z = 1 } 
+Then Hyes accepts L+ U {E} = L*. Similarly 
+for >O and 30-classes. 
+Cl 
+Finally, 
+recall [21] that an abstract family of languages (AFL) 
+is a trio which is 
+also closed under union, concatenation, 
+and positive closure. 
+Theorem 2. NPoly=,, NPieceLin,O and NPieceLin,o are AFLs. 
+Proof. For NPoly,,, 
+NPieceLin=a and NPieceLin,o, 
+let f*(x, y) =x2 + y*, 1x1 + Jyl 
+and min(x, y) respectively. 
+Since all these classes are closed under composition, 
+by 
+Lemma 
+9 they are closed under positive 
+closure. 
+We now show that they are also 
+trios, and closed under union and concatenation. 
+We already have an ‘and’ function; 
+we need an ‘or’. For =0-classes, 
+f”(x,y)=xy 
+is polynomial 
+and f&y) 
+= min(ix], Jyj) ’ p 
+IS 
+iecewise-linear. 
+For NPieceLin > 0, let 
+fv(x,y)=x 
++ Y + /xl + IYI. 
+Then letting h = f,(hl, IQ) or fv(hl,h2) 
+will recognize Li fX2 or Li uL2 
+respectively. 
+So Lemma 
+1 applies, and we have closure under union and intersection. 
+Lemmas 
+3, 6 and 7 also apply since these classes contain 
+the regular 
+languages 
+(inequalities 
+of any kind can be used in Lemma 5). This completes 
+the proof. 
+q 
+Theorems 
+1 and 2 suggest that these dynamical 
+classes deserve to be thought of as 
+‘natural’ language 
+classes. 
+5. Linear and polynomial recognizers 
+We now prove some specific theorems 
+about the linear, piecewise-linear 
+and poly- 
+nomial language classes. First, we show that rational coefficients 
+are no more powerful 
+than integer ones: 
+C. Moore1 Theoretical Computer Science 201 (1998) 99-136 
+109 
+Theorem 3. g(E) = %?(Cl) for %? = Poly,, NPoly,, PieceLin, and NPieceLin. 
+Proof. Suppose 
+a recognizer 
+p uses polynomial 
+maps fa and h of degree k with 
+rational 
+coefficients. 
+We will transform 
+these to maps of the same degree with integer 
+coefficients 
+by using a continually 
+expanding 
+system of coordinates 
+(and one additional 
+variable). 
+If h and the fg have rational 
+coefficients, 
+then there exists a q such that qh and 
+qfa(x) have integer coefficients. 
+If fa(x) = ckxk +. . . + CO, add a variable r with rs = 1 
+and let 
+%&r) = 4CkXk f 
+qck- 
+IX~-‘Y 
++ . . . $ qCIXrk-’ 
++ qCork = qrk fa(x/r) 
+and 
+fa’(x, r) = &(x7 r), qrk ). 
+Then the reader can easily check that 
+XI, = fL(xo, yo) = (r1xw, rt), 
+where 
+rt =4 
+k’-‘+...+k+l 
+Finally, 
+if one of the inequalities 
+in Hyes is h(x) > 0, let 
+h’(x, r) = qrkh(x/r) 
+so that h’(xk) = qr,kh(xw), and h’ > 0 iff h > 0. Similarly 
+for h = 0 or h B 0. 
+Then f,’ and h’ are polynomials 
+of degree k with integer coefficients. 
+We can easily 
+transform 
+the coefficients 
+and component 
+boundaries 
+of piecewise-linear 
+maps in the 
+same way. 
+0 
+Henceforth 
+we will simply refer to Lin(Z), Poly(E), etc. 
+5.1. Queues and stacks 
+We now explore the specific abilities 
+of the first few classes. A k-tape real-time 
+queue automaton [9] is a finite-state 
+machine 
+with access to k queues. The queues are 
+first-in-first-out 
+(FIFO), 
+so that the machine can add symbols at one end (say the right), 
+but only read them at the other (say the left). At each time-step 
+the machine 
+reads a 
+symbol of the input word and, based on this and the leftmost symbol in each queue, it 
+may (1) add a finite word to each queue, (2) pop the leftmost symbol off one or more 
+queues, 
+and (3) update its own state. The machine 
+accepts a word if its FSA ends 
+in an accepting 
+state. The languages 
+recognized 
+by deterministic 
+and non-deterministic 
+k-queue 
+automata 
+are called QAk and NQAk, 
+respectively, 
+and QA= 
+Uk QAk and 
+NQA = Uk NQA, . 
+110 
+C. Moorei Theoretical Computer Science 201 (1998) 99-136 
+Here we will add a new class CQA C QA, the languages 
+recognized 
+by copy 
+queue automata. Instead 
+of popping 
+symbols 
+off a queue q, CQAs push them onto 
+a ‘copy queue’ q’ and demand at the end of the computation 
+that q’ = q (or inequal- 
+ities such as q’ 5 q, i.e. q’ is an initial 
+subsequence 
+of q). Equivalently, 
+CQAs 
+allow us to pop symbols 
+we have not pushed 
+yet, as long as we push them be- 
+fore are done. If you like, it creates ‘ghost symbols’ 
+that haunt the queue until they 
+are cancelled 
+by pushing 
+real ones. CQAs can be deterministic 
+or non-deterministic 
+(NCQAs). 
+Finally, 
+we say a deterministic 
+QA or CQA is obstinate if its move, including 
+what 
+symbols 
+if any it wants to push or pop, depends 
+only on the input symbol 
+and the 
+FSA state, and not on any of the queue symbols. If the symbols it wants to pop aren’t 
+there, it rejects immediately. 
+For instance, 
+the copy language LcoPY = {waw}, of words 
+repeated twice with a marker a in the middle, is in the class OCQA. 
+Then we can show 
+Theorem 4. The following containments hold, and are proper: 
+NQA c NPieceLin(E) n NPoly,(Z), 
+QA c PieceLin(Z) f? NPoly,(B), 
+OQA c PieceLin(Z) n Poly,(Z), 
+NCQA c NLin( 7 ), 
+OCQA c Lin( Z ), 
+Proof. Let the queue alphabet be { 1,2,. . . , m}. Then we will represent 
+a word w we 
+wish to push or pop by a real number 
+W= Cl!?\ wi(m + l)-’ = .wiwz . . . WI,,,I in base 
+mf 
+1. 
+Each queue will be represented 
+by the digit sequence of a variable q, with a ‘pointer’ 
+Y = (m + 1)-k where k is the number 
+of symbols 
+in the queue. Let go = 0 and ro = 1. 
+Then the functions 
+push$“(q, 
+y) = (q + KY, (m + ~)-“‘IY), 
+popi*(q,r)=((m 
++ l)iwl(q - W), (m + l)lwlr), 
+push w onto the least significant 
+digits, pop w off the most significant, 
+and update Y 
+accordingly. 
+Since for any particular 
+QA the W are constants, 
+these maps are linear. 
+It is easy to see that the final value of each q will be within the unit interval if and 
+only if the sequence 
+of symbols 
+we popped off each queue is an initial subsequence 
+of the symbols we pushed. Therefore, 
+we add qi E [0, 
+1) for all queues 1 <i <k as an 
+accepting 
+condition 
+along with the final state of the FSA. 
+However, 
+unless 
+we’re 
+dealing 
+with a CQA, 
+we also need 
+to make 
+sure that 
+qi E [0, 
+1) throughout 
+the computation, 
+i.e. we do not pop symbols off before we push 
+them. We can ensure this either with piecewise-linear 
+maps that sense when q falls 
+outside the unit interval, or with a variable s for each queue with SO = 1 and a quadratic 
+C. Moore/ Theoretical Computer Science 201 (1998) 99-136 
+111 
+map f(s) = S(Y + 1) such that s = 0 if the Y ever becomes 
+- 1 during the computation, 
+i.e. if we pop more symbols than we have pushed. Then we add s # 0 for each queue 
+as an accepting 
+condition. 
+For a CQA, we require that q = q’, or that q - q’ E [0, r4t ) if we wish q’ to be an 
+initial subsequence 
+of q. 
+And unless our automaton 
+is obstinate, 
+we need to sense the most significant 
+digits 
+of q. Piecewise-linear 
+maps can do this, so that (deterministic) 
+QAs can be simulated 
+by (deterministic) 
+piecewise-linear 
+maps; but linear or quadratic 
+maps seem to be too 
+smooth for this, so they will have to non-deterministically 
+guess the most significant 
+digit even if the QA is deterministic. 
+In other words, OCQA c Lin(Z). 
+Relaxing 
+‘copyness’ 
+requires piecewise-linear 
+or 
+quadratic maps, relaxing 
+obstinacy 
+requires piecewise-linear 
+maps or non-determinism, 
+and non-determinism 
+requires 
+non-determinism. 
+From these observations 
+follow the 
+containments 
+stated above. 
+To show that these containments 
+are proper, consider 
+the language 
+of palindromes 
+Opal = {wuw”}, where ti 
+means w in reverse order (we assume w is in an alphabet 
+not including 
+a). This language 
+is known 
+[7] not to be in NQA; we will show it is 
+in Lin(Z). 
+By using push:’ 
+= (pop!* )-I, we can push symbols on to the left end of the queue, 
+i.e. the most significant 
+digits of q. Do this for the first copy of w until you see the 
+a, whereupon 
+switch (with a FSA control as in Lemma 6) to popis 
+and remove the 
+symbols 
+as they appear in reverse order. Then accept if q = 0 at the end. So Spat is in 
+Lin(Z) but not in NQA. 
+Cl 
+To recognize 
+&I, 
+we used the digits of q as a stack rather than a queue. With this 
+construction, 
+we can recognize 
+a subset of the context-free 
+languages. 
+A metalinear 
+lunguage [21] is one accepted by a PDA which makes a bounded 
+number 
+of turns, 
+a turn being a place in its computation 
+where it switches 
+from pushing 
+to popping. 
+We can also consider obstinate 
+PDAs, which like obstinate 
+QAs only look at the stack 
+symbol to see if it’s the one they wanted to pop. 
+Let the (deterministic, 
+obstinate) 
+metalinear 
+languages 
+be Met, DMet and OMet; 
+for instance, 
+Spat is in OMet. (Incidentally, 
+Met is a trio). Then 
+Theorem 5. The following containments hold, and are proper: 
+Met c NLin( Z), 
+DMet c PieceLin(Z), 
+OMet c Lin( Z). 
+Proof. Simulate a PDA with push:’ 
+and pop:’ 
+as we did above, pushing and popping 
+the most significant 
+digits of q. To make sure we pop what we push, it suffices to 
+check that q E [0, 1) each time the PDA turns from popping to pushing (there are k - 1 
+of these ‘interior turns’) 
+as well as at the end of the computation. 
+Otherwise, 
+we risk 
+112 
+C. Moorei Theoretical Computer Science 201 (1998) 99-136 
+sequences 
+like 
+40 = 0, 
+push 1: q=O.l, 
+pop 2: q = - 1, 
+push 2: q-0.1, 
+pop 1: q=o, 
+where we popped a 2 when the stack symbol was a 1, and then covered our tracks by 
+pushing 
+it again. Here q ends at 0, but at the turn from popping 
+to pushing, 
+q = - 1 
+and we fell outside the unit interval. 
+To prevent 
+this, copy q into a storage variable 
+si each time the PDA makes an 
+interior turn. If it turns k times, then only k such variables 
+are needed; 
+so to accept, 
+demand that si E [0, 1) for all i (and that the FSA be in an accepting 
+final state). 
+As before, piecewise-linear 
+maps can be deterministic 
+if the PDA is, while linear 
+maps have to non-deterministically 
+guess what symbol 
+to pop, unless 
+the PDA is 
+obstinate. 
+To show that these containments 
+are proper, we note that the language 
+of words 
+with more a’s than b’s is not metalinear 
+[2 11, while we showed in the introduction 
+that it is in Lin(Z). 
+0 
+In addition 
+to OMet, 
+some context-free 
+languages 
+that are not metalinear 
+are in 
+Lin(Z), such as the language 
+{w 1 #,(w)>#b(w)} 
+of the introduction. 
+This seems to be 
+because when its PDA tries to pop a symbol off an empty stack, it starts a ‘negative 
+stack’ rather than rejecting; 
+for instance, 
+if we represent 
+extra a’s by having a’s on 
+the stack, popping 
+one off each time we read a b, we can simply start putting b’s on 
+the stack instead if we run out of a’s. This is reminiscent 
+of the copy queue automata 
+above, 
+and presumably 
+Lin(Z) 
+contains 
+some suitably 
+defined 
+subset of the CFLs 
+where ‘ghost symbols’ 
+can be popped off the stack and later pushed into a peaceful 
+grave. 
+The Dyck language 
+{s,( ),(( )),( )( ), . . .), h owever, relies on rejecting 
+if the stack is 
+overdrawn. 
+We conjecture 
+that 
+* 
+Conjecture 1. LDyck is not in Lin(i?). 
+Proof? For a language 
+L, say that w pumps 
+L if uwv E L if and only if uv EL, 
+i.e. inserting 
+or removing 
+w does not change 
+whether 
+a word is in L or not. Let 
+0(VV) = W2W3 
+. WI,IWI. 
+Then the conjecture 
+would 
+follow 
+if for any L in Lin(Z), 
+whenever 
+w pumps L, then a(w) does also. 
+The proof of this might go like this: if w pumps L, then fw N z where “N” means 
+some sort of equivalence 
+on the subset of Rd generated 
+by the fa. Then 
+C. Moore I Theoretical Computer Science 201 (1998) 99-136 
+113 
+I 
+O.OOO... 
+I ,. .w... 
+0.11 
+0.12 
+1-1 
+..4;. 
+T22’. 
+( 
+0.1 
+0.1222... 
+0.2 
+0.222... 
+Fig. 2. The Cantor set encoding 
+of words on alphabets 
+with m symbols. 
+Here m = 2 and a = i 
+Since “( )” pumps J&k, 
+we would have ft N f)-’ 
+and fo N fj( - 1. Then “)(” would 
+pump Lo,,,& also, which it does not. 
+0 
+In any case, we can keep track of a stack with an unbounded 
+number 
+of turns with 
+a little more work. Let OCF, the obstinate 
+context-free 
+languages, 
+be the languages 
+recognized 
+by obstinate 
+PDAs. 
+Theorem 6. The following 
+containments 
+hold: 
+CF c NPieceLin(Z) 
+n NPoly,(Z), 
+DCF c PieceLin(Z) 
+n NPoly,(Z), 
+OCF c PieceLin(Z) 
+n Poly,(Z). 
+Proof. To recognize 
+arbitrary 
+context-free 
+languages, 
+we need to make sure that the 
+stack variable 
+q is in the unit interval 
+at all times. To do this quadratically, 
+note that 
+the map 
+.&(x3 Y) = &’ 
++ Y2) 
+has the property 
+that if x,y E [0, l] then &(x,Y) 
+E [O,l], while if 1x122 or ]y] 32 
+then .fn(x, y)>,2. 
+So rather than simply using base m + 1, we will use a Cantor set 
+with gaps between 
+the blocks. If the gaps are large enough, 
+any mistake will send q 
+far enough outside [0, I] that f* will be able to sense the mistake and remember 
+it. 
+To push and pop single symbols 
+1 <i <rn in the stack alphabet, 
+let 
+push,(q)=aq+(l 
+-CX);, 
+POP,(q) = ‘-’ 
+q - (1 - c(,’ 
+m 
+= push;‘(q). 
+If E= l/(m+ 
+1) this is just pushIeri and popleft in base m + 1 as before; smaller a gives 
+a Cantor set as shown in Fig. 2. 
+If we pop the wrong symbol, our value of q will be 
+qoops 
+= POPj(PU$(q)) 
+= 4 + ($2) (y), 
+where i # j, then 
+lqoopsl> 
+J-=$ - 1. 
+Then if we choose a such that a < 1/(3m + 1 ), any mistake will result in Jqoops) >2. 
+114 
+C. Moore I Theoretical Computer Science 201 (1998) 99-136 
+Then as in Lemma 9, add a variable 
+y with ya = 0 and update it to fj(q, y) at each 
+step. Then requiring 
+y E [0, l] in H,,, ensures that lq( has always been less than 2, i.e. 
+we always popped symbols 
+that were actually 
+there. With piecewise-linear 
+maps, we 
+can use h(q,y)= 
+max(M 
+Ml. 
+Once again, (deterministic) 
+piecewise-linear 
+maps can read the top stack symbol of 
+(deterministic) 
+PDAs, while for non-obstinate 
+PDAs quadratic maps need to guess. 
+0 
+The fact that CF c NPieceLin(Z) 
+and DCF c PieceLin(Z) 
+was essentially 
+shown in 
+[31,11. 
+The closure of CF (DCF, OCF) under intersection 
+and union is the class of COIZCUY- 
+rent (deterministic, obstinate) context-free languages, or CCF (CDCF, COCF). They 
+are recognized 
+by (deterministic, 
+obstinate) 
+PDAs with access to any finite number 
+of 
+stacks. Then 
+Corollary 1. The following containments hold, and are proper: 
+CCF c NPieceLin( Z) n NPoly,( Z), 
+CDCF c PieceLin( Z) n NPoly,( Z), 
+COCF c PieceLin(7) 
+f? Poly,(Z). 
+Proof. The contaimnents 
+follow since all the classes in Theorem 
+6 are closed under 
+intersection 
+and union. 
+To show that they are proper, recall that for a context-free 
+language 
+L on a one-symbol 
+alphabet 
+{a}, the set {n 1 a” E L} is eventually 
+periodic 
+[21]. Since the intersection 
+or union 
+of eventually 
+periodic 
+sequences 
+is eventually 
+periodic, this holds for CCF as well. 
+But Lin(Z) contains 
+numerous 
+non-periodic 
+one-symbol 
+languages. 
+Consider 
+a rec- 
+ognizer p with 
+fakY)= 
+(; y ) (;) 
+which dilates the X, y plane and rotates it by an irrational 
+angle tan- ‘( $). Then if 
+(xo,Yo)=(LO) 
+and HYes is the upper half-plane, 
+{n I a” E Lp} is a quasiperiodic 
+se- 
+quence and so L, $! CCF. 
+Alternately, 
+consider the language 
+LCopY = {wuw}, which is in QA, and Lin(Z) but 
+not CCF (this follows easily from the results in [27]). 
+0 
+Corollary 2. NTIME( O(n)) C NPieceLin(Z) n NPoly,(H) 
+and 
+TIME(n) C PieceLin( Z) n NPoly,( Z). 
+Proof. We have 
+shown 
+that (deterministic) 
+piecewise-linear 
+and non-deterministic 
+quadratic 
+maps can simulate 
+(deterministic) 
+FSAs with access to a finite number 
+of 
+strings that can act like both queues and stacks, i.e. that we can read, push or pop 
+C. Moore! Theoretical Computer Science 201 (1998) 99-136 
+115 
+at either end. These are called double-ended 
+queues or deques in the literature, 
+but I 
+prefer to call them quacks. 
+FSAs with access to a finite number 
+of quacks can simulate 
+multi-tape 
+Turing ma- 
+chines in real time, and vice versa [26]. Book and Greibach 
+[6] showed that in the 
+non-deterministic 
+case, real time (n) is equivalent 
+to linear time (Co(n)). Furthermore, 
+NTIME(O(n)) 
+is precisely 
+the images of languages 
+in CCF under alphabetic 
+homo- 
+morphisms, 
+and is the smallest AFL containing 
+CF. 
+0 
+Piecewise-linear 
+and non-deterministic 
+recognizers 
+seem more powerful 
+than Turing 
+machines. 
+For instance, 
+they can compare 
+the contents 
+of two tapes in a single step, 
+or add one tape to another. We therefore conjecture 
+that 
+Conjecture 2. PieceLin 
+and NPoly, 
+maps are more powerful than Turing machines 
+in real time, i.e. the inclusions in Corollary 2 are proper. 
+5.2. A language not in Poly or PieeeLin, 
+and its consequences 
+Our next theorem 
+puts an upper bound 
+on the memory 
+capacity 
+of deterministic 
+piecewise-linear 
+and polynomial 
+maps of any degree. 
+Theorem 7. The language 
+L7 = {w, #wz#. . . #w, hu / u = wj for some i}, 
+where the wi and u are in A*, is in NLin(E) but not Poly(lR) 
+or PieceLin(R). 
+Proof. Note that L7 is a kind of universal 
+language, 
+in that it can be “programmed” 
+to recognize 
+any finite language: 
+if u = wt #wz# . . . #w, b where wt , . . . , w, are all the 
+words in a finite language L,, then uv E L7 if and only if u E L,. Therefore, 
+any recog- 
+nizer p for L7 contains 
+recognizers 
+for all possible 
+finite languages 
+in its state space, 
+since it recognizes 
+L, if we let x0 =xU. We will show that no polynomial 
+recognizer 
+of finite degree can have this property. 
+A family of sets St, . . . ,S, is independent if all 2” possible intersections 
+of the Si and 
+their complements 
+are non-empty; 
+in other words, if the Si overlap in a Venn diagram. 
+But since fv(xU) E H,,, if and only if v EL,, x, is in the following 
+intersection 
+of sets: 
+GE 
+(n&i-%$ 
+n (fIU”““-‘). 
+Since any such intersection 
+is therefore non-empty, 
+the set of sets fOP’(Hyes) over any 
+finite set of words w is independent. 
+Now a theorem of Warren [40] states that m polynomials 
+of degree k can divide Rd 
+into at most (4emk/d)d components 
+if mad. 
+If this number 
+is less than 2m, then not 
+all these sets can be independent. 
+Suppose p is polynomial 
+of degree k, has d dimensions, 
+and has an alphabet with n 
+symbols. Assume for the moment that H,,, is defined by a single polynomial 
+inequality 
+116 
+C. MooreITheoretical 
+Computer Science 201 (1998) 99-136 
+of degree k. Then fU-‘(Hyes) is defined by a polynomial 
+of degree kl”i+‘. Then for all 
+n’ of the sets fOP’(HY,,) for words of length I to be independent, 
+we need 
+This is clearly false for sufficiently 
+large I, since the right-hand 
+side is doubly expo- 
+nential 
+in I while the left-hand 
+side is only singly so. 
+If H,,, is defined by c inequalities 
+instead of one, we simply replace nl with cn’ on 
+the left-hand 
+side; the right-hand 
+side remains 
+the same, since we still need to create 
+n’ independent 
+sets. 
+Thus polynomial 
+maps of a fixed degree, in a fixed number 
+of dimensions, 
+cannot 
+be programmed 
+to recognize 
+arbitrary 
+finite languages 
+of words of arbitrary 
+length, so 
+L7 is not in Poly(R). A similar argument 
+works for piecewise-linear 
+maps, as long as 
+the number 
+of components 
+of the map is finite. 
+However, L7 is in NLin(Z): just non-deterministically 
+keep Wi for some i and ignore 
+the others, and check that V=i?i. 
+q 
+(Another 
+language 
+we could use here is {walk 1 y= 
+l}.) 
+Several 
+corollaries 
+fol- 
+low from Theorem 
+7, using arguments 
+almost identical 
+to those used in [37] for the 
+deterministic 
+real-time 
+languages 
+TIME(n): 
+Corollary 1. Poly, Poly, for all k, and PieceLin are properly contained in NPoly, 
+NPoly,, and NPieceLin respectively, for both U = Z and R. 
+Corollary 2. There are non-deterministic context-free languages not in Poly(R) or 
+PieceLin( W). 
+Proof. The reversal of a word w is wR = WI,,, . . . wzwl. Let L’ be a modified version 
+of L7 in which # = Wi for some i, instead 
+of v = Wi. Then L’ is context-free: 
+it is 
+accepted 
+by a non-deterministic 
+PDA that puts one of the wi on the stack, ignores 
+the others, and then compares 
+v to it in reverse. 
+However, 
+L’ is not in Poly(R) or 
+PieceLinf R) by the same argument 
+we used for LT. 
+Corollary 3. Poly, Poly, for all k, and PieceLin are not closed under alphabetic 
+homomorphism, concatenation, Kleene star or positive closure. 
+Proof. By Lemma 4, since L7 E NLin(Z), it is an alphabetic 
+homomorphism 
+h of a 
+language 
+in Lin(Z): simply mark the wi that v will be equal to, and let h remove the 
+mark. So none of these classes can be closed under h. 
+For concatenation, 
+let L1 be a modified version 
+of L7 where v = wi. Then L1 is in 
+Lin(Z), since we can ignore everything 
+between the first # and the tl, and just compare 
+V to Wi . Then L7 = (A U { #})* .Ll is the concatenation 
+of a regular language with L1, so 
+these classes can’t be closed under concatenation 
+(or even concatenation 
+with a regular 
+language). 
+C. Moore/ Theoretical Computer Science 201 (1998) 99-136 
+117 
+Finally, L” = (A U { #})* U L1 is in Lin(Z). But 
+L, =L”* n (A u {#})*hA*. 
+Since these classes are closed under intersection, they can’t be closed under Kleene 
+star or positive closure (we can use L”+ in place of L”*.) 
+q 
+Let CYCLE(L) = { w1w2 1 w2w1 EL}. Then: 
+Corollary 4. Poly, Poly, for k 32, 
+and PieceLin are not closed under reversal or 
+CYCLE. 
+Proof. LT, where the first word has to be equal to one that follows, is in Poly,(h). 
+Just update a variable y to v(V - i&) each time you see a # and require that y = 0 
+or V=& 
+at the end. We can do the same thing with piecewise-linear maps. Since 
+L7 = (L’;‘)R, these classes cannot be closed under reversal. 
+Let L!, be L7 where the symbols of v are in a marked alphabet A’, while the wi are 
+still in A*. Clearly, LG is not in Poly(R) or NPoly(R) 
+for the same reason that L7 
+isn’t, while L$” is in Poly,(B) 
+and NPoly(Z) just as L; is. But 
+L$ = CYCLE(LGR) n (A u { #})* hA’*. 
+Since both these classes contain regular languages and are closed under intersection, 
+they cannot be closed under CYCLE. 
+q 
+Conjecture 3. Lin(Z) is closed under reversal. 
+Proof. We can use transposes to reverse the order of matrix multiplication, since 
+(IU?)~ = BTAT. However, it’s unclear how to make these matrices take xa to points 
+in H,,,, rather than the reverse. We also leave as an open problem whether Lin(H) is 
+closed under CYCLE. 
+On the other hand, we have 
+Theorem 8. All non-deterministic classes containing Lin(Z) are closed under reversal 
+and CYCLE. 
+Proof. Add variables po =qo =O. At each step when we read a =wi, make a guess 
+that I@ = a’ and let 
+fa(n"(p,q,x)=(push$*(p),push~~ht(q),f,,(x)), 
+where x represents the other variables. Then p = W and q = W’R where IV’ is composed 
+of the guessed symbols a’, so require that p = q. 
+Similarly, for CYCLE, let po = qo = r. = 0. Start out with 
+fa'n"(p,q,r,x)=(push~(p),push~~(q),r,f,l(x)) 
+118 
+C. Moore/ Theoretical Computer Science 201 (1998) 99-136 
+and non-deterministically 
+switch to 
+fa(“)(p,q, 
+r,x> = (push:*(p), 
+qlb,push:*(r), 
+f&>>, 
+where p, q and Y are in base b. Then p = W and q + r = CYCLE(w’), 
+so require that 
+p=q+r. 
+q 
+Next, we will show that a unary version 
+of L7 separates Lin from PieceLin and 
+from Poly, (and from their intersection): 
+Theorem 9. Lin is properly contained in PieceLin n Poly, for both U = H and R. 
+Proof. Consider 
+a version of L7 where the wi and v are over a one-symbol 
+alphabet: 
+L unw = {up’ #aPZ# . . . #up- tiaq ( q = pi for some i}. 
+Suppose Luna,.,, is in Lin(R). Since fal is linear, if Hyes is described 
+by c linear in- 
+equalities, 
+then each of the sets fd;‘(HY~s) is also. But these all have to be indepen- 
+dent by the same argument 
+as in Theorem 
+7, so for 1 <i < 1, cl linear inequalities 
+have to divide 
+Rd into at least 2’ components. 
+But for k = 1, Warren’s 
+inequality 
+becomes 
+32’ 
+which is false for sufficiently 
+large 1. So Lunaw is not in Lin(R). 
+However, 
+Lunary is in PieceLin(Z). Let x0 = yo = 0 and r. = 1, with the following 
+dynamics: 
+fn(x, y, r) = (x, 2y mod 2, r/2), 
+f&y,r) 
+= 
+{ 
+(x+r,x+r,l) 
+if yE[O,I), 
+(x,x, 1) 
+ifyE[1,2), 
+f&,y,r) 
+= f&,y,r). 
+The sequence a@ adds 2-P to x unless the 2-P digit of x was already 
+1, i.e. unless 
+y = 2px mod 2 E [1,2). By the time we reach the tl, we have x = xi 2-P,. Then with 
+an additional 
+variable w, let f h(w) =x, let fO(w) = 2wmod 2, and let H,,, require that 
+w E [ 1,2), checking 
+that the 2-q digit of x is 1. 
+What about LR 
+unq? It is in Poly,(B) 
+by the same construction 
+as in Corollary 
+4 
+above. Just let f#(y) = y(q - pi) and require that y = 0 or q = ~1. Similarly, 
+it is in 
+PieceLin(H). However, 
+we can show that it is not in Lin(R). 
+Let p[j] be the 2j digit of p in base 2. For a given k, and 0 Q j < k, let Uj be the 
+word 
+Uj 
+= 
+n 
+( V@P, 
+0<pt2k,p[j]=l 
+C. Moore I Theoretical Computer Science 201 (1998) 99-136 
+where n 
+means concatenation 
+and (tl/#) means 
+# except for the first 
+means 
+ti. For instance, 
+for k = 3, 
+us = ha#a3#a5#a7, 
+ul = ha2#a3#a6#a7, 
+u2 = ha4#a5#a6#a7. 
+NOW let si = fu;‘(Hyes). 
+Since apuj EL&,, 
+if and only if p[j] = 1, we 
+119 
+one, where it 
+have 
+and the Sj are independent. 
+For instance, 
+X,S E SO n s n &. 
+But since fu, is linear, each of the Sj are described 
+by c linear inequalities 
+if H,,, 
+is, so ck linear inequalities 
+have to divide 
+Rd into at least 2k components 
+and once 
+again Warren’s 
+inequality 
+applies. 
+So L$, 
+is in PieceLin(%) n Poly,(Z), 
+but not 
+Lin(R). 
+q 
+(It is an interesting 
+open question whether Lunaly is in Poly,(Z). For k = 2 and n = 1, 
+Warren’s 
+inequality 
+becomes 
+d 
+(,ec:l+’ 
+> 
+22’ 
+and no longer yields a contradiction 
+for large I.) 
+Using the same techniques, 
+we can sharpen Theorem 
+5: 
+Theorem 10. There are deterministic metalinear context-free languages not in Lin(Z). 
+Proof. For two words u, u E (0, 1)“) say that u c u if uidvi 
+for all i, e.g. 01001 c 
+11011. Then consider 
+the language 
+LC pal = {uav ) 
+uR c v}. 
+It can be recognized 
+by a 
+deterministic, 
+one-turn 
+PDA: simply push u onto the stack until you see the a, then 
+pop u back off as you read u, checking 
+that z$ d ui as you go. So Lcpal is in DMet 
+(in fact, it is one-turn 
+or linear [21]). 
+NOW for a given k and 0 d j < k, let Vj be the word of length 2k such that (aj)i = i[ j] 
+(here we are numbering 
+Vi’s symbols 
+from 0 to 2k - 1 instead of from 1 to (ujl as 
+before). 
+For instance, 
+for k = 3, 
+va = 01010101, 
+v1= 00110011, 
+02=00001111. 
+analogous 
+to the Uj of Theorem 
+9. Then if u, is the word of length 2k such that its 
+mth symbol is 1 and all its other symbols 
+are 0, we have 
+XuRa E 
+m 
+n 
+MA=1 
+j,m~n=oh~lmes) 
+and once again we have an arbitrarily 
+large number 
+of independent 
+sets. So Lcpal is 
+not in Lin(Z). 
+0 
+120 
+C. Moore/ 
+Theoretical Computer Science 201 (1998) 99-136 
+There is an interesting 
+connection 
+between Theorems 
+7, 9 and 10 and computational 
+learning 
+theory. The Vapnik-Chervonenkis 
+dimension has been used to quantify 
+the 
+difficulty of learning 
+sets by example [4]. For a family of sets 3, the VC dimension 
+is 
+the size of the largest independent 
+family S c 3. Then our arguments 
+about independent 
+sets can be re-stated in the following 
+way: in IWd with d fixed, the VC dimension 
+of 
+the family 
+is Co(l) for polynomial 
+maps and fixed for linear maps (this also follows 
+from the 
+results 
+in [ 17]), while L7 and Lunary require 
+a VC dimension 
+of at least n’ and 1, 
+respectively. 
+Unfortunately, 
+arguments 
+about independent 
+sets do not seem capable of proving our 
+conjecture 
+that Lqck $ Lin(Z), since uu E Lnyck if u and u have the same non-negative 
+number of excess (s and )s, respectively 
+(and Dyck languages 
+with k types of brackets 
+have no more independent 
+sets than palindromes 
+{waw”} where w is over a k-symbol 
+alphabet). 
+5.3. Discrete time and space complexity 
+We now compare polynomial 
+recognizers 
+directly to Turing machines. 
+Theorem 11. For all k > 2, 
+Poly,(E) 
+c TIME(k”n log n), 
+NPoly,(Z) 
+G NTIME(k”n log n), 
+where c indicates proper inclusion. 
+Proof. Calculating 
+a polynomial 
+function 
+consists of a fixed number of multiplications 
+and additions. 
+Multi-tape 
+Turing machines 
+can add m-digit numbers 
+in time O(m) and 
+multiply them in Lo(m log m log log m) [22]. The number of digits of the result is @(km). 
+Iterating 
+such a polynomial 
+n times on initial values x0 with a fixed number 
+of digits, 
+then, gives us LO(P) digits and a total time O(k”n logn). 
+0 
+As in [34] let E be the class UkTIME(k”) of problems 
+solvable in exponential 
+time. 
+Then 
+Corollary. 
+Poly( Z ) c E and NPoly( Z ) C NE. 
+Since exponential 
+time is rather powerful, 
+this does not tell us very much (but we 
+give tighter bounds below). 
+In addition, 
+for particular 
+subsets of Poly and NPoly, we 
+can say more. Recall [21] the deterministic context-sensitive languages DCS = SPACE 
+(n). This class is believed, but not known, to be a proper subset of CS = NSPACE(n). 
+Now define a language 
+in Poly or NPoly as compact and exponentially bounded, 
+in Poly,, 
+or NPoly,,,, 
+if its recognizer 
+acts on a compact subset of [Wd and the final 
+C. Moore I Theoretical Computer Science 201 (1998) 99-136 
+121 
+points x, are bounded 
+away from the boundary 
+of H,,, by at least rlwl for some r < 1. 
+Then we have 
+Theorem 12. The following containments hold: 
+poly(&b 
+c DCS f- TIME(n2 log n log log n), 
+NPOly@),,b 
+2 CS n NTIME(n2 log n log log n), 
+Lin( Z), PieceLin( Z) c DCS n TIME(n2), 
+NLin(Z), NPieceLin(Z) C CS n NTIME(n2), 
+where c indicates proper inclusion. 
+Proof. Since the recognizer’s 
+space is compact, we can re-scale the system and assume 
+that x never leaves the unit cube. Then if r < 2-b, we only need to know b digits of 
+x, to tell if it is in H,,, or not. 
+Furthermore, 
+since the f= are polynomials, 
+their derivatives 
+are bounded, 
+say by 2’. 
+To get m digits of fa(x), then, we need at most m + c digits of x. In the course of 
+iterating the system n times, then, we never need to know x to more than b + nc digits 
+of accuracy, 
+so we only use an amount of space linear in n. 
+Again, a multi-tape 
+Turing machine 
+can multiply 
+O(n) digits in O(n log n log log n) 
+time, and doing this n times gives us the stated result (or actually 
+something 
+slightly 
+stronger, namely that a single algorithm 
+exists within both the time and space bounds). 
+Similarly, 
+n iterations 
+of a linear or piecewise-linear 
+function 
+with rational 
+coeffi- 
+cients generates 
+Co(n) digits. Each iteration 
+takes O(n) time, so n of them take C5(n2) 
+time. 
+All these inclusions 
+are proper in the deterministic 
+case, since (we state without 
+proof) L7 is in both DCS and TIME(n2). 
+0 
+Finally, 
+we note that deterministic 
+linear recognition 
+can be parallelized: 
+Theorem 13. Lin(Z) is properly contained in NC2. 
+Proof. Any fa in a linear recognizer 
+can be written 
+fa(x) =Aax + B,, where A, is 
+a matrix and B, a vector. The composition 
+of two such functions 
+is another 
+of the 
+same form. In fact, by adding an additional 
+dimension 
+we can write 
+fa(x,l)=Ca 
+“f 
+where C,= 
+$ 
+“; 
+0 
+(+I 
+To calculate fW, then, we just need to multiply 
+n matrices C, of fixed degree together. 
+By multiplying 
+them together in pairs we can do this in O(log n) parallel steps. Each of 
+these steps potentially 
+doubles the number of digits in the matrices’ 
+entries, and multi- 
+plying n digit numbers 
+takes O(logn) 
+parallel time. So we get a total parallel time of 
+0(log1+log2+log4+...+logn)=8(log2n). 
+122 
+C. Moore I Theoretical Computer Science 201 (1998) 99-136 
+This is proper since (we state without proof) L7 is in NC1 c NC2 (and in fact there 
+are NCi languages 
+not in Lin(Z)). 
+0 
+It would be nice if polynomial 
+maps were parallelizable 
+also, but since the com- 
+position 
+of n polynomials 
+of degree k > 1 is a polynomial 
+of degree k”, the space 
+requirements 
+grow exponentially 
+with n. 
+5.4. Equation languages 
+Equation languages are an amusing 
+source of examples 
+for dynamical 
+recognizers: 
+for instance, 
+the set of words in A = (0, 1, x, = } of the form “WI x w2 = wg” where 
+_- 
+w1 w2 = iV3, such as “101 x 11 = 1111”. We can also consider 
+inequalities 
+such as 
+“10 x 11 > 10 + 11”. We will write [E]b for the language corresponding 
+to an equation 
+E expressed 
+in base b. Then 
+Theorem 14. [E]b is in Lin(Z) for any E involving + and x (with x given 
+precedence). 
+Proof. We read in the first variable 
+wi by letting 
+x0 = 0 and fn(x) = bx + n for 
+O<n<b; 
+then x,, = Wi. (This maps wi to the integer Wi it represents, 
+rather than 
+to a real in the unit interval as before.) 
+Then we inductively 
+proceed as follows. 
+If the next operation 
+is a f, we store x and evaluate what is being added to it. This 
+evaluation 
+will conclude 
+when we reach the next + or the = . We then add the two 
+together. 
+If the next operation 
+is a x, let a new variable 
+be yo = 0 and use the functions 
+-- 
+fn(y) = by + nx. Then x,, xwZ = wiw2. 
+Finally, 
+on reading the = (or > or whatever), 
+simply store x, evaluate the right- 
+hand side in the same way, and compare them. 
+0 
+This shows that Lin(Z) can be considerably 
+more expressive 
+than regular or context- 
+free languages. 
+Decimal points are easily added (exercise 
+for the reader). 
+Exponentiation 
+takes a little more work: 
+Theorem 15. [El6 is in Poly,,, (Z) f 
+or any E involving +, x and T (exponentiation), 
+in order of increasing precedence. If the only occurrences of 7 are of the form WI t w2 
+where w1 is a constant, then [E]b is in Poly,(Z). 
+Proof. To evaluate 
+wi r ~2, read in x = Wi as before. When you read the t, prepare 
+b variables a,, =x” for 0 <n < b. Let another variable be yo = 1, and let f”(y) 
+= a, yb 
+thereafter; this is a polynomial 
+of order b + 1, or order b if wi and the a, are constants. 
+Then x,,,, T ,,,2 = tiip. 
+The rest of the evaluation 
+can take place as before. 
+0 
+With non-determinism, 
+we can add a sort of exponentially 
+bounded existential 
+quan- 
+tifier. Consider 
+equations 
+E such as “wf +x2 = w; 
+for some 
+x cm,” 
+a member 
+of 
+which is “100 7 2 + x 12 = 101 t 2”. Then we have the following: 
+C. Moore/ Theoretical Computer Science 201 (1998) 99-136 
+123 
+Lemma 10. For any integer constant c, non-deterministic linear maps can prepare 
+a variable x with any integer value in the range 0 <x < c’ in I steps. 
+Proof. Let x0 = 0 and non-deterministically 
+choose among the maps f(“)(x) = cx + n, 
+O<n<c. 
+IX 
+Theorem 16. Let E be an equation with a finite number of variables x; bound by 
+quanti$ers of the form 3x; cm;. Let 1 be the total length of the input word, and let 
+1; and r; be the leftmost and rightmost positions at which x; appears. Then [E]b is 
+in: 
+(1) NLin(Z) if E involves only + and x and m; < cl8 for some constant c, 
+(2) NPoly,+,(Z) 
+if E involves +, x and T but not terms of the form w TX, and 
+t?l; < Ct’, 
+(3) NPoly,(Z) ifE is a jxed polynomial of degree k in the w; and x; and m; < c’, 
+(4) NPo~Y,,(,,,+,@) 
+if E is a fixed polynomial of degree k of terms including 
+w tx and m; < cipr~ orm;~l-r; 
+ifC=1, 
+(5) NPoly,,~,,,~(Z) 
+if E is a fixed polynomial of degree k of terms including w T x 
+for constant w and m; < C’ or m; 0; r; tf c = 1. 
+Proof. In cases 1 and 2, we have 1; steps of the input with which to prepare xi with 
+a value up to cl, as in Lemma 
+10. Then we simply plug this value into the evaluation 
+process of theorems 
+14 and 15. 
+In case 3, if E is a fixed polynomial 
+P, we have all 1 steps of the input word to 
+prepare the xi and evaluate sums, products and exponents 
+of the wi. Then we can plug 
+it all into P at the end. 
+In cases 4 and 5, we can evaluate wX by non-deterministically 
+applying 
+the maps fn 
+of Theorem 
+15. If the exponent 
+is in unary (c = 1) we can generate 
+linearly 
+growing 
+values 
+of x, while 
+higher bases 
+(c > 1) allow x to grow exponentially. 
+If w is a 
+constant 
+(case 5), we know it in advance and we can use all 1 steps in the input word 
+to increment 
+x. In general 
+(case 4), we only have the 1 - r; steps between 
+the last 
+occurrence 
+of w tx and the end of the word. 
+If xi appears several times, we can easily check that we use the same value for it 
+each time. In the first two cases we can prepare the value for its first instance, 
+and 
+stick to that thereafter. 
+In the third, fourth and fifth cases each Xi only appears a finite 
+number 
+of times since the equation 
+is fixed, and so we can use a different variable 
+for 
+each instance 
+and check that they are all equal at the end. 
+Cl 
+As an example 
+of the fifth case, the language 
+of powers of 3 in binary 
+is in NLin(Z). Just let ya = 1, non-deterministically 
+multiply 
+y by 3 or leave it alone, 
+and check that y = W at the end. It is also in PieceLin(Z), since we can multiply 
+y 
+by 3 whenever 
+3 y <i? as we read in W. 
+124 
+C. Moore1 Theoretical Computer Science 201 (1998) 99-136 
+The reader may also enjoy 
+showing 
+that w! can be understood 
+in equations 
+by 
+Poly,(Z) if w is written in unary, and that the language 
+{1,10,110,11000,111000,1011010000,1001110110000,...} 
+of factorials 
+n! written 
+in binary 
+is in NPoly,(Z) 
+(and in PiecePoly,(Z) 
+as defined 
+below). 
+Two obvious 
+generalizations 
+of Theorems 
+14-16 
+come to mind. 
+First, with real 
+coefficients 
+we can name various real constants 
+and use them in equations 
+(although 
+not on the right-hand 
+side of a T). Secondly, 
+by maintaining 
+an evaluation 
+stack, we 
+can parse parentheses 
+up to a bounded 
+number 
+of levels. 
+5.5. Real coeficients 
+We end this section with two simple results about linear and polynomial 
+recognizers 
+with real, rather than integer or rational, 
+coefficients. 
+Theorem 17. PieceLin(R) and Poly,(lR) each contain all languages on a one-symbol 
+alphabet. 
+Proof. Consider 
+recognizers 
+on a one-symbol 
+alphabet 
+{a} where f=(x) = 2x mod 1 
+(piecewise-linear) 
+or 4x( 1 -x) 
+(quadratic). 
+Both of these map the half-intervals 
+[0,1/2) 
+and [l/2, l] onto the entire unit interval. 
+For any initial 
+point x0, we can define an 
+itinerary 
+{ 
+0 
+St = 
+if fa’(xa) < i, 
+1 
+if f,‘(xa)> 
+i 
+showing which half of the interval x falls into as fa is iterated. For fa(x) =2x mod 1 
+this is just x0’s binary digit sequence. 
+If H,,, = [$, I], then, LP = {a’ 1 st = 1). Both these maps have complete symbolic 
+dynamics [20], i.e. there is an x0 for every possible 
+itinerary; 
+so we can get any 
+LP c {a}* 
+we want by properly 
+choosing x0. 
+0 
+Corollary. The class V(BB) properly contains S’(Z) for %‘= Lii, NLin, PieceLin, 
+NPieceLin, Poly, NPoly, Poly, and NPoly, for all k, Elem and NElem. 
+Proof. Theorem 
+17 shows that %?(lR) is uncountable 
+for all these classes except Lin 
+and NLin. These are uncountable 
+as well; for instance, 
+for each angle 4 there is 
+a distinct language L+ c a * in Lin(R) recognized 
+by an fa that rotates the plane by 4 
+and accepts whenever 
+x,~ is in the upper half-plane. 
+On the other hand, V(Z) is countable 
+for all these classes, since any recognizer 
+with 
+integer or rational 
+coefficients 
+can be described 
+with a finite list of integers. 
+So U(Z) 
+is of smaller cardinality 
+than %?(I%). 0 
+C. Moore I Theoretical Computer Science 201 (1998) 99-136 
+125 
+6. The polynomial degree hierarchy 
+We will call the classes Poly, and NPoly, the deterministic 
+and non-deterministic 
+polynomial degree hierarchies (not to be confused 
+with the polynomial 
+hierarchy &P 
+of discrete computation 
+theory). 
+Are these hierarchies 
+distinct? 
+That is, does Polyk+, 
+properly 
+contain 
+Poly, for all k? Or do they collapse, 
+so that there a k such that 
+Polyj = Poly, for all j > k? 
+Conjecture 4. Both the deterministic and non-deterministic polynomial degree hierar- 
+chies are distinct. 
+Proof? We have already shown (Theorem 
+9) that the lowest two levels are distinct 
+in the deterministic 
+case. We can imagine 
+several 
+methods 
+of proof for the entire 
+hierarchy. 
+First, we could refine the argument 
+of Theorem 
+7 to produce a series of languages 
+Lk each recognizable 
+in Poly, but out-stripping 
+the ability of polynomials 
+of smaller 
+degree to produce 
+independent 
+sets. 
+Secondly, 
+we could use polynomials 
+of degree k + 1 to simulate 
+all possible 
+poly- 
+nomials 
+of degree k by representing 
+their constants 
+with additional 
+variables, 
+and then 
+introduce 
+some kind of diagonalization. 
+Thirdly, 
+we can connect 
+distinctness 
+to the idea that we can’t recognize 
+equation 
+languages 
+unless we actually 
+calculate 
+the quantities 
+in them: 
+Lemma 11. If equation languages involving terms of the form w1 t w2 cannot be rec- 
+ognized without some variables reaching values of at least Lo@?), 
+then the polyno- 
+mial degree hierarchy is distinct. 
+Proof. An expression 
+of the form WI 7 w;! with length 1 in base b can have a value 
+of O(Wp’), while polynomials 
+of degree k can only reach Co(&) in 1 steps. If the 
+premise 
+is true, then, the languages 
+[I$ 
+of Theorem 
+15 with constant 
+wt are each 
+in Poly, but not Poly, for k < b. 
+0 
+Fourth, distinctness 
+is equivalent 
+to the conjecture 
+that, for each k, Polyk and NPoly, 
+lack a particular 
+closure property: 
+Lemma 12. For any j > k 32, 
+any language in Polyj is a non-alphabetic inverse 
+homomorphism of a language in Poly,. Therefore, 
+the (deterministic) polynomial 
+degree hierarchy collapses to level k 32 
+tf and only tf Poly, is closed under non- 
+alphabetic inverse homomorphism. Similarly fur NPoly. 
+Proof. Let h, be the non-alphabetic 
+homomorphism 
+that repeats each symbol n times, 
+e.g. h3(abca) = aaabbbcccaaa. We will show that for any L in Polyj and any k > 2, 
+h,(L) is in Polyk for some n. 
+126 
+C. Moore1 Theoretical 
+Computer Science 201 (1998) 99-136 
+A polynomial 
+of degree j can be written as the composition 
+of n = [log, jl 
+polyno- 
+mials of degree k, for any k > 2. This composition 
+can be carried out by a finite-state 
+control with n states. For the body of the word, then, n repetitions 
+of each symbol 
+allow a Polyk-recognizer 
+to simulate 
+a Polyi-recognizer. 
+But for the last symbol, we need to simulate fn 
+and also calculate the measurement 
+functions 
+h, giving polynomials 
+ho fa of degree j2. This requires 
+[log, j2] polynomials 
+of degree k. One of these can be provided 
+by the new measurement 
+functions, 
+so 
+12 log, j] - 1 repetitions 
+of the last symbol suffice. 
+So for any L in Poly, and any k > 2, h,(L) 
+is in Poly, 
+where n = [2 log, j] - 1. 
+If Poly, 
+is closed under non-alphabetic 
+inverse 
+homomorphism, 
+then, L is in Poly, 
+since h,(L) is and the hierarchy 
+collapses. 
+Conversely, 
+if L is in Poly, 
+and h is a non-alphabetic 
+homomorphism 
+that maps 
+symbols onto words of length at most n, then h-‘(L) 
+is in Poly,, 
+since, as in Lemma 3, 
+each step is the composition 
+of n polynomials 
+of degree k. So if the hierarchy collapses, 
+Poly, is closed under h-l. 
+cl 
+Corollary 
+1. Zf Polyk = Poly,, for some k > 1, then Polyi = Poly, for all j > k. Sim- 
+ilarly for NPoly. 
+Proof. 
+If POlYk = Poly,,, 
+then Poly, 
+is closed under inverse 
+homomorphisms 
+that at 
+most double 
+the length of words. But by composing 
+these, we can get any homo- 
+morphism 
+we want, so Poly, 
+is closed under inverse homomorphisms 
+in general and 
+Lemma 
+12 applies. 
+0 
+We can improve 
+this to the following, 
+analogous 
+to standard 
+lemmas 
+in recursion 
+theory: 
+Corollary 
+2. Zf Poly, = Poly,,, 
+then Polyj = Poly, for all j > k, and similarly for 
+NPoly. 
+Proof. 
+Recall [21] that a generalized sequential machine (GSM) 
+is a finite-state 
+ma- 
+chine that converts 
+an input word into an output. If L is in Polyk and a GSM map- 
+ping M increases 
+the length 
+of words by a factor of at most m, then M-‘(L) 
+is 
+in Poly,,. 
+Therefore, 
+if Poly, = Polyk+ 1, then Poly, 
+is closed under inverse 
+GSM mappings 
+that increase 
+the length of the word by at most m = log,(k + 1). It is easy to show 
+that we can get any homomorphism 
+we like by composing 
+GSM mappings 
+with any 
+m > 1, except on words of length less than l/(m - 1) which cannot increase in length. 
+But this is a finite set of exceptions 
+which we can catch with additional 
+variables, 
+so 
+Poly, 
+is closed under all inverse homomorphisms 
+and Lemma 
+12 applies again. 
+0 
+It hardly seems possible that the composition 
+of any number of polynomials 
+can be 
+simulated by a single polynomial 
+of the same degree; but this is exactly what it would 
+C. Moore I Theoretical Computer Science 201 (1998) 99-136 
+127 
+mean for some Poly, to be closed under arbitrary 
+inverse homomorphisms. 
+Therefore, 
+we consider 
+Lemma 
+12 strong evidence 
+for distinctness. 
+We note that we cannot prove distinctness, 
+even in the deterministic 
+case, using VC- 
+dimension: 
+since it has an upper bound of O(nd log k) [17], polynomials 
+of degree k 
+in [Wd could conceivably 
+be simulated 
+by quadratic 
+polynomials 
+in (WO(d’osk). 
+A proof of Conjecture 
+4 seems just around the corner. We invite clever readers to 
+complete 
+it! 
+7. Higher recognizer classes 
+7.1. Elementary functions 
+We now consider the classes Elem and NElem, where we allow exponential, 
+trigono- 
+metric and polynomial 
+functions, 
+as well as their compositions. 
+In Elem(Z) we allow 
+coefficients 
+that are elementary 
+functions 
+of integers, such as rational or algebraic num- 
+bers. 
+Theorem 18. Elem(Z) properly contains Poly(H). 
+Proof. We will show that the language 
+L7 of Theorem 
+7 is in Elem(Z). Recall its 
+definition: 
+L7={Mq#w~#. . . #w,hu 1 U=Wi for some i}. 
+By reading 
+in w as in Theorem 
+12, and letting xo = 0 and fa(x)=x+ 
+2”, we can 
+construct 
+x_ 
+Ci2”’ 
+= 
+i 
+[2k+ 1,2k+2) 
+if u=wi 
+for some i 
+2” 
+[2k,2k+ 
+1) 
+if u # w, for all i 
+for some integer k. 
+In other words, the 2” digit of xi 2”“l is 1 if u = Wi and 0 otherwise. 
+So let Hyes require 
+that sinrcx,<O 
+or cosrcx,=-1, 
+i.e. xE(2k+1,2k+2) 
+orx=2k+l. 
+Since 
+L7 is in Elem(Z) but not Poly(R), 
+the inclusion 
+Poly(Z) c Elem(Z) is 
+proper. 
+0 
+Here we are using the fact that all the sets sj = {x 1 sin 2jx < 0) for j = 0, 1,2,. . are 
+independent, 
+i.e. the family {Sj} has infinite VC-dimension. 
+Conjecture 5. NElem(Z) properly contains NPoly(Z). 
+Proof? Consider 
+the numbers 
+A4, = 2” + 1. Since A40 =Mt - 2 and M,,(M,, - 2) = 
+M n+l 
+- 
+2, 
+fiMi=M,+~ 
+-2 
+i=O 
+128 
+C. Moore I Theoretical Computer Science 201 (1998) 99-136 
+so the M,, are mutually 
+prime for all n B 0. Therefore, 
+if x = n,, M,” the cn are unique, 
+and we have random access to an arbitrary number 
+of counters 
+cn. 
+For instance, 
+consider the language 
+of block anagrams 
+L anag = {WI #wz#. . #w,tlUl #Uz# . . #U, 1 for some permutation 
+7t, Ui = Wr(i) 
+for all i}. 
+By reading in W, letting po = 1 and fb(p) =Mpp, 
+and similarly 
+for V and q, construct 
+p = ni MFl and q = ni MC,. Then let H,,, require that p = q. 
+Here we are accessing 
+c, in O(logn) 
+time for arbitrary 
+n, and we conjecture 
+that 
+NPoly-recognizers 
+can’t do this. However, 
+they can if we name n in unary, 
+since 
+M,+l = (M, - 1 )2 + 1 is a quadratic 
+function 
+of M,. For instance, Lanag is in Poly,(H) 
+if the wi and vi are over a one-symbol 
+alphabet. 
+Unfortunately, 
+besides 
+the rather generous 
+upper bounds 
+given 
+in Theorems 
+11 
+and 12, we have no idea how to prove a language 
+is outside NPoly, 
+or even NLin. 
+Finally, 
+we note that allowing 
+arbitrary reals makes Elem trivial: 
+Theorem 19. Elem(R) contains all languages. 
+Proof. For any language 
+L, let XL = CwEL 3-” 
+(we use base 3 to avoid ambiguities 
+in the digit sequence). 
+Then the 3-” 
+digit of XL is 1 if x E L and 0 otherwise, 
+so let 
+H,,, require that 
+O< sin ~3wx~<-~cos 
+y3”xL. 
+i.e. 93$.xL mod 2rtE [y,rt] 
+or 3”x~ mod 3 E [l, 51. 
+0 
+7.2. Analytic and continuous functions 
+The class Analytic (which we will not abbreviate) 
+is also trivial, unless we restrict 
+ourselves 
+to a countable 
+set of closed forms: 
+Theorem 20. The class Analytic contains all languages. 
+Proof. Simply map input words to an integer W, choose an analytic 
+function 
+h such 
+that h(i?) = 1 if w EL and 0 otherwise, 
+and require that h(W) 3 i. (We can also do 
+this with piecewise-linear 
+maps if we allow a countably 
+infinite 
+number 
+of compo- 
+nents.) 
+q 
+8. Complexity and decidability properties 
+Given a description 
+of a dynamical 
+recognizer 
+p, we can ask whether LP = 0. Given 
+p and an input word w, we can ask whether w E LP. We will refer to these problems 
+C. Moore I Theoretical Computer Science 201 (1998) 99-136 
+129 
+as emptiness and membership respectively; 
+we will show that even for the simplest 
+classes, they are undecidable 
+or intractable. 
+For definitions 
+of P- and NP-completeness, 
+see [15]. 
+Theorem 21. Emptiness is undecidable for Lin(h) ifd 22, andfor Elem(Z) for all d. 
+Proof. Post’s Correspondence 
+Problem 
+(PCP) is the following: 
+given a list of words 
+w; and Ui, is there a sequence iI,&, . . . ,ik such that 
+To reduce PCP to the non-emptiness 
+of a Lin(Z) language, 
+let xc = yo = 0, let 
+fi(x~Y)=(pu%,(x), 
+push,(y)) 
+and require 
+that x = y > 0 to accept. 
+Post’s 
+Correspondence 
+Problem 
+is undecida- 
+ble [21]. 
+For Elem(B), we recall [32] that elementary 
+functions 
+in one dimension 
+can simulate 
+Turing machines 
+with an exponential 
+slowdown. 
+0 
+Corollary 
+1. Membership is NP-complete for NLin(Z) 
+if d 22, even for languages 
+on a one-symbol alphabet. 
+Proof. Post’s Correspondence 
+Problem is NP-complete 
+[15] if we place a bound on k. 
+Let a single map fji) non-deterministically 
+choose between the 5 above, or do nothing. 
+Then ask if ak is in Lp. 0 
+Corollary 2. For languages in Lin(Z), it is undecidable whether L, n L2 = 0, L, C: L2 
+(inclusion), LI = L2 (equivalence), or L = A* (universality). 
+Proof. Emptiness 
+is a special case of each of these, since Lin(E) 
+is closed under 
+intersection, 
+union, 
+and complement 
+(e.g. L1 G L2 if and only if L1 n G = 0). 
+0 
+Corollary 3. For languages in Lin(Z), it is undecidable whether L is regular, context- 
+free, DCF, QA, NQA, etc. 
+Proof. This follows from Greibach’s theorem [19,21], 
+which states that virtually 
+any 
+non-trivial 
+property is undecidable 
+for a class which is closed under concatenation 
+with 
+a regular language 
+(concatenation 
+of languages 
+with disjoint 
+alphabets 
+suffices, which 
+we have by Lemma 7) and union, and for which L = A* is undecidable. 
+0 
+Theorem 22. Membership is P-complete for PieceLin(Z) 
+if d 23, for PieceEn 
+if 
+d > 2, and Elem(Z) 
+if d 2 2. 
+Proof. This follows 
+from the fact that two-dimensional 
+piecewise-linear 
+maps with 
+rational 
+coefficients 
+can simulate 
+Turing 
+machines 
+in real time [30, lo]. This reduces 
+130 
+C. Moore1 Theoretical Computer Science 201 (1998) 99-136 
+any problem 
+in P that takes time t on input w to the membership 
+of at where fa 
+iterates the map and x0 =x,. 
+Doing 
+this with integer 
+coefficients 
+as in Theorem 
+3 
+requires one more variable. 
+Elementary 
+functions 
+in two dimensions 
+can also simulate 
+Turing machines 
+in real time [25]. 
+0 
+Several questions 
+suggest themselves. 
+Is emptiness 
+decidable 
+for Lin(E) if d = l? 
+Is membership 
+still P-complete 
+for PieceLin(H) if d <2, or for PieceLin(Q) 
+if d = l? 
+Is membership 
+P-hard 
+for Poly,(E) 
+for some k? Theorem 
+13 makes it highly un- 
+likely 
+that 
+membership 
+in Lin(Z) 
+is P-complete, 
+since 
+then 
+we 
+would 
+have 
+NC2 = P. 
+9. Relationships with other models of analog computation 
+There are several differences 
+between 
+Bhun, 
+Shub and Smale’s (BSS) analog ma- 
+chines 
+[3], Siegelmann 
+and Sontag’s 
+(SSNN) 
+neural 
+networks 
+[38], and dynamical 
+recognizers. 
+First, BSS-machines 
+can branch 
+on polynomial 
+inequalities 
+during 
+the course of 
+the computation. 
+Except 
+for PieceLin, our recognizers 
+have completely 
+continuous 
+dynamics 
+except for the final measurement 
+of H,,,. 
+SSNN-machines 
+are defined with 
+piecewise-linear 
+maps. 
+Secondly, 
+BSS- and SSNN-machines 
+are not restricted 
+to real time, so that time 
+complexity 
+classes such as P, EXPTIME and so on can be defined for them. 
+Thirdly, BSS-machines 
+can recognize 
+“languages” 
+whose symbols are real numbers, 
+and can make real number guesses in their non-deterministic 
+versions. 
+Finally, BSS-machines 
+have unbounded 
+dimensionality, 
+and receive their entire input 
+as part of their initial 
+state. Therefore, 
+they have at least IZ variables 
+on input of 
+length n. SSNN-machines, 
+like ours, have bounded 
+dimensionality, 
+and receive their 
+input dynamically 
+rather than as part of the initial state. 
+This last point seems entirely analogous 
+to Turing machines. 
+If we wish to consider 
+sub-linear 
+space bounds 
+such as LOGSPACE, 
+we need to use an ofSine 
+Turing 
+machine 
+which receives its input on a read-only 
+tape separate from its worktape. 
+This suggests 
+a unification 
+of all three models. 
+First of all, let PieeePoly 
+and 
+NPiecePoly 
+be recognizer 
+classes where the fa are piecewise 
+polynomials, 
+with poly- 
+nomial component 
+boundaries 
+(these could serve as models of “hybrid 
+systems”). 
+Secondly, 
+relax our real-time 
+restriction 
+by iterating 
+an additional 
+map fcomp, in the 
+same class as the fa, 
+until x falls into some subset &,=it, 
+Thirdly, 
+restrict 
+BSS-machines 
+to their 
+Boolean 
+part 
+BP and 
+to digital non- 
+determinism, e.g. DNPR [l 11. 
+And finally, define an ofS_line BSS-machine 
+as one who receives 
+its input dynam- 
+ically in the first n steps, and which has a bound SPACE( f (n)) on the number 
+of 
+variables 
+it can use during the computation. 
+(In [ 181 these are called separated input 
+and output or SIO-BSS-machines.) 
+C. Moore/ Theoretical Computer Science 201 (1998) 99-136 
+131 
+Then we can look at these classes in a unified way: 
+PiecePoly(R)TIME(B(nk))SPACE(O(nk)) 
+= BP(Pn) 
+(Blum, 
+Shub and 
+Smale [3]), 
+NPiecePoIy(R)TIME(O(nk))SPACE(O(nk)) 
+= BP(NDPn) 
+(Cucker and 
+Matamala 
+[ 1 l]), 
+PieceLin(lR)TIME(O(n’))SPACE(O(n’)) 
+= BP(Pk) 
+(Meer [28] and 
+Koiran 
+[23]), 
+PieceLin( R)TIME( O(nk 
+))SPACE( O( 1)) = NET - P (Siegelmann 
+and 
+Sontag [38]), 
+PiecePoly,(Z)TIME(n)SPACE(O( 
+1)) = PiecePoly,(Z) 
+(dynamical 
+recognizers), 
+and similarly 
+for other complexity 
+classes. 
+(The last two lines of this table contrast 
+with the discrete case, since Turing machines 
+with constant 
+space can only recognize 
+regular languages.) 
+Then there are a number 
+of things we have already shown, or which are obvious: 
+Corollary to Theorem 7. PiecePoly and PiecePoly, fir all k are properly contained 
+in their non-deterministic counterparts in real time, and are not closed under reversal, 
+CYCLE, 
+alphabetic homomorphism or concatenation. 
+Proof. The VC-dimension 
+of PiecePoly, 
+maps in Rd with j components 
+each is 
+O(nd log jk) [ 171. So L7 is not in PiecePoly, but the various modified versions 
+of L7 
+in Corollaries 
+1, 3 and 4 of Theorem 
+7 are in PiecePoly, = PieceLin. 
+0 
+Then, just as for deterministic 
+Turing machines 
+[37], linear time is more powerful 
+than real time: 
+Theorem 23. Real time TIME(n) 
+is properly contained in linear time TIME(C”(n)) 
+for PiecePoly and PiecePoly, for all k. 
+Proof. We will show that TIME(O(n)) 
+is closed under reversal for all these classes. 
+Simply store the input with pushtight into a variable 
+p =?, 
+and then use piecewise- 
+linear maps to extract the digits in reverse order. 
+0 
+We can also conjecture, 
+as we did for Poly and NPoly: 
+Conjecture 6. The deterministic and non-deterministic piecewise-polynomial degree 
+hierarchy is distinct. 
+132 
+C. Moore/ Theoretical Computer Science 201 (1998) 99-136 
+This could only be true in real time, since quadratic maps can simulate polynomials 
+of any degree with a constant 
+slowdown. 
+We also conjecture 
+that branching 
+is of 
+fundamental 
+importance, 
+even when additional 
+computation 
+time is allowed: 
+Conjecture 7. For all k and all f(n), 
+Poly,TIME(f(n)) 
+is properly contained in 
+PiecePoly,TIME( f(n)), 
+and similarly for non-deterministic classes. 
+We have already 
+shown 
+this for k = 1 in Theorem 
+9: L,,,, 
+is not in Lin no 
+matter how much time is allowed. 
+Unless 
+the degree hierarchies 
+are distinct, 
+VC- 
+dimension 
+arguments 
+can’t separate Poly, from PiecePoly,. 
+Since it has an upper 
+bound of O(nd logjk) where j is the number of components 
+of each map [17], branch- 
+ing could conceivably 
+be simulated 
+by polynomials 
+of degree jk. 
+Finally, we note that combining 
+the above with results of Cucker and Grigoriev 
+[ 121 
+and Koiran [23,24] 
+give us bounds 
+on Poly and NPoly tighter than Theorem 
+10, as 
+well as bounds 
+on PieceLin(R) and NPieceLin(R). Recall 
+[34] that a machine 
+has 
+polynomial advice if it has access to an oracle whose advice is polynomially 
+long and 
+depends only on the length of the input, rather than on the input itself. Classes with 
+polynomial 
+advice are written P/poty, 
+NP/poly, 
+etc. Then: 
+Theorem 24. The following containments hold: 
+PiecePoly(Z) c NPiecePoly(Z) c NPiecePoly( R) c PSPACE/poly, 
+PieceLin(R) c P/poly, 
+NPieceLin( R) G NP/poZy, 
+where c indicates proper inclusion. 
+10. Conclusion and directions for further work 
+In addition to the conjectures 
+and open problems 
+mentioned 
+above, there are several 
+directions 
+in which one could extend this work. 
+(1) We have seen that PieceLin and NLin are fundamentally 
+more powerful than Lin. 
+Is PieceLin contained 
+in any continuous 
+class, and is NLin contained 
+in any determin- 
+istic class? In other words, can branching 
+and non-determinism 
+be compensated 
+for in 
+real time by going to a more powerful class of functions 
+such as Elem? We conjecture 
+that these are fundamentally 
+different computational 
+resources, and that NLin, PieceLin 
+and Elem are all incomparable. 
+(Two comments: 
+NLm and PieceLin can be trivially 
+simulated 
+by arbitrary contin- 
+uous functions, 
+but we want smooth, closed-form 
+functions. 
+We also note that without 
+the restriction 
+of real time, NPR c EXPTIMER in the BSS model [3].) 
+(2) As alluded to in Lemma 
+11, let DIGITS be the maximum 
+number 
+of digits in 
+a recognizer’s 
+variables 
+as a function 
+of the input length n. This is a computational 
+C. Moore/ Theoretical Computer Science 201 (1998) 99-136 
+133 
+resource, 
+analogous 
+to space in Turing machines, 
+and (for variables 
+in Z) proportional 
+to the logarithm 
+of the volume 
+in I@ the recognizer 
+needs. 
+DIGITS 
+is also related to the robustness 
+of a dynamical 
+recognizer 
+with respect to 
+noise. If our variables 
+are rational 
+and confined 
+to the unit cube, and the system is 
+exposed to noise of size F = 0(2-d), 
+then words in a language 
+in DIGITS(f(n)) 
+will 
+be correctly 
+recognized 
+up to length n = f-‘(loge-’ 
+). Mike Casey has shown that, 
+in the presence 
+of noise, finite-dimensional 
+dynamical 
+recognizers 
+can only recognize 
+arbitrarily 
+long words for regular languages 
+[8]. 
+For Lin and Poly,, DIGITS is limited 
+to Lo(n) and LO(k”), respectively. 
+Beneath 
+these bounds, 
+or for Elem, are hierarchies 
+based on DIGITS 
+distinct? 
+For instance, 
+is 
+DIGITS(f(n)) 
+properly 
+contained 
+in 
+DIGITS(g(n)) 
+if 
+limn+w 
+f(n)/g(n) 
+= O? 
+DIGITS 
+is at least linear for any language 
+such as Lpai or LcopY where every word u 
+has a unique 
+set of words v such that uv E L, since the recognizer 
+has to represent 
+all 2” possible 
+U’S in a unique way. But besides this trivial observation, 
+how can we 
+prove lower limits on DIGITS? 
+(3) As a purely automata-theoretic 
+question, 
+it would be nice to show that obstinate 
+PDAs and QAs are strictly less powerful 
+than their deterministic 
+counterparts 
+(OCF 
+is a subset of the input-driven 
+CFLs), 
+and that CQAs are strictly less powerful 
+than 
+QAs in the obstinate, 
+deterministic, 
+and non-deterministic 
+cases. 
+(4) As generalizations 
+of non-determinism, 
+we could consider 
+alternating 
+real time, 
+or probabilistic 
+models analogous 
+to ZPP, 
+BPP or RP [34]. 
+(5) In several cases (Theorem 
+9 vs. Theorem 
+18, and Theorem 
+17 vs. Theorem 
+19) 
+quadratic 
+maps seem to be roughly equivalent 
+to elementary 
+maps when their input is 
+given in unary. How deep does this equivalence 
+go? 
+(6) Can we exhibit 
+a language 
+not in Elem(Z)? Can we exhibit 
+a language 
+not 
+in NLin(Z), 
+other than by using 
+the complexity 
+bounds 
+in Theorem 
+12? Can we 
+exhibit 
+a language 
+not in NLin(R)? 
+We need methods 
+other than VC-dimension 
+for 
+these. 
+(7) Is it possible to define natural reductions 
+or transducers 
+for these classes, and if 
+so, do they have natural 
+complete 
+problems? 
+(I thank the referee for suggesting 
+this 
+question.) 
+(8) What relation, 
+if any, does our classes Lin, Poly and Elem have to function- 
+valued 
+complexity 
+measures 
+such as those in [5,35]? 
+The VC-dimension 
+argument, 
+for instance, 
+can be seen as a refinement 
+of the latter; they count the number 
+of 
+equivalence 
+classes where two words are equivalent 
+if they can be followed by the same 
+suffixes, while the VC-dimension 
+measures 
+how independently 
+sets of allowed suffixes 
+overlap. 
+(9) Finally, 
+we believe 
+that sub-linear 
+space classes 
+in these models 
+(such 
+as 
+PiecePoly(Z)TIME( 
+o(n))SPACE( 
+6(log n)), 
+linear 
+time and logarithmic 
+space) 
+are 
+very much worth studying. 
+It ought to be possible 
+to prove space hierarchy 
+theo- 
+rems within 
+each time class analogous 
+to those for Turing 
+machines 
+(constant 
+space 
+is universal 
+if unlimited 
+time is allowed 
+[29]). Grade1 and Meer have given a logical 
+description 
+of the polynomial 
+time, constant 
+space class [ 181. 
+134 
+C. Moore1 Theoretical Computer Science 201 (1998) 99-136 
+Fig. 3. A summary 
+of the inclusions 
+proved in this paper. Inclusions 
+known to be proper are in bold 
+In Fig. 3 we summarize 
+the inclusions 
+between 
+language 
+classes, both dynamical 
+and discrete, that we have been able to prove or which we already knew. 
+Acknowledgements 
+I thank Elizabeth 
+Hunke and Mats Nordahl for careful readings 
+of the manuscript; 
+Jean-Camille 
+Berget, Mike Casey, Kiran Chilakamarri, 
+Patrick Dymond, 
+Jeff Erickson, 
+Michael 
+Fischer, 
+Christian 
+Herzog, Volker Heun, Martin 
+Huehne, 
+Tao Jiang, Georg 
+Karner, 
+Ilias Kastanas, 
+Marco Ladermann, 
+Torben 
+Mogensen, 
+Ian Parberry, 
+Jordan 
+Pollack, 
+Vicki Powers, Danny Raz, Kenneth 
+Regan, Hava Siegelmann, 
+Janos Simon, 
+D. Sivakumar 
+and Burkhard 
+Stubert for helpful communications; 
+and Spootie the Cat 
+for companionship. 
+References 
+[l] R. Bartlett, M. Garzon, 
+Computational 
+complexity 
+of piecewise 
+linear maps of the interval, 
+Theoret. 
+Comput. 
+Sci., submitted. 
+[2] J. Berstel, Transductions 
+and Context-Free 
+Languages, 
+Teubner Studienbiicher, 
+Stuttgart, 
+1978. 
+[3] L. Blum, M. Shub, S. Smale, On a theory 
+of computation 
+and complexity 
+over the real numbers: 
+NP-completeness, 
+recursive 
+functions 
+and universal machines, 
+Bull. Amer. Math. Sot. 21 (1989) 
+l-46. 
+[4] A. Blumer, 
+A. Ehrenfeucht, 
+D. Haussler, 
+M.K. Warmuth, 
+Learning 
+and the Vapnik-Chervonenkis 
+dimension, 
+J. ACM 36 (4) (1989) 929-965. 
+C. Moore1 Theoretical Computer Science 201 (1998) 99-136 
+135 
+[5] L. Boasson, 
+B. Courcelle, 
+M. Nivat, The rational 
+index: a complexity 
+measure 
+for languages, 
+SIAM 
+J. Comput. 
+10 (2) (1981) 284-296. 
+[6] R. Book, S. Greibach, 
+Quasi-realtime 
+languages, 
+Math. Systems Theory 4 (1970) 97-l 11. 
+[7] F.J. Brandenburg, 
+Intersections 
+of some families of languages, 
+in: Proc. 13th ICALP, Lecture Notes in 
+Computer 
+Science, vol. 226, Springer, 
+Berlin, 1986, pp. 61-68. 
+[8] M. Casey, The dynamics 
+of discrete-time 
+computation, 
+with application 
+to recurrent 
+neural networks 
+and finite-state 
+machine 
+extraction, 
+Neural Comput. 
+8 (6) (1996) to appear. 
+[9] A. Cherubini, 
+C. Citrini, SC. Reghizzi, 
+D. Mandrioli, 
+QRT FIFO automata, 
+breadth-first 
+grammars 
+and 
+their relations, 
+Theoret. Comput. 
+Sci. 85 (1991) 
+171-203. 
+[IO] P. Koiran, 
+M. Cosnard, 
+M. Garzon, 
+Computability 
+properties 
+of low-dimensional 
+dynamical 
+systems, 
+Theoret. Comput. 
+Sci. 132 (1994) 
+113-128. 
+[ 1 l] F. Cucker, M. Matamala, 
+On digital nondeterminism, 
+Math. Systems Theory, to appear. 
+[12] F. Cucker, 
+D. Grigoriev, 
+On the power 
+of real Turing 
+machines 
+over binary 
+inputs, 
+NeuroCOLT 
+Technical 
+Report NC-TR-94-007, 
+1994. 
+[13] S. Das, C.L. Giles, G.Z. Sun, Using prior knowledge 
+in an NNPDA to learn languages, 
+Adv. Neural 
+Inform. Process. 
+Systems 5 (1993) 65-72. 
+[14] J. Elman, 
+Language 
+as a dynamical 
+system, 
+in: R.F. Port, T. van Gelder (Eds.), 
+Mind as Motion: 
+Explorations 
+in the Dynamics 
+of Cognition, 
+MIT Press, Cambridge, 
+MA, 1995. 
+[15] M.R. Garey, D.S. Johnson, 
+Computers 
+and Intractibility: 
+A Guide to the Theory of NP-Completeness, 
+Freeman, 
+New York, 1979. 
+[16] C.L. Giles, C.B. Miller, D. Chen, H.H. Chen, G.Z. Sun, Y.C. Lee, Learning 
+and extracting 
+finite-state 
+automata 
+with second-order 
+recurrent 
+networks, 
+Neural Comput. 2 (1992) 331-349. 
+[17] P.W. 
+Goldberg, 
+M.R. 
+Jerrum, 
+Bounding 
+the Vapnik-Chevonenkis 
+dimension 
+of concept 
+classes 
+parametrized 
+by real numbers, 
+Machine Learning 
+18 (1995) 
+131-148. 
+[ 181 E. Griidel, K. Meer, Descriptive 
+complexity 
+theory over the real numbers, NeuroCOLT 
+Technical 
+Report 
+NC-TR-95-040 
+(1995); 
+in: Proc. 27th Symp. on the Theory of Computing, 
+1995, pp. 315-324. 
+[19] S.A. Greibach, 
+A note on undecidable 
+properties 
+of formal 
+languages, 
+Math. Systems 
+Theory 
+2 (1) 
+(1968) 
+l-6. 
+[20] J. Guckenheimer, 
+P. Holmes, Nonlinear 
+Oscillations, 
+Dynamical 
+Systems, 
+and Bifurcations 
+of Vector 
+Fields, Springer, 
+Berlin, 1983. 
+[21] J.E. Hopcroft, 
+J.D. Ullman, 
+Introduction 
+to Automata 
+Theory, Languages, 
+and Computation, 
+Addison- 
+Wesley, Reading, 
+MA, 1979. 
+[22] D.E. Knuth, Seminumerical 
+Algorithms, 
+Addison-Wesley, 
+Reading, 
+MA, 1981. 
+[23] P. Koiran, Computing 
+over the reals with addition and order, Theoret. Comput. Sci. 133 (1994) 35-47. 
+[24] P. Koiran, 
+A weak version of the Blum, Shub and Smale model, DIMACS 
+Technical 
+Report 94-10, 
+1994. 
+[25] P. Koiran, 
+C. Moore, 
+Closed-form 
+analytic 
+maps in one and two dimensions 
+can simulate 
+Turing 
+machines, 
+Theoret. Comput. 
+Sci., to appear. 
+[26] B.L. Leong, J.I. Seiferas, 
+New real-time 
+simulations 
+of multihead 
+tape units, J. ACM 28 (1) (1981) 
+1666180. 
+[27] L. Liu, P. Weiner, An infinite hierarchy 
+of intersections 
+of context-free 
+languages, 
+Math. Systems Theory 
+7 (1973) 
+185-192. 
+[28] K. Meer, Real number models under various sets of operations, 
+J. Complexity 
+9 (1993) 366-372. 
+[29] C. Michaux, 
+Differential 
+fields, machines 
+over the real numbers 
+and automata, 
+Ph.D. thesis, Universite 
+de Mons Hainaut, 
+Fact&e des Sciences, 
+1991. 
+[30] C. Moore, 
+Unpredictability 
+and undecidability 
+in dynamical 
+systems, 
+Phys. 
+Rev. Lett. 64 (1990) 
+2354-2357; 
+Nonlinearity 
+4 (1991) 
+199-230. 
+[31] C. Moore, Generalized 
+one-sided 
+shifts and maps of the interval, Nonlinearity 
+4 (1991) 727-745. 
+[32] C. Moore, 
+Smooth 
+one-dimensional 
+maps 
+of the interval 
+and the real line capable 
+of universal 
+computation, 
+Santa Fe Institute Working 
+Paper 93-01-001. 
+[33] U. Nilsson, F. Hald, Her er en iille gris, Gyldendal, 
+1994. 
+[34] C.H. Papadimitriou, 
+Computational 
+Complexity, 
+Addison-Wesley, 
+Reading, 
+MA, 1994. 
+[35] J. Paradaens, 
+R. Vincke, A class of measures 
+on formal languages, 
+Acta Inform. 9 (1977) 73-86. 
+[36] J. Pollack, 
+The induction 
+of dynamical 
+recognizers, 
+Machine Leaming 
+7 (1991) 227-252. 
+[37] A.L. Rosenberg, 
+Real-time 
+definable 
+languages, 
+J. ACM 14 (1967) 645-662. 
+136 
+C. Moore! 
+Theoretical Computer Science 201 (1998) 99-136 
+[38] H. Siegelmann, 
+E.D. Sontag, Analog computation 
+via neural networks, Theoret. Comput. Sci. 131 (1994) 
+331-360. 
+[39] M. Steijvers, P.D.G. Griinwald, 
+A recurrent 
+network 
+that performs 
+a context-sensitive 
+prediction 
+task, 
+NeuroCOLT 
+Technical 
+Report NC-TR-96-035 
+(1996); 
+in: Proc. 18th Annual Conf. Cognitive 
+Science 
+Society, Erlbaum, 
+London, 
+in press. 
+[40] H.E. Warren, 
+Lower bounds for approximation 
+by nonlinear 
+manifolds, 
+Trans. Amer. Math. Sot. 133 
+(1968) 
+167-178. 

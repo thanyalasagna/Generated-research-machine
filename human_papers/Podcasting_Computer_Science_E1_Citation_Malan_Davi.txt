@@ -1,0 +1,537 @@
+Podcasting Computer Science E-1
+Citation
+Malan, David J. 2007. Podcasting Computer Science E-1. In SIGCSE 2007: Proceedings of the 
+Thirty-Eighth SIGCSE Technical Symposium on Computer Science Education, March 7-10, 2007, 
+Covington, Kentucky, ed. ACM SIGCSE and Ingrid Russell, 389-393. New York, N.Y.: Association 
+for Computing Machinery.
+Published Version
+http://dx.doi.org/10.1145/1227310.1227446
+Permanent link
+http://nrs.harvard.edu/urn-3:HUL.InstRepos:2829931
+Terms of Use
+This article was downloaded from Harvard University’s DASH repository, and is made available 
+under the terms and conditions applicable to Other Posted Material, as set forth at http://
+nrs.harvard.edu/urn-3:HUL.InstRepos:dash.current.terms-of-use#LAA
+Share Your Story
+The Harvard community has made this article openly available.
+Please share how this access benefits you.  Submit a story .
+Accessibility
+Podcasting Computer Science E-1
+David J. Malan
+Division of Engineering and Applied Sciences
+Harvard University
+Cambridge, Massachusetts, USA
+malan@post.harvard.edu
+ABSTRACT
+In recent months have teachers become publishers of content
+and students subscribers thereof by way of podcasts, feeds of
+audio, video, and other content that can be downloaded to
+clients like iTunes and devices like iPods. In the fall of 2005,
+we ourselves began to podcast Harvard Extension School’s
+Computer Science E-1 in both audio and video formats, the
+ﬁrst course within Harvard University to do so. Our goals
+were to provide students with more portable access to edu-
+cational content and to involve them in technology itself.
+To evaluate this experiment, we have analyzed logs and
+surveys of students. We ﬁnd that our students valued E-1’s
+podcast more as a vehicle for review (45%) than as an al-
+ternative to attendance (18%). We also ﬁnd that most stu-
+dents (71%) tended to listen to or watch lectures on their
+computers, with far fewer relying upon audio-only (19%) or
+video (10%) iPods. We argue, meanwhile, that podcasting,
+despite its widespread popularity, is but a marginal improve-
+ment on trends long in progress. It is this technology’s reach
+that we claim is signiﬁcant, not the technology itself. Logs
+suggest that E-1’s own podcast, available not only to stu-
+dents but to the public at large, has acquired (as of Septem-
+ber 2006) between 6,000 and 10,000 subscribers from over
+50 countries. We argue, then, that podcasting oﬀers to ex-
+tend universities’ educational reach more than it oﬀers to
+improve education itself.
+Categories and Subject Descriptors
+K.3.1 [COMPUTERS AND EDUCATION]: Computer
+Uses in Education—Distance learning; K.3.2 [COMPUTERS
+AND EDUCATION]: Computer and Information Science
+Education—Computer science education
+General Terms
+Design, Experimentation, Human Factors
+Keywords
+distance education, iPod, iTunes, podcast, podcasting
+Permission to make digital or hard copies of all or part of this work for
+personal or classroom use is granted without fee provided that copies are
+not made or distributed for proﬁt or commercial advantage and that copies
+bear this notice and the full citation on the ﬁrst page. To copy otherwise, to
+republish, to post on servers or to redistribute to lists, requires prior speciﬁc
+permission and/or a fee.
+SIGCSE’07, March 7–10, 2007, Covington, Kentucky, USA.
+Copyright 2007 ACM 1-59593-361-1/07/0003 ...$5.00.
+1.
+INTRODUCTION
+In the limelight of late is podcasting: distribution of au-
+dio, video, and other content via feeds to which one can
+subscribe with clients like iTunes [4]. Otherwise known as
+podcasts, these feeds enable publishers to push new content
+to a subscriber’s computer or mobile device (e.g., iPod [3])
+for subsequent playback oﬄine.
+In recent months have teachers become publishers and
+students subscribers, with lectures themselves the content.
+We ourselves set out in the fall term of 2005 to podcast Com-
+puter Science E-1: Understanding Computers and the Inter-
+net, an introductory course at Harvard Extension School [6]
+that, per its syllabus, “[demystiﬁes] computers and the In-
+ternet, along with their jargon, so that students understand
+not only what they can do with each but also how it all
+works and why.” The ﬁrst course within Harvard Univer-
+sity to be podcasted in both audio and video formats, E-1’s
+lectures were made available not only to registered students
+but also to the public at large (at no charge), along with
+some sections (i.e., recitations) and workshops led by the
+course’s teaching fellows. Our goals were to provide our own
+students with more portable means of accessing the course’s
+content and to involve them with technology that the course
+itself explores.
+Not only did we gather statistics on downloads through-
+out this experiment, we also surveyed our students for their
+thoughts on the technology. We present in this paper the
+results of our trial along with details of its implementation.
+Along the way, we argue that the value of podcasting in
+students’ education has been overstated with hype, noting
+instead that this delivery mechanism is but a marginal im-
+provement on trends already in progress. We view podcasts
+of courses as most valuable for those not even enrolled. In
+that podcasts and directories thereof centralize and facilitate
+discovery of educational content, podcasting oﬀers universi-
+ties new opportunities to teach, sans credits and degrees,
+those for whom attendance, enrollment, or education itself
+might not otherwise be possible.
+We ﬁnd that our own students valued E-1’s podcast more
+as a vehicle for review (45%) than as an alternative to at-
+tendance (18%).
+We also ﬁnd that most of our students
+(71%) tended to listen to or watch lectures on their comput-
+ers, rather than on audio-only (19%) or video (10%) iPods.
+Perhaps most striking, though, is the size of the course’s
+unoﬃcial student body: logs suggest that the podcast has
+acquired (as of September 2006) between 6,000 and 10,000
+subscribers, just over half (62%) from the United States and
+the rest from over 50 other countries. We oﬀer these results
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+<channel> [...]
+<item>
+<title>Lecture 1 (video): Hardware</title> [...]
+<itunes:author>David J. Malan</itunes:author>
+<itunes:summary>Computation. Overview. Bits and bytes. ASCII. Processors. Motherboards: connectors, ports, slots, and
+sockets and system bus. Memory: ROM, RAM, level-1 and -2 cache, secondary storage, and virtual memory.</itunes:summary>
+<itunes:duration>1:43:43</itunes:duration>
+<enclosure url="http://www.courses.dce.harvard.edu/~cscie1/podcasts/lecture1.mov"
+type="video/quicktime"
+length="210092794" />
+<pubDate>Thu, 22 Sep 2005 19:30:00 EST</pubDate>
+</item> [...]
+</channel>
+</rss>
+Figure 1: E-1’s podcast is deﬁned by its RSS (i.e., XML) feed, a text ﬁle that describes (and provides URLs to) the
+podcast’s actual content. iTunes (like other clients) monitors this ﬁle for changes and relies upon it to generate its
+interface (Figure 2).
+Students subscribe to the podcast by subscribing to this feed’s URL. This excerpt describes
+Lecture 1’s video.
+as evidence of podcasting’s potential not necessarily to ed-
+ucate better but to educate further.
+In the two sections that follow, we elaborate on E-1 and
+the implementation of its podcast. In Section 4, we present
+the results of our trial.
+In Section 5, we oﬀer discussion
+thereof. In Section 6, we introduce work that has resulted
+from this experience. In Section 7, we conclude.
+2.
+ABOUT E-1
+A gateway to other courses in computer science, E-1 ex-
+poses students to material in breadth through lectures on
+hardware, software, the Internet, multimedia, security, web-
+site development, programming, and more. Though some
+students take the course in pursuit of certiﬁcates or degrees
+at Harvard Extension School, many enroll for their own ed-
+iﬁcation and continuing education. Though the course does
+oﬀer hands-on sections and workshops, the course’s lectures
+are more conceptual than practical. Per its syllabus, “This
+course is all about understanding: understanding what’s go-
+ing on inside your computer when you ﬂip on the switch, why
+tech support has you constantly rebooting your computer,
+how everything you do on the Internet can be watched by
+others, and how your computer can become infected with a
+worm just by turning it on. . . . Students leave this course
+armed with a new vocabulary and equipped for further ex-
+ploration of computers and the Internet.”
+Since 1999 has E-1 been part of Harvard Extension School’s
+Distance Education [7] program, whereby students can take
+the course via the Internet. Lectures are ﬁlmed, digitized,
+and posted online in RealAudio [9] and RealVideo [10] for-
+mats, both of which are synchronized with HTML-based
+slideshows of lectures’ slides.
+Enrollment each fall hovers around 60 students, up to a
+third of whom are typically distant from Cambridge. The
+URL of E-1’s website appears in this paper’s appendix.
+3.
+PODCASTING E-1
+To expedite production of the course’s podcast each week,
+we simply converted our RealAudio and RealVideo formats
+to MP3 [8] and QuickTime [5] formats, respectively. Through
+trial and error, we found acceptable middle ground between
+ﬁles’ quality and size: we encoded MP3s in monophone at
+a sample rate of 22 kilohertz and at a bitrate of 56 kilobits
+per second; we encoded QuickTime movies with an MPEG-
+4 codec at 30 frames per second, at a resolution of 320×240
+pixels, and at a bitrate of 240 kilobits per second.
+For
+each two-hour lecture, the corresponding MP3 was about
+40 megabytes, while the corresponding QuickTime movie
+was about 200 megabytes.
+We then uploaded these ﬁles (along with PDFs of slides)
+each week to a server on campus and updated the podcast’s
+RSS (i.e., XML) feed (Figure 1), a text ﬁle that describes
+(and provides URLs to) the podcast’s actual content.∗To
+“subscribe” to E-1’s podcast, then, is to monitor this feed’s
+URL for changes with a client like iTunes, which generates
+its interface (Figure 2) based on the feed’s metadata.
+In this manner was each lecture made available to students
+via iTunes and other clients, usually within 48 hours of its
+delivery on campus. The URL of E-1’s podcast (i.e., its RSS
+feed) appears in this paper’s appendix.
+4.
+RESULTS
+To evaluate our trial, we turned to logs and students them-
+selves. Though our own students’ thoughts on the podcast
+proved quite positive, we were struck more by the public’s
+response. We present both in turn.
+4.1
+Students’ Response
+At term’s end, we presented students with surveys about
+E-1’s podcast. Though students—local and distant alike—
+also had access to the course’s lectures in RealAudio and
+RealVideo formats, these surveys made clear that questions
+only regarded the MP3- and QuickTime-based podcast rather
+than distance education itself.
+Among the 22 respondents, all but one had utilized the
+course’s podcast. The predominant reason was not to avoid
+attendance but, rather, to review lectures already attended:
+45% valued the podcast as a vehicle for review, whereas
+18% valued it as an alternative to attendance. Nonetheless,
+we did not detect an 18% (or even noticeable) drop in at-
+tendance at lectures vis-`a-vis prior semesters, presumably
+because the course already oﬀered distance education.
+Nonetheless, some students did express a preference for
+the course’s RealVideo format over the podcast’s QuickTime
+format, the former of which oﬀered slightly higher resolution
+as well as synchronized slides. Other students preferred the
+podcast’s portability. One student explained: “I love this
+feature, I have an hour to an hour and a half commute each
+∗To accommodate the visually impaired, we also oﬀered hyperlinks
+to the podcast’s content on the course’s website, whose text is more
+easily recited than iTunes’s by accessibility software.
+Figure 2: E-1’s podcast was made available to students and the public at large via iTunes and other podcast directories.
+Included in the podcast were MP3s and QuickTime movies of lectures (along with PDFs of slides). Also included were
+some sections and workshops led by the teaching fellows. Pictured is the interface generated by iTunes based on the
+podcast’s RSS feed (Figure 1).
+way to work everyday and to have the podcasts helped with
+reviewing the lectures (on the go).”
+We also surveyed students on the means by which they
+tended to listen to or watch the podcast’s content. Most
+students (71%) tended to listen to or watch lectures on their
+computers, rather than on audio-only (19%) or video (10%)
+iPods (Figure 3).
+Though worthy of note, this distribu-
+tion is not wholly surprising. After all, Harvard Extension
+School’s student body is more diverse in age than typical col-
+lege classrooms, whose students might be more likely than
+ours to own the latest technology. Moreover, E-1’s students
+are perhaps, by deﬁnition, less technically savvy than those
+who tend to own the same. And, in fairness, the video iPod
+was only released toward the start of our trial.
+However, this preference for computers over iPods might
+also reﬂect disparity between students’ attitudes toward
+classes on iPods and actual usage thereof. Our own students’
+comments suggest as much: “I really liked [the] concept
+of using podcasting as an educational medium. It extends
+the reach in very aﬀordable ways. I think I only listened
+to one podcast and none of the videos.” In the words of
+another, “I have not used [podcasting] once this semester,
+either for video or for audio. Though, I absolutely like that
+the opportunity to utilize these components exists.”
+The
+sentiment was not uncommon: “I think podcasting is a good
+idea. The more formats information is made available in, the
+better. However, I did not listen to any of the podcasts.”
+To be sure, sheer novelty explains some students’ enthu-
+siasm for the podcast: “I think it was also very much in line
+with the course curriculum to have students learn about and
+use the technologies that are available, including the iPod.
+How very cutting edge we were!” But some students’ takes
+on the podcast were more matters of fact: “It’s simply a
+good way to review and listen to lectures.”
+Needless to say, our own students’ response was ultimately
+positive. But the public response was more striking.
+4.2
+Public Response
+In order to make E-1’s podcast available not only to our
+own students but also the public at large, we submitted the
+URL of its RSS feed to iTunes’s podcast directory at term’s
+start as well as to other web-based directories. Thanks, in
+part, to those directories as well as to several articles and
+blogs that brought attention to the course’s podcast upon
+its release, the sizes of E-1’s oﬃcial and unoﬃcial student
+bodies ultimately diﬀered by orders of magnitude.
+Logs suggest that the podcast has garnered (as of Septem-
+ber 2006) between 6,000 and 10,000 subscribers (Figure 4).
+Equally striking is the podcast’s reach. Logs suggest that
+just over half (62%) of subscribers were from the United
+States, with other subscribers scattered across more than
+50 other countries (Figure 5).
+Even more surprising than these numbers alone are the
+dozens of emails that we have received from subscribers.
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+computer
+audio-only iPod
+video iPod
+students
+Figure 3: At term’s end, we surveyed students on how
+they listened to or watched the course’s podcast. Among
+the 21 respondents, 15 (71%) tended to listen or watch
+on their computers, 4 (19%) tended to listen on audio-
+only iPods, and 2 (10%) tended to watch on video iPods.
+Many have inquired as to how to enroll in E-1 or other
+courses at a distance, evidence that the course’s podcast has
+reached corners of the country and world that the school’s
+catalogue has not. One subscriber writes: “I am from Vi-
+enna, Austria and how can I register [for your] distance
+education program? I’m podcasting your course and . . .
+[hope to] be a legit [distance-education] student in your class,
+thanks a lot for creating [distance education].”
+Other subscribers appreciate that the podcast’s content
+has reached them at all: “I live in the central interior of
+British Columbia, Canada, and am surrounded by forest,
+the nearest town is twenty minutes drive. . . . I pay a
+great deal of money to connect to the Internet via satellite.
+. . . I consider the lessons I have learned from you and
+your colleagues to have completely paid for this service.”
+Another subscriber writes: “I would like to thank you for
+posting your Comp. Sci. E-1 lectures at Harvard University
+as podcasts. The commute to Cambridge from the Upper
+Galilee in Israel is a bit too much for me to attend the course
+in person. Nevertheless, your podcasts have been a great
+‘second best.’”
+Among those who have emailed us are also other educa-
+tors, many of whom ﬁnd the podcast’s content and their own
+materials complementary: “My International Baccalaureate
+students here . . . in Penzance, UK have all subscribed and
+consider it to be an essential tool in their learning already.”
+Meanwhile, other subscribers view the podcast not only
+as a class but as an opportunity: “I trust that you won’t
+mind me saying that we now have the beneﬁt of being tu-
+tored by one of the world’s foremost academic institutions
+from right here in South Africa.” In the words of another
+subscriber, “It is not everyday that someone can be let into
+the halls of Harvard U and experience the richness of an Ivy
+League experience.”
+Other emails embody, quite simply,
+gratitude: “Thanks again to you and Harvard for providing
+the podcasts.”
+To be sure, a podcast about computers and the Internet
+perhaps cannot help but be popular among those already
+interested in computers and the Internet (i.e., E-1’s sub-
+scribers). That over 6,000, though, took an interest in just
+one course’s podcast does seem to conﬁrm the technology’s
+power to extend schools’ reach well beyond their walls, ivy-
+0
+2,000
+4,000
+6,000
+8,000
+10,000
+12,000
+lecture4.mov
+lecture2.mov
+workshop8.mp3
+workshop4.mp3
+lecture2.mp3
+lecture1.mov
+lecture4.mp3
+lecture3.mp3
+lecture1.mp3
+promo.mp4
+downloads
+Figure 4: Logs suggest that E-1’s podcast has had be-
+tween 6,000 and 10,000 subscribers. Presented are some
+of the podcast’s most popular downloads, with video con-
+tent colored in black and audio content colored in gray.
+United Kingdom (5%)
+Canada (4%)
+Japan (3%)
+Australia (3%)
+Germany (2%)
+Other Countries (21%)
+United States (62%)
+Figure 5: Logs suggest that just over half (62%) of the
+subscribers to E-1’s podcast reside in the United States,
+with other subscribers scattered across more than 50
+other countries.
+covered or not. Moreover, that so many subscribers engaged
+in a course without promise of credit or degree suggests that
+podcasting oﬀers potential not necessarily to educate better
+but to educate further. We explore these ideas further in
+the section that follows.
+5.
+DISCUSSION
+Podcasting may be new, but cameras in classrooms are
+not. For years have universities ﬁlmed some courses’ lectures
+so that students can watch recordings thereof if absent from
+class or in need of review. What podcasting ultimately oﬀers
+are marginal improvements on lectures’ storage and delivery.
+The earliest of media for recordings of lectures (e.g., VHS)
+oﬀered limited bandwidth: only one student could borrow a
+tape at a time. Even before podcasting’s advent had digital
+storage and delivery of lectures already begun to supplant
+magnetic, thanks, in part, to faster networks and proces-
+sors, better codecs, and cheaper storage. As early as 1998
+was Harvard College, for instance, streaming some lectures
+across campus via Microsoft NetShow. With digital stor-
+age and delivery, not only can multiple students now “bor-
+row” the same content at once, they can usually watch it
+anywhere they have Internet access. Distance education has
+further popularized the medium, with videos now commonly
+presented alongside other multimedia.
+In that it oﬀers oﬄine as opposed to streaming playback,
+then, podcasting has simply freed students of the “teth-
+ers” of wired and even wireless Internet access. We daresay
+that podcasting’s potential for academia has been overstated
+with hype: “Could ivy-covered lecture halls become as ob-
+solete as the typewriter?” [11] Not likely, we argue.
+The
+educational value of podcasting as a tool for review seems
+clear. The educational value of podcasting as a replacement
+for live lectures, we admit, depends on the student, as the
+medium might very well be perfect for some students’ styles
+of learning. But on the whole, we view classes on iTunes or
+iPods as “the next best thing” for students for whom atten-
+dance or enrollment is not otherwise possible. What iTunes
+and similar podcast directories oﬀer is ease of access to edu-
+cational content. Like any good software, they lower a bar.
+Insofar as podcasting centralizes and facilitates discovery of
+educational content, it oﬀers universities new opportunities
+to teach, sans credits and degrees, populations at large. By
+no means are all courses suited for the medium. But even a
+few dozen courses from a few dozen universities could still
+ﬁll a podcast directory.
+6.
+FUTURE WORK
+We plan to podcast E-1 in the fall of 2006 as well. Based
+on feedback from students and subscribers, though, we plan
+to oﬀer additional content. Striking among 2005’s logs is the
+popularity of two of E-1’s workshops (Figure 4). Whereas
+E-1’s lectures explore broad categories of topics (e.g., hard-
+ware), workshops emphasize individual topics (e.g., digital
+photography). The popularity of the latter suggests to us an
+interest in more targeted content. Comments from students
+on surveys seem to conﬁrm: “I would like the material to
+be in [diﬀerent] lengths: a two-minute ‘you really [have] to
+know this’ . . . and lectures.” Another student oﬀers: “Per-
+haps you should consider including educational podcasts not
+just teaching podcasts.”
+Not only, then, will we continue to podcast lectures, sec-
+tions, and workshops, we also plan to include “videos of the
+week,” short segments produced by the teaching fellows on
+individual topics relevant to that week’s lecture. Whereas
+lectures will remain comprehensive, these “bite-sized” videos
+will instead “play to the camera,” oﬀering students more fo-
+cused knowledge on demand.
+Moreover, this content will be made available not only
+via podcast but also via Flash [2]. With Flash reportedly
+installed on 97.3% of Internet-enabled desktops [1], we in-
+tend for this medium to lower the bar to E-1’s content even
+further, particularly for visitors without iTunes or iPods (or
+even knowledge thereof).
+7.
+CONCLUSION
+In the fall of 2005, we began to podcast Harvard Exten-
+sion School’s Computer Science E-1 in both audio and video
+formats, the ﬁrst course within Harvard University to do
+so. Our goals were to provide our own students with more
+portable access to the course’s content and to involve them
+in technology itself.
+Through surveys at term’s end, we have found that stu-
+dents valued the podcast more as a vehicle for review (45%)
+than as an alternative to attendance (18%). We have also
+found that most students (71%) tended to listen to or watch
+lectures on their computers, with far fewer relying upon
+audio-only (19%) or video (10%) iPods. Most striking, how-
+ever, is the podcast’s reach. Logs suggest that the podcast
+has acquired between 6,000 and 10,000 subscribers from over
+50 countries.
+Despite the podcast’s popularity, we have argued that
+podcasting, as a delivery mechanism, is but a marginal im-
+provement on trends long in progress. Moreover, we have
+argued that podcasting oﬀers to extend universities’ educa-
+tional reach more than it oﬀers to improve education itself.
+Not only do we plan to podcast E-1 again in the fall of
+2006, we also plan to experiment with alternative forms of
+content so as to revisit this work’s questions with additional
+data and experience.
+APPENDIX
+The URL of E-1’s website is
+http://www.fas.harvard.edu/∼cscie1/.
+The URL of E-1’s podcast (i.e., its RSS feed) is
+http://www.fas.harvard.edu/∼cscie1/podcast/.
+ACKNOWLEDGEMENTS
+Many thanks to E-1’s teaching fellows—Rei Diaz, Dan Ar-
+mendariz, and Roman Rubinstein—without whose time and
+eﬀort this trial would not have been possible. Many thanks
+as well to Elizabeth Hess, Mary Higgins, Chris Mehl, Rod
+Lindheim, and Michael Shinagel for their support of this
+experiment as well as to Michael D. Smith for his assis-
+tance with this work. Many thanks to E-1’s students and
+subscribers, without whose interest and thoughts this work
+would not have been possible.
+And heartfelt thanks to
+Henry H. Leitner for all this and more.
+REFERENCES
+[1] Adobe Systems Incorporated. Flash Player Statistics.
+http://www.adobe.com/products/player census/
+flashplayer/.
+[2] Adobe Systems Incorporated. Flash Professional 8.
+http://www.adobe.com/products/flash/flashpro/.
+[3] Apple Computer, Inc. iPod Family.
+http://www.apple.com/ipod/.
+[4] Apple Computer, Inc. iTunes Overview.
+http://www.apple.com/itunes/overview/.
+[5] Apple Computer, Inc. QuickTime.
+http://www.apple.com/quicktime/.
+[6] Harvard Extension School.
+http://www.extension.harvard.edu/.
+[7] Harvard Extension School. Distance Education.
+http://www.extension.harvard.edu/DistanceEd/.
+[8] Moving Picture Experts Group. ISO/IEC
+JTC1/SC29/WG11. http://www.chiariglione.org/
+mpeg/standards/mpeg-1/mpeg-1.htm.
+[9] RealNetworks, Inc. RealAudio.
+http://www.realnetworks.com/products/codecs/
+realaudio.html.
+[10] RealNetworks, Inc. RealVideo.
+http://www.realnetworks.com/products/codecs/
+realvideo.html.
+[11] Peg Tyre. Professor in Your Pocket. Newsweek, pages
+46–47, November 28, 2005.

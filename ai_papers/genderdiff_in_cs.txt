@@ -1,0 +1,48 @@
+Title: Gender Differences in the Use of Computers, Programming, and Peer Interactions in Computer Science Classrooms
+
+Abstract
+This paper examines the persistent gender differences in the fields of computer science, focusing specifically on the use of computers, programming skills, and peer interactions in classroom environments. Despite increased efforts to make computing fields more inclusive, gender disparities remain evident in enrollment, participation, and engagement within computer science classrooms. By analyzing the factors contributing to these disparities, including social, pedagogical, and psychological influences, this paper highlights the barriers that female students face in computer science education and provides recommendations for creating more inclusive classroom environments.
+
+Introduction
+In recent decades, computer science (CS) has become one of the fastest-growing academic fields, driven by technological advancements and the growing importance of digital literacy. However, a significant gender gap remains in CS classrooms, which may impact the industry’s inclusivity and diversity. Men continue to outnumber women in CS programs worldwide, with factors such as social conditioning, lack of role models, and different levels of experience in using computers and programming tools contributing to this disparity (Margolis & Fisher, 2002). This paper delves into the differences in how male and female students interact with computers, learn programming skills, and engage in peer discussions and collaborations in CS classrooms.
+
+Background and Related Work
+Gender gaps in computing have long been recognized. Studies have shown that men often have more experience with computers and programming before entering higher education, which may give them an advantage in CS courses (Papastergiou, 2008). This pre-existing knowledge gap can influence not only academic performance but also students' confidence and willingness to engage in programming tasks and discussions. Additionally, peer dynamics in CS classrooms often reveal gendered interaction patterns, with male students frequently dominating discussions and group activities (Cheryan et al., 2009). Such disparities may be exacerbated by stereotypes that associate men with technical competence, creating a self-reinforcing cycle where women feel less encouraged to participate fully in computing activities.
+
+Methods
+To examine the gender-based differences in the use of computers, programming, and peer interactions, a survey was conducted among undergraduate students enrolled in introductory CS courses across three major universities. The survey asked students about their prior experience with programming, frequency of computer use, and experiences with peer interactions in the classroom. Additionally, focus group discussions were held with both male and female students to gather qualitative insights into their perceptions of the CS classroom environment.
+
+Results
+Prior Experience with Computers and Programming
+
+Data collected from the survey indicated that male students, on average, reported higher levels of prior experience with computers and programming before entering the classroom. Seventy-five percent of male respondents indicated that they had programmed at least one project before starting their CS studies, compared to just forty-two percent of female respondents. This disparity was consistent across all universities in the study, suggesting a widespread difference in exposure to technology during formative educational years.
+
+Female students were more likely to have used computers for non-technical activities, such as word processing and social media, while male students reported more frequent use of programming and gaming, which may contribute to comfort with coding and computer hardware. This difference in experience impacted students' initial engagement with programming assignments, with female students expressing more anxiety about completing coding tasks.
+
+Programming Confidence and Skills Development
+
+The disparity in prior experience also translated to confidence levels in programming. Male students were more likely to perceive programming tasks as “manageable” or “exciting,” whereas female students often viewed them as “challenging” or “stressful.” The self-reported confidence scores of male students were, on average, 1.5 points higher on a scale of 10 compared to female students. Moreover, female students were more likely to attribute programming successes to “luck” or “effort,” while male students attributed them to “skill” or “aptitude,” suggesting a difference in self-perception that could influence persistence and resilience in CS coursework (Master et al., 2016).
+
+Furthermore, assignments and projects where students worked independently demonstrated more pronounced gender differences in performance, as male students often leveraged their prior experience. However, when assignments involved structured group work, these differences were minimized, indicating that collaborative environments may help mitigate the effects of varying experience levels.
+
+Peer Interactions and Social Dynamics
+
+Peer interactions also revealed distinct patterns between male and female students. Male students were more likely to initiate discussions about programming concepts and participate actively in group activities. Female students, on the other hand, often expressed reluctance to engage, especially in male-dominated groups, citing concerns about being perceived as less knowledgeable. This hesitation was attributed to a fear of reinforcing negative stereotypes or drawing attention to themselves as one of the few female students in the class.
+
+In mixed-gender groups, female students often took on non-technical roles, such as organizing tasks or taking notes, while male students assumed coding and debugging responsibilities. This division of labor perpetuates skill discrepancies and limits opportunities for female students to gain hands-on experience. Conversely, in female-only groups, female students reported feeling more comfortable taking on programming tasks, suggesting that the presence of more female peers may create a supportive environment conducive to skill development.
+
+Discussion
+Addressing the Confidence Gap
+
+The findings reveal that confidence, rather than actual skill level, plays a significant role in how students approach CS coursework. Female students’ lower self-confidence, influenced by less prior exposure to programming, affects their engagement in assignments and peer discussions. Educational strategies that address this confidence gap—such as pairing novice female students with mentors, providing structured programming tutorials, and fostering an inclusive environment—could improve engagement and persistence.
+
+Redefining Peer Dynamics in CS Classrooms
+
+To improve the experience of female students in CS classrooms, it is essential to establish inclusive peer interaction norms. Group activities should be carefully designed to ensure equitable task distribution, allowing female students to take on technical responsibilities. Structured pair programming, where each student has an equal role, can reduce skill-based hierarchies and foster collaborative learning. Additionally, instructors should be trained to recognize and address gender-based dynamics that may emerge in group settings, promoting a classroom culture where all students feel empowered to participate.
+
+Rethinking Computer Science Curriculum Design
+
+Creating a CS curriculum that is inclusive and accessible to students with varying levels of experience can help close the gender gap. Introducing foundational computer literacy courses that cover programming basics could give all students a strong start, regardless of their prior exposure. Additionally, integrating project-based learning and practical applications of programming concepts may appeal to a broader audience, including female students who may feel alienated by abstract coding exercises.
+
+Conclusion
+This study underscores the importance of addressing gender differences in the use of computers, programming, and peer interactions in CS classrooms. The disparities observed in prior experience, programming confidence, and social dynamics contribute to a classroom environment where female students may feel marginalized. By implementing targeted interventions—such as mentorship programs, equitable group activities, and foundational programming courses—CS departments can create an environment where students of all genders can thrive. Addressing these disparities is essential not only for creating a more inclusive academic environment but also for ensuring diversity and innovation in the technology industry.

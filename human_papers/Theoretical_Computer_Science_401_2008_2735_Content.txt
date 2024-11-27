@@ -1,0 +1,563 @@
+Theoretical Computer Science 401 (2008) 27–35
+Contents lists available at ScienceDirect
+Theoretical Computer Science
+journal homepage: www.elsevier.com/locate/tcs
+Enforcing and defying associativity, commutativity, totality, and strong
+noninvertibility for worst-case one-way functions$
+Lane A. Hemaspaandra a, Jörg Rothe b,∗, Amitabh Saxena c
+a Department of Computer Science, University of Rochester, Rochester, NY 14627, USA
+b Institut für Informatik, Heinrich-Heine-Universität Düsseldorf, 40225 Düsseldorf, Germany
+c Department of Computer Science and Computer Engineering, La Trobe University, Bundoora, VIC 3086, Australia
+a r t i c l e
+i n f o
+Article history:
+Received 19 June 2007
+Received in revised form 24 January 2008
+Accepted 16 March 2008
+Communicated by O. Watanabe
+Keywords:
+Computational complexity
+Worst-case one-way functions
+Associativity
+Commutativity
+Strong noninvertibility
+a b s t r a c t
+Rabi and Sherman [M. Rabi, A. Sherman, An observation on associative one-way functions
+in complexity theory, Information Processing Letters 64 (5) (1997) 239–244; M. Rabi, A.
+Sherman, Associative one-way functions: A new paradigm for secret-key agreement and
+digital signatures, Tech. Rep. CS-TR-3183/UMIACS-TR-93-124, Department of Computer
+Science, University of Maryland, College Park, MD, 1993] proved that the hardness
+of factoring is a sufficient condition for there to exist one-way functions (i.e., p-time
+computable, honest, p-time noninvertible functions; this paper is in the worst-case model,
+not the average-case model) that are total, commutative, and associative but not strongly
+noninvertible. In this paper we improve the sufficient condition to P ̸= NP.
+More generally, in this paper we completely characterize which types of one-way
+functions stand or fall together with (plain) one-way functions—equivalently, stand or
+fall together with P ̸= NP. We look at the four attributes used in Rabi and Sherman’s
+seminal work on algebraic properties of one-way functions (see [M. Rabi, A. Sherman, An
+observation on associative one-way functions in complexity theory, Information Processing
+Letters 64 (5) (1997) 239–244; M. Rabi, A. Sherman, Associative one-way functions: A new
+paradigm for secret-key agreement and digital signatures, Tech. Rep. CS-TR-3183/UMIACS-
+TR-93-124, Department of Computer Science, University of Maryland, College Park, MD,
+1993]) and subsequent papers – strongness (of noninvertibility), totality, commutativity,
+and associativity – and for each attribute, we allow it to be required to hold, required to
+fail, or “don’t care”. In this categorization there are 34 = 81 potential types of one-way
+functions. We prove that each of these 81 feature-laden types stands or falls together with
+the existence of (plain) one-way functions.
+© 2008 Elsevier B.V. All rights reserved.
+$ A preliminary version was presented at the 2005 ICTCS conference [L. Hemaspaandra, J. Rothe, A. Saxena, Enforcing and defying associativity,
+commutativity, totality, and strong noninvertibility for one-way functions in complexity theory, in: Proceedings of the 9th Italian Conference on Theoretical
+Computer Science, in: Lecture Notes in Computer Science, vol. 3701, Springer-Verlag, 2005].
+∗Corresponding author. Tel.: +49 211 81 12188; fax: +49 211 81 11667.
+E-mail address: rothe@cs.uni-duesseldorf.de (J. Rothe).
+URLs: http://www.cs.rochester.edu/u/lane/ (L.A. Hemaspaandra), http://ccc.cs.uni-duesseldorf.de/∼rothe/ (J. Rothe),
+http://homepage.cs.latrobe.edu.au/asaxena/ (A. Saxena).
+0304-3975/$ – see front matter © 2008 Elsevier B.V. All rights reserved.
+doi:10.1016/j.tcs.2008.03.014
+28
+L.A. Hemaspaandra et al. / Theoretical Computer Science 401 (2008) 27–35
+1. Introduction
+1.1. Motivation
+In this paper, we study the properties of one-way functions, i.e., properties of functions that are easy to compute, but hard
+to invert. One-way functions are important cryptographic primitives and are the key building blocks in many cryptographic
+protocols. Various models to capture “noninvertibility” and, depending on the model used, various candidates for one-way
+functions have been proposed. The notion of noninvertibility is usually based on the average-case (where the “average-case”
+refers to the difficulty of inversion) complexity model (see, e.g., the book [9] and the references therein) in cryptographic
+applications, whereas noninvertibility for complexity-theoretic one-way functions is usually defined in the worst-case
+model (see the definitions of this paper). Though the average-case model is very important, we note that even the challenge
+of showing that any type of one-way function exists in the “less challenging” worst-case model remains an open issue
+after many years of research. It is thus natural to wonder, as a first step, what assumptions are needed to create various
+types of complexity-theoretic one-way functions. In this paper, we seek to characterize this existence issue in terms of class
+separations. (In addition, we mention that the seminal work on associativity, commutativity, and strong noninvertibility of
+one-way functions, which was done by Rabi and Sherman [25,26] who also proposed concrete protocols to be based on such
+one-way functions, is itself in the worst-case model.)
+Complexity-theoretic one-way functions of various sorts, and related notions, were studied early on by, for example,
+Berman [3], Brassard, Fortune, and Hopcroft [7,6], Ko [24], and especially Grollmann and Selman [11], and have been much
+investigated ever since; see, e.g., [1,32,33,12,30,25,10,20,26,16,4,17,27,8,22,21,15]. The four properties of one-way functions
+to be investigated in this paper are strongness, totality, commutativity, and associativity. Intuitively, strong noninvertibility
+– a notion proposed by Rabi and Sherman [26,25] and more recently studied in [16,21,15] – means that for a two-ary function,
+given some function value and one of the corresponding arguments, it is hard to determine the other argument. It has been
+known for decades that one-way functions exist if and only if P ̸= NP. But the Rabi–Sherman paper brought out the natural
+issue of trying to understand what complexity-theoretic assumptions characterized the existence of one-way functions with
+certain algebraic properties. Eventually, Hemaspaandra and Rothe [16] proved that strong, total, commutative, associative
+one-way functions exist if and only if P ̸= NP. (As mentioned earlier, one-way functions with these properties are the key
+building blocks in Rabi, Rivest, and Sherman’s cryptographic protocols for secret-key agreement and for digital signatures
+(see [26,25]).) The surprising work of Homan [21] both strengthens the results of Rabi and Sherman on the ambiguity that
+must be present in total, associative functions and proves that if one-to-one one-way functions exist, then there exist strong,
+total, associative one-way functions having relatively low ambiguity.
+This paper (a preliminary version of which appeared as [18]) provides a detailed study of the four properties of one-way
+functions mentioned above. For each possible combination of possessing, not possessing, and being oblivious to possession
+of the property, we study the question of whether such one-way functions can exist. Why should one be interested in
+knowing if a one-way function possesses “negative” properties, such as noncommutativity? On the one hand, negative
+properties can also have useful applications. For example, Saxena, Soh, and Zantidis [28,29] propose authentication protocols
+for mobile agents and digital cash with signature chaining that use as their key building blocks strong, associative one-way
+functions for which commutativity in fact is a disadvantage—though they need commutativity to not merely fail but to fail
+far more often than is achieved in the failure constructions of the present paper. More generally and more importantly, given
+that complexity-theoretic one-way functions have already been studied for decades (see the citations above, going as far
+back as the 1970s), it seems natural to try to understand and catalog which types of one-way functions are created by, for
+example, simply assuming P ̸= NP. This paper does that completely with respect to strongness, totality, commutativity, and
+associativity.
+1.2. Summary of our results
+This paper is organized as follows. In Sections 2 and 3, we formally define the notions and notation used, and we provide
+some basic lemmas that allow us to drastically reduce the number of cases we have to consider. We will state the full
+definitions later, but stated merely intuitively, a function is said to be strongly noninvertible if given the output and one
+argument one cannot efficiently find a corresponding other argument; and a function is said to be strong if it is polynomial-
+time computable, strongly noninvertible, and satisfies the natural honesty condition related to strong noninvertibility (so-
+called s-honesty). In Section 4, we prove that the condition P ̸= NP characterizes all 27 cases induced by one-way functions
+that are strong. (The number is 27 = 33 because we are dealing with the case of strong functions, and for each of the
+other three attributes – totality, commutativity, and associativity – there are three possible cases to handle, namely, that
+the property holds, that the property does not hold, and that we are oblivious to whether or not the property holds. And the
+two other blocks of 27 cases that we are about to mention each have 27 cases for the analogous reason.) As a corollary, we
+also obtain a P ̸= NP characterization of all 27 cases where one requires one-way-ness but is oblivious to whether or not
+the functions are strong. In Section 5, we consider functions that are required to be one-way but to not be strong. We show
+that P ̸= NP characterizes all of these 27 cases. Thus, P ̸= NP characterizes all 81 cases overall.
+Table 1 summarizes the support for our results for the 16 key cases in which each of the four properties considered is
+either enforced or defied. (In light of the forthcoming Lemma 3.2, those cases in which one is oblivious to whether some
+L.A. Hemaspaandra et al. / Theoretical Computer Science 401 (2008) 27–35
+29
+Table 1
+Summary of support for the 16 key cases
+Properties
+P ̸= NP characterization for
+(s, t, c, a)
+this case is established by
+(N, N, N, N)
+Lemma 5.2 + Lemma 3.4
+(N, N, N, Y)
+Lemma 5.5 + Lemma 3.4
+(N, N, Y, N)
+Lemma 5.1 + Lemma 3.4
+(N, N, Y, Y)
+Lemma 5.5 + Lemma 3.4
+(N, Y, N, N)
+[15]; see Lemma 5.2
+(N, Y, N, Y)
+Lemma 5.5
+(N, Y, Y, N)
+Lemma 5.1
+(N, Y, Y, Y)
+Lemma 5.5
+Properties
+P ̸= NP characterization for
+(s, t, c, a)
+this case is established by
+(Y, N, N, N)
+Lemma 4.5 + Lemma 3.4
+(Y, N, N, Y)
+Lemma 4.4 + Lemma 3.4
+(Y, N, Y, N)
+Lemma 4.3 + Lemma 3.4
+(Y, N, Y, Y)
+Lemma 4.2 + Lemma 3.4
+(Y, Y, N, N)
+Lemma 4.5
+(Y, Y, N, Y)
+Lemma 4.4
+(Y, Y, Y, N)
+Lemma 4.3
+(Y, Y, Y, Y)
+[16], here restated as Lemma 4.2
+property holds follow immediately from the cases stated in Table 1.) Definition 2.4 provides the classification scheme used
+in this table. The left column of Table 1 has 16 quadruples of the form (s, t, c, a), where s regards “strong”, t means “total”,
+c means “commutative”, and a means “associative”. The variables s, t, c, and a take on a value from {Y, N}, where Y means
+presence (i.e., “yes”), and N means absence (i.e., “no”) of the given property. The right column of Table 1 gives the references
+to the proofs of the results stated.
+1.3. General proof strategy
+We do not attempt to brute-force all 81 cases. Rather, we seek to turn the cases’ structure and connectedness against
+themselves. So, in Section 3 we will reduce the 81 cases to their 16 key cases that do not contain “don’t care” conditions.
+Then, also in Section 3, we will show how to derive the nontotal cases from the total cases, thus further reducing our problem
+to 8 key cases.
+As Corollary 4.6 and, especially, much of Section 5 will show, even among the 8 key cases we share attacks, and find and
+exploit implications.
+Thus, the proof in general consists both of specific constructions – concrete realizations forcing given patterns of
+properties – and the framework that minimizes the number of such constructions needed.
+2. Preliminaries and notations
+Fix the alphabet Σ = {0, 1}. The set of strings over Σ is denoted by Σ ∗. Let ε denote the empty string. Let Σ + = Σ ∗−{ε}.
+For any string x ∈Σ ∗, let |x| denote the length of x. Let ⟨·, ·⟩: Σ ∗×Σ ∗→Σ ∗be some standard pairing function, that is, some
+total, polynomial-time computable bijection that has polynomial-time computable inverses and is nondecreasing in each
+argument when the other argument is fixed. Let FP denote the class of polynomial-time computable functions (this includes
+both total and nontotal functions). This paper focuses completely on mappings from Σ ∗× Σ ∗to Σ ∗(they are allowed to be
+many-to-one and they are allowed to be nontotal, i.e., they may map many distinct pairs of strings from Σ ∗× Σ ∗to one and
+the same string in Σ ∗, and they need not be defined for all pairs in Σ ∗× Σ ∗). (The study of 2-argument one-way functions
+of course is needed if associativity and commutativity are to be studied.) For each function f, let domain(f) denote the set
+of input pairs on which f is defined, and denote the image of f by image(f).
+Definition 2.1 presents the standard notion of a (complexity-theoretic, many-one) one-way function, suitably tailored to
+the case of two-ary functions in the standard way; see [25,26,16,21,15]. (For general introductions to or surveys on one-way
+functions, see [30], [4], and [13, Chapter 2]. For general background on complexity see, e.g., [13,5].) Our one-way functions
+are based on noninvertibility in the worst-case model, as opposed to noninvertibility in the average-case model that is
+more appealing for cryptographic applications. The notion of honesty in Definition 2.1 below is needed in order to preclude
+functions from being noninvertible simply due to the trivial reason that some family of images lacks polynomially short
+preimages.
+Definition 2.1 (One-Way Function). Let σ be a function (it may be either total or nontotal) mapping from Σ ∗× Σ ∗to Σ ∗.
+(i) We say σ is honest if and only if there exists a polynomial p such that for each z ∈image(σ), there exists a pair
+(x, y) ∈domain(σ) such that σ(x, y) = z and |x| + |y| ≤p(|z|).
+(ii) We say σ is (polynomial-time) noninvertible if and only if there exists no function f in FP such that for all z ∈image(σ),
+we have σ(f(z)) = z.
+(iii) We say σ is a one-way function if and only if σ is polynomial-time computable, honest, and noninvertible.
+The four properties of one-way functions that we will study in this paper are strongness, totality, commutativity, and
+associativity. A function σ mapping from Σ ∗× Σ ∗to Σ ∗is said to be total if and only if σ is defined for each pair in Σ ∗× Σ ∗,
+and is said to be nontotal if it is not total. We say that a function is partial if it is either total or nontotal; this says nothing,
+but makes it clear that we are not demanding that the function be total.
+We now define the remaining three properties. Rabi, Rivest, and Sherman (see [26,25]) introduced the notion of
+strongly noninvertible associative one-way functions (strong AOWFs, for short). Rivest and Sherman (as attributed in [26,
+25]) designed cryptographic protocols for two-party secret-key agreement and Rabi and Sherman designed cryptographic
+30
+L.A. Hemaspaandra et al. / Theoretical Computer Science 401 (2008) 27–35
+protocols for digital signatures, both of which need strong, total AOWFs as their key building blocks. They also sketched
+protocols for multiparty secret-key agreement that require strong, total, commutative AOWFs. Strong (and sometimes total
+and commutative) AOWFs have been intensely studied in [16,4,21,15].
+Though Rabi and Sherman’s [26] notion of associativity is meaningful for total functions, it is not meaningful for nontotal
+two-ary functions, as has been noted and discussed in [16]. Thus, we here follow Hemaspaandra and Rothe’s [16] notion of
+associativity, which is appropriate for both total and nontotal two-ary functions, and is designed as an analog to Kleene’s
+1952 [23] notion of complete equality of partial functions. (We mention in passing that if in bullets (i) and (ii) of the following
+definition the Σ ∗is replaced by Σ ∗∪{⊥}, the notions defined remain unchanged.)
+Definition 2.2 (Associativity and Commutativity). Let σ be any partial function mapping from Σ ∗× Σ ∗to Σ ∗. Extend Σ ∗by
+Γ = Σ ∗∪{⊥}, where ⊥is a special symbol indicating, in the usage “σ(x, y) = ⊥”, that σ is not defined for the pair (x, y).
+Define an extension bσ of σ, which maps from Γ × Γ to Γ, as follows:
+bσ(x, y) =
+σ(x, y)
+if x ̸= ⊥and y ̸= ⊥and (x, y) ∈domain(σ)
+⊥
+otherwise.
+(2.1)
+(i) We say σ is associative if and only if for each x, y, z ∈Σ ∗, bσ(bσ(x, y), z) = bσ(x, bσ(y, z)).
+(ii) We say σ is commutative if and only if for each x, y ∈Σ ∗, bσ(x, y) = bσ(y, x).
+Informally speaking, strong noninvertibility (see [26,25]) means that even if a function value and one of the corresponding
+two arguments are given, it is hard to compute the other argument. It is known that, unless P = NP, some noninvertible
+functions are not strongly noninvertible [15]. And, perhaps counterintuitively, it is known that, unless P = NP, some
+strongly noninvertible functions are not noninvertible [15]. That is, unless P = NP, strong noninvertibility does not imply
+noninvertibility. Strong noninvertibility requires a variation of honesty that is dubbed s-honesty in [15]. The notion defined
+now, as “strong (function)” in Definition 2.3, is in the literature typically called a “strong one-way function”. This is quite
+natural. However, to avoid any possibility of confusion as to when we refer to that and when we refer to the notion of a
+“one-way function” (see Definition 2.1; as will be mentioned later, neither of these notions necessarily implies the other),
+we will throughout this paper simply call the notion below “strong” or “a strong function”, rather than “strong one-way
+function”.
+Definition 2.3 (Strong Function). Let σ be any partial function mapping from Σ ∗× Σ ∗to Σ ∗.
+(i) We say σ is s-honest if and only if there exists a polynomial p such that the following two conditions are true:
+(a) For each x, z ∈Σ ∗with σ(x, y) = z for some y ∈Σ ∗, there exists some string ˆy ∈Σ ∗such that σ(x, ˆy) = z and |ˆy| ≤
+p(|x| + |z|).
+(b) For each y, z ∈Σ ∗with σ(x, y) = z for some x ∈Σ ∗, there exists some string ˆx ∈Σ ∗such that σ(ˆx, y) = z and |ˆx| ≤
+p(|y| + |z|).
+(ii) We say σ is (polynomial-time) invertible with respect to the first argument if and only if there exists an inverter g1 ∈FP
+such that for every string z ∈image(σ) and for all x, y ∈Σ ∗with (x, y) ∈domain(σ) and σ(x, y) = z, σ(x, g1(⟨x, z⟩)) = z.
+(iii) We say σ is (polynomial-time) invertible with respect to the second argument if and only if there exists an inverter g2 ∈FP
+such that for every string z ∈image(σ) and for all x, y ∈Σ ∗with (x, y) ∈domain(σ) and σ(x, y) = z, σ(g2(⟨y, z⟩), y) = z.
+(iv) We say σ is strongly noninvertible if and only if σ is neither invertible with respect to the first argument nor invertible
+with respect to the second argument.
+(v) We say σ is strong if and only if σ is polynomial-time computable, s-honest, and strongly noninvertible.
+In this paper, we will look at the 34 = 81 categories of one-way functions that one can get by requiring the properties
+strong/total/commutative/associative to either: hold, fail, or “don’t care”. For each, we will try to characterize whether such
+one-way functions exist.
+We now define a classification scheme suitable to capture all possible combinations of these four properties of one-way
+functions.
+Definition 2.4 (Classification Scheme for One-Way Functions). For each s, t, c, a ∈{Y, N, ∗}, we say that a partial function
+σ : Σ ∗× Σ ∗→Σ ∗is an (s, t, c, a) one-way function (an (s, t, c, a)-OWF, for short) if and only if all the following hold: σ is a
+one-way function, if s = Y then σ is strong, if s = N then σ is not strong, if t = Y then σ is a total function, if t = N then σ is
+a nontotal function, if c = Y then σ is a commutative function, if c = N then σ is a noncommutative function, if a = Y then
+σ is an associative function, and if a = N then σ is a nonassociative function.
+For example, a function is a (Y, Y, Y, Y)-OWF exactly if it is a strong, total, commutative, associative one-way function.
+And note that, under this definition, whenever a setting is ∗, we do not place any restriction as to whether the corresponding
+property holds or fails to hold—that is, ∗is a “don’t care” designator. For example, a function is a (∗, Y, ∗, ∗)-OWF exactly
+if it is a total one-way function. Of course, all (Y, Y, Y, Y)-OWFs are (∗, Y, ∗, ∗)-OWFs. That is, our 81 classes do not seek to
+partition, but rather to allow all possible simultaneous settings and “don’t care”s for these four properties. However, the 16
+such classes with no stars are certainly pairwise disjoint.
+L.A. Hemaspaandra et al. / Theoretical Computer Science 401 (2008) 27–35
+31
+3. Groundwork: Reducing the cases
+In this section, we show how to tackle our ultimate goal, stated as Goal 3.1, by drastically reducing the number of cases
+that are relevant among the 81 possible cases.
+Goal 3.1. For each s, t, c, a ∈{Y, N, ∗}, characterize the existence of (s, t, c, a)-OWFs in terms of some suitable complexity-
+theoretic condition.
+Since ∗is a “don’t care”, for a given ∗position the characterization that holds with that ∗is simply the “or” of the
+characterizations that hold with each of Y and N substituted for the ∗. For example, clearly there exist (Y, Y, Y, ∗)-OWFs
+if and only if either there exist (Y, Y, Y, Y)-OWFs or there exist (Y, Y, Y, N)-OWFs. And cases with more than one ∗can be
+“unwound” by repeating this. So, to characterize all 81 cases, it suffices to characterize the 16 cases stated in Table 1.
+Lemma 3.2.
+(i) For each t, c, a ∈{Y, N, ∗}, there exist (∗, t, c, a)-OWFs if and only if either there exist (Y, t, c, a)-OWFs or there
+exist (N, t, c, a)-OWFs.
+(ii) For each s, c, a ∈{Y, N, ∗}, there exist (s, ∗, c, a)-OWFs if and only if either there exist (s, Y, c, a)-OWFs or there exist
+(s, N, c, a)-OWFs.
+(iii) For each s, t, a ∈{Y, N, ∗}, there exist (s, t, ∗, a)-OWFs if and only if either there exist (s, t, Y, a)-OWFs or there exist
+(s, t, N, a)-OWFs.
+(iv) For each s, t, c ∈{Y, N, ∗}, there exist (s, t, c, ∗)-OWFs if and only if either there exist (s, t, c, Y)-OWFs or there exist
+(s, t, c, N)-OWFs.
+It is well known (see [2] and Proposition 1 of [30]) that P ̸= NP if and only if (∗, ∗, ∗, ∗)-OWFs exist, i.e., P ̸= NP if and only
+if there exist one-way functions, regardless of whether or not they possess any of the four properties. So, in the upcoming
+proofs, we will often focus on just showing that P ̸= NP implies the given type of OWF exists.
+Lemma 3.3. For each s, t, c, a ∈{Y, N, ∗}, if there are (s, t, c, a)-OWFs then P ̸= NP.
+Next, we show that all cases involving nontotal one-way functions can be easily reduced to the corresponding cases
+involving total one-way functions. Thus, we have eliminated the eight “nontotal” of the remaining 16 cases, provided we
+can solve the eight “total” cases.
+Lemma 3.4. For each s, c, a ∈{Y, N}, if there exists an (s, Y, c, a)-OWF, then there exists an (s, N, c, a)-OWF.
+Proof. Fix any s, c, a ∈{Y, N}, and let σ be any given (s, Y, c, a)-OWF. For each string w ∈Σ ∗, let w+ denote the successor
+of w in the standard lexicographic ordering of Σ ∗, and for each string w ∈Σ +, let w−denote the predecessor of w in the
+standard lexicographic ordering of Σ ∗.
+Define a function ρ : Σ ∗× Σ ∗→Σ ∗by
+ρ(x, y) =
+(σ(x−, y−))+
+if x ̸= ε ̸= y
+undefined
+otherwise.
+Note that ρ is nontotal, since it is not defined on the pair (ε, ε). It is a matter of routine to check that ρ is a one-way function,
+i.e., polynomial-time computable, honest, and noninvertible. It remains to show that ρ inherits all the other properties from
+σ as well. To this end, we show the following claim.
+Claim 1.
+(i) σ is commutative if and only if ρ is commutative.
+(ii) σ is associative if and only if ρ is associative.
+(iii) σ is strong if and only if ρ is strong.
+Proof of Claim 1. We check these properties separately.
+(i) Commutativity: Suppose that σ is commutative. Given any strings x, y ∈Σ ∗, if x = ε or y = ε, then both ρ(x, y) and ρ(y, x)
+are undefined. If x ̸= ε ̸= y, then the commutativity of σ implies that ρ(x, y) = (σ(x−, y−))+ = (σ(y−, x−))+ = ρ(y, x).
+So bρ(x, y) = bρ(y, x). By Definition 2.2, ρ is commutative.
+Conversely, suppose that σ is noncommutative. Since σ is total, we do not have to worry about holes in the domain
+of σ. Let a and b be fixed strings in Σ ∗such that σ(a, b) ̸= σ(b, a). It follows that ρ(a+, b+) ̸= ρ(b+, a+). Thus, ρ is
+noncommutative.
+(ii) Associativity: Suppose that σ is associative. Let x, y, and z be any strings in Σ ∗. If x = ε or y = ε or z = ε, then both
+ρ(x, ρ(y, z)) and ρ(ρ(x, y), z) are undefined. If none of x, y, and z equals the empty string, then the associativity of σ
+implies ρ(x, ρ(y, z)) = (σ(x−, σ(y−, z−)))+ = (σ(σ(x−, y−), z−))+ = ρ(ρ(x, y), z). So bρ(x,bρ(y, z)) = bρ(bρ(x, y), z). By
+Definition 2.2, ρ is associative.
+Conversely, suppose that σ is nonassociative. Let a, b, and c be fixed strings in Σ ∗such that σ(a, σ(b, c)) ̸=
+σ(σ(a, b), c). Since σ is total, each of σ(a, b), σ(b, c), σ(a, σ(b, c)), and σ(σ(a, b), c) is defined. So (ρ(a+, ρ(b+, c+)))−=
+σ(a, σ(b, c))
+̸= σ(σ(a, b), c)
+= (ρ(ρ(a+, b+), c+))−, which implies ρ(a+, ρ(b+, c+))
+̸= ρ(ρ(a+, b+), c+). Thus,
+bρ(a+,bρ(b+, c+)) ̸= bρ(bρ(a+, b+), c+). By Definition 2.2, ρ is nonassociative.
+32
+L.A. Hemaspaandra et al. / Theoretical Computer Science 401 (2008) 27–35
+(iii) Strongness: First, we note thatσ is s-honest if and only ifρ is s-honest. Let p be some polynomial witnessing the s-honesty
+of σ as per Definition 2.3:
+(a) For each x, z ∈Σ ∗with σ(x, y) = z for some y ∈Σ ∗, there exists some string ˆy ∈Σ ∗such that σ(x, ˆy) = z and |ˆy| ≤
+p(|x| + |z|).
+(b) For each y, z ∈Σ ∗with σ(x, y) = z for some x ∈Σ ∗, there exists some string ˆx ∈Σ ∗such that σ(ˆx, y) = z and |ˆx| ≤
+p(|y| + |z|).
+Since ρ shifts the arguments and the function value of σ just by one position in the lexicographic ordering on Σ ∗, the
+polynomial q(n) = p(n) + 1 witnesses the s-honesty of ρ. The converse is proven analogously.
+Now, we show that σ is strongly noninvertible if and only if ρ is strongly noninvertible. Suppose that σ is invertible
+with respect to the first argument via some inverter g1 in FP. That is, for each string z ∈image(σ) and for all x, y ∈Σ ∗
+with (x, y) ∈domain(σ) and σ(x, y) = z, we have σ(x, g1(⟨x, z⟩)) = z. From g1 we construct an inverter f1 ∈FP that
+inverts ρ with respect to the first argument as follows. Let z be any string in image(ρ), and let x, y ∈Σ ∗be any strings
+such that (x, y) ∈domain(ρ) and ρ(x, y) = z. Given ⟨x, z⟩, f1 computes (g1(⟨x−, z−⟩))+. Note that ρ never maps to the
+empty string, so z ̸= ε and z−is well-defined. Similarly, x ̸= ε because (x, y) ∈domain(ρ), so x−is well-defined. Thus,
+ρ(x, f1(⟨x, z⟩)) = ρ(x, (g1(⟨x−, z−⟩))+) = z. Similarly, an inverter with respect to the second argument can be built for ρ
+given one for σ.
+Conversely, given an inverter for ρ with respect to the first (respectively, second) argument, an inverter for σ with
+respect to the first (respectively, second) argument can be constructed by reverting the shifting above. Thus, if ρ is not
+strongly noninvertible, neither is σ.
+This completes the proof of Claim 1 and Lemma 3.4.
+Lemmas 3.2–3.4 imply that it suffices to deal with only the “total” cases. That is, to achieve Goal 3.1, it would be enough to
+show that if P ̸= NP then each of the following eight types of one-way functions exist: (Y, Y, Y, Y)-OWFs, (Y, Y, Y, N)-OWFs,
+(Y, Y, N, Y)-OWFs, (Y, Y, N, N)-OWFs, (N, Y, Y, Y)-OWFs, (N, Y, Y, N)-OWFs, (N, Y, N, Y)-OWFs, and (N, Y, N, N)-OWFs. In
+the following sections, we will study each of these cases. Table 1 summarizes where each of these is established.
+4. Strongness and being oblivious to strongness
+In this section, we consider the “strong”-is-required cases (the (Y, t, c, a)-OWF cases) and those cases where the property
+of strongness is a “don’t care” issue (the (∗, t, c, a)-OWF cases). We start with the 27 “strong” cases. Theorem 4.1 below
+characterizes each of these cases by the condition P ̸= NP. The proof of Theorem 4.1 follows from the upcoming Lemma 4.2–
+4.5, via Lemmas 3.2–3.4. (That is, as mentioned earlier, the number 27 = 33 comes from the fact that “strong” is set to “Y”,
+and for each of “total”, “commutative”, and “associative”, the cases “Y”, “N”, and “∗” must be handled. However, the lemmas
+from Section 3 will allow us to establish these results via simply establishing the first four of the eight conditions mentioned
+in the final paragraph of Section 3.)
+Theorem 4.1. For each t, c, a ∈{Y, N, ∗}, there exist (Y, t, c, a)-OWFs if and only if P ̸= NP.
+Lemma 4.2 is already known from Hemaspaandra and Rothe’s work [16].
+Lemma 4.2. If P ̸= NP then there exist (Y, Y, Y, Y)-OWFs.
+The equivalence (due to [16], and following immediately from Lemma 4.2 in light of Lemma 3.3) of P ̸= NP and the
+existence of (Y, Y, Y, Y)-OWFs will be exploited in the upcoming proofs of Lemmas 4.3–4.5. That is, in these proofs, we start
+from a strong, total, commutative, associative one-way function.
+Lemma 4.3. If P ̸= NP then there exist (Y, Y, Y, N)-OWFs.
+The proof is omitted here, but is available in detail in the technical report version of this paper [19].
+Lemma 4.4. If P ̸= NP then there exist (Y, Y, N, Y)-OWFs.
+Proof. Assume P ̸= NP. By Lemma 4.2, let σ be a (Y, Y, Y, Y)-OWF. Define a function ρ : Σ ∗× Σ ∗→Σ ∗by
+ρ(x, y) =
+
+
+
+y
+if x, y ∈{0, 1}
+(σ(x3−, y3−))3+
+if x ̸∈{ε, 0, 1} ∧y ̸∈{ε, 0, 1})
+ε
+otherwise,
+where we use the following shorthand: Recall from the proof of Lemma 3.4 that, in the standard lexicographic ordering
+of Σ ∗, w+ denotes the successor of w ∈Σ ∗and w−denotes the predecessor of w ∈Σ +. For w ∈Σ ∗, let w3+ = ((w+)+)+, and
+for w ∈Σ ∗with w ̸∈{ε, 0, 1}, let w3−= ((w−)−)−.
+It is easy to see, given the fact that σ is a (Y, Y, Y, Y)-OWF, that ρ is a strongly noninvertible, s-honest, total one-way
+function. However, unlike σ, ρ is noncommutative, since ρ(0, 1) = 1 ̸= 0 = ρ(1, 0). To see that ρ, just like σ, is associative,
+let three arbitrary strings be given, say a, b, and c. Distinguish the following cases:
+L.A. Hemaspaandra et al. / Theoretical Computer Science 401 (2008) 27–35
+33
+Case 1: Each of a, b, and c is a member of {0, 1}. Then, associativity follows from the definition of ρ: ρ(a, ρ(b, c)) = ρ(a, c) =
+c = ρ(b, c) = ρ(ρ(a, b), c).
+Case 2: None of a, b, and c is a member of {ε, 0, 1}. Then the associativity of ρ follows immediately from the associativity
+of σ. That is, ρ(a, ρ(b, c)) = ρ(a, (σ(b3−, c3−))3+) = (σ(a3−, σ(b3−, c3−)))3+
+= (σ(σ(a3−, b3−), c3−))3+
+=
+ρ((σ(a3−, b3−))3+, c) = ρ(ρ(a, b), c). Note here that both (σ(a3−, b3−))3+ and (σ(b3−, c3−))3+ are strings that are
+not members of {ε, 0, 1}.
+Case 3: At least one of a, b, and c is not a member of {0, 1}, and at least one of a, b, and c is a member of {ε, 0, 1}. In this case, it
+follows from the definition of ρ that ρ(a, ρ(b, c)) = ε = ρ(ρ(a, b), c).
+Thus, ρ is a (Y, Y, N, Y)-OWF.
+Lemma 4.5. If P ̸= NP then there are (Y, Y, N, N)-OWFs.
+The proof is omitted here, but is available in detail in the technical report version of this paper [19].
+Next, we note Corollary 4.6, which follows immediately from Theorem 4.1 via Lemmas 3.2 and 3.3. That is, in light of
+Lemmas 3.2 and 3.3, Theorem 4.1 provides also a P ̸= NP characterization of all 27 cases where one requires one-way-ness
+but is oblivious to whether or not the functions are guaranteed to be strong.
+Corollary 4.6. For each t, c, a ∈{Y, N, ∗}, there are (∗, t, c, a)-OWFs if and only if P ̸= NP.
+5. Nonstrongness
+It remains to prove the 27 “nonstrong” cases (i.e., the (N, t, c, a)-OWF cases). All 27 have P ̸= NP as a necessary condition.
+For each of them, we also completely characterize the existence of such OWFs by P ̸= NP. (The number 27 = 33 comes from
+the fact that “strong” is set to “N”, and for each of “total”, “commutative”, and “associative”, the cases “Y”, “N”, and “∗” must
+be handled. However, the lemmas from Section 3 will allow us to establish these results via simply establishing the final
+four of the eight conditions mentioned in the final paragraph of Section 3.)
+First, we consider two “total” and “nonstrong” cases in Lemmas 5.1 and 5.2 below. Note that Hemaspaandra, Pasanen,
+and Rothe [15] constructed one-way functions that in fact are not strongly noninvertible. Unlike Lemmas 5.1 and 5.2,
+however, they did not consider associativity and commutativity. Note that, in the proofs of Lemmas 5.1 and 5.2, we achieve
+“nonstrongness” while ensuring that the functions constructed are s-honest. That is, they are not “nonstrong” because they
+are not s-honest, but rather they are “nonstrong” because they are not strongly noninvertible.
+Lemma 5.1. If P ̸= NP then there exist (N, Y, Y, N)-OWFs.
+Proof. Assuming P ̸= NP, we define an (N, Y, Y, N)-OWF that is akin to a function constructed in Theorem 3.4 of [15] (which
+is also available as Theorem 3 of [14]).
+Define a function σ : Σ ∗× Σ ∗→Σ ∗by
+σ(x, y) =
+1ρ(x)
+if x = y
+0 min(x, y) max(x, y)
+if x ̸= y,
+where min(x, y) denotes the lexicographically smaller of x and y, max(x, y) denotes the lexicographically greater of x and y,
+and ρ : Σ ∗→Σ ∗is a total one-ary one-way function, which exists assuming P ̸= NP. Note that σ is polynomial-time
+computable, total, honest, and s-honest. Clearly, if σ could be inverted in polynomial time then ρ could be too. Thus, σ is a
+one-way function. However, although σ is s-honest, it is not strong. To prove that σ is not strongly noninvertible, we show
+that it is invertible with respect to each of its arguments. Define a function f1 : Σ ∗→Σ ∗by
+f1(a) =
+
+
+
+y
+if (∃x, y, z ∈Σ ∗) [a = ⟨x, 0z⟩∧z = xy ∧x <lex y]
+y
+if (∃x, y, z ∈Σ ∗) [a = ⟨x, 0z⟩∧z = yx ∧y <lex x]
+x
+if (∃x, z ∈Σ ∗) [a = ⟨x, 1z⟩]
+ε
+otherwise,
+where x <lex y indicates that x is strictly smaller than y in the lexicographic ordering of Σ ∗. Note that f1 is in FP and that f1
+inverts σ with respect to the first argument. Although this is already enough to defy strong noninvertibility of σ, we note
+that one can analogously show that σ also is invertible with respect to the second argument.
+To see that σ is commutative, note that if x ̸=
+y then σ(x, y) = 0 min(x, y) max(x, y) = σ(y, x). (Although the
+x = y case does not need to be discussed to establish commutativity, for completeness we mention that if x = y then
+σ(x, y) = 1ρ(x) = σ(y, x).) To see thatσ is nonassociative, note thatσ(σ(1, 0), 001) = σ(001, 001) = 1ρ(001) ̸= 0100001 =
+σ(1, 00001) = σ(1, σ(0, 001)).
+Thus, σ is an (N, Y, Y, N)-OWF, which completes the proof.
+Lemma 5.2. If P ̸= NP then there exist (N, Y, N, N)-OWFs.
+34
+L.A. Hemaspaandra et al. / Theoretical Computer Science 401 (2008) 27–35
+Proof. Assume that P ̸= NP. So there exists a total one-argument one-way function ρ : Σ ∗→Σ ∗. In Theorem 3.4 of [15], a
+function σ : Σ ∗× Σ ∗→Σ ∗is constructed as follows:
+σ(x, y) =
+1ρ(x)
+if x = y
+0xy
+if x ̸= y.
+It is shown in [15] that σ is a total, s-honest one-way function that is not strongly noninvertible.
+To see that σ is noncommutative, note that σ(0, 1) = 001 ̸= 010 = σ(1, 0). To see that σ is nonassociative, note that
+σ(σ(0, 1), 001) = 1ρ(001) ̸= 0001001 = σ(0, σ(1, 001)). Thus, σ is an (N, Y, N, N)-OWF, which completes the proof.
+Next, we observe that the two remaining “total” and “nonstrong” cases are connected: Lemma 5.3 shows that, given an
+(N, Y, Y, Y)-OWF, one can construct an (N, Y, N, Y)-OWF. Thus, by Lemma 3.4, characterizing via P ̸= NP just the case of
+(N, Y, Y, Y)-OWFs will suffice to solve all the four remaining cases (namely, NYYY, NYNY, NNYY, and NNNY) at once.
+Lemma 5.3. If there exist (N, Y, Y, Y)-OWFs, then there exist (N, Y, N, Y)-OWFs.
+The proof of Lemma 5.3 is closely related to that of Lemma 4.4, and can be found in the technical report version of this paper
+[19].
+We now turn to completely characterizing the existence of (N, Y, Y, Y)-OWFs. A transformation from the literature that
+might seem to come close to establishing “if P ̸= NP, then (N, Y, Y, Y)-OWFs exist” has been shown to be flawed unless an
+unlikely complexity class collapse occurs.1 However, the following result of Rabi and Sherman does provide evidence that
+(N, Y, Y, Y)-OWFs indeed exist.
+Theorem 5.4 ([26,25]). If factoring is not in polynomial time, then there exist (N, Y, Y, Y)-OWFs.
+We now improve that sufficient condition to P ̸= NP.
+Lemma 5.5. If P ̸= NP then there exist (N, Y, Y, Y)-OWFs and (N, Y, N, Y)-OWFs.
+Proof. By Lemma 5.3, it suffices to handle the case of (N, Y, Y, Y)-OWFs. So, assume P ̸= NP. This implies that there exists
+a total, one-way function f : Σ ∗→Σ ∗. Define the function g : Σ ∗× Σ ∗→Σ ∗by
+g(x, y) =
+0f(a)
+if x = 1a and y = 1a
+ε
+otherwise.
+g is clearly a one-way function. g also is clearly total and commutative. g is associative since it is not hard to see that
+(∀a, b, c)[g(a, g(b, c)) = g(g(a, b), c) = ε]. Though g is easily seen to be s-honest, g fails to be strongly noninvertible, and so is
+not strong. In particular, given the output and a purported first argument, here is how to find a second argument consistent
+with the first argument when one exists. If the output is ε and the purported first argument is z, then output ε as a second
+argument. If the output is 0y and the purported first argument is 1x, then if f(x) = y a good second argument is 1x. In every
+other case, the output and purported first argument cannot have any second argument that is consistent with them, so we
+safely (though irrelevantly, except for achieving totality of our inverter if one desires that) in this case have our inverter
+output ε.
+Theorem 5.6. For each t, c, a ∈{Y, N, ∗}, there exist (N, t, c, a)-OWFs if and only if P ̸= NP.
+The proof of Theorem 5.6 follows immediately from Lemmas 5.1, 5.2 and 5.5, via Lemmas 3.2–3.4.
+In conclusion, this paper studied the question of whether one-way functions can exist, where one imposes either
+possession, nonpossession, or being oblivious to possession of the properties of strongness, totality, commutativity, and
+associativity. We have shown that P ̸= NP is a necessary and sufficient condition in each of the possible 81 cases.
+1 In more detail: Rabi and Sherman [25,26], assuming P ̸= NP, constructed a nontotal, commutative, associative (in a slightly weaker model of
+associativity for partial functions that completely coincides with our model when speaking of total functions) one-way function that appears to fail to
+possess strong noninvertibility. They also proposed a construction that they claim can be used to transform every nontotal AOWF whose domain is in P to a
+total AOWF. However, their claim does not provide an (N, Y, Y, Y)-OWF, due to some subtle technical points. First, Rabi and Sherman’s construction – even
+if their claim were valid – is not applicable to the nonstrong, nontotal, commutative AOWF they construct, since this function seems to not have a domain
+in P. Second, it is not at all clear that their above-mentioned “construction to add totality” has the properties they assert for it. In particular, let UP as usual
+denote Valiant’s [31] class representing “unambiguous polynomial time”. Hemaspaandra and Rothe showed in [16] that any proof that the Rabi–Sherman
+claim about their transformation’s action is in general valid would immediately prove that UP = NP, which is considered unlikely.
+L.A. Hemaspaandra et al. / Theoretical Computer Science 401 (2008) 27–35
+35
+Acknowledgments
+We are grateful to the referee and the editor for helpful comments and suggestions. The first author was supported in
+part by NSF grant CCF-0426761, an Alexander von Humboldt Foundation TransCoop grant, and a Friedrich Wilhelm Bessel
+Research Award. His work was done in part while visiting Julius-Maximilians-Universität Würzburg and Heinrich-Heine-
+Universität Düsseldorf. The second author was supported in part by an Alexander von Humboldt Foundation TransCoop
+grant and DFG grants RO 1202/9-1, RO 1202/9-3, and RO 1202/11-1. His work was done in part while visiting the University
+of Rochester and Julius-Maximilians-Universität Würzburg.
+References
+[1] E. Allender, R. Rubinstein, P-printable sets, SIAM Journal on Computing 17 (6) (1988) 1193–1202.
+[2] J. Balcázar, J. Díaz, J. Gabarró, Structural Complexity I, in: EATCS Monographs on Theoretical Computer Science, 2nd ed., Springer-Verlag, 1995.
+[3] L. Berman, Polynomial reducibilities and complete sets, Ph.D. Thesis, Cornell University, Ithaca, NY, 1977.
+[4] A. Beygelzimer, L. Hemaspaandra, C. Homan, J. Rothe, One-way functions in worst-case cryptography: Algebraic and security properties are on the
+house, SIGACT News 30 (4) (1999) 25–40.
+[5] D. Bovet, P. Crescenzi, Introduction to the Theory of Complexity, Prentice Hall, 1993.
+[6] G. Brassard, A note on the complexity of cryptography, IEEE Transactions on Information Theory 25 (2) (1979) 232–233.
+[7] G. Brassard, S. Fortune, J. Hopcroft, A note on cryptography and NP∩coNP−P, Tech. Rep. TR-338, Department of Computer Science, Cornell University,
+Ithaca, NY, Apr. 1978.
+[8] S. Fenner, L. Fortnow, A. Naik, J. Rogers, Inverting onto functions, Information and Computation 186 (1) (2003) 90–103.
+[9] O. Goldreich, Foundations of Cryptography, Cambridge University Press, 2001.
+[10] E. Grädel, Definability on finite structures and the existence of one-way functions, Methods of Logic in Computer Science 1 (1994) 299–314.
+[11] J. Grollmann, A. Selman, Complexity measures for public-key cryptosystems, SIAM Journal on Computing 17 (2) (1988) 309–335.
+[12] J. Hartmanis, L. Hemachandra, One-way functions and the nonisomorphism of NP-complete sets, Theoretical Computer Science 81 (1) (1991) 155–163.
+[13] L. Hemaspaandra, M. Ogihara, The Complexity Theory Companion, in: EATCS Texts in Theoretical Computer Science, Springer-Verlag, Berlin,
+Heidelberg, New York, 2002.
+[14] L. Hemaspaandra, K. Pasanen, J. Rothe, If P ̸= NP then some strongly noninvertible functions are invertible, in: Proceedings of the 13th International
+Symposium on Fundamentals of Computation Theory, in: Lecture Notes in Computer Science, vol. 2138, Springer-Verlag, 2001.
+[15] L. Hemaspaandra, K. Pasanen, J. Rothe, If P ̸= NP then some strongly noninvertible functions are invertible, Theoretical Computer Science 362 (1–3)
+(2006) 54–62.
+[16] L. Hemaspaandra, J. Rothe, Creating strong, total, commutative, associative one-way functions from any one-way function in complexity theory,
+Journal of Computer and System Sciences 58 (3) (1999) 648–659.
+[17] L. Hemaspaandra, J. Rothe, Characterizing the existence of one-way permutations, Theoretical Computer Science 244 (1–2) (2000) 257–261.
+[18] L. Hemaspaandra, J. Rothe, A. Saxena, Enforcing and defying associativity, commutativity, totality, and strong noninvertibility for one-way functions
+in complexity theory, in: Proceedings of the 9th Italian Conference on Theoretical Computer Science, in: Lecture Notes in Computer Science, vol. 3701,
+Springer-Verlag, 2005.
+[19] L. Hemaspaandra, J. Rothe, A. Saxena, Enforcing and defying associativity, commutativity, totality, and strong noninvertibility for one-way functions
+in complexity theory, Technical Report TR-854, Department of Computer Science, University of Rochester, Rochester, NY, Dec. 2004. Revised Nov.
+2007. Also appears as ACM Computing Research Repository (CoRR) Technical Report cs.CC/0503049 (March 2005, revised Nov. 2007).
+[20] L. Hemaspaandra, J. Rothe, G. Wechsung, On sets with easy certificates and the existence of one-way permutations, in: Proceedings of the 3rd Italian
+Conference on Algorithms and Complexity, in: Lecture Notes in Computer Science, vol. 1203, Springer-Verlag, 1997.
+[21] C. Homan, Tight lower bounds on the ambiguity of strong, total, associative, one-way functions, Journal of Computer and System Sciences 68 (3)
+(2004) 657–674.
+[22] C. Homan, M. Thakur, One-way permutations and self-witnessing languages, Journal of Computer and System Sciences 67 (3) (2003) 608–622.
+[23] S. Kleene, Introduction to Metamathematics, D. van Nostrand Company, Inc., New York, Toronto, 1952.
+[24] K. Ko, On some natural complete operators, Theoretical Computer Science 37 (1) (1985) 1–30.
+[25] M. Rabi, A. Sherman, Associative one-way functions: A new paradigm for secret-key agreement and digital signatures, Tech. Rep. CS-TR-3183/UMIACS-
+TR-93-124, Department of Computer Science, University of Maryland, College Park, MD, 1993.
+[26] M. Rabi, A. Sherman, An observation on associative one-way functions in complexity theory, Information Processing Letters 64 (5) (1997) 239–244.
+[27] J. Rothe, L. Hemaspaandra, On characterizing the existence of partial one-way permutations, Information Processing Letters 82 (3) (2002) 165–171.
+[28] A. Saxena, B. Soh, A novel method for authenticating mobile agents with one-way signature chaining, in: Proceedings of the 7th International
+Symposium on Autonomous Decentralized Systems, IEEE Computer Society Press, 2005.
+[29] A. Saxena, B. Soh, D. Zantidis, A digital cash protocol based on additive zero knowledge, in: Proceedings of the 3rd International Workshop on Internet
+Communications Security, in: Lecture Notes in Computer Science, vol. 3482, Springer Verlag, 2005.
+[30] A. Selman, A survey of one-way functions in complexity theory, Mathematical Systems Theory 25 (3) (1992) 203–221.
+[31] L. Valiant, The relative complexity of checking and evaluating, Information Processing Letters 5 (1) (1976) 20–23.
+[32] O. Watanabe, On hardness of one-way functions, Information Processing Letters 27 (3) (1988) 151–157.
+[33] O. Watanabe, On one-way functions, in: D. Du, H. Guoding (Eds.), Combinatorics, Computing and Complexity, Kluwer Academic Publishers, 1989,
+pp. 98–131.

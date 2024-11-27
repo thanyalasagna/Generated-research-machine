@@ -1,0 +1,642 @@
+Theoretical Computer Science 374 (2007) 203–213
+www.elsevier.com/locate/tcs
+Ranks of graphs: The size of acyclic orientation cover for
+deadlock-free packet routing$
+R. Kr´aloviˇca,∗, P. Ruˇziˇckab
+a Department of Computer Science, Faculty of Mathematics and Physics, Comenius University, Bratislava, Slovakia
+b Institute of Informatics, Faculty of Mathematics and Physics, Comenius University, Bratislava, Slovakia
+Received 28 February 2004; received in revised form 28 September 2006; accepted 5 October 2006
+Communicated by D. Peleg
+Abstract
+Given a graph G, the problem is to determine an acyclic orientation of G which minimizes the maximal number of changes
+of orientation along any shortest path in G. The corresponding value is called the rank of the graph G. The motivation for this
+graph theoretical problem comes from the design of deadlock-free packet routing protocols [G. Tel, Deadlock-free packet switching
+networks, in: Introduction to Distributed Algorithms, Cambridge University Press, Cambridge, UK, 1994 (Chapter 5)].
+This acyclic orientation covering problem on the shortest path systems has been studied in [J.-C. Bermond, M. Di Ianni,
+M. Flammini, S. Perennes, Acyclic orientations for deadlock prevention in interconnection networks, in: 23rd International
+Workshop on Graph-Theoretic Concepts in Computer Science (WG), in: Lecture Notes in Computer Science, vol. 1335, Springer-
+Verlag, 1997, pp. 52–64] where it was shown that the general problem of determining the rank is NP-complete and some upper
+and lower bounds on the rank were presented for particular topologies, such as grids, tori and hypercubes. The main unresolved
+problem stated in [J.-C. Bermond, M. Di Ianni, M. Flammini, S. Perennes, Acyclic orientations for deadlock prevention in
+interconnection networks, in: 23rd International Workshop on Graph-Theoretic Concepts in Computer Science (WG), in: Lecture
+Notes in Computer Science, vol. 1335, Springer-Verlag, 1997, pp. 52–64] was to determine the rank values for other well-known
+interconnection networks and also for more general classes of graphs.
+In this paper we give a general lower bound argument for the rank problem and apply it to the class of involution-generated
+Cayley graphs which among others include hypercubes, star graphs, pancake graphs and transposition-tree based graphs [S.B.
+Akers, B. Krishnamurthy, A group-theoretic model for symmetric interconnection networks, IEEE Transactions on Computers 38
+(4) (1989) 555–565]. We also present a large class LC P(T,SP) of graphs with constant rank. This class of graphs is deﬁned as the
+layered cross product [S. Even, A. Litman, Layered cross product—A technique to construct interconnection networks, Networks
+29 (1997) 219–223] of layered trees and series–parallel graphs and includes among others butterﬂies, Beneˇs networks, fat-trees
+and meshes of trees. For some special topologies, improved lower bounds on the rank are also presented. We consider some of the
+modiﬁed versions of the rank problem as well.
+c⃝2007 Elsevier B.V. All rights reserved.
+Keywords: Communication networks; Packet routing; Acyclic orientation cover
+$ This research was supported in part by VEGA 1/3106/06.
+∗Corresponding author.
+E-mail address: kralovic@dcs.fmph.uniba.sk (R. Kr´aloviˇc).
+0304-3975/$ - see front matter c⃝2007 Elsevier B.V. All rights reserved.
+doi:10.1016/j.tcs.2006.10.036
+204
+R. Kr´aloviˇc, P. Ruˇziˇcka / Theoretical Computer Science 374 (2007) 203–213
+1. Introduction
+In this paper we focus on the graph theoretical problem of determining the rank of a graph. The problem is
+informally stated as follows. Consider a graph G and the path system P consisting of all shortest paths between
+every pair of vertices. Given an acyclic orientation of G, we denote as a rank of a path P the number of changes of
+orientation caused by P. The goal is to ﬁnd an acyclic orientation of G which minimizes the maximal rank of a path
+from P. This value is called the rank of G.
+The motivation for this problem follows from the design of deadlock-free packet routing protocols. Consider a
+point-to-point (store-and-forward) network, where each node has a number of buffers. Messages are only allowed to
+be sent to and received from buffers (i.e. in order to send a message, it must be stored into a free buffer on the sender’s
+side ﬁrst; then a free buffer on the recipient’s side must be found; otherwise the communication is delayed). The aim of
+the protocol is to avoid deadlocks (i.e. the situations where messages are cyclically waiting for buffers) with minimal
+number of buffers per node.
+One of the studied techniques [11,6,3,8,10,9] for constructing deadlock-free protocols is based on acyclic
+orientations (i.e. directed acyclic graphs obtained by orienting edges of the given undirected graph). A sequence
+of acyclic orientations is constructed and in each node there is one buffer reserved for each orientation. Messages are
+sent to the buffer i only in the direction of the i-th acyclic orientation. Moreover, each message has to use buffers in
+non-decreasing order which gives the desired deadlock avoidance property.
+Recently [3], attention has been devoted to a special case of this deadlock prevention technique in which
+the constructed sequence S of acyclic orientations has to consist of two alternating orientations S
+=
+⟨AO1, AO2, AO1, AO2, . . .⟩. Note that in this case AO2 has to be the dual orientation (i.e. obtained by reversing the
+orientation on each edge) to AO1. Hence, the rank of a graph represents the number of buffers per node required for
+this method.
+In [3] the NP-completeness of determining the rank for arbitrary graph was shown together with lower and upper
+bounds on some topologies.
+In this paper we present a lower bound on the rank of involution-generated Cayley graphs which include
+hypercubes, star graphs, pancake graphs, transposition-tree based graphs and others. Next, we present a large class
+LC P(T,SP) of graphs with constant rank (including butterﬂies, series–parallel graphs, fat-trees, meshes of trees and
+Beneˇs networks) and some bounds for particular topologies. To conclude, we consider some modiﬁcations of the
+problem.
+The paper is organized as follows. In Section 2 we give the basic notions and deﬁnitions which are used throughout
+the paper. In Section 3 we present the general lower bound argument on the rank and we show the lower bound
+for involution-generated Cayley graphs. In Section 4 we present a large class of graphs having constant rank. In
+Section 5 we give new lower and upper bounds for speciﬁc network topologies and ﬁnally Section 6 discusses some
+modiﬁcations of the rank problem. In the Conclusions section we add some remarks and we address some open
+problems.
+2. Deﬁnitions
+In this section we present some basic deﬁnitions that will be extensively used throughout the rest of the paper.
+When talking about graphs we will consider symmetric digraphs obtained from undirected graphs by replacing every
+edge by a pair of opposite links. Unless stated otherwise, N denotes the number of vertices in the graph.
+Deﬁnition 1 ([3]). An acyclic orientation of a symmetric digraph G = (V, E) is an acyclic digraph ⃗G = (V, ⃗E)
+such that ⃗E ⊆E. We say that two consecutive arcs in E cause a change of orientation if and only if exactly one of
+them belongs to ⃗E.
+Deﬁnition 2 ([3]). Let ⃗G = (V, ⃗E) be an acyclic orientation of G = (V, E). Given a dipath P = [u1, u2, . . . , un] in
+G, let c(P, ⃗G) be the number of changes of orientation caused by all pairs of consecutive arcs along P. We deﬁne the
+rank rank(P, ⃗G) of P with respect to ⃗G as rank(P, ⃗G) = c(P, ⃗G)+1 if (u1, u2) ∈⃗E and rank(P, ⃗G) = c(P, ⃗G)+2
+if (u1, u2) ̸∈⃗E.
+R. Kr´aloviˇc, P. Ruˇziˇcka / Theoretical Computer Science 374 (2007) 203–213
+205
+Given a set P of dipaths in G, the rank of P is deﬁned as
+rankG(P) = min
+⃗G
+max
+P∈P rank(P, ⃗G)
+where the minimum is taken over all acyclic orientations of G.
+Given the set PAll of all shortest dipaths between all pairs of vertices in G, the rank of G is deﬁned as
+rankG = rankG(PAll).
+For the sake of efﬁciency we consider the shortest dipaths only. When the path system is not speciﬁed explicitly,
+we consider the system of all shortest dipaths between all pairs of vertices. Note that in this case the diameter of G
+plus 1 is a trivial upper bound on rankG.
+3. Lower bound results
+We ﬁrst present a general technique for obtaining lower bounds and then use it on a class of Cayley graphs generated
+by involutions.
+3.1. General lower bound argument
+Our lower bound technique is based on a counting argument. Consider any system P of shortest paths. In order
+to bound the maximal rank of any shortest path we restrict ourselves only to the paths from P. Moreover, instead of
+bounding the maximum rank of a path we bound the average rank.
+Let C be a set of cycles. Clearly, in each acyclic orientation there must be at least two pairs of incident edges with
+opposite orientation in each cycle. If we could, for each cycle from C, guarantee that there are exactly q paths from P
+going through any pair of incident edges we could bound the average rank using the cardinality of C.
+These thoughts are formalized in the following lemma:
+Lemma 1. Consider a graph G = (V, E) and a path system P of shortest dipaths in G. Given an acyclic orientation
+⃗G = (V, ⃗E), deﬁne w(P, ⃗G) = |{[u1, u2, . . .] ∈P; (u1, u2) ̸∈⃗E}|. Further consider sets of cycles C1, . . . , Ck in G
+with the properties that:
+• any two incident edges belong to at most one cycle,
+• for each Ci there exists qi such that every two incident edges belonging to a cycle C ∈Ci belong to at least qi
+dipaths from P.
+Then
+rankG ≥1 + 1
+|P|
+ 
+2
+k
+X
+i=1
+|Ci|qi + min
+⃗G
+w(P, ⃗G)
+!
+where the minimum is taken over all acyclic orientations of G.
+Proof. From the deﬁnition of the rank it follows for any shortest path system P that
+rankG = min
+⃗G
+max
+P∈PAll
+rank(P, ⃗G) ≥
+1
+|P| min
+⃗G
+X
+P∈P
+rank(P, ⃗G).
+For a given acyclic orientation ⃗G it holds that
+X
+P∈P
+rank(P, ⃗G) =
+X
+P∈P
+
+c(P, ⃗G) + 1 + ([u1, u2] ̸∈⃗E)
+
+=
+X
+P∈P
+c(P, ⃗G) + |P| + w(P, ⃗G).
+In each acyclic orientation there must be at least two pairs of incident edges in each cycle with different orientation.
+Thus P
+P∈P
+c(P, ⃗G) ≥2
+kP
+i=1
+|Ci|qi.
+□
+Note that w(P, ⃗G) ≤|P|; hence the contribution of the second term in the lower bound of the rank is at most
+constant.
+206
+R. Kr´aloviˇc, P. Ruˇziˇcka / Theoretical Computer Science 374 (2007) 203–213
+3.2. Lower bound for involution-generated Cayley graphs
+Cayley graphs over ﬁnite groups form a broad family of graphs which plays an important role in many areas of
+graph theory. Among other properties, Cayley graphs are vertex symmetric which makes them a very convenient tool
+for the design of interconnection networks.
+Let S = {g1, . . . , gn} be a generating set of a ﬁnite group such that S = S−1, i.e. S is closed under inverses. The
+Cayley graph (CG) [2] is deﬁned to have vertices corresponding to the elements of the group and edges corresponding
+to the actions of gi’s. That means there is an edge from an element u to an element v exactly if there is a gi such that
+u ◦gi = v in the group. Let us call the elements of S generators of the corresponding graph.
+Every CG is uniquely determined by the set of its generators. As every ﬁnite group is isomorphic to some group of
+permutations it is sufﬁcient to consider the generators to be permutations.
+In this section we consider a more restricted class of CGs, called involution-generated Cayley graphs, for which
+every generator gi is an involution (self-inverse), i.e. a permutation consisting of a set of disjoint transpositions.
+In order to obtain a lower bound on the rank, we apply Lemma 1 to a set of cycles that are formed by two alternating
+generators and a path system of N shortest paths of length diam(G) all having the same sequence of generators.
+First, we prove the following technical lemma:
+Lemma 2. Let a be an integer. Consider the problem of maximizing the product r = Qp
+i=1(li + 1) over all
+integers p,l1, . . . ,lp, subject to 1 ≤l1 < l2 < · · · < lp and Pp
+i=1 li = a. Then r is maximized only if
+{l1, . . . ,lp} = {1, . . . , p + 1} \ {k} for some 1 ≤k ≤p + 1.
+Proof. The lemma states that the integers li which maximize the product form a sequence with at most one “hole”.
+To prove this fact we show that every sequence with at least two holes can be altered in such a way that the sum does
+not change and the product increases.
+If l1 ≥3 (i.e. there are two holes at the beginning of the sequence) it is possible to replace l1 by (1,l1 −1). The
+contribution to the product increases from l1 + 1 to 2l1.
+If l1 = 2 and li < li+1 −1 (i.e. there is one hole at the beginning and one between the ith and i + 1st elements) it
+is possible to replace li+1 by (1,li+1 −1) increasing the contribution to the product.
+If li < li+1 −2 (i.e. there are at least two consecutive holes) we can replace (li,li+1) by (li + 1,li+1 −1). Finally,
+if li < li+1 −1 and l j < l j+1 −1 for some i < j it is possible to replace (li,l j+1) by (li + 1,l j+1 −1).
+□
+Now we apply the general lower bound to the Cayley graphs. In order to use Lemma 1 we need to ﬁnd suitable sets
+of cycles. We consider, for every pair of generators ga, gb, the set of cycles formed by alternating application of ga
+and gb. The previous lemma is used to bound the length of these cycles.
+Theorem 1. Let G be an involution-generated Cayley graph such that every generator consists of at most c disjoint
+transpositions. Then
+rankG ≥3
+2 + (diam(G) −1) (p + 1)(p + 2) −4c + 2
+2(p + 2)!
+where p =
+q
+4c + 1
+4 −1
+2
+
+.
+Proof. Let G be an involution-generated CG with N vertices and n generators. By φ we denote the identity
+permutation. Let k = diam(G) and [v, v ◦gi1, v ◦gi1 ◦gi2, . . . , v ◦gi1 ◦· · · ◦gik] be a shortest path of length
+diam(G). Let
+P =
+
+[v, v ◦gi1, v ◦gi1 ◦gi2, . . . , v ◦gi1 ◦· · · ◦gik] | for each v
+	
+be a system of N shortest dipaths. Let C{a,b} denote the set of cycles consisting of alternating edges ga and gb, i.e.
+cycles of the form
+{[v, v ◦ga, v ◦ga ◦gb, v ◦ga ◦gb ◦ga, . . .] | for each v} .
+From the symmetry it follows that all cycles from C{a,b} have the same length; denote this length as k{a,b}. Thus
+|C{a,b}| =
+N
+k{a,b} . Let q{a,b} be the number of occurrences of generators a, b in the sequence of generators from P,
+R. Kr´aloviˇc, P. Ruˇziˇcka / Theoretical Computer Science 374 (2007) 203–213
+207
+i.e. q{a,b} = |{i | {gi, gi+1} = {a, b}}|. For any two consecutive edges generated by a, b there are q{a,b} dipaths from
+P going through them. Thus, as w(P, ⃗G) = 1
+2|P|, Lemma 1 leads to
+rankG ≥3
+2 + 2
+X
+{a,b}
+q{a,b}
+k{a,b}
+.
+(1)
+Clearly k{a,b} = 2 ord(a ◦b), where ord(ϕ) is the order of a permutation ϕ (i.e. the smallest i such that ϕi = φ),
+which is the least common multiple of the lengths of its cycles. In the following we bound the order of any permutation
+ϕ which can be written as a composition of at most 2c transpositions. Let ϕ consist of p cycles of different lengths
+l1 + 1, . . . ,lp + 1 (li > 0). Then it holds that Pp
+i=1 li ≤2c and ord(ϕ) ≤Qp
+i=1(li + 1). Increasing any li also
+increases the product, so it is sufﬁcient to maximize the product over p and all distinct li such that Pp
+i=1 li = 2c.
+Using Lemma 2 we get that {l1, . . . ,lp} = {1, . . . , p + 1} \ {k} for some k. Hence, ord(ϕ) ≤(p+2)!
+k+1 . Moreover,
+Pp
+i=1 li = 2c = Pp+1
+i=1 i −k = (p +1)(p +2)/2−k leading to ord(ϕ) ≤
+2(p+2)!
+(p+1)(p+2)−4c+2. Combining the last result
+with formula (1) it holds that
+rank(G) ≥3
+2 + (p + 1)(p + 2) −4c + 2
+2(p + 2)!
+X
+{a,b}
+q{a,b}.
+This bound is decreasing in p so the minimum is obtained for maximal value of p. Since li’s are distinct and l1 > 0,
+we have Pp
+i=1 li = 2c ≥p(p + 1)/2 thus getting p ≤
+q
+4c + 1
+4 −1
+2 which concludes the proof.
+□
+Many well-known interconnection networks are transposition-generated CGs (i.e. c = 1), e.g. hypercubes (with d
+generators, where gi = (2i −1, 2i)), star graphs (with d −1 generators, where gi = (1, i + 1)), or transposition-tree
+based graphs [2]. For all these classes of graphs Theorem 1 gives the bound rank(G) ≥Diam(G)/3 + 7/6. This
+bound is asymptotically optimal; however, the leading term is in general not tight. Consider e.g. the hypercube. The
+best known bound is rank(Hd) ≥⌈(d + 1)/2⌉(see [4]).
+However, in a hypercube, for every pair of generators ga, gb the order ord(ga ◦gb) = 2. Hence, for Eq. (1) in
+the proof of Theorem 1 we get k{a,b} = 4, q{a,a+1} = 1, and otherwise q{a,b} = 0. Plugging this into Eq. (1) we get
+rank(Hd) ≥3
+2 + d−1
+2 .
+The previous theorem gives the bound in terms of the diameter and the maximal number of transpositions used
+as generators. Indeed, it is not possible to obtain a non-trivial lower bound for the involution-generated CG in terms
+of the diameter only: note that a circle of length 4n is an involution-generated CG generated by two involutions
+(1, 2)(3, 4) · · · (2n −1, 2n) and (2, 3)(4, 5) · · · (2n −3, 2n −1) with diameter 2n and rank 3 (the bound obtained by
+Theorem 1 is 2).
+Theorem 1 allows us to specify a large class of graphs having rank = Ω(D), where D is the diameter of the graph,
+while D + 1 is a trivial upper bound. As an example consider involution-generated CGs with constant c.
+The class of hierarchical CGs [2] is another large class of involution-generated CGs known from the literature. A
+Cayley graph is called strongly hierarchical if for any ordering g1, . . . , gn of generators it holds that gi is outside the
+subgroup generated by g1, . . . , gi−1. It is easy to see that the generators of strongly hierarchical CGs are involutions
+(self-inverses), i.e. permutations consisting of a set of disjoint transpositions. The class of strongly hierarchical CGs
+includes among others hypercubes, star graphs and transposition-tree based graphs, but not pancake graphs.
+4. Graphs with small rank
+A trivial upper bound on the rank of a graph G is rankG ≤diameter(G)+1. However, for some graphs much better
+upper bounds can be achieved. In this section we present a large class of graphs with constant rank. These graphs are
+layered graphs obtained by the operation LCP (layered cross product) from trees and series–parallel graphs.
+Deﬁnition 3. A layered graph G = ({Vi}n
+i=1, E) is a graph with n disjoint layers of vertices where each edge connects
+vertices from consecutive layers.
+Let us adopt the convention that the vertices from Vi are in the i-th layer.
+The operation of a layered cross product is deﬁned as follows:
+208
+R. Kr´aloviˇc, P. Ruˇziˇcka / Theoretical Computer Science 374 (2007) 203–213
+Fig. 1. A layered cross product of two layered trees.
+Fig. 2. Serial and parallel composition.
+Deﬁnition 4 ([5]). Let G1 = ({V (1)
+i
+}n+1
+i=1 , E(1)), G2 = ({V (2)
+i
+}n+1
+i=1 , E(2)) be layered graphs, each of n+1 layers. Then
+LC P(G1, G2) = ({V (1)
+i
+× V (2)
+i
+}n+1
+i=1 , E) is a layered graph where (⟨u, v⟩, ⟨u′, v′⟩) ∈E if and only if (u, u′) ∈E(1)
+and (v, v′) ∈E(2).
+Every tree is a layered graph; however for a given tree the assignment of layers is not unique. We will use only
+those assignments in which paths from root are monotone. Moreover, we require that all leaves are on the same layer
+(see Fig. 1).
+Deﬁnition 5. A layered tree is a rooted tree for which each path from the root to a leaf passes through increasing or
+decreasing layers only, and all leaves are on the same layer.
+We use a straightforward generalization of the notion of series–parallel graphs to take into account the layered
+structure (see Fig. 2).
+Deﬁnition 6. If G1 = ({V (1)
+i
+}n
+i=1, E(1)) and G2 = ({V (2)
+i
+}n
+i=1, E(2)) are n-layered graphs, |V (1)
+1 | = |V (2)
+1 | = |V (1)
+n | =
+|V (2)
+n | = 1, V (1)
+i
+∩V (2)
+i
+= ∅, then:
+• the parallel composition of G1 and G2 is (V (1)
+1 , V (1)
+2
+∪V (2)
+2 , . . . , V (1)
+n−1 ∪V (2)
+n−1, V (1)
+n , E(1) ∪E(2)), V (1)
+1
+≡V (2)
+1 ,
+V (1)
+n
+≡V (2)
+n , and is an n-layered series–parallel graph,
+• the serial composition of G1 and G2 is (V (1)
+1 , . . . , V (1)
+n , V (2)
+2 , . . . , V (2)
+n , E(1)∪E(2)), V (1)
+n
+≡V (2)
+1 , and is a (2n−1)
+layered series–parallel graph.
+Layered series–parallel graphs are those layered graphs which can be obtained by a ﬁnite number of serial and parallel
+compositions of K2.
+Deﬁnition 7. LC P(T,SP) is the smallest class of graphs which contains layered trees and layered series–parallel graphs
+and is closed under the LC P.
+R. Kr´aloviˇc, P. Ruˇziˇcka / Theoretical Computer Science 374 (2007) 203–213
+209
+The class LC P(T,SP) includes common topologies used in parallel computing, as can be seen from the following
+claims.
+Claim 1 ([5]). The butterﬂy, mesh of trees and fat-tree can be obtained by LC P from layered trees.
+Claim 2 ([5]). The Beneˇs network can be obtained by LC P from a layered tree and a layered series–parallel graph.
+Theorem 2. Let G be an LC P(T,SP) graph. Then rankG ≤4.
+Proof. For a walk W = (u1, u2, . . . , ur) in a layered graph, denote as the characteristic sequence of W a sequence
+(s1, s2, . . . , sr−1) of +1, −1 such that si = 1 if ui+1 is on higher layer than ui, and si = −1 otherwise. If a graph
+G = LC P(G1, G2) then every walk W in G induces in a natural way walks W1 in G1 and W2 in G2 such that W, W1,
+and W2 have the same characteristic sequence. In a characteristic sequence, call the maximal continuous subsequence
+of equal elements a block.
+Let G ∈LC P(T,SP) and G = LC P(G1, . . . , Gn). Consider two vertices u = [u1, . . . , un], v = [v1, . . . , vn] in G.
+We prove that the characteristic sequence of any shortest path between u, v consists of at most three blocks.
+First label the layers in the following manner: the layer containing the vertex u is the layer 0; the layers above are
+numbered with increasing positive numbers, the layers below with decreasing negative numbers. Denote as l(v) the
+layer containing the vertex v, and let lmin and lmax be the minimum and maximum layer, respectively.
+Note that since every Gi is a tree or a layered series–parallel graph, it has the following property:
+There exist a non-negative integer ai and a non-positive integer bi such that a given sequence S = (s1, . . . , sm) of
++1, −1 is a characteristic sequence of a walk in Gi from ui to vi if and only if Pm
+k=1 sk = l(vi) = l(v), for each j it
+holds that lmin ≤P j
+k=1 sk ≤lmax, and there exists j such that either P j
+k=1 sk = ai or P j
+k=1 sk = bi.
+The “if” part of the property states that every u −v walk either goes up to some layer ai or down to some level bi. This
+is easily seen: for trees, every u −v walk must go through the nearest common ancestor; for the layered series–parallel
+graphs every u −v walk must go through one of the nearest composition points.
+The “only if” part is an immediate consequence of the fact that every vertex has neighbors on both neighboring
+layers.
+Now consider a sequence S = (s1, . . . , sm) to be a characteristic sequence of a shortest path between u and v in
+G and suppose it consists of at least four blocks. W.l.o.g. consider the ﬁrst block to be positive and denote the lengths
+of the ﬁrst four blocks as x, y, z, q. We distinguish two cases. First let z −q ≥0. Consider a sequence S′ obtained
+from S by replacing the ﬁrst four blocks by one block with the sum x −y followed by a block with the sum max{z, y}
+followed by a block with sum z −q −max{z, y}. S′ is shorter than S, has fewer blocks and the sum of S′ equals the
+sum of S. To show that S′ is a characteristic sequence of a shortest path in G we show that it fulﬁlls the above property
+for each Gi. Clearly S contains for each Gi an index ji such that P ji
+k=1 sk ∈{ai, bi}. If this ji is not in the ﬁrst four
+blocks it is also in S′. So it is sufﬁcient to note that for every number from ⟨0, .., max{x, x + z −y}⟩and ⟨x −y, .., 0⟩
+there is a preﬁx of S′ with this sum.
+For the case z−q < 0 we replace the ﬁrst four blocks with blocks having sums max{x, x −y+z}, min{0, y−z}−y,
+x + z −q −max{0, z −y}. The case for the ﬁrst negative block is similar.
+We have proven that if a sequence is a characteristic sequence of a shortest path in G then it consists of at most
+three blocks.
+Now consider a layered orientation. Every path in G with a given characteristic sequence causes a change of
+orientation only between two blocks. Thus every path in the LCP causes at most two changes of orientation.
+□
+Claim 3. Consider a graph G′ obtained from G by subdivision of some edges. Then rankG′ = rankG.
+Corollary 1. Let SP be a series–parallel graph. Then rankSP ≤4.
+5. Fixed topology results
+In this section we present some upper and lower bound results on the rank problem for some well-known
+interconnection networks. These results complete previous known results (given in [3,7]) on the rank problem for
+some classes of graphs which are widely used in parallel and distributed systems. Namely, for p × q grid G p,q with
+p ≥q it holds that ⌈(2 −
+√
+2)q⌉−1 ≤rankG p,q ≤3
+5q + o(q). For p × q torus Tp,q with p ≥q it holds that
+⌊q
+2⌋+ 2 ≤rankTp,q ≤⌈q
+2⌉+ 4. And for hypercube Qd of degree d it holds that ⌈d+1
+2 ⌉≤rankQd ≤d + 1.
+210
+R. Kr´aloviˇc, P. Ruˇziˇcka / Theoretical Computer Science 374 (2007) 203–213
+Fig. 3. CCC3 with bold S-edges.
+5.1. Cube connected cycles
+Deﬁnition 8. A cube connected cycle graph of degree d (see Fig. 3), denoted as CCCd, is a graph (V, E) where V =
+⟨u, p⟩| u ∈{0, 1}d, p ∈{0, . . . , d −1}
+	
+and E = {(⟨α, p⟩, ⟨α′, p′⟩) | p′ = p ⊕1, α′ = α or p′ = p ⊖1, α′ = α
+or p′ = p, α differs from α′ only in the p-th position}.
+Since CCCd is not an involution-generated Cayley graph, the lower bound in Theorem 1 does not apply for CCCd.
+Following the argument used in Lemma 1, we are able to prove the next lower bound.
+Theorem 3. rankCCCd ≥⌊d
+2⌋+ 1.
+Proof. Call an arc (⟨α, p⟩, ⟨α′, p⟩) an S-arc, an arc (⟨α, p⟩, ⟨α, p ⊕1⟩) an L-arc and an arc (⟨α, p⟩, ⟨α, p ⊖1⟩) an
+R-arc.
+Consider P to be the set of all shortest paths between all pairs of vertices of the form ⟨α, p⟩→⟨α, p ⊖1⟩. These
+paths are of the form (SL)d−1S and |P| = d2d. For a given ⃗G it holds that w(P, ⃗G) = |P|
+2 .
+Let C be the set of cycles of length 8 of the form LSRSLSRS. Clearly, |C| = d2d−2 and each pair of consecutive
+arcs is in at most one cycle from C. There are d −1 paths from P passing via each such pair of arcs. The reason is the
+following: each such pair can be uniquely denoted as a vertex v and a sequence of LS or SL arcs. Which form may
+have the starting vertex of a path from P going through this pair of arcs? If we ﬁx the cursor position p, the bit-string α
+is determined uniquely. In each case, there are d −1 possible cursor positions. Each starting vertex represents exactly
+one path.
+Thus we have
+rankCCCd ≥3
+2 +
+1
+d2d 2(d −1)d2d−2 = d
+2 + 1.
+□
+The following upper bound on the rank of CCCd is an improvement of the result in [8].
+Theorem 4. rankCCCd ≤d + 8.
+Proof. We construct an acyclic orientation AO such that each shortest path causes at most d +6 changes of orientation
+by the consecutive pairs of links.
+The
+orientation
+AO
+is
+deﬁned
+as
+follows:
+for
+each
+binary
+string
+α
+=
+a0 . . . ad−1
+the
+cycle
+[⟨α, 0⟩, ⟨α, 1⟩, . . . , ⟨α, d −1⟩] is oriented as ⟨α, 0⟩→· · · →⟨α, d −1⟩and ⟨α, 0⟩→⟨α, d −1⟩if the number
+of ones in α is odd; otherwise the orientation is the opposite. The remaining edges are oriented arbitrarily provided
+that the resulting orientation is acyclic.
+R. Kr´aloviˇc, P. Ruˇziˇcka / Theoretical Computer Science 374 (2007) 203–213
+211
+Fig. 4. Pancake graph P4 with generators g1 = (1, 2), g2 = (1, 3) and g3 = (1, 4)(2, 3).
+Consider a shortest path P = [⟨a0, p0⟩, . . . , ⟨ak, pk⟩]. Call an arc for which pi = pi+1 an S-arc. By a cycle
+segment we mean a maximal sub-path of P that contains no S-arcs. Clearly P consists of non-empty cycle segments
+separated by S-arcs. A cycle segment that contains only arcs for which pi+1 = pi ⊕1 is called a left segment. A cycle
+segment that contains only arcs for which pi+1 = pi ⊖1 is called a right segment. Each segment is either right or
+left. The shortest path P can be divided into three sub-paths P1, P2, P3, each of which contains only segments of one
+type (left/right). By a zero segment we mean a segment that contains an arc (α, 0), (α, d −1). There are at most two
+zero segments in the whole path P. Consider a sub-path Pi and let us forget about the zero segments for a while. Each
+segment (non-zero) is contained either in AO or in its dual. Two consecutive segments are separated by a single S-arc,
+so they are not both contained in the same orientation. Thus regardless of the orientation of the S-arc, there is exactly
+one change of orientation between any two consecutive segments. Each zero segment contributes two changes and the
+borders of sub-paths add one change each. Since there are at most d S-arcs in P, the number of changes is d + 6.
+□
+5.2. Pancake graph
+Deﬁnition 9. A pancake graph of degree d (see Fig. 4) is a Cayley graph with d −1 generators g1, . . . , gd−1 where
+gi = (1, i + 1) ◦(2, i) ◦(3, i −1) ◦· · · ◦(⌊(i + 1)/2⌋, i + 2 −⌊(i + 1)/2⌋).
+The following theorem is an improvement over the bound from Theorem 1 which is constant.
+Theorem 5. rankPd ≥⌊ln d⌋+ O(1).
+Proof. The generators of Pd are g1 = (1, 2), g2 = (1, 3), g3 = (1, 4)(2, 3), ..., gd−1 = (1, d)(2, d −1) . . .. Denote
+as ϕ(i1,...,ik) the permutation ϕ ◦gi1 ◦· · · ◦gik. Denote by φ the identity permutation.
+Choose a path system P =
+
+[ϕ, ϕ(1), . . . , ϕ(1,2,...,d−1)] | for each ϕ
+	
+. We show that it is a system of shortest paths.
+Because Pd is vertex symmetric, consider only the path P = [φ, . . . , φ(1,..,d−1)]. The path is of length d −1, starts in
+212
+R. Kr´aloviˇc, P. Ruˇziˇcka / Theoretical Computer Science 374 (2007) 203–213
+[1, 2, 3, . . . , d] and ends in [d, d −2, d −4, . . . , 1, 2, 4, 6, . . . , d −1] for odd d (for even d it is similar). Consider an
+arbitrary shortest path P′ from φ to φ(1,..,d−1). Check the number of consecutive elements in each intermediate vertex
+(in φ it is d −1; in φ(1,..,d−1) it is 1). An application of each generator decreases this number by at most 1; thus the
+length of P′ is at least d −2. However the element d is at the ﬁrst position in the destination, so P′ must use gd−1 at
+least once. Because it corresponds to reverting the sequence it does not decrease the number of consecutive elements,
+so the length of P′ is at least d −1.
+|P| = d! and w(P, ⃗G) = d!
+2 .
+Let Ci for i = 1, . . . , d −2 be the set of cycles of the form [ϕ, ϕ(i), ϕ(i,i+1), . . .] (with alternating application of
+gi, gi+1) for each ϕ. The length of each cycle in Ci is 2(i + 2), because ϕ(i,i+1) represents the cyclic shift of the preﬁx
+of the length i + 2. Thus |Ci| =
+d!
+2(i+2) and qi = 1.
+Thus rankPd ≥3
+2 +
+d−2
+P
+i=1
+1
+i+2 = ln d + O(1).
+□
+The best upper bound on the rankPd so far is the diameter which is known to be of magnitude O(d).
+6. Modiﬁcations
+In this section we present two variations of the rank problem. One possibility is to allow the cover to consist of up
+to k distinct acyclic orientations. For k = 3 a lower bound similar to the one from Lemma 1 holds:
+Lemma 3. Consider a graph G = (V, E) and a path system P of shortest dipaths in G such that P is closed under
+reversal. Given an acyclic orientation ⃗G = (V, ⃗E), deﬁne w(P, ⃗G) = |{[u1, u2, . . .] ∈P; (u1, u2) ̸∈⃗E}|. Further
+consider sets of cycles C1, . . . , Ck in G with the properties that:
+• the length of each cycle is at least 4,
+• any two incident edges belong to at most one cycle,
+• for each Ci there exists qi such that every dipath of length 2 formed from edges from a cycle C ∈Ci belongs to at
+least qi dipaths from P.
+Then for any acyclic orientation cover S consisting of at most three different orientations it holds that
+|S| ≥1 + 1
+|P|
+ 
+2
+k
+X
+i=1
+|Ci|qi + min
+⃗G
+w(P, ⃗G)
+!
+where the minimum is taken over all acyclic orientations of G.
+Proof. It is easy to prove by induction that in every cycle C of length at least 4 there are at least two dipaths of length
+2 that are not entirely covered by any of the three orientations. The proof is then concluded similarly to the proof of
+Lemma 1.
+□
+Using this lemma, results can be obtained for the considered topologies that are of a multiplicative factor 2 worse
+than the upper bounds for rank.
+For some graphs, introduction of more than two different orientations decreases the length of the cover. Consider
+for example q ×q grid. It is known (from [3]) that rankG p,q ≥⌈(2−
+√
+2)q⌉−1. Using Lemma 3, for three-orientation
+cover it holds that |S| ≥⌈(2 −
+√
+2)q/2⌉. However, using four acyclic orientations the size of the cover is 4.
+On the other hand, in [10] it has been proven that every acyclic orientation cover for hypercube Qd or cube
+connected cycles CCCd has the size at least d/ log d.
+Another variation of the rank problem is to consider other path systems. Of special interest are path systems with
+only one shortest path between every pair of vertices. This restriction refers to non-adaptive routing methods. For
+some graphs like grids or hypercubes, there exist such path systems allowing acyclic cover of size 2. On the other
+hand, from the proof of Theorem 3 it follows that for CCCd every single shortest path system induces an acyclic cover
+of size at least ⌊d
+2⌋+ 1. A similar result can be obtained for star graphs Sd (the paths of the length of the diameter
+are unique), where every single shortest path system induces an acyclic cover of size at least ⌊d
+2 + 1
+3⌋. (Note that
+both lower bounds hold even in the case when in Deﬁnition 2 the all-to-all shortest path system PAll is replaced by a
+R. Kr´aloviˇc, P. Ruˇziˇcka / Theoretical Computer Science 374 (2007) 203–213
+213
+permutation (i.e. a 1-relation) path system, in which each node is the source and the destination of at most one routing
+path.)
+Using the bounds on rank of grids and hypercubes from [3], one can get results for path systems consisting of k
+different shortest paths between all pairs of vertices in G (or all paths if the number is less than k). This restriction
+refers to k-adaptive routing methods.
+Claim 4. Choose a such that
+
+2a−2
+a−1
+
+≥k. Let r = min{a, q}. Then ⌈(2 −
+√
+2)r⌉≤|S|G p,q ≤min{ 3
+5q + o(q), 2r}.
+Note that as
+
+2a−2
+a−1
+
+≥
+1
+√π(a−1)4a−1 it is sufﬁcient that a be of the order o(log k).
+Claim 5. Choose a such that a! ≥k. Let r = min{a, d}. Then ⌈r+1
+2 ⌉≤|S|Qd ≤r + 1.
+7. Conclusions
+We have studied upper and lower bounds on the rank for certain classes of graphs. We identiﬁed a large class of
+graphs with constant rank. We presented the lower bound on the rank for involution-generated Cayley graphs and also
+some improved results for ﬁxed topologies.
+Open questions involve determining larger classes of graphs with high ranks (of the order of diameter) and
+improved lower bounds for usual topologies. There is also a lack of techniques for constructing upper bounds better
+than the diameter. Other questions involve the modiﬁed versions of the problem. As regards the latter issue it will be
+interesting to see whether there are differences between the size of the alternating acyclic orientation cover and the
+size of the general acyclic orientation cover for hypercubes and cube connected cycles.
+References
+[1] S.B. Akers, D. Harel, B. Krishnamurthy, The star graph: An attractive alternative to the n-cube, in: Proc. of the International Conference on
+Parallel Processing, 1987, pp. 393–400.
+[2] S.B. Akers, B. Krishnamurthy, A group-theoretic model for symmetric interconnection networks, IEEE Transactions on Computers 38 (4)
+(1989) 555–565.
+[3] J.-C. Bermond, M. Di Ianni, M. Flammini, S. Perennes, Acyclic orientations for deadlock prevention in interconnection networks, in: 23rd
+International Workshop on Graph-Theoretic Concepts in Computer Science (WG), in: Lecture Notes in Computer Science, vol. 1335,
+Springer-Verlag, 1997, pp. 52–64.
+[4] J.-C. Bermond, M. Di Ianni, M. Flammini, S. Perennes, Deadlock prevention by acyclic orientations, Discrete Applied Mathematics 129 (1)
+(2003) 31–47.
+[5] S. Even, A. Litman, Layered cross product — A technique to construct interconnection networks, Networks 29 (1997) 219–223.
+[6] M. Flammini, Deadlock-free interval routing schemes, Networks 34 (1) (1999) 37–46.
+[7] M. Di Ianni, M. Flammini, R. Flammini, S. Salomne, Systolic acyclic orientations for deadlock preventions, in: 2nd Colloquium on Structural
+Information and Communication Complexity, SIROCCO, Carleton University Press, 1995, pp. 1–12.
+[8] R. Kr´aloviˇc, B. Rovan, P. Ruˇziˇcka, D. ˇStefankoviˇc, Efﬁcient deadlock-free multi-dimensional interval routing in interconnection networks,
+in: 12th International Symposium on Distributed Computing, DISC, in: Lecture Notes in Computer Science, vol. 1499, Springer-Verlag, 1998,
+pp. 273–287.
+[9] P. Ruˇziˇcka, Efﬁcient communication schemes, in: 25th Conference on Current Trends in Theory and Practice in Informatics (SOFSEM),
+in: Lecture Notes in Computer Science, vol. 1521, Springer-Verlag, 1998, pp. 244–263.
+[10] D. ˇStefankoviˇc, Acyclic orientations do not lead to optimal deadlock-free packet routing algorithms, Information Processing Letters 73 (5–6)
+(2000) 221–225.
+[11] G. Tel, Deadlock-free packet switching networks, in: Introduction to Distributed Algorithms, Cambridge University Press, Cambridge, UK,
+1994 (Chapter 5).

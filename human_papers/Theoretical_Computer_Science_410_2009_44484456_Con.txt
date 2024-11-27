@@ -1,0 +1,366 @@
+Theoretical Computer Science 410 (2009) 4448–4456
+Contents lists available at ScienceDirect
+Theoretical Computer Science
+journal homepage: www.elsevier.com/locate/tcs
+On the complexity of 2D discrete fixed point problem
+Xi Chen a, Xiaotie Deng b,∗
+a Department of Computer Science, Tsinghua University, Beijing, PR China
+b Department of Computer Science, City University of Hong Kong, Hong Kong SAR, PR China
+a b s t r a c t
+We study a computational complexity version of the 2D Sperner problem, which states
+that any three coloring of vertices of a triangulated triangle, satisfying some boundary
+conditions, will have a trichromatic triangle. In introducing a complexity class PPAD,
+Papadimitriou [C.H. Papadimitriou, On graph-theoretic lemmata and complexity classes,
+in: Proceedings of the 31st Annual Symposium on Foundations of Computer Science, 1990,
+794–801] proved that its 3D analogue is PPAD-complete about fifteen years ago. The
+complexity of 2D-SPERNER itself has remained open since then.
+We settle this open problem with a PPAD-completeness proof. The result also allows
+us to derive the computational complexity characterization of a discrete version of the
+2D Brouwer fixed point problem, improving a recent result of Daskalakis, Goldberg
+and Papadimitriou [C. Daskalakis, P.W. Goldberg, C.H. Papadimitriou, The complexity of
+computing a Nash equilibrium, in: Proceedings of the 38th Annual ACM Symposium on
+Theory of Computing (STOC), 2006]. Those hardness results for the simplest version of those
+problems provide very useful tools to the study of other important problems in the PPAD
+class.
+© 2009 Elsevier B.V. All rights reserved.
+1. Introduction
+The classical lemma of Sperner [10], characterizing the combinatorial nature of Brouwer’s fixed point theorem, states that
+any admissible 3-coloring of any triangulation of a triangle has a trichromatic triangle. Naturally, it defines a search problem
+2D-SPERNER of finding such a triangle in an admissible 3-coloring for an exponential size triangulation, typical of problems
+in PPAD, a complexity class introduced by Papadimitriou to capture mathematical structures with the path-following proof
+technique [9]. Many important problems, such as the Brouwer fixed point, the search versions of Smith’s theorem, as well
+as the Borsuk–Ulam theorem, belong to this class [9].
+The computational complexity issue for those problems is of interest only when the search space is exponential in the
+input parameter. For problem 2D-SPERNER as an example, with an input parameter n, we consider a right angled triangle
+with a side length N = 2n. Its triangulation is into right angled triangles of side length one (see Fig. 1 for an example). There
+is a (3-coloring) function which, given any vertex in the triangulation, outputs its color in the coloring. The color function is
+guaranteed to be admissible and is given by a polynomial-time Turing machine. The problem is to find a triangle that has all
+three colors on its vertices. The 3D analogue 3D-SPERNER is the first natural problem proved to be complete in PPAD [9].
+Whether the 2D case is complete or not was left as an open problem. Since then, progress has been made toward the solution
+of this problem: In [6], Grigni defined a non-oriented version of 3D-SPERNER and proved that it is PPA-complete. Friedl,
+Ivanyos, Santha, and Verhoeven showed [5,4] that the locally 2D case of Sperner’s problem is complete in PPAD. Despite
+those efforts, the original 2D Sperner’s problem has remained elusive.
+∗Corresponding author.
+E-mail addresses: csxichen@gmail.com (X. Chen), deng@cs.cityu.edu.hk (X. Deng).
+0304-3975/$ – see front matter © 2009 Elsevier B.V. All rights reserved.
+doi:10.1016/j.tcs.2009.07.052
+X. Chen, X. Deng / Theoretical Computer Science 410 (2009) 4448–4456
+4449
+In this paper, we prove that 2D-SPERNER is PPAD-complete and thus settle the open problem proposed by
+Papadimitriou [8] fifteen years ago. Furthermore, this result also allows us to derive the PPAD-completeness proof of a
+discrete version of the 2D fixed point problem (2D-BROUWER). Our study is motivated by the complexity results in [1]
+and [7] for finding a discrete Brouwer fixed point in d-dimensional space with a function oracle. The combinatorial structure
+there is similar to the one here. It was proven in the oracle model that, for any d ≥2, the fixed point problem unconditionally
+requires an exponential number (in consistency with d) of queries. Although the computational models in these two
+problems are different, we moved into the direction of a hardness proof, expecting that the complexity hierarchy in Sperner’s
+problem may have a similar structure with respect to the dimension.
+The class PPAD is the set of problems that are polynomial-time reducible to the problem called LEAFD [9]. It considers a
+directed graph of an exponential number, in the input parameter n, of vertices, numbered from 0 to N −1 where N = 2n.
+Each vertex has at most one incoming edge and at most one outgoing edge. There is a distinguished vertex, 0, which has
+no incoming edge and has one outgoing edge. The required output is another vertex for which the sum of its incoming
+degree and outgoing degree is one. To access the directed graph, we have a polynomial-time Turing machine which, given
+any vertex as an input, outputs its possible predecessor and successor. In examination into the PPAD-completeness proof of
+problem 3D-SPERNER, we found that the main idea is to embed complete graphs in 3D search spaces [9]. Such an embedding,
+obviously impossible in the plane, would allow us to transform any Turing machine which generates a directed graph in
+LEAFD to a Turing machine which produces an admissible coloring on a 3D search space of 3D-SPERNER.
+We take a different approach for the proof which can be clearly divided into two steps. First, we define a new search
+problem called RLEAFD (restricted-LEAFD). While the input graph has the same property as those in problem LEAFD (that
+is, both the incoming degree and outgoing degree of every vertex are at most one), it is guaranteed to be a sub-graph of some
+predefined planar grid graph. Note that even though any input to LEAFD is planar, it is not easy to do it within polynomial
+time. The interesting result obtained is that, even with such a strong restriction, the problem is still complete in PPAD. In
+the second step, we reduce RLEAFD to 2D-SPERNER and prove that the latter is also complete. The main idea represents an
+improved understanding of PPAD reductions and may be of general applicability in related problems.
+The completeness result of 2D-SPERNER allows us to deduce that a discrete version of the 2D Brouwer fixed point
+problem is also PPAD-complete. In the problem, we consider a function g on a 2D grid such that, for every point p in the grid,
+g(p) is equal to p plus an incremental vector with only three possible values: (1, 0), (0, 1) and (−1, −1). A fixed point is a set
+of four corners of an orthogonal unit square such that incremental vectors at those point include all the three possibilities,
+an analogue to that of the 3D case introduced in [3]. Such a definition of fixed points, which is different from the original
+Brouwer fixed point but is related to Sperner’s lemma, has a natural connection with approximation [7], and is consistent in
+spirit with the recent algorithmic studies on discrete fixed points [1]. On a first look at the problem, its natural link to the 2D
+Sperner problem is only in one direction. We overcome the difficulty in the other direction to show the reduction is indeed
+complete.
+The PPAD-completeness of both 2D-SPERNER and 2D-BROUWER, in their simplicities, can serve as better benchmarks
+as well as provide the much needed intuition to derive completeness proofs for complicated problems, such as in the
+subsequent result of non-approximability (and also the smoothed complexity) of the two-player game Nash Equilibrium
+problem [2]. In particular, an important key lemma in the non-approximability result is a PPAD-completeness proof of a
+discrete fixed point problem on high-dimensional hypergrids with a constant side length, which can be most conveniently
+derived from the completeness of the 2D discrete fixed point problem.
+2. Preliminaries
+2.1. TFNP and PPAD
+Definition 1 (TFNP). Let R ⊂{0, 1}∗× {0, 1}∗be a polynomial-time computable, polynomially balanced relation (that is,
+there exists a polynomial p(n) such that for every pair (x, y) ∈R, |y| ≤p(|x|)). The NP search problem QR specified by R is
+this: given an input x ∈{0, 1}∗, return a string y ∈{0, 1}∗such that (x, y) ∈R, if such a y exists, and return the string ‘‘no’’
+otherwise.
+An NP search problem QR is said to be total if for every string x ∈{0, 1}∗, there exists a y ∈{0, 1}∗such that (x, y) ∈R.
+We use TFNP to denote the class of total NP search problems.
+An NP search problem QR1 ∈TFNP is polynomial-time reducible to problem QR2 ∈TFNP if there exists a pair of polynomial-
+time computable functions (f , g) such that, for every input x of QR1, if y satisfies (f (x), y) ∈R2, then (x, g(y)) ∈R1. We now
+define a total NP search problem called LEAFD [9].
+Definition 2 (LEAFD). The input of the problem is a pair (M, 0k) where M is the description of a polynomial-time Turing
+machine which satisfies: (1) for any v ∈{0, 1}k, M(v) is an ordered pair (u1, u2) where u1, u2 ∈{0, 1}k ∪{no}; (2)
+M(0k) = (no, 1k) and the first component of M(1k) is 0k. M generates a directed graph G = (V, E) where V = {0, 1}k.
+An edge uv appears in E iff v is the second component of M(u) and u is the first component of M(v).
+The output is a directed leaf (with in-degree + out-degree = 1) other than 0k.
+PPAD [8] is the set of total NP search problems that are polynomial-time reducible to LEAFD. From its definition, LEAFD
+is complete for PPAD.
+4450
+X. Chen, X. Deng / Theoretical Computer Science 410 (2009) 4448–4456
+Fig. 1. The standard 7 × 7 triangulation of a triangle.
+Fig. 2. Summary of cases in the construction of E2
+n.
+2.2. Definition of 2D-SPERNER
+One of the most interesting problems in PPAD is 2D-SPERNER whose totality is based on Sperner’s Lemma [10]: any
+admissible 3-coloring of any triangulation of a triangle has a trichromatic triangle.
+In problem 2D-SPERNER, we consider the standard n × n triangulation of a triangle which is illustrated in Fig. 1. Every
+vertex in the triangulation corresponds to a point in Z2. Here A0 = (0, 0), A1 = (0, n) and A2 = (n, 0) are the three vertices
+of the original triangle. The vertex set Tn of the triangulation is defined as Tn = {p ∈Z2 | p1 ≥0, p2 ≥0, p1 + p2 ≤n}. A
+3-coloring of the n × n triangulation is a function f from Tn to {0, 1, 2}. It is said to be admissible if
+1. f (Ai) = i, for all 0 ≤i ≤2;
+2. for every point p on segment AiAj, f (p) ̸= 3 −i −j.
+A unit size well-oriented triangle is a triple ∆= (p0, p1, p2) where p0, p1, p2 ∈Z2. It satisfies either p1 = p0 + e1,
+p2 = p0 + e2 or p1 = p0 −e1, p1 = p0 −e2, where e1 = (0, 1) and e2 = (1, 0) are the unit vectors. In other words, the
+triangle has a northwest oriented hypotenuse. We use S to denote the set of all such triangles.
+From Sperner’s Lemma, we define problem 2D-SPERNER as follows.
+Definition 3 (2D-SPERNER [8]). The input instance is a pair (F, 0k) where F is a polynomial-time Turing machine which
+produces an admissible 3-coloring f on T2k. Here f (p) = F(p) ∈{0, 1, 2}, for every vertex p ∈T2k.
+The output is a trichromatic triangle ∆∈S of coloring f .
+In [8], it was shown that 2D-SPERNER is in PPAD. They also defined a 3D analogue 3D-SPERNER of 2D-SPERNER, and
+proved that it is PPAD-complete. The completeness of the 2D case was left as an open problem.
+3. Definition of search problem RLEAFD
+Before the definition of RLEAFD, we describe a class of planar grid graphs {Gi}i≥1, where Gn = (Vn, En) and vertex set
+Vn =
+
+u ∈Z2|0 ≤u1 ≤3(n2 −2), 0 ≤u2 ≤3(2n −1)
+	
+.
+Informally speaking, Gn is a planar embedding of the complete graph Kn with vertex set {0, 1...n −1}. For every 0 ≤i < n,
+vertex i of Kn corresponds to the vertex (0, 6i) of Gn. For every edge ij ∈Kn, we define a path Eij from vertex (0, 6i) to (0, 6j).
+To obtain the edge set En of Gn, we start from an empty graph (Vn, ∅), and then add all the paths Eij. There are O(n2) vertices
+in Vn, which are at the intersection of two paths added previously. Since Kn is not a planar graph when n ≥5, there is no
+embedding which can avoid those crossing points. For each of those crossing points, we add four more edges into En.
+We define En formally as follows. En can be divided into two parts: E1
+n and E2
+n such that En = E1
+n ∪E2
+n and E1
+n ∩E2
+n = ∅.
+The first part E1
+n = ∪ij∈KnEij and path Eij is defined as follows.
+X. Chen, X. Deng / Theoretical Computer Science 410 (2009) 4448–4456
+4451
+Fig. 3. The planar grid graph G3.
+Definition 4. Let p1, p2 ∈Z2 be two points with the same x-coordinate or the same y-coordinate. Let u1, u2... um ∈Z2 be
+all the integral points on segment p1p2 which are labeled along the direction of p1p2. We use E(p1p2) to denote the path
+which consists of m −1 directed edges: u1u2, u2u3, . . . um−1um.
+Definition 5. For every edge ij ∈Kn with 0 ≤i ̸= j < n, we define a path Eij as E(p1p2) ∪E(p2p3) ∪E(p3p4) ∪E(p4p5),
+where p1 = (0, 6i), p2 = (3(ni + j), 6i), p3 = (3(ni + j), 6j + 3), p4 = (0, 6j + 3) and p5 = (0, 6j).
+One can show that, every vertex in Vn has at most 4 edges (including both incoming and outgoing edges) in E1
+n. Moreover,
+if u has 4 edges, then 3|u1 and 3|u2. We now use {ui}1≤i≤8 to denote the eight vertices around u. For each 1 ≤i ≤8,
+ui = u + xi where x1 = (−1, 1), x2 = (0, 1), x3 = (1, 1), x4 = (1, 0), x5 = (1, −1), x6 = (0, −1), x7 = (−1, −1) and
+x8 = (−1, 0). If u ∈Vn has 4 edges in E1
+n, then it must satisfy the following two properties:
+1. either edges u4u, uu8 ∈E1
+n or u8u, uu4 ∈E1
+n;
+2. either edges u2u, uu6 ∈E1
+n or u6u, uu2 ∈E1
+n.
+Now for every vertex u ∈Vn which has four edges in E1
+n, we add four more edges into En. For example, if u4u, uu8, u2u,
+uu6 ∈E1
+n (that is, the last case in Fig. 2), then u4u5, u5u6, u2u1, u1u8 ∈E2
+n. All the four possible cases are summarized in
+Fig. 2.
+An example (graph G3) is showed in Fig. 3. We can draw it in two steps. In the first step, for each ij ∈K3, we add path Eij
+into the empty graph. In the second step, we search for vertices of degree four. For each of them, 4 edges are added according
+to Fig. 2. One can prove the following property of Gn.
+Lemma 1. Every vertex in Gn has at most 4 edges. There is a polynomial-time Turing machine M∗such that, for every input
+instance (n, u) where u ∈Vn, it outputs all the predecessors and successors of vertex u in graph Gn.
+We use Cn to denote the set of graphs G = (Vn, E) such that E ⊂En and for every u ∈Vn, both of its in-degree and
+out-degree are no more than one.
+The new search problem RLEAFD is similar to LEAFD. The only difference is that, in RLEAFD, the directed graph G
+generated by the input pair (K, 0k) always belongs to C2k. By Lemma 1, one can prove that RLEAFD ∈PPAD.
+Definition 6 (RLEAFD). The input instance is a pair (K, 0k) where K is the description of a polynomial-time Turing machine
+which satisfies: (1) for every vertex u ∈V2k, K(u) is an ordered pair (u1, u2) where u1, u2 ∈V2k ∪{no}; (2) K(0, 0) =
+(no, (1, 0)) and the first component of K(1, 0) is (0, 0). K generates a directed graph G = (V2k, E) ∈C2k. An edge uv appears
+in E iff v is the second component of K(u), u is the first component of K(v) and edge uv ∈E2k.
+The output of the problem is a directed leaf other than (0, 0).
+4. Problem RLEAFD is PPAD-Complete
+In this section, we will describe a reduction from LEAFD to RLEAFD and prove the latter is also complete in PPAD.
+Let G be a directed graph with vertex set {0, 1...n −1} which satisfies that the in-degree and out-degree of every vertex
+are at most one. We now build a graph C(G) ∈Cn in two steps. An important observation here is that C(G) is not a planar
+embedding of G, as the structure of G is mutated dramatically in C(G). However, it preserves the leaf nodes of G and does
+not create any new leaf node. Graph C(G) is constructed as follows.
+4452
+X. Chen, X. Deng / Theoretical Computer Science 410 (2009) 4448–4456
+Fig. 4. Graph C(G) ∈C3.
+1. Starting from an empty graph (Vn, ∅), for every ij ∈G, add path Eij;
+2. For every u ∈Vn of degree 4, remove all the four edges which have u as an endpoint and add four edges around u using
+Fig. 2.
+One can check that, for each vertex in graph C(G), both of its in-degree and out-degree are no more than one, and thus,
+we have C(G) ∈Cn. For example, Fig. 4 shows C(G) where G = ({0, 1, 2}, {02, 21}). The following lemma is easy to check.
+Lemma 2. Let G be a directed graph with vertex set {0, . . . n−1} which satisfies that the in-degree and out-degree of every vertex
+are at most one. For every vertex 0 ≤k ≤n −1 of G, it is a directed leaf of G iff u = (0, 6k) ∈Vn is a directed leaf of C(G). On
+the other hand, if u ∈Vn is a directed leaf of C(G), then u1 = 0 and 6|u2.
+Lemma 3. Search problem RLEAFD is PPAD-complete.
+Proof. Let (M, 0k) be an input instance of LEAFD and G be the directed graph specified by M. It is tedious, but not hard, to
+show that one can build a Turing machine K from M in polynomial time, such that
+1. K satisfies all the conditions in Definition 6; and
+2. As an input of RLEAFD, the graph generated by K is exactly C(G) ∈C2k.
+On the other hand, Lemma 2 shows that, given any directed leaf of C(G), we can locate a directed leaf of G easily. In this way,
+we get a reduction from LEAFD to RLEAFD and the lemma follows.
+□
+5. 2D-SPERNER is PPAD-Complete
+In this section, we present a polynomial-time reduction from RLEAFD to 2D-SPERNER and finish the completeness proof
+of 2D-SPERNER.
+Let (K, 0k) be an input instance of RLEAFD and G ∈C2k be the directed graph generated by K. We will build a polynomial-
+time Turing machine F that defines an admissible 3-coloring on T22k+5. Given a trichromatic triangle ∆∈S of F, a directed
+leaf of G can be found easily. To clarify the presentation here, we use u, v, w to denote vertices in V2k, and p, q, r to denote
+vertices in T22k+5.
+To construct F, we first define a mapping F from V2k to T22k+5. Since G ∈C2k, its edge set can be uniquely decomposed
+into a collection of paths and cycles P1, P2, . . . Pm. By using F , every Pi is mapped to a set I(Pi) ⊂T22k+5. Only vertices in
+I(Pi) have color 0 (with several exceptions around A0). All the other vertices in T22k+5 are colored carefully with either 1 or
+2. Let ∆∈S be a trichromatic triangle of F and p be the point in ∆with color 0, then the construction of F guarantees that
+F −1(p) ∈V2k is a directed leaf of G, which is different from (0, 0).
+Firstly, the mapping F from V2k to T22k+5 is defined as F (u) = p where p1 = 3u1 + 3 and p2 = 3u2 + 3. For each
+uv ∈E2k, we use I(uv) to denote the set of four vertices in T22k+5 which lie on the segment between F (u) and F (v). Let
+P = u1...ut be a simple path or cycle in G2k where t > 1 (if P is a cycle, then u1 = ut), then we define I(P) = ∪t−1
+i=1 I(uiui+1)
+and O(P) ⊂T22k+5 as
+O(P) =
+
+p ∈T22k+5 and p /∈I(P) | ∃p′ ∈I(P), ||p −p′||∞= 1
+	
+.
+If P is a simple path, then we can further decompose O(P) into {sP, eP} ∪L(P) ∪R(P). Here sP = F (u1) + (u1 −u2) and
+eP = F (ut) + (ut −ut−1). Starting from sP, we enumerate vertices in O(P) clockwise as sP, q1...qn1, eP, r1...rn2, then
+L(P) =
+
+q1, q2...qn1	
+and
+R(P) =
+
+r1, r2...rn2	
+.
+X. Chen, X. Deng / Theoretical Computer Science 410 (2009) 4448–4456
+4453
+Fig. 5. Behavior of turing machine F.
+Fig. 6. G2 and G ∈C2.
+If P is a simple cycle, then we decompose O(P) into L(P) ∪R(P) where L(P) contains all the vertices on the left side of the
+cycle and R(P) contains all the vertices on the right side of the cycle.
+As the graph G specified by (K, 0k) belongs to C2k, we can uniquely decompose its edge set into P1, . . . Pm. For every
+i : 1 ≤i ≤m, Pi is either a maximal path (that is, no path in G contains Pi), or a cycle in graph G. For both cases, the length
+of Pi is at least 1. One can prove the following two lemmas.
+Lemma 4. For all i, j : 1 ≤i ̸= j ≤m,
+ I(Pi) ∪O(Pi)
+
+∩
+ I(Pj) ∪O(Pj)
+
+= ∅.
+Lemma 5. Let (K, 0k) be an input instance of problem RLEAFD and G ∈C2k be the directed graph specified, we can construct a
+polynomial-time TM MK in polynomial time with the following properties. Given any vertex p ∈T22k+5, it outputs an integer t:
+0 ≤t ≤5. Let the unique decomposition of graph G be P1, P2...Pm, then: if ∃i, p ∈I(Pi), then t = 1; if ∃i, p ∈L(Pi), then t = 2;
+if ∃i, p ∈R(Pi), then t = 3; if ∃i, p = sPi, then t = 4; if ∃i, p = ePi, then t = 5; otherwise, t = 0.
+Finally, Turing machine F is described by the algorithm in Fig. 5. For example, let G ∈C2 be the graph generated by
+(K, 01), which is illustrated in Fig. 6, then Fig. 7 shows the 3-coloring F on T128. As T128 contains so many vertices, not all of
+them are drawn in Fig. 7. For every omitted vertex p ∈T128, if p1 = 0, then F(p) = 1, otherwise, F(p) = 2.
+One can prove the following two properties of TM F: (1) the 3-coloring f specified by F is admissible; (2) let ∆∈S be a
+trichromatic triangle and p be the vertex in ∆with color 0, then u = F −1(p) is a directed leaf of G, which is different from
+(0, 0). By these two properties, we get the following theorem.
+Theorem 1. Search problem 2D-SPERNER is PPAD-complete.
+4454
+X. Chen, X. Deng / Theoretical Computer Science 410 (2009) 4448–4456
+Fig. 7. F: black — 0, gray — 1, white — 2.
+6. 2D-BROUWER is PPAD-complete
+Recently, Daskalakis, Goldberg and Papadimitriou [3] proved that the problem of computing Nash equilibria in games
+with four players is PPAD-complete. In the proof, they define a 3D Brouwer fixed point problem and proved it is PPAD-
+complete. By reducing it to 4-Nash, they show that the latter is also complete in PPAD.
+In this section, we first define a new problem 2D-BROUWER which is a 2D analogue of the 3D problem [3]. By reducing
+2D-SPERNER to 2D-BROUWER, we prove the latter is also PPAD-complete.
+For every n > 1, we let
+Bn =
+
+p = (p1, p2) ∈Z2 | 0 ≤p1 < n −1 and 0 ≤p2 < n −1
+	
+.
+The boundary of Bn is the set of points p ∈Bn with pi ∈{0, n −1} for some i ∈{1, 2}. For every p ∈Z2, we let
+Kp = {q ∈Z2 | qi = pi or pi + 1, ∀i ∈{1, 2} }. A 3-coloring of Bn is a function g from Bn to {0, 1, 2}. It is said to be
+valid if for every p on the boundary of Bn: if p2 = 0, then g(p) = 2; if p2 ̸= 0 and p1 = 0, then g(p) = 0; otherwise,
+g(p) = 1.
+Definition 7 (2D-BROUWER). The input instance of 2D-BROUWER is a pair (F, 0k) where F is a polynomial-time TM which
+produces a valid 3-coloring g on B2k. Here g(p) = F(p) ∈{0, 1, 2} for every p ∈B2k. The output is a point p ∈B2k such that
+Kp is trichromatic, that is, Kp has all the three colors.
+The reason we relate this discrete problem to Brouwer’s fixed point theorem is as follows. Let G be a continuous map
+from [0, n −1] × [0, n −1] to itself. If G satisfies a Lipschitz condition with a large enough constant, then we can construct
+a valid 3-coloring g on Bn such that:
+1. For every point p ∈Bn, g(p) only depends on G(p);
+2. Once getting a point p ∈Bn such that Kp is trichromatic, one can immediately locate an approximate fixed point of map G.
+Details of the construction can be found in [1].
+Notice that the output of 2D-BROUWER is a set Kp of four points which have all the three colors. Of course, one can
+pick three vertices in Kp to form a trichromatic triangle ∆, but it’s possible that ∆/∈S. Recall that every triangle in S has
+a northwest oriented hypotenuse. In other words, the hypotenuse of the trichromatic triangle in Kp might be northeast
+oriented. As a result, 2D-BROUWER could be easier than 2D-SPERNER.
+Motivated by the discussion above, we define a problem 2D-BROUWER∗whose output is similar to 2D-SPERNER. One
+can reduce 2D-SPERNER to 2D-BROUWER∗easily and prove the latter is complete in PPAD.
+X. Chen, X. Deng / Theoretical Computer Science 410 (2009) 4448–4456
+4455
+Fig. 8. The construction of Turing machine F ′.
+Fig. 9. F ′: c1 = F(l, k), c2 = F(l + 1, k), c3 = F(l, k + 1) and c4 = F(l + 1, k + 1).
+Definition 8 (2D-BROUWER∗). The input instance is a pair (F, 0k) where F is a polynomial-time Turing machine which
+generates a valid 3-coloring g on B2k. Here g(p) = F(p) ∈{0, 1, 2} for every p ∈B2k.
+The output is a trichromatic triangle ∆∈S which has all the three colors.
+We now give a reduction from 2D-BROUWER∗to 2D-BROUWER.
+Let (F, 0k) be an input pair of 2D-BROUWER∗, and n = 2k. In Fig. 8, we describe a new Turing machine F ′ which generates
+a new 3-coloring on B3n. For 0 ≤l, k < n, Fig. 9 shows the 3-coloring produced by F ′ on {3l, 3l+1, 3l+2, 3l+3}×{3k, 3k+
+1, 3k+2, 3k+3} ⊂B3n. Clearly, F ′ is also a polynomial-time Turing machine, which can be constructed from F in polynomial
+time. Besides, F ′ generates a valid 3-coloring on B3n. We now prove that, for every p ∈B3n such that set Kp is trichromatic
+in F ′, one can recover a trichromatic triangle ∆∈S in F easily.
+Let p1 = 3l + i and p2 = 3k + j, where 0 ≤i, j ≤2. By examining Fig. 9, we know that either (i, j) = (0, 1) or
+(i, j) = (2, 1). Furthermore,
+1. if (i, j) = (0, 1), then ∆= (p0, p1, p2) ∈S is a trichromatic triangle in F, where p0 = (k, l), p1 = p0 + e1 and
+p2 = p0 + e2;
+2. if (i, j) = (2, 1), then ∆= (p0, p1, p2) ∈S is a trichromatic triangle in F, where p0 = (k + 1, l + 1), p1 = p0 −e1 and
+p2 = p0 −e2.
+Finally, we get an important corollary of Theorem 1.
+Theorem 2. Search problem 2D-BROUWER is PPAD-complete.
+7. Concluding remarks
+All the PPAD-completeness proofs of Sperner’s problems before rely heavily on embeddings of complete graphs in
+the standard subdivisions. That is, edges in the complete graph correspond to independent paths which are composed of
+neighboring triangles or tetrahedrons in the standard subdivision. Such an embedding is obviously impossible in the plane,
+as complete graphs with order no less than 5 are not planar. We overcome this difficulty by placing a carefully designed
+4456
+X. Chen, X. Deng / Theoretical Computer Science 410 (2009) 4448–4456
+gadget (which looks like a switch with two states) at each intersection of two paths. While the structure of the graph is
+mutated dramatically (e.g. Fig. 4), the property of a vertex being a leaf is well maintained.
+An important corollary of the PPAD-completeness of 2D-SPERNER is that, the computation of discrete Brouwer fixed
+points in 2D spaces (2D-BROUWER) is also PPAD-complete. Our new proof techniques may provide helpful insight into the
+study of other related problems: Can we show more problems complete for PPA and PPAD? For example, is 2D-TUCKER
+[9] PPAD-complete? Can we find a natural complete problem for either PPA or PPAD that does not have an explicit Turing
+machine in the input? For example, is SMITH [9] PPA-complete? Finally and most importantly, what is the relationship
+between complexity classes PPA, PPAD and PPADS?
+Acknowledgements
+The first author’s work is supported by the National Natural Science Foundation of China (Grant 60553001), and the
+National Basic Research Program of China (Grant 2007CB807900, 2007CB807901). The second author’s work is supported
+by an SRG grant (No. 7001838) of City University of Hong Kong.
+References
+[1] X. Chen, X. Deng, On algorithms for discrete and approximate Brouwer fixed points, in: Proceedings of the 37th Annual ACM Symposium on Theory
+of Computing, STOC, 2005, pp. 323–330.
+[2] X. Chen, X. Deng, S.-H. Teng, Computing Nash equilibria: Approximation and smoothed complexity, in: Proceedings of the 47th Annual IEEE
+Symposium on Foundations of Computer Science, FOCS, 2006.
+[3] C. Daskalakis, P.W. Goldberg, C.H. Papadimitriou, The complexity of computing a Nash equilibrium, in: Proceedings of the 38th Annual ACM
+Symposium on Theory of Computing, STOC, 2006.
+[4] K. Friedl, G. Ivanyos, M. Santha, F. Verhoeven, On the black-box complexity of Sperner’s lemma, in: Proceedings of the 15th International Symposium
+on Fundamentals of Computation Theory, 2005, pp. 245–257.
+[5] K. Friedl, G. Ivanyos, M. Santha, F. Verhoeven, Locally 2-dimensional Sperner problems complete for polynomial parity argument classes, in:
+Proceedings of the 6th Italian Conference on Algorithms and Complexity, 2006, pp. 380–391.
+[6] M. Grigni, A Sperner lemma complete for PPA, Information Processing Letters 77 (5–6) (2001) 255–259.
+[7] M.D. Hirsch, C.H. Papadimitriou, S. Vavasis, Exponential lower bounds for finding Brouwer fixed points, Journal of Complexity 5 (1989) 379–416.
+[8] C.H. Papadimitriou, On graph-theoretic lemmata and complexity classes, in: Proceedings of the 31st Annual Symposium on Foundations of Computer
+Science, 1990, pp. 794–801.
+[9] C.H. Papadimitriou, The complexity of the parity argument and other inefficient proofs of existence, Journal of Computer and System Sciences 48
+(1994) 498–532.
+[10] E. Sperner, Neuer beweis fur die invarianz der dimensionszahl und des gebietes, Abhandlungen aus dem Mathematischen Seminar Universitat
+Hamburg 6 (1928) 265–272.

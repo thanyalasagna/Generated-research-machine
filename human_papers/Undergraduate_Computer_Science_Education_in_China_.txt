@@ -1,0 +1,665 @@
+Undergraduate Computer Science Education in China 
+Ming Zhang 
+School of Electronics Engineering 
+and Computer Science 
+Peking University 
+mzhang@net.pku.edu.cn
+Virginia M. Lo* 
+Department of Computer 
+and Information Science 
+University of Oregon 
+lo@cs.uoregon.edu  
+ 
+ABSTRACT 
+This paper examines the current status of professional computing 
+education for undergraduate majors and fundamental computer 
+education for non-majors in China.  We describe the evolution of 
+computing education over the past decade and its role in meeting 
+society’s requirements for IT talent, and we discuss developing 
+trends for computing education at China’s universities.  We 
+conclude with a description of the Computer Science major at 
+Peking University, one of the nation’s leading research-based 
+computer science departments.  
+Categories and Subject Descriptors 
+K.3.2 [Computers and Education]: Computer science education, 
+curriculum. 
+General Terms 
+Design, Management, Standardization 
+Keywords 
+Computer science education, China, Peking University, School of 
+Electronics Engineering and Computer Science 
+1. INTRODUCTION 
+In the 21st century, information technology has permeated every 
+sector of life in China. The capabilities of collecting, presenting, 
+storing, transferring, processing, controlling, and applying 
+information are fundamental to daily life and have become an 
+important aspect of basic literacy. The field of computer science 
+and technology plays a pivotal role in the rapid growth of China’s 
+economy through the training of a talented pool of scientists, 
+engineers, and IT professionals. 
+ In this paper, we present developments in professional computing 
+education for undergraduate majors and fundamental computer 
+education for non-majors in China, as the nation moved from an 
+elite computer education model to a “mass education” model.   
+ 
+ 
+ 
+Permission to make digital or hard copies of all or part of this work for 
+personal or classroom use is granted without fee provided that copies are 
+not made or distributed for profit or commercial advantage and that copies 
+bear this notice and the full citation on the first page. To copy otherwise, 
+or republish, to post on servers or to redistribute to lists, requires prior 
+specific permission and/or a fee. 
+SIGCSE’10, March 10–13, 2010, Milwaukee, Wisconsin, USA. 
+Copyright 2010 ACM  978-1-60558-885-8/10/03...$10.00. 
+While some aspects of the evolution of computer science 
+education are unique to China, many issues are those faced by 
+computer science educators worldwide regarding innovation, 
+internationalization, and relevance to society’s needs. As an 
+example of the changes in computer science education in China, 
+we describe the Computer Science major in the School of 
+Electronics Engineering and Computer Science at Peking 
+University, one of the nation’s leading comprehensive research-
+based universities. 
+2. BACKGROUND IN COMPUTING 
+EDUCATION IN CHINA*  
+The flagship computing discipline in China is Computer Science 
+and Technology.  Established in 1956, this field has gone through 
+over 50 years’ development to become the largest undergraduate 
+major in China [2].  
+The current curriculum for Computer Science and Technology 
+was proposed in 1996, modeled after ACM Computing Curricula 
+1991.  This curriculum emphasized computer software and 
+computer applications, built on the foundations of computer 
+science and engineering. However, the ACM curriculum model 
+for computing education did not completely meet the economic 
+needs nor the scale of the Chinese educational system. 
+In 1998, the policies of the Ministry of Education (MOE) in 
+China promoted the transition from “elite education” to “mass 
+education” by dramatically increasing university enrollments. 
+Before 1998, only a very small elite group of students were 
+admitted to China’s universities through an intensely competitive 
+national examination system. The change to “mass education” 
+was driven by the huge growth in the high tech economic sector 
+in China as well as the desire to expand educational opportunities 
+to a greater portion of China’s talented youth.  Correspondingly, 
+more and more universities built up their computer education 
+programs. At the end of 1994, there were only 318 universities 
+offering the computer specialty programs in China; and by 2002, 
+there were 484 programs; by 2003, 505 programs, an increase of 
+4%; by 2004, 652 programs, an increase of 29%  [6].  
+ 
+By the end of 2007, there were 598 universities that had 
+departments of computer science running 847 computing related 
+specialty programs, with total enrollment of over 430,000 
+undergraduates. In addition to these Computer Science and 
+Technology programs, there were more than 10 computing related 
+                                                                 
+* 
+Supported 
+in 
+part 
+by 
+NSF 
+Grant 
+#0722341, 
+CPATHi18n: 
+Internationalization of Computer Science: the Pacific Rim Community 
+Model. 
+ 
+396
+disciplines and nearly 2,000 related specialty programs with 
+nearly 1,000,000 undergraduates.  Table 1 gives the size of some 
+of the key disciplines.   
+ 
+Table 1: Key Computer-related Disciplines (2005) 
+Discipline 
+Number 
+of 
+Departments  
+Computer Science and Technology 
+771 
+Information 
+Management 
+and 
+Systems 
+501 
+Information and Computing Science 
+441 
+E-commerce 
+280 
+Educational Technology 
+202 
+Software Engineering 
+149 
+Geographic Information Systems 
+137 
+Network Engineering 
+115 
+Information Engineering 
+51 
+Information Security 
+49 
+ 
+Realizing the fact that increasing enrollments had adverse effects 
+on the quality of education, the Ministry of Education in China 
+started the “Quality Engineering Plan” (http://www.zlgc.org/) in 
+2003. The following six initiatives were carried out to improve 
+and ensure the quality of higher education graduates: approval of 
+novel specialty disciplines; recognition of national best courses, 
+best textbooks and qualified course repositories; innovative 
+practical education and training of China’s talent pool; 
+certification of distinguished teachers and qualified educational 
+teams; evaluation of education quality; and higher education 
+backup for China’s western region.  In addition, efforts were 
+made to reform and improve creativity and to develop excellent 
+quality curricula.  In the same year, the Advisory Committee for 
+the Computing Discipline of the Ministry of Education kicked off 
+a program of reform for China’s Computing Curricula. The main 
+tasks of the Advisory Committee were as follows: advise the 
+MOE regarding strategic directions for undergraduate disciplines; 
+provide curriculum guidance to educational institutions; and 
+supervise the evaluation of computing education.  
+Based on a set of field trips to 10 universities and 12 IT 
+companies and based on information obtained through thousands 
+of questionnaires, the following observations were made [7]:  
+First, it takes too much time to train graduates to be ready to work 
+in industry given the nation’s intense workforce needs. In 2004, 
+the MOE predicted that the incremental demand for computing 
+talent is 1 million people per year.   Second, students are losing 
+confidence in the overall competence achieved through the 
+Computer Science and Technology major, compared with other 
+majors. “What is my core competence? The other majors seem to 
+be able to do all I can do!”  Seniors and graduates complain about 
+the education/training received.  Third, Computer Science and 
+Technology has fallen from its rank as the 1st or 2nd choice by 
+high school students when they chose majors in university to its 
+current rank of 5th or 6th.  Finally, despite government statistics 
+that show a big shortage of IT professionals, the future for 
+graduates is unbalanced.  Top-level graduates in China are in very 
+high demand and there is a severe shortage of these highly 
+qualified individuals.  Conversely, the unemployment problem for 
+the graduates from lower-level institutions grew significantly after 
+2000 due to enrollment surges. 
+The Advisory Committee for the Computing Discipline identified 
+four new challenges for computing professional education: (1) 
+broadening of the discipline’s intention; (2) development of 
+greater independence of sub-disciplines within the discipline of 
+computing; (3) addressing the diversity of society’s needs for 
+information technology; (4) coping with the popularization and 
+huge scale of computing education.  These factors impelled the 
+Ministry of Education to analyze the precise role of computing 
+education within the university educational system and the 
+maximum utility of resources. Merely applying the name 
+“Computer Science and Technology” to hundreds of new 
+departments and programs was clearly not enough.  
+ 
+3. PROFESSIONAL COMPUTING 
+EDUCATION FOR MAJORS 
+ 
+3.1 Pyramid Model of Computing Education 
+Based on research conducted by the Ministry of Education 
+regarding the role of computing education and society’s needs for 
+computing professionals, a new pyramid model of computing 
+education was developed that identified three basic directions for 
+training the nation’s high tech workforce: Science-oriented, 
+Engineering-oriented and Technology-oriented, with the smallest 
+talent pool at the top, and the largest talent pool at the bottom.   
+According to Denning et. al, the fundamental question underlying 
+the discipline of computing is “what can be automated and how to 
+compute effectively,” approached through the three paradigms of 
+theory, abstraction and design [5]. The goal of the pyramid model 
+of computing education is to develop different talent pools 
+working within various sub-disciplines and to utilize appropriate 
+ 
+ 
+ 
+397
+problem-solving methodologies within the three tiers of the 
+pyramid. 
+Science-oriented talent focuses on “what can be automatically 
+computed effectively.” Education in this tier focuses primarily on 
+theory and abstraction paradigms.  This group comprises the 
+nation’s distinguished scientific talent pool.  Their role in 
+scientific discovery is innovation and creativity through research-
+oriented careers.   Engineering-oriented talent is concerned with 
+“how to implement automatic computing effectively and at low 
+cost.”  Their focus is on theory and design paradigms through 
+engineering solutions.  Talented students in this pool are trained 
+to master fundamental theories in order to guide engineering 
+design and implementation.  Technology-oriented talent is 
+concerned with the goal of “making it convenient to use computer 
+systems for automatic computing.”  The focus here is on the 
+design paradigm.  This talent pool learns theories of system 
+construction and receives training in fundamental methods for 
+problem description.   With engineering at the forefront, this 
+group is prepared to construct application-based computing 
+systems that meet customers’ needs.  
+ 
+3.2 Strategies for Professional Computing 
+Education 
+Integrating the analysis and ideas of ACM-IEEE CC2005, the 
+Ministry of Education suggested the following development 
+strategies for professional computing education:   
+ (1) Encourage universities to develop a variety of directions 
+under the name “Computer Science and Technology” based on the 
+trade-offs between societal needs and local or regional conditions, 
+allowing local decision-making for curriculum development. Each 
+university could name its departments as it saw fit and were no 
+longer constrained to use the names of the major specialties 
+currently approved by the Discipline Program Approval 
+Committee of the Ministry of Education, shown in Table 1.  
+(2) Provide further educational opportunities for young 
+teachers, enhancing their academic capabilities. Young teachers 
+can study abroad with support from the China Scholarship 
+Council, MOE and universities; visit other domestic universities; 
+take free courses provided by the High Education Institutions 
+Teacher 
+online 
+training 
+center, 
+paid 
+by 
+MOE,  
+(http://www.enetedu.com/).  Many places also provide summer 
+seminar and training courses with very low registration fee.  In 
+2001, the Ministry of Education sponsored the first University 
+Course Forum of Computer Science to encourage teachers to 
+exchange experiences and course materials.  
+ (3) Enhance the practical and hands-on ability of students.   
+With the increasing emphasis on engineering and technological 
+education, experimental courses and internship opportunities are 
+seen as important ways to help students improve their practical 
+skills. 
+ 
+In a 2007 survey of 53 Chinese universities, 49 said the strategy 
+was good for their departments, and 46 departments volunteered 
+to serve as pilot programs. With the endorsement of MOE, the 
+new strategies are being piloted in 14 universities and large scale 
+practice is anticipated in the near future, followed by evaluation 
+of these initiatives.  In Section 5, we describe specific strategies 
+employed by the School of Electronics Engineering and 
+Computer Science at Peking University in Beijing.   
+4. FUNDAMENTAL COMPUTER SCIENCE 
+EDUCATION FOR NON-MAJORS 
+China is also grappling with the challenge of providing 
+fundamental computing education for non-computer science 
+majors [4][5].  In 1999, courses in the fundamentals of computer 
+science became required in most Chinese universities, challenging 
+teachers with the role of educating huge number of students from 
+many disciplines and with diverse computing backgrounds.  
+During the next few years fundamental computing education 
+made significant strides:  the knowledge structure became more 
+mature, integrated and systematic; the quality of teachers, 
+textbooks, and the hardware environments greatly improved.  
+However, university-level fundamental computing education has 
+the following essential problems and challenges at present: 
+(1) The growth of computing-related disciplines. The 
+universities need guidelines to keep abreast of the recent 
+evolution in professional computing curricula into the five major 
+computing areas identified by IEEE-ACM CC2005: CS 
+(Computer Science), CE (Computer Engineering), SE (Software 
+Engineering), IT (Information Technology) and IS (Information 
+Systems) [1]. 
+(2) Relationship to professional education in other 
+disciplines. The requirements for IT skills in support of other 
+disciplines are complex, diverse, and rapidly changing. The 
+problem of designing fundamental computing education to fit the 
+computing needs of a wide range of disciplines is truly daunting.   
+(3) The quality of fundamental computing education. The 
+training of huge numbers of high quality IT professionals to meet 
+China’s needs has become the problem hotspot of fundamental 
+computing education. 
+      
+The current trends in fundamental computer education are 
+characterized by “diversification, modularization, networking and 
+integration” [8], meaning diversification in educational objectives, 
+knowledge body, and teaching methods; modularization of the 
+body of knowledge that is maximally adaptive to developments in 
+IT and “student-oriented” educational ideology; embracing of 
+network-based educational technologies available through the 
+Internet; and integration of fundamental computer education with 
+the professional education of other disciplines and of fundamental 
+computer education with application-driven computer science.  In 
+addition, computer education for non-majors will “orient[ing] to 
+applications, emphasizing on practice, focusing on information 
+literacy and fitness” [8] [9]  With the rapid growth of information 
+technology, students should achieve basic information literacy as 
+a foundation for lifelong learning and innovation, which is the 
+final goal of higher education. 
+5. COMPUTER SCIENCE AT PEKING 
+UNIVERSITY 
+Peking University, often referred to as the Harvard of China, is 
+one of China’s premier research universities.1 At present, Peking 
+                                                                 
+1  Peking University and Tsinghua University, China’s two most 
+prestigious universities, as well as the Chinese Academy of Sciences, are 
+located in the Haidian District, a western suburb of Beijing.  Their 
+campuses are adjacent to Zhonguancun (China’s Silicon Valley) providing 
+rich opportunities for interaction with the leading Chinese and 
+international high tech companies.  
+ 
+398
+University has 99 key national disciplines (among them 9 
+disciplines are nationally ranked number one), 271 research 
+institutions and research centres, including 2 national engineering 
+research centres,  and 13 national key laboratories.  Peking 
+University is a comprehensive university with research and 
+educational programs in the basic and applied sciences, social 
+sciences, the humanities, engineering, medicine, law, journalism, 
+management, and education.  As an example of the many 
+dimensions of computer science education in China, we briefly 
+describe the Computer Science major at Peking University, 
+housed in the School of Electronics Engineering and Computer 
+Science (EECS).  
+ 
+5.1 Computer Science Major Requirements 
+Each year approximately 3600 new undergraduates matriculate at 
+Peking University of which 340 are admitted to the School of 
+Electronics Engineering and Computer Science. 2   EECS 
+administers four majors: Computer Science and Technology, 
+Electronics, Microelectronics, and Machine Perception.  About 
+140 to 160 choose to major in Computer Science, and 40 to 60 
+choose to major in Machine Perception which is very close to 
+Computer Science.  The School of EECS sits at the top level of 
+the computer education pyramid and provides science-based 
+education for its highly talented group of students.   
+Those declaring CS as the major must fulfill the course 
+requirements shown in Tables 2-4, and must further specialize in 
+one of 9 subareas:  theoretical computer science, software 
+engineering, 
+database 
+and 
+data 
+management, 
+computer 
+networking, computer architecture, digital media and HCI, 
+artificial intelligence and intelligent perceptiveness, knowledge 
+discovery, or  natural language processing.  About 80% of the 
+undergraduates apply to work in a faculty research lab.  All 
+students must complete a one-year experimental thesis and pass 
+an oral defense. These requirements were instituted in 2007 as 
+part of EECS’s new strategies for curriculum reform and 
+innovation. 
+ 
+Table 2. School of EECS Foundation Classes 
+Intro to Information Science and Technology * 
+ 
+Mathematics 
+Analysis I/II/III 
+Advanced Math I/II 
+Advanced Algebra I/II 
+Linear Algebra 
+Physics  
+Mechanics (A,B) 
+Electromagnetism (A,B) 
+Physics C  
+Programming  
+Intro to Computing * 
+Programming Lab  
+Data Structures and Algorithms *  
+Data Structures and Alg Lab 
+Microelectronics  
+Microelectronics and  
+Circuit Design  
+Circuit Design Lab  
+ 
+                                                                 
+2 Peking University is also home to the School of Software and 
+Microelectronics which houses the engineering and application-based 
+departments:  Digital Arts and Design, Network and Communication 
+Technology, Embedded Systems Engineering, Software Technology, E-
+Services, Management and Technology, IC Design and Engineering, 
+Financial Information Engineering.  This school was ranked number one 
+of 36 schools of software established by the MOE’s national initiative in 
+engineering and technology-oriented education.    
+ 
+ 
+Table 3. Computer Science Major Foundation Classes 
+(in addition to EECS Foundations; * denotes core course) 
+Software  
+Compiler and Compiler Lab * 
+Operating Systems and Lab * 
+Programming Languages 
+Intro to Networking * 
+Hardware 
+Digital Logic and Lab 
+Microcomputer Architecture and 
+Lab 
+Computer Architecture and Lab  
+Theory 
+Set Theory and Graph Theory 
+Algebraic Structures and 
+Combinational Theory 
+Mathematical Logic 
+Probability and Statistics  
+Analysis of Algorithms  
+Intelligence 
+Human Brain and Cognition 
+Information Theory 
+Artificial Intelligence 
+Numerical Computing 
+Signals and Systems 
+ 
+Table 4. Computer Science Electives 
+Programming 
+Problem Solving and 
+Programming 
+Linux Programming 
+MS Windows Programming  
+Java Programming 
+Software Engineering 
+Software Engineering 
+Intro to Object-Oriented Design 
+Intro to Middleware 
+Software Testing 
+Service Oriented Architecture 
+Theoretical Computing 
+Intro to Theoretical Computer Science 
+Intro to Random Processes 
+Application of Primary Theory of   
+numbers 
+Data Management 
+Intro to Databases(Required) 
+Database Theory and Practice 
+Data Warehouse and Data Mining 
+Web Data Management 
+Spatial and Multimedia Database 
+Systems 
+Computer Networking  
+Networking  (Required) 
+Intro to Web Technology 
+Network and Web Programming 
+Network Protocol Analysis and 
+Design 
+Information Security 
+Network storage 
+Digital Media and HCI 
+Intro to Digital Media 
+Digital Video Processing 
+Computer Graphics 
+Visual Computing and Processing 
+Digital Art 
+Human Computer Interfaces 
+Computer Architecture 
+Assembly Language 
+Embedded Systems 
+Digital Signals and Multimedia 
+Processing 
+Natural Language Processing 
+Intro to Natural Language 
+Processing 
+Statistical Linguistic Analysis 
+Intro to Modern Information 
+Retrieval 
+Computer Intelligence and 
+Knowledge Discovery 
+Intelligent Information 
+Processing 
+Intro to Machine Learning  
+Intelligent Information System 
+Lab 
+Intelligent Perspectives 
+Pattern Recognition 
+Biological Signal Processing 
+Digital Signal Processing 
+Voice Signal Processing 
+Digital Graphics Processing 
+Scientific Writing 
+Adv. Information Technologies 
+Various courses 
+Senior Thesis (required) 
+   
+ 
+5.2 Innovation in Computer Science 
+Education 
+The desire to foster creativity and innovative thinking has 
+motivated redesign of the requirements within EECS to allow 
+more free electives, research mentoring of students, close 
+interactions with industry, and greater exposure to international 
+opportunities.  In 2007, the Computer Science Department set up 
+an experimental program, the Accelerated Course Plan, to foster 
+the development of a new generation of talented individuals 
+399
+whose 
+education 
+emphasizes 
+creativity, 
+leadership, 
+and 
+international competence.  The ACP was modeled after Peking 
+University’s Yuanpei Project, a university-wide initiative 
+designed to train the best and brightest as the nation’s future 
+leaders.  Under the Computer Science Accelerated Course Plan, 
+eight accelerated core courses are offered in lieu of the normal 
+courses: Advanced Introduction to Computer Science, Advanced 
+Programming 
+Practice, 
+Advanced 
+Data 
+Structures 
+and 
+Algorithms, Advanced Operating System, Advanced Database 
+System, Advanced Software Engineering, Advanced Compiler 
+Theory and Advanced Computer Architecture. The nation’s 
+stellar high school students are recruited to this intensive program 
+which allows them to quickly move into upper level courses and 
+creative research. 
+Another area of innovation promotes cutting-edge academic-
+industry interaction.  The department’s Advanced Technologies 
+course group sponsors courses to introduce new trends and 
+developments in industry to our students, such as “Advanced IT 
+Technology” taught by researchers from IBM’s Computer 
+Research Lab; “Parallel Computing in Multicore Architectures” 
+taught 
+by 
+engineers 
+from 
+Intel; 
+“Fundamental 
+Storage 
+Technology” taught by engineers from EMC.    
+In the arena of internationalization, our department hosts many 
+international lecturers, and during the summer sends students to 
+international exchange programs at UCLA, UC Berkeley, 
+Stanford, Yale, the University of Illinois at Urbana-Champaign, 
+and the University of Oregon, among others.  We also offer a 
+wide variety of international collaborative courses. From 2001 to 
+2006, we taught the introduction to web technology course in 
+collaboration with the University of New England with total 
+enrollment of over more than 500 students.  Supported by 
+University of Zurich, Switzerland, we successfully offered the 
+Artificial Intelligence course broadcast by videoconference in 
+2004, 
+which 
+will 
+be 
+continued 
+in 
+fall 
+2009. 
+See 
+http://shanghailectures.org/. 
+In  2010, we will offer a collaboratively taught course in Global 
+Distributed Software Engineering with the University of Oregon.  
+Project teams made up of students from Peking University and the 
+University of Oregon will work together across geographic, time 
+zone, and cultural differences.  This project is affiliated with the 
+NSF CPATHi18n project. 
+6. CONCLUSION 
+Reform and innovation in computing education in China faces 
+many challenges.  In order to meet China’s rapidly changing 
+social and economic needs, higher computing education should 
+update its educational objectives and ideology, rethink and re-
+invent the knowledge body of computing curricula, address the 
+individualized needs and talents of its students, and be responsive 
+to regional conditions. Furthermore, it is necessary to evolve 
+pedagogical methods, re-educate faculty members and evaluate 
+the efficiency and quality of education. 
+In addition, China should pursue forums for dialog with 
+colleagues from other countries on the advances in computing 
+education.  In 2008, the First ACM Summit on Computing 
+Education in China took place in Beijing, hosted by Tsinghua 
+University.  In October 2009, the Ministry of Education convened 
+the 5th University Course Forum of Computer Science featuring 
+leading U.S. computer science educators as the keynote speakers.  
+During the past decade much of the groundwork was laid 
+for a renaissance in China’s approach to computer science 
+education.  The next decade will be a time for continuing 
+innovation, increasing internationalization, and broader expansion 
+as we evaluate the outcomes of recent educational initiatives and 
+explore the exciting future of computer science education in 
+China and its role throughout the world. 
+7. ACKNOWLEDGMENTS 
+This paper was developed as part of the NSF funded project 
+CPATHi18n: Internationalization of Computer Science Education, 
+the Pacific Rim Community Model (www.cpathi18n.org) for the 
+purpose of educating the computer science education community 
+about 
+developments 
+in 
+Pacific 
+Rim 
+computer 
+science 
+departments.  Professor Zhang is a CPATHi18n partner, 
+representing Peking University, and Professor Lo is co-PI for the 
+CPATHi18n project.  Thanks to Xiaoming Li and Zongli Jiang 
+from the Advisory Committee of Computing Education China; 
+Xiangkui Yao and Kiki Davis, University of Oregon, and the 
+anonymous reviewers for help in the preparation of this paper. 
+8. REFERENCES 
+[1] ACM-IEEE CC2005. The overview report of computing 
+curricula 2005 
+[2] Advisory Committee of Computing Education. 2005. The 
+report of strategic study of computing curriculum in China. 
+China University Teaching 5 (2005), 7-10. 
+[3] Advisory Committee of Computing Education. The 
+fundamental computing curriculum for higher education in 
+China.  To be published by Press of High Education.  
+[4] Cortina, T. J.,  An introduction to computer science for non-
+majors using principles of computation.  In Proceedings of 
+the SIGCSE Conference (Covington, Kentucky, March 
+2007), 218-222. 
+[5] Denning, P. J. , Comer, D. E., Gries, D. et. al., 1989.  
+Computing as a discipline. Communications of the ACM, 32, 
+1, 9-23. 
+[6] Li, X.  and Lunt, B., 2006.  Undergraduate computing 
+education in China - a brief status and perspective.   In 
+Proceedings of SIGITE Conference (Minneapolis, 
+Minnesota, USA, October 19-21, 2006), 35-38. 
+[7] Li, X., Chen, P., Zhang, M. and Zhu, M., 2004.  Report of 
+the social requirement of talents in computer science and 
+technology. Journal of Computer Education 9 (2004), 11-18. 
+[8] Myers, J. P. Jr , 1989.  The new generation of computer 
+literacy. ACM SIGCSE Bulletin Archive, 21,1 (Feb. 1989), 
+177 – 181. 
+[9] National Research Council Computer Science and 
+Telecommunications Board, 1999.  Being fluent with 
+information technology. Washington, DC National Academy 
+Press, 1999 
+[10] Urban-Lurain, M. and Weinshank, D. J., 2000.  Is there a 
+role for programming in non-major computer science 
+courses? Proceedings Frontiers in Education (Kansas City, 
+Missouri, October 2000). 
+400

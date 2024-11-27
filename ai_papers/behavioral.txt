@@ -1,0 +1,11 @@
+CREATE TABLE Users (
+    UserID INT IDENTITY(1,1) PRIMARY KEY, -- Auto-incrementing primary key
+    UserName NVARCHAR(50) NOT NULL,       -- UserName column
+    Password NVARCHAR(255) NOT NULL       -- Password column
+);
+
+
+alice', 'abc'); DROP TABLE Users; --
+
+
+admin' OR '1'='1

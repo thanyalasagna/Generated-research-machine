@@ -1,0 +1,2091 @@
+Theoretical Computer Science 286 (2002) 323–366
+www.elsevier.com/locate/tcs
+Rasiowa–Sikorski deduction systems
+in computer science applications
+Beata Konikowska1
+Institute of Computer Science, Polish Academy of Sciences, Ordona 21, 01–237 Warsaw, Poland
+Abstract
+A Rasiowa-Sikorski system is a sequence-type formalization of logics. The system uses in-
+vertible decomposition rules which decompose a formula into sequences of simpler formulae
+whose validity is equivalent to validity of the original formula. There may also be expansion
+rules which close indecomposable sequences under certain properties of relations appearing in
+the formulae, like symmetry or transitivity. Proofs are /nite decomposition trees with leaves
+having “fundamental”, valid labels. The author describes a general method of applying the R-S
+formalism to develop complete deduction systems for various brands of C.S and A.I. logic,
+including a logic for reasoning about relative similarity, a three-valued software speci/cation
+logic with McCarthy’s connectives and Kleene quanti/ers, a logic for nondeterministic speci/-
+cations, many-sorted FOL with possibly empty carriers of some sorts, and a three-valued logic
+for reasoning about concurrency.
+c⃝2002 Elsevier Science B.V. All rights reserved.
+Keywords: Rasiowa-Sikorski; Deduction system; Decomposition rule; Decomposition tree;
+Completeness; Many-valued logic; Software speci/cation logic; Concurrency
+1. Introduction
+The aim of this paper is to advertise a powerful and <exible, yet simple methodology
+of developing deduction systems for various logics based on the analysis of their
+semantics.The paper will present a general outline of this methodology, and show
+examples of its applications to various brands of computer science logics.
+The said methodology is inherently connected with the semantics of the given logic,
+and its key concept is to obtain an adequate and complete proof mechanism for
+1 This research has been partially supported by the LoSSeD workpackage of the CRIT-2 project funded
+by European ESPRIT and INCO programmes.
+E-mail address: beatak@ipipan.waw.pl (B. Konikowska).
+0304-3975/02/$ - see front matter c⃝2002 Elsevier Science B.V. All rights reserved.
+PII: S0304-3975(01)00320-6
+324
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+the logic in a systematic way from the said semantics. This is achieved by “mir-
+roring” the semantics of all the logical constructs (connectives, quanti/ers, modali-
+ties, etc.) through invertible rules operating on sequences of formulae of the logic.
+The methodology is based on the use of a simple and universal deduction mech-
+anism developed by Polish logicians about 50 years ago: the Rasiowa–Sikorski
+(R–S) deduction system [24]—and hence from now on it will be called R–S
+methodology.
+An R–S deduction system is a sequence-type formalisation of logics in a natural
+deduction style. To prove validity of a complex formula, we decompose it step by
+step into a sequence or sequences of simpler ones, the validity of which is equiva-
+lent to that of the original formula. The resulting decomposition tree has the structure
+of a /nitely branching tree with vertices labelled by sequences of formulae; the tree
+is a proof if it is /nite and all its leaves are labelled with “axioms” of the logic,
+called fundamental sequences. The R–S system is described in more detail in the next
+section.
+From the semantic viewpoint, an R–S system is dual to the well-known tableau sys-
+tem of Beth [1]; in fact, the concept of developing a proof system through analysing
+the semantic is common to both systems. What is more, it can be argued that R–S
+systems and tableaux are, in fact, equivalent from the proof-theoretical viewpoint—
+though
+the
+diJerence
+in
+presentation
+might
+obscure
+this
+fact
+at
+/rst.
+In spite of this, there is a large disparity in popularity of both these deduction mecha-
+nisms: the tableau systems have gained much popularity due to their widespread use in
+proof automation, whereas R–S systems have remained relatively unknown. However,
+over the years, the R–S methodology based on the use of such systems has—in the
+author’s experience—proved to be a very convenient and powerful tool for developing
+proof mechanisms for multifarious formal systems connected with software speci/ca-
+tion and veri/cation, logics of information systems, as well as other issues related to
+CS logics.
+The R–S methodology has four essential advantages:
+• A clear-cut method of generating proof rules from the semantics: For all the formula
+constructors, we just give the condition for the resulting formula to be satis/ed, and
+the condition for it to be not satis/ed.
+• The resulting deduction system well suited for automated deduction purposes.
+• A standard and intuitively simple way of proving completeness by constructing a
+counter-model for a nonprovable formula out of its “wrong” decomposition tree in
+an R–S system.
+• An almost automatic way of transforming a complete R–S system into a complete
+Gentzen calculus system.
+In the paper we describe the R–S methodology and show how it can be applied to for-
+malize various types of logics encountered in computer science. Concrete examples of
+such applications coming from the author’s past work in the area of many-valued logics,
+nondeterminism, similarity, indiscerniblity and complementarity, as well as many-sorted
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+325
+/rst-order logic with empty carriers of some sorts, are given. Finally, a new result con-
+cerning formalisation of a temporal logic with a three-valued semantics for reasoning
+about concurrency is presented.
+The framework of the paper is based on [15], with new results concerning the
+above-mentioned temporal logic and complementarity logics added. There is also a
+new chapter on the transformation of an R–S system to a Gentzen calculus of se-
+quents
+subsuming
+earlier
+work
+and
+completing
+the
+presentation
+of
+the
+R–S
+methodology.
+2. Rasiowa–Sikorski systems, their inherent mechanisms and auxiliary tools
+In the section we shall describe the basic concept underlying the R–S methodology—
+the R–S deduction system mentioned in the introduction. Besides giving a formal de/-
+nition of such a system, we shall also try to point out the mechanisms used within R–S
+systems to handle some basic logical constructs, together with some auxiliary technical
+tools helpful in developing such systems.
+2.1. Fundamentals of Rasiowa-Sikorski deduction systems
+A Rasiowa–Sikorski (R–S) deduction system belongs to the broad class of the so-
+called “natural deduction” systems. It consists of
+• decomposition rules for sequences of formulae (“inference rules”),
+• fundamental sequences (“axioms”).
+The system is used for constructing a decomposition tree of a formula (or /nite se-
+quence of formulae) by repeated applications of decomposition rules. The rules break
+a complex formula into a sequence or sequences of simpler ones, the validity of which
+is equivalent to that of the original formula. If the resulting tree is /nite and all its
+leaves are labelled by fundamental sequences (“guaranteed” to be valid), then the for-
+mula (sequence) is said to be provable.
+Let us now de/ne the basic notions of the R–S system. We assume the context
+of an arbitrary formal language with well-de/ned syntax and semantics, in which the
+notion of a model incorporates a valuation. Satisfaction of a formula ’ in a model M
+is denoted by M |= ’, and the set of all formulae—by F.
+Denition 1. A sequence  = ’1; ’2; : : : ; ’n of formulae is satis0ed in a model M
+(M |= ) iJ M |= ’i for some i; 16i6n, and valid (|= ) iJ M |=  for each M.
+Thus, we see that the comma in sequences of formulae is equivalent to meta-
+disjunction on the level of satisfaction in a model (incorporating a valuation).
+Fundamental sequences form a subclass of valid sequences, i.e. any fundamental
+sequence is satis/ed in every model, and are de/ned separately for each concrete logic.
+Roughly speaking, they are chosen as sequences “guaranteed to be valid” by force of
+some basic law of the semantics of the logics, which gives rise to a simple criterion
+326
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+for recognising such sequences. In classical /rst-order logic, a fundamental sequence is
+any sequence which contains both a formula and its negation. The underlying semantic
+law is, of course, the fact that either a formula or its negation have to be satis/ed in
+a model incorporating a valuation.
+A decomposition rule is an expression of the form
+
+1 | 2 | : : : | n
+where all the ’s are sequences of formulae.  is called the conclusion of the rule,
+and 1; 2; : : : ; n—its premises. A rule is sound provided its conclusion is valid iJ
+all its premises are valid.
+Note that the notion of rule soundness used traditionally in case of R–S systems
+is stronger than usual. Indeed, sound decomposition rules are equivalent, or invertible
+rules leading from valid sequences to valid sequences in both directions—both “down-
+wards” and “upwards”. Intuitively, a more complex formula or sequence of formulae
+ is replaced by some simpler sequences 1; : : : ; n whose simultaneous validity is
+equivalent to validity of . This invertibility of rules is symbolised by a double hori-
+zontal line in notation of the rules. What is more, the branching | in rules corresponds
+to meta-conjunction on the validity level.
+An indecomposable formula is, intuitively, a formula not subject to further decom-
+position. Its formal de/nition is tailored to a concrete logic; in classical /rst-order logic
+it is just any literal. A sequence of formulae is said to be indecomposable if it only
+contains indecomposable formulae.
+Any decomposition rule can be presented in the following more detailed form:
+′; ; ′′
+′; 1; ′′ | ′; 2; ′′ | : : : | ′; n; ′′
+where ′ is an indecomposable sequence of formulae. As we see, ′; ′′ serve only
+as the context, and the actually decomposed subsequence (or just a formula)
+is .
+Hence, any decomposition rule is actually applied to the leftmost decomposable
+formula or subsequence of formulae, which determines the decomposition order for a
+given sequence of formulae. This is part of a “control mechanism” embedded in an R–S
+system aimed at facilitating automated deduction by providing an implicit deterministic
+algorithm for generating a decomposition tree of a formula (see also Sections 2.2
+and 2.5). Moreover, all indecomposable formulae are inherited by the next node in the
+decomposition tree, and so further down the branch.
+The fundamental strategy of developing decomposition rules is, roughly speaking,
+as follows: for each complex (i.e. decomposable) formula 	, and each logical value
+k, we must have a decomposition rule expressing validity of the formula equivalent
+to the statement “the value of 	 is k” in terms of simultaneous validity of some
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+327
+sequence(s) of formulae representing statements of the type “the value of 	i is ki”,
+where 	i are some simpler formulae (usually subformulae of 	), and ki are some logi-
+cal values. Of course, such strategy can only be implemented if the semantic conditions
+quoted above are expressible through formulae of a given logic, which amounts to ex-
+pressibility of all the clauses constituting the de/nition of semantics through formulae
+of the logic. Hence an R–S system can only be developed for the logics, the lan-
+guages of which are expressive enough (for more discussion, see the section on R–S
+methodology).
+As each complex formula 	 is of the form C(	1; : : : ; 	n), where C is some con-
+structor of the logic, the simplest way of implementing the strategy described above
+is to provide, for each such constructor, a rule expressing the validity of the formula
+representing the statement “the value of C(	1; : : : ; 	n) is k” in terms of simultaneous
+validity of some sequences of the formulae representing the statements “the value of
+	i is ki”.
+For example, in classical logic the statement “the value of 	 ∨ is true” is expressed
+by the formula 	 ∨. The latter formula is valid iJ, for any model M, either 	 or 
+are satis/ed in M, i.e. if the sequence 	;  is valid. This, after adding the contexts,
+gives rise to the rule
+′; 	 ∨; ′′
+′; 	; ; ′′
+:
+On the other hand, the statement “the value of 	 ∨ is false” is valid iJ the formula
+¬(	 ∨) is valid. The latter holds if both ¬	 and ¬ are satis/ed in any model, i.e.
+if both these formulae are valid. As a result, we get the decomposition rule
+′; ¬(	 ∨); ′′
+′; ¬	; ′′ | ′; ¬; ′′ :
+It should be noted that the above method cannot be applied directly to some unary
+constructors, because, e.g. in classical logic validity of ¬	 cannot be expressed through
+validity of anything simpler. Yet if we go one step lower and assume that 	 is a
+composed formula, e.g. of the form 	1 ∨	2, then we see that ¬	 can be handled using
+the rule for ¬(	1 ∨	2) (falsity of disjunction) developed above. Of course, the special
+case of 	 = ¬  needs a separate “double negation” rule
+′; ¬¬	; ′′
+′; 	; ′′
+:
+Thus, instead of trying to de/ne a rule for negation alone we just use a set of rules for
+all the compositions of the form ¬C, where C is any constructor of the logic (including
+negation itself).
+328
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+As a result, in case of /rst-order classical logic we have a single rule for the (double)
+negation itself, plus two rules for each other logical connective and each quanti/er:
+one for the resulting formula to be true, and one for it to be false. The full set of
+decomposition rules for /rst-order classical logic (quoted from [21]) is given below.
+Decomposition rules for classical logic:
+′; ¬¬	; ′′
+′; 	; ′′
+′; 	 ∨; ′′
+′; 	; ; ′′
+′; ¬(	 ∨); ′′
+′; ¬	; ′′|′; ¬; ′′
+′; 	 ∧; ′′
+′; 	; ′′|′; ; ′′
+′; ¬(	 ∧); ′′
+′; ¬	; ¬; ′′
+′; ∀x:	; ′′
+′; 	(z); ′′
+′; ¬∀x:	; ′′
+′; ¬	(t=x); ′′; ¬∀x:	
+′; ∃x:	; ′′
+′; 	(t=x); ′′; ∃x:	
+′; ¬∃x:	; ′′
+′; ¬	(z); ′′
+Here z is a variable which does not appear above the double line, and t is any term
+free for x in 	.
+As we see, basic decomposition rules of an R–S system break down any complex
+formula into its component parts—a sequence or sequences of simpler formulae that
+determine validity of the original formula. This is a fundamental concept of an R–S
+system that facilitates a “standardized” completeness proof by counter-model construc-
+tion.
+It should be noted that in addition to the decomposition rules of the type described
+above, called replacement rules, in R–S systems we encounter also a diJerent type of
+rules, “closing” a sequence under some relational axioms like symmetry or transitivity,
+and called expansion rules. For more information on both types of rules, the reader is
+referred to Section 2.3.
+2.2. Handling quanti0cation and modalities in R–S systems
+To see why the R–S systems—and hence R–S methodology—are so widely appli-
+cable, in the next two sections we discuss the way in which they handle the problem
+of expressing some basic constructs, like quanti/ers or relational axioms, 2 in the form
+of either decomposition rules or fundamental sequences.
+Let us start with the mechanism of dealing with quanti/cation in R–S systems. From
+the rules for classical quanti/ers given in the preceding section:
+′; ∀x:	; ′′
+′; 	(z); ′′
+′; ∃x:	; ′′
+′; 	(t=x); ′′; ∃x:	
+2 Here by relational axioms we mean axioms representing basic properties of relations, like re<exivity,
+transitivity, etc., which are specially important in case of modal logic. The best-known example of such
+axioms are the equality axioms.
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+329
+where z is a new variable, and t is any term free for x in 	, we can see that universal
+quanti/cation is replaced by substitution of a new free variable in the quanti/ed for-
+mula. Intuitively, this new variable represents an arbitrary substitution of some value
+for the original bound variable. In case of existential quanti/cation, we use subsequent
+substitutions of arbitrary terms for the bound variable in the quanti/ed formula, while
+copying the original formula. Clearly, this allows us to keep looking for a “witness” to
+the existential quanti/cation (i.e. a value which substituted for the quanti/ed variable
+x satis/es 	) while preserving an equivalent character (invertibility) of the rule.
+Note that shifting the existential quanti/er to the end of the decomposed sequence
+assures fairness of decomposition: in this way we avoid decomposing the existential
+formula again and again while the ones to the right of it would wait, possibly endlessly,
+for their turn. This is another element of the control mechanism embedded in R–S
+systems to facilitate automated deduction. Evidently, this part of the said mechanism
+is a basic safeguard against trivial (avoidable) in/nite loops.
+Of course, possibility and necessity modalities—which are just bounded existential
+and universal quanti/cation, respectively—can be handled in an analogous way, as we
+shall see in the section on similarity and complementarity logics, as well as in the
+section on temporal logic.
+What is more, the method can be extended to other relationships involving implicit
+quanti/cation—like inclusion of sets—which in turn will be seen in the section on the
+logic for nondeterministic speci/cations.
+2.3. Replacement and expansion rules—handling of relational axioms
+Now, let us pass to the problem of handling relation-related axioms, called shortly
+relational axioms. The simplest axioms involving one element only, like re<exivity or
+irre<exivity, are usually expressed through fundamental sequences. Thus, e.g. the fact
+that the equality relation is re<exive is expressed by stating that every sequence of
+formulae containing a formula “t = t” is fundamental.
+However, properties of relations involving several objects, like symmetry, transitivity,
+3-transitivity, antisymmetry, etc., are best expressed using a special type of decompo-
+sition rules.
+Namely, decomposition rules of any R–S system divided into two basic types. The
+/rst—discussed up to now—are replacement rules “breaking down” each decomposable
+formula into a sequence or sequences of simpler formulae whose validity determines
+validity of the original formula. The R–S system for classical logic (without equality)
+given in the preceding section consisted of replacement rules only, and as a typical
+example we can quote, e.g. the disjunction rule:
+′; 	 ∨; ′′
+′; 	; ; ′′ :
+The second are expansion rules which add some formula(e) to the sequence to close it,
+e.g. under a symmetry or transitivity property of some relation—or any other “relational
+330
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+axiom” of the logic. An exemplary expansion rule is
+′; t = u; ′′
+′; t = u; u = t; ′′
+closing a sequence of formulae under symmetry of equality.
+If we read the rule in the upward direction, these rules can be called omitting rules
+since one of the formulae in the premise is omitted due to the considered relational
+property. Sometimes the rule is expressed—for purely technical reasons—in terms of
+negated formulae, but the principle is always the same: an expansion rule adds to the
+relationships we already have those that follow from them due to certain properties of
+the relation involved.
+When de/ning decomposition rules or fundamental sequences, we should also keep
+in mind a simple fact that validity of the sequence ¬	1; : : : ; ¬	n;  is equivalent to
+validity of the (meta-)implication 	1∧· · ·∧	n ⇒. This can be very helpful in de/ning
+especially some expansion rules modelling entailments of the kind discussed above.
+Typical expansion rules expressing properties of relations will be given in the sub-
+sequent sections on modal logics.
+An important feature of the R–S methodology is that the two types of rules mentioned
+above have the following basic properties:
+• Replacement rules are applicable to decomposable sequences only.
+• Any R–S system is constructed in such a way that exactly one (instance of) a
+replacement rule is applicable to any given decomposable sequence.
+• Expansion rules can also be applied to indecomposable sequences.
+2.4. Use of signed formulae
+In many cases, the language we are interested in does not exhibit the dichotomous
+property characteristic for classical logic, where, given a model incorporating a val-
+uation, either a formula or its negation must be satis/ed in this model. This is the
+case, e.g. when the logical calculus is many valued, the negation is a nonstandard one,
+or there is no negation at all. Such a situation is usually a considerable drawback in
+developing the R–S deduction system, because we might lack means for expressing
+our basic semantic conditions of the form “the value of formula 	 is k” for k diJerent
+from true, i.e. the maximal logical value in a given logic.
+To overcome it, we can employ the mechanism of the so-called signed formulae
+used already by Beth in his tableau systems.
+A signed formula is obtained by preceding an ordinary formula by either the “truth”
+(satisfaction) operator T, or the “nontruth” (nonsatisfaction) operator N. Thus, using
+the N operator we can express the fact that a formula is not satis/ed, which amounts
+to introducing an arti/cial two-valued negation on top of the existing structure of the
+language. The use of T and N clari/es many technical issues by providing a clear-cut
+dichotomy “either T(	) or N(	)”.
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+331
+Denition 2. A signed formula over F is any element of the set
+SF = {T(	): 	 ∈F} ∪{N(	): 	 ∈F}:
+The notion of satisfaction of a signed formula in a model M is given by M |= T(	)
+i; M |= 	; M |= N(	) i; M ̸|= 	.
+Some examples of rules involving signed formulae will be given in the subsequent
+sections.
+We should note that the extension of the language with signed formulae need not
+be permanent. Namely, the T-N operators are not nested, and we can drop them by
+passing from a complete R–S system for signed formulae to an equivalent Gentzen
+calculus for “ordinary” formulae, as will be shown in Section 9.
+Finally, in case of a general many-valued logic—like e.g. Rosser–Turquette n-valued
+logic—instead of “binary” signed formulae we can use formulae labelled with the
+individual logical values. An example of such an approach is given e.g. in [14] or
+[17]. In that paper, the role of labels is actually played by the Jk operators “selecting”
+individual logical values k—but the principle is the same.
+2.5. Decomposition trees and proofs
+The general idea of the R–S deduction system is to decompose the original for-
+mula with the help of replacement rules into quite elementary formulae that cannot
+be decomposed any further—they are just the indecomposable formulae mentioned in
+Section 2.1. Then, in some logics, sequences of indecomposable formulae are “closed”
+by means of expansion rules.
+Proofs in R–S systems consist in constructing decomposition trees for formulae—
+or more generally, for sequences of formulae—using decomposition rules in the way
+described below.
+Denition 3. A decomposition tree for a formula ’ (a sequence ) is a maximal tree
+DT(’)(DT()) with vertices labelled by sequences of formulae de/ned inductively as
+follows:
+(i) The root of the tree is labelled by ’().
+(ii) Let v labelled by  be the leaf of a branch B of the tree constructed up to now.
+Then:
+(a) we terminate the branch B at vertex v if either:
+(a1)  is a fundamental sequence, or
+(a2)  is indecomposable and no expansion rule is applicable to ;
+(b) otherwise we expand the branch B beyond v by attaching to that vertex n
+sons labelled by 1; 2; : : : ; n if
+
+1|2| : : : |n
+is a decomposition rule applicable to .
+332
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+Thus in order to obtain a decomposition tree of ’ (or ), we label the root by ’
+(resp. ), and then expand the tree by applying the decomposition rules in R–S. If
+rule R applied to the label of a vertex has n premises, then the vertex has n sons,
+labelled by the n premises of the rule, respectively. If in the course of expanding the
+branch we get a fundamental sequence, we terminate the branch—successfully. The
+branch is also terminated, but unsuccessfully, if we get an indecomposable sequence
+to which no expansion rule (and hence no rule at all) can be applied. Hence, every
+leaf of the decomposition tree is labelled by either a fundamental or indecomposable
+sequence.
+Denition 4. A decomposition tree is called a proof if it is /nite and all its leaves are
+labelled by fundamental sequences. A formula ’ (sequence ) is said to be provable
+(⊢’; ⊢) iJ its decomposition tree DT(’) (DT()) is a proof.
+Recall that R–S systems are constructed in such a way that exactly one replace-
+ment rule is applicable to each decomposable sequence of formulae. Hence, re/ning
+the de/nition of the decomposition tree (see [11]) by adding rules for a unique choice of
+new variables=terms introduced by the rules, as well as for a unique choice of the
+expansion rule to be applied, we get, in fact, an algorithm for generating a unique
+decomposition tree DT() (DT(’)) for every sequence  (formula ’). Since the re-
+/nement is done in such a way that for a provable  that unique DT() is a proof of
+, then the said algorithm can be considered as a proof search algorithm. Of course,
+what we call an “algorithm” can only be a real algorithm in case of decidable logic.
+In case of an undecidable logic, the only thing we can hope for is a partial algorithm,
+which will produce proofs of valid formulae (in practice, those with “short” proofs),
+refutations of some invalid formulae (those with /nite decomposition trees), and will
+run forever on invalid formulae with in/nite decomposition trees—unless we impose
+a /xed limit on the number of steps, after which the algorithm will halt returning a
+“failure” result.
+From now on, we assume the decomposition tree is unique, and denote it as
+above.
+Example. As an example, let us consider the proof of an obviously valid FOL
+formula
+	(a) →((a) →∃x:(	(x) ∧(x)))
+in the R–S system for classical logic presented in Section 2.1. Since for the sake of
+brevity we did not incorporate implication in that system, treating it as a derived con-
+junctive, than we /rst replace the above formula by its equivalent using the equivalence
+’ → ≡¬ ’ ∨ , which yields
+¬	(a) ∨(¬(a) ∨∃x:(	(x) ∧(x))):
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+333
+The proof of the latter formula is as follows:
+¬	(a) ∨(¬(a) ∨∃x:(	(x) ∧(x)))
+| (∨)
+¬	(a); ¬(a) ∨∃x:(	(x) ∧(x))
+| (∨)
+¬	(a); ¬(a); ∃x:(	(x) ∧(x))
+| (∃; a)
+¬	(a); ¬(a); 	(a) ∧(a); ∃x:(	(x) ∧(x))
+| (∧)
+| (∧)
+¬	(a); ¬(a); 	(a); ∃x:(	(x) ∧(x))
+¬	(a); ¬(a); (a); ∃x:(	(x) ∧(x))
+Here the symbols labelling the vertical bars denote (the instances of) the rules used,
+and the underlined sequences are fundamental sequences labelling the leaves of the
+proof tree (recall that any sequences containing both a formula and its negation is
+fundamental).
+As we have mentioned in the introduction, the R–S system is dual to the tableau
+system from the semantic viewpoint. First, in a tableau system we prove validity of a
+formula ’ by showing that ¬ ’ has a closed tableau (refutation method), whereas in
+an R–S system we prove directly that ’ has a closed, “correct” decomposition tree.
+Second, splitting of branches corresponds to disjunction in a tableau, and to conjunction
+in an R–S decomposition tree.
+There are, however, two diJerences connected with the issue of automated deduction.
+First, the R–S system has an embedded “control mechanism” we have discussed above,
+generating after some re/nement a kind of proof search algorithm. Second, in an R–S
+system all information needed for further decomposition is contained in the vertex,
+so—in contrast to the tableaux case—no “look back” up the branch is needed, and
+when constructing the decomposition tree we need only to store the last vertex on
+each branch.
+Of course, from the viewpoint of practical applications in automated deductions
+these diJerences might not be very signi/cant. The “control mechanism” will need to
+be replaced by a more eOcient algorithm—probably analogous (or dual) to those used
+in case of tableaux, and storage of decomposition tree or a tableaux will probably be
+eJected through use of pointers to formulae anyway. However, one thing seems to be
+clear: R–S systems are as well suited to automated deduction as tableaux.
+In fact, the most important diJerence between these two types of systems—in the au-
+thor’s opinion, constituting a pronounced advantage of the R–S systems over tableaux—
+is the invertibility of rules in R–S systems: the property that tableaux do not have.
+Indeed, invertible rules are more desirable from the automatic deduction viewpoint,
+since they facilitate proof search. What is more, they enforce a greater discipline in
+334
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+developing the system, and make it easier to discover any possible loopholes leading
+to incompleteness.
+2.6. Soundness and completeness
+If the decomposition rules correctly represent semantics of individual logical
+constructs—which is exactly the basic idea behind the formalism, then it is a straight-
+forward thing to prove that the system is sound, i.e. provability implies validity.
+Theorem 1 (Soundness). For any sequence  and any formula ’;
+⊢ implies |= ;
+⊢’ implies |= ’:
+It is much more diOcult to prove completeness, but there is a general strategy of
+the proof:
+Theorem 2 (Completeness). For any sequence  of formulae; and any formula ’; if
+ (’) is valid; then  (’) is provable; i.e.
+|=  implies ⊢;
+|= ’ implies ⊢’:
+Proof (Strategy): We argue by contradiction, showing that 0  implies ̸|= . There
+are two situations when the decomposition tree DT() is not a proof. First, certain leaf
+may be not labelled by a fundamental sequence (Case 1), or the tree may be in/nite.
+By KPonig’s lemma, the latter implies existence of an in/nite path (Case 2).
+In Case 1, the set  of formulae appearing in the label of the leaf must consist of
+indecomposable formulae only; in Case 2, the set  of all indecomposable formulae
+appearing in the labels on the in/nite branch cannot contain a fundamental sequence.
+In both cases  must be closed under all expansion rules due to maximality of the
+tree.
+We construct a counter-model CM = ⟨C; v⟩for  with the universe consisting of ei-
+ther expressions of the language, or equivalence classes of such expressions. In Case 1,
+ cannot be true in CM. Indeed, as our decomposition rules are two-way ones, the
+label of a node of DT() is valid iJ the labels of all its sons are valid. Since the
+sequence labelling a leaf of DT() is not valid and the tree is /nite in Case 1, this
+proves  cannot be valid. In Case 2, we prove by induction on the rank of a for-
+mula (de/ned as the “height” of its syntactic derivation tree) that no formula on the
+considered in/nite branch can be true in CM. As the top node of this branch is the
+root labelled by  itself, then CM ̸|= , i.e.  is not valid, which ends the proof by
+contradiction.
+3. Outline of the R–S methodology
+In this section we present the basic outline of the R–S methodology, whose appli-
+cations to concrete computer science logics will be given in the subsequent sections.
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+335
+According to what has been said above, the basic idea of the methodology is to
+develop a sound and complete R–S deduction system (see the preceding section) for
+a given logic through analysis of its semantics. In principle, the resulting R–S deduc-
+tion system is treated as the /nal result returned by this methodology. However, when
+required it can be also further transformed to a Gentzen calculus using the translation
+procedure given in the paper, or—after certain re/nement—employed for automatic
+deduction purposes. Below we shall describe the individual aspects of the methodol-
+ogy, recalling also those that have been already discussed in the preceding sections in
+connection with presentation of the R–S deduction systems.
+Prerequisites of the methodology: As the R–S methodology is based on analysing the
+semantics of a given logic, the /rst prerequisite for applicability of this methodology
+is availability of an appropriate semantics for the logic, which is the starting point for
+the whole process. However, there is a second prerequisite too: the language of the
+logic must be expressive enough to adequately capture the semantics. Indeed: due to
+the strategy of developing the decomposition rules of an R–S system (see Development
+of an R–S system for a logic below), the individual clauses of the de/nition of the
+semantics must be expressible through formulae of the logics. In fact, this requirement
+closely parallels the one for tableaux, since both the proof methods base on mirroring
+semantics of individual logical constructs by proof rules.
+Adapting a logical language for the use of R–S methodology: If the language of
+the logic is not expressible enough to capture the necessary semantic conditions, then
+we can try to enrich it by introduction of some additional tools, like e.g. signed for-
+mulae, nominals, etc. This makes sense in cases when what we are really interested in
+is providing a sound and complete logic describing a given class of semantic models,
+which gives us a certain liberty with respect to the choice of the actual language. Thus,
+for example, the R–S methodology cannot handle any propositional modal or tempo-
+ral logic in its “classical” shape, i.e. with language containing propositional variables,
+logical conjunctives and modal operators only, since in that case validity of, e.g. ✷	
+cannot be expressed through validity of any simpler formulae. However, once we in-
+troduce nominals representing states of the underlying Kripke frame and a constant(s)
+for the accessibility relation(s), we can easily develop a complete R–S system for the
+logic (see e.g. Section 8). What is more, use of R–S methodology makes it quite easy
+to provide complete deduction systems for modal logics with modally inexpressible
+conditions on the accessibility relations, since in an R–S system such conditions can
+as a rule be expressed in a simple way like any other relational axioms, i.e. through
+either fundamental sequences or expansion rules (see Section 2.2).
+Applicability: From what has been said above it is rather evident that applicability of
+the R–S methodology should be practically the same as applicability of the tableau one:
+they are based on the same general principle, they are dual from the semantic view-
+point, practically equivalent from the proof-theoretic viewpoint, and have analogous
+prerequisites for applicability. Of course, up to now applications of the tableaux have
+been much more widespread than those of the R–S systems. Yet the application scope
+of the latter found in the literature is also quite wide. It covers classical logic [24],
+336
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+many-valued logics [11, 4], generic many-valued modal logic [13], arbitrary /nitely val-
+ued propositional logics [17], various types of programming logics [2, 11, 16], relative
+poly-modal logic [5, 12, 13], and temporal logic (Section 8).
+Finally, it should be mentioned that since the R–S methodology is particularly well
+suited to relational logics, then a wide class of logics to which the R–S methodology is
+not directly applicable can be treated in an indirect way by either providing a relational
+semantics for them or translating them to (some variant of) relational logic, for which
+an R–S system is readily available. Some examples of logic that can be handled in
+this way are various kinds of modal logic [22], relevant logic [21] and intuitionistic
+logic [7].
+Development of an R–S system for a logic: Assume we already have a logic sat-
+isfying the requirements set forth above, and now want to develop a complete R–S
+system for it. Then the strategy is as follows:
+Development of decomposition rules. As we have already mentioned in Section 2.1,
+for each complex (i.e. decomposable) formula 	, and each logical value k, we must
+have a decomposition rule expressing validity of the statement “the value of 	 is
+k” in terms of simultaneous validity of some sequences of formulae representing the
+statements “the value of 	i is ki”, where 	i is a formula simpler than 	 and ki are
+some logical values. Only in this way we can ensure that each complex formula is
+broken into elementary ones in the decomposition process—which is the cornerstone
+of an R–S deduction system. Of course, such strategy can only be implemented if the
+semantic conditions quoted above are expressible as formulae of a given logic (for
+more discussion, see Adapting a logical language for the use of R–S methodology
+above).
+When developing the rules, we must keep in mind the fact that the comma in se-
+quences corresponds to meta-disjunction on the level of satisfaction in a single model
+incorporating a valuation, whereas branching in a decomposition rule corresponds to
+meta-conjunction on the validity level (satisfaction in all models). A more detailed dis-
+cussion on decomposition rule development can be found in Section 2.1, and the mech-
+anisms for handling quanti/cation, modalities and relational type of axioms through
+decomposition rules are presented in Section 2.2.
+Fundamental sequences. The choice of fundamental sequences is governed by one
+basic principle: they must be valid due to some simple semantic property of the logic,
+which is expressible by a simple syntactic condition on a sequence . E.g., in classical
+logic the semantic property in question is the excluded middle law, and the corre-
+sponding syntactic condition is “for some 	, both 	 and ¬ 	 are in ”. Fundamental
+sequences are usually determined by the basic semantic “axioms” of the logic that
+guarantee validity of some formulae or meta-disjunctions of formulae. Some laws of
+the logic, like properties of relations, can be expressed either through fundamental se-
+quences or by expansion rules (see the relevant discussion in Section 2.2), and the
+choice is often decided by technical reasons connected with completeness proof.
+Ensuring completeness. There are two prerequisites for ensuring completeness of an
+R–S deduction system. First, we must have enough decomposition rules to break up
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+337
+every complex (in our terminology, decomposable) formula into simpler ones (see
+Development of decomposition rules above). Such rules are the replacement rules
+discussed in Section 2.2. Second, we must have enough expansion rules (see Sec-
+tion 2.2) and fundamental sequences to ensure that every indecomposable sequence
+that is valid will be recognised as such in the decomposition process (through giv-
+ing rise to a fundamental sequence), and the respective branch of the tree will get
+closed. Indeed: expansion rules close indecomposable sequences under, e.g., re<ex-
+ivity or transitivity rules for some relations appearing in the formulae, and then the
+resulting sequence—if valid—should fall into some class of fundamental sequences.
+The heuristics to achieve these is simply to look at the class of indecomposable for-
+mulae and check what types of sequences of such formulae must be valid—which
+is usually quite easy to determine in view of the simplicity of those formulae. Then
+we check if each such type of sequence is either some type of a fundamental se-
+quence, or can be transformed to such a sequence through “closure” by an expansion
+rule. If not, we add new fundamental sequences and=or expansion rules to guarantee
+that.
+Further options: As we have said before, the basic goal of the R–S methodology
+is to provide a logic with a sound and complete R–S deduction system. However,
+there are two optional further alternatives. One of them is transformation to a Gentzen
+sequent calculus to provide an interface to the sequent calculus environment, or in
+some cases get rid of the signed formulae introduced to enable development of an
+R–S system and return to the original language (see Sections 2.4 and 9). This is done
+using the practically automatic method described in Section 9. The second, much more
+important option, is
+Use for automatic deduction: If we want to use the resulting R–S system for au-
+tomated deduction purposes, then the elementary control mechanism embedded in the
+system, discussed in Sections 2.1, 2.2, and 2.5 must be replaced with something much
+more eOcient. For example, instead of the simple decomposition order “from left to
+right”, we should decompose formulae in an order that minimizes expansion of the de-
+composition tree. Thus, formulae requiring the use of nonbranching rules or rules with
+less branching should be decomposed before those requiring rules with more branch-
+ing, and likewise those generating shorter sequences of formulae should be decom-
+posed before those giving rise to longer ones. Universally quanti/ed formuale should
+be decomposed before existentially quanti/ed ones, and when choosing the terms for
+substituting into the latter we should start with those already appearing in the sequence,
+because this increases the chance of /nding a match to yield a fundamental sequence
+and thus close the branch of the decomposition tree.
+In case of fundamental sequences themselves, for the automatic deduction purposes
+there should be simple algorithm for determining whether a given sequence is funda-
+mental or not. This means that fundamental sequences should be best de/ned on the
+indecomposable formulae level, because as a rule simplicity of such formulae in terms
+of both their depth and length greatly facilitates development of such eJective decision
+algorithms.
+338
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+Of course, what we have said above is just a small glance at the issues connected
+with proof automation, and much deeper considerations are needed in case of any
+practical implementation, However, because of the close aOnity between R–S systems
+and tableau systems, a lot of ideas might come from looking at the automation methods
+used in case of tableau systems. In fact, this should be a fruitful area for further
+research.
+4. Three-valued and many-valued logics
+As the /rst example of an R–S system application, let us consider McCarthy’s three-
+valued logic with noncommutative disjunction and conjunction. This calculus is of a
+special interest for computer science as it supports lazy, sequential computation. In
+fact, McCarthy’s AND and OR have been used in the programming languages Euclid,
+Algol-W and C (see [3, 19] for more discussion on the subject). If we denote the three
+logical values employed there by tt (truth), + (falsity), and ee (unde/nedness or error),
+then the truth tables of McCarthy’s connectives are as follows:
+NOT tt + ee
++ tt ee
+OR tt + ee
+tt tt tt tt
++
+tt + ee
+ee ee ee ee
+AND tt + ee
+tt
+tt + ee
++
++ + +
+ee
+ee ee ee
+From the above truth tables we can see that McCarthy’s disjunction and conjunction
+are not commutative. This rather unusual property can be, however, easily explained if
+we interpret ee as corresponding to unde/nedness in the sense of in/nite computation.
+If we assume that the computation is sequential and lazy, and the value of a for-
+mula is computed from left to right, then obviously ee ∨x = ee ∧x = ee for any logical
+value x. Indeed if the computation to evaluate a formula 	 loops, then the evaluation
+of 	 ∨ and 	 ∧ loops too, and so both the formulae should be assigned the value
+ee, no matter what the value of  is—because we will never get to  anyway. So e.g.
+ee ∧+ = +. On the other hand, + ∧ee = +, since in a lazy computation after evaluating
+the /rst argument of a disjunction to + we do not look at the second argument at all
+and just accept + as the result, because “false and anything is false”. The asymmetry
+follows from the fact that in case of ee ∧+ we will never learn that + is there at all!
+To develop an R–S deduction system for such a logic, we use signed formulae (or,
+alternately, an “is-true” superpredicate T mapping three-valued predicates into two-
+valued ones, and its classical negation ¬ T = N—see [11]). If we accept tt as the only
+designated value, then the semantics of signed formulae is as follows:
+|T(	)| =
+ tt
+iJ |	| = tt;
++
+iJ |	| ∈{+; ee};
+|N(	)| =
+ tt
+iJ |	| ∈{+; ee};
++
+iJ |	| = tt;
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+339
+where | · | represents the value of a formula in a model (incorporating a valuation).
+Hence, we can “encode” all the possible values of a three-valued formula in a two-
+valued world by remarking that
+|	| = tt
+iJ
+|T(	)| = tt;
+|	| = +
+iJ
+|T(NOT	)| = tt;
+|	| = ee
+iJ
+|N(	)| = tt and |N(NOT	)| = tt:
+(1)
+This allows us to develop an R–S deduction system for a language featuring McCarthy’s
+connectives. From the above relationships it clearly follows that in case of a three-
+valued logic (not necessarily McCarthy’s one) we need four decomposition rules for
+each formula constructor: one for the resulting formula ’ to be true, one for it to be not
+true, one for NOT ’ to be true (that is, for ’ to be false), and one for NOT ’ to be not
+true. Indeed: to develop an R–S system for the logic, we must somehow express the
+semantic condition |	| = k for each formula 	 and each logical value k ∈{tt; +; ee}—
+and from Eq. (1) it clearly follows that for this purpose we have to consider all the
+four combinations of T=N applied to =NOT, when  denotes identity. Evidently, the
+underlying reason is that in the context of three valued, and in general many-valued
+logic, “not true” does not coincide with “false”.
+It should be noted that three-valued quanti/ers (e.g. Kleene’s ones) can be dealt
+with in much the same way (see [11]).
+As an example, let us give the four rules describing McCarthy’s disjunction. A
+complete set of decomposition rules for the logic is given in [11]:
+′; T(	 OR ); ′′
+′; T(	); T(NOT 	); ′′|′; T(	); T(); ′′
+′; N(	 OR ); ′′
+′; N(	); ′′ | ′; N(NOT 	); N(); ′′
+′; T(NOT(	 OR )); ′′
+′; T(NOT 	); ′′ | ′; T(NOT ); ′′
+′; N(NOT(	 OR )); ′′
+′; N(NOT 	); N(NOT ); ′′
+By way of example, let us see how rule (T OR) is developed. According to the truth
+tables, |	 OR | = tt iJ either |	| = tt, or |	| = + and || = tt. To express that “and”,
+we need either AND or the branching | in the premises. The /rst is not advisable, since
+	 OR  should be decomposed into formulae simpler than itself. To use branching, we
+must express the condition C above as “C1 and C2”, where C1, C2 do not contain
+“and”. It is easy to see that C is equivalent to “(|	| = tt or |	| = +) and (|	| = tt or
+|| = tt)”. Translating the individual semantic conditions into formulae with help of
+Equation (1), replacing “and” by branching and “or” by the comma in sequences of
+formulae, we get just the discussed rule.
+It should be added that the R–S mechanism can be used equally well for formalizing
+many-valued logic in general. For example, in [14] it has been used to provide a
+complete deduction system for Rosser–Turquette many-valued logic, and in [17]—to
+provide a relational style formalization of an arbitrary many-valued propositional logic.
+340
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+5. Similarity, indiscernibility and complementarity logic
+The second area in which the R–S system has been successfully applied is that of
+logics for reasoning about certain relations between objects considered in information
+systems, like e.g. indiscernibility, similarity or complementarity.
+Let us begin with similarity. By a similarity relation we mean a re<exive and sym-
+metric binary relation on a set of entities (see [12, 13]). Given a set of entities and a
+set of properties for classifying the entities, we have a whole family of similarity rela-
+tions: one for each subset of the set of properties. Formally, the semantic framework
+we work with is a universe U of the form
+U = ⟨ENT; PROP; {sim(P)}P⊆PROP⟩;
+(2)
+where
+ENT
+is
+a
+set
+of
+entities,
+PROP—a
+nonempty
+set
+of
+properties,
+and
+{sim(P)}P⊆PROP is a family of similarity relations on ENT such that:
+(C1) Each sim(P) is a re<exive and symmetric binary relation on ENT;
+(C2) sim(∅) = ENT × ENT;
+(C3) sim(P ∪Q) = sim(P) ∩sim(Q) for any P; Q ⊆PROP.
+Within this framework, we consider the operations of the upper and lower approxima-
+tion of a set E ⊆ENT with respect to the relation sim(P):
+sim(P)E = {e ∈ENT: (∃e′)((e; e′) ∈sim(P) and e′ ∈E)};
+sim(P)E = {e ∈ENT: (∀e′)((e; e′) ∈sim(P) implies e′ ∈E)}:
+(3)
+Thus sim(P)E consists of all the entities which are not similar with respect to the prop-
+erties in P to any entity outside E, and sim(P)E—of all the entities which are similar
+to some entity in E. The operation of upper approximation contains implicit existential
+quanti/cation, whereas that of lower approximation—implicit universal quanti/cation.
+The language is built over a /xed set PROP of properties. It contains terms in TERM
+representing subsets of PROP, and formulae in FORM representing subsets of ENT. The
+set TERM of terms contains:
+• CONP = {p: p ∈PROP}—constants representing individual properties in PROP,
+• a constant 0 for the empty set of properties ∅,
+• VARSP—variables representing subsets of PROP.
+It is closed under −; ∪; ∩representing set-theoretic operations on sets of properties.
+The set FORM of formulae contains:
+• VARE—the set of variables representing individual entities,
+• VARSE—the set of variables representing sets of entities.
+It is closed under ¬; ∨; ∧, denoting set-theoretic operations on sets of entities. Finally,
+if A ∈TERM and F ∈FORM, then sim(A)F; sim(A)F ∈FORM, where sim and sim denote
+the lower and upper approximation.
+We also use a derived constructor →de/ned by
+F →G
+df≡¬F ∨G:
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+341
+The language is interpreted in models M = ⟨U; v⟩consisting of a universe and a (many-
+sorted) valuation of variables. Of course, sim and sim are interpreted as the operations
+of lower and upper approximation, respectively; terms are interpreted as subsets of
+PROP, and formulae—as subsets of the set ENT of entities.
+A formula F is said to be satis/ed in a model iJ it evaluates to the whole set ENT
+of this model.
+The above logic is a polymodal logic, with relative modalities represented by sim(A)
+and sim(A). It should be noted that the Rasiowa–Sikorski system presented here was
+the /rst axiomatization of this logic, after the problem had been open for several years.
+It is not dichotomic, since usually neither F nor ¬ F holds. To compensate for this,
+we base deduction on formulae of the type
+x ∈F
+df≡x →F;
+(4)
+where x ∈VARE and F is any formula. They model set-theoretic membership relation,
+since x ∈F is satis/ed in M = ⟨U; v⟩iJ v(x) ∈|F|M. Such formulae have the desired
+dichotomic property: for any model M, either M |= x ∈F or M |= x ∈¬ F. A special
+kind of type (4) formulae with F ≡sim(A) y, denoted shortly by x sim(A) y, express
+the similarity relation itself, since x sim(A) y holds in M = ⟨U; v⟩iJ (v(x); v(y)) ∈
+sim(|A|M).
+We use the signed formulae to represent “top-level” negation. It suOces to consider
+signed formulae over formulae of type (4) only, since we can reduce all other formulae
+to the former with the following decomposition rules:
+′; T(F); ′′
+′; T(y ∈F); ′′
+′; N(F); ′′
+′; N(x ∈F); ′′; N(F)
+where x; y ∈VARE, y does not occur above the double line, and F is not of the form
+z ∈G.
+The above rules show a simple, yet ingenious mechanism used to deal with implicit
+quanti/cation: substitution of a new variable in case of universal quanti/cation, and
+subsequent substitutions of arbitrary variables (note that we do not have any “entity”
+terms here) while copying the original formula in case of existential quanti/cation.
+This is just a certain variant of the classic way of dealing with quanti/cation in an
+R–S system mentioned before and described in [24].
+Now let us give some examples of how certain basic features of the similarity
+framework are represented in the deduction system.
+Property (C2), saying that similarity wrt the empty set of properties is the univer-
+sal relation, and re<exivity of similarity stated in (C1) are represented by assuming
+that:
+Each sequence  containing either T(x sim(0)y) or T(x sim(A)x)
+is fundamental:
+(5)
+342
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+In turn, the other part of (C1)—symmetry of similarity relations—is represented by a
+typical expansion rule of the form
+′; N(x sim(A)y); ′′
+′; N(x sim(A)y); N(y sim(A)x); ′′
+(6)
+Finally, property (C3) is represented by the rules
+′; T(x sim(A ∪B)y); ′′
+′; T(x sim(A)y); ′′ | ′; T(x sim(B)y); ′′
+′; N(x sim(A ∪B)y); ′′
+′; N(x sim(A)y); N(x sim(B)y); ′′
+(7)
+The relative modalities sim(A); sim(A) are dealt with by the following rules:
+′; T(x ∈sim(A)F); ′′
+′; T(y ∈F); ′′; ∗| ′; T(x sim(A)y); ′′; ∗
+′; N(x ∈sim(A)F); ′′
+′; T(x ∈sim(A)¬F); ′′
+′; T(x ∈sim(A)F); ′′
+′; N(x sim(A)z); T(z ∈F); ′′
+′; N(x ∈sim(A)F); ′′
+′; T(x ∈sim(A)¬F); ′′
+where y is an arbitrary variable in VARE, ∗denotes T(x ∈sim(A)F), and z ∈VARE does
+not occur above the double line. To see how the T(sim) rule was developed, let us
+note (using for simplicity a rather informal notation) that x ∈sim(A)F if there exists a
+y such that y ∈F and x sim(A)y. As “and” corresponds to the branching |, then using
+the method for handling existential quanti/cation known from classical logic we get
+just the presented rule. Justi/cation for the T(sim) rule is analogous, but based on
+universal quanti/cation over z. In turn, the N-rules just re<ect the duality of the lower
+and upper approximations.
+To cope with the set parameters A in modalities, before applying our deduction
+system we replace each A by a union of atomic “components” that evaluate to a
+disjoint cover of PROP in every model. In case of elementary formulas of the form
+T(x sim(A)y); N(x sim(A)y), we can break down a term A being the union of some
+components into individual components using rules (7).
+All the mechanisms outlined above allow us to get a complete deduction system
+for the polymodal similarity logic (see [12, 13]). Such result obtained using the R–
+S methodology is especially valuable in view of the fact that a polymodal logic with
+interdependent relative modalities is particularly diOcult to handle—and hence previous
+work on indiscernibility, similarity or discernibility logic was as a rule limited to
+considering a single, nonparametrised modality. The same way—as we will see below—
+can also be used for other information system logics; it should be also applicable to
+other polymodal logics of that type in general.
+Out of the system discussed above, it is rather easy to get a complete system for
+reasoning about indiscernibility logic. Indeed, the only diJerence between similarity and
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+343
+indiscernibility relations is that the latter are transitive whereas the former in general are
+not. Hence, it can be shown that after replacing sim with ind (meaning indiscernibility)
+in the R–S system for the similarity logic presented here, and augmenting the system
+with an expansion rule expressing transitivity of indiscernibility relations, namely
+′; N(x ind(A)y); N(y ind(A)z); ′′
+′; N(x ind(A)y); N(y ind(A)z); N(x ind(A)z); ′′
+we get a complete deduction system for indiscernibility logic. It should be noted that
+the rules for modalities remain unchanged.
+Now let us turn to complementarity. This type of relations are de/ned in the context
+of an information system having the form
+I = (OBJ; ATTR; {Va}a∈ATTR);
+where OBJ is a set of objects, and ATTR is a set of attributes such that each a ∈ATTR
+is a mapping
+a : OBJ →P(Va)
+which assigns to each object a set of values associated with attribute a.
+For any A ⊂ATTR, by the complementarity relation corresponding to A we mean the
+binary relation comp(A) on OBJ de/ned by
+(x; y) ∈comp(A) if and only if a(x) = Va\a(y) for all a ∈A:
+Formally, the complementarity framework we work with is
+U = ⟨OBJ; ATTR; {comp(A)}A⊂ATTR⟩;
+where {comp(A)}A⊂ATTR is the family of relative complementarity relations on OBJ
+characterized by the following properties:
+(D1) Each comp(A) is an irre<exive, symmetric and 3-transitive relation, i.e. for all
+x; y; z; w ∈OBJ,
+(x; y); (y; z); (z; w) ∈comp(A) implies (x; w) ∈comp(A):
+(D2) comp(∅) = ∅.
+(D3) comp(A ∪B) = comp(A) ∩comp(B) for any A; B ⊆ATTR.
+As we see, some of the properties of complementarity relations are essentially dif-
+ferent from those of similarity relations. Despite this, our deduction system DRS can
+be modi/ed to yield a complete deduction system for a polymodal logic based on
+complementarity relations.
+A purely syntactic change is to replace sim by cp, standing for complementarity. To
+express property (D2), saying that complementarity wrt the empty set of properties is
+the empty relation, and the part of (D1) saying that complementarity is irre<exive, we
+344
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+replace the old assumption (5) with
+Each sequence  containing either N(x cp(0)y) or N(x cp(A)x)
+is fundamental:
+The property of symmetry remains unchanged, and (D3) just mirrors (C3). The only
+remaining task is to model 3-transitivity being part of (D1), which is done by intro-
+ducing the rule
+′; N(x cp(A)y); N(y cp(A)z); N(z cp(A)w); ′′
+′; N(x cp(A)y); N(y cp(A)z); N(z cp(A)w); N(x cp(A)w); ′′
+It can be proved (see [5]) that the deduction system obtained out of DRS as a result
+of the above modi/cations is complete for complementarity logics. Note that, similarly
+as in case of indiscernibility relations, the rules for modalities remain unchanged.
+It should be noted that complementarity logic is an example of the R–S method-
+ology allowing to develop complete systems for modal logic with modally inexpress-
+ible conditions on the accessibility relation. Indeed, since irre<exivity is not modally
+expressible, then in [6] a Hilbert-style axiomatisation of complementarity logics was
+impossible without introducing not very natural modal operators of “suOciency”.
+6. A logic for nondeterministic specications
+The next example is a logic for nondeterministic speci/cations presented in [2, 16]. It
+is interpreted in multialgebras, i.e. algebras with set-valued functions. The basic logical
+language has only two constructs: the “let” construct used for limiting nondeterminism,
+and a “rewrite” operator →interpreted as set inclusion. Notwithstanding these strictly
+limited means (no logical connectives at all, not even negation), it is still possible to
+provide a simple and elegant complete deduction system for the language using the
+R–S method.
+In fact, this application shows a decided advantage of the R–S methodology in the
+sense of its simplicity and power, since the only two complete deduction systems
+of the more widespread types presented earlier in [9, 25] for such nondeterministic
+speci/cation logics were based on rather unnatural restrictions on the model level—
+whereas the R–S system presented here is complete for the class of arbitrary models.
+Now let us introduce some basic notions.
+Let  = [S; F] be an algebraic signature, where S is the set of sorts, and F the set
+of function symbols, and let X be an S-sorted set of variables.
+• A multialgebra over  is a tuple A = [SA; FA], where SA = {As}s∈S is a family of
+carrier sets for each sort s ∈S and FA = {fA}f∈F is a family of set-valued functions
+such that fA: As1 × · · · × Asn →P(As) for each [f: s1 × · · · × sn →s] ∈F.
+• An n-term over  is any term built over variables in X with help of the function
+symbols f ∈F and the [let x := t′ in t ni] construct.
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+345
+• A formula is any expression of the form t →t′, where t; t′ are n-terms.
+The set of all n-terms over  and X is denoted by NT(X ), and the set of all formulae—
+by F(X ).
+The language is interpreted in models of the form M = ⟨A; v⟩, where A is a multi-
+algebra and v : X →|A| is a (multi-sorted) valuation of variables.
+For any x ∈X; a ∈|A|, de/ne
+v[a=y](x) =
+ a
+iJ x = y;
+v(x)
+otherwise:
+The interpretation of n-terms in M = ⟨A; v⟩is a function Tv : NT(X ) →P(|A|) de/ned by
+• Tv(x) = {v(x)};
+Tv(f(t1; : : : ; tn)) = 
+ai∈Tv(ti) fA(a1; : : : ; an);
+• Tv([let x := t′ in t ni]) = 
+a∈Tv(t′) v[a=x](t).
+Thus, the usual substitution of functions is interpreted by taking a set-theoretic union
+over all possible combinations of values, whereas the [let x := t′ in t ni] construct limits
+nondeterminism and allows us to substitute the same value of t′ for every occurrence
+of x in t.
+Since the arrow operator is interpreted as inclusion, with the arrow pointing ‘down’
+to the smaller set, then satisfaction of a formula t →t′ in M = ⟨A; v⟩is de/ned by
+M |= t →t′
+iJ Tv(t) ⊇Tv(t′):
+To develop an R–S deduction system for this logic, we proceed analogously as in the
+case of similarity logics: we base deduction on the membership relation expressed by
+formulae of the type t →x, where x ∈X , and introduce signed formulae in order to
+have top-level negation.
+Semantically, the inclusion T(t →t′) represents universal quanti/cation of the form
+“for every x, if x ∈t′, then x ∈t”. Analogously, N(t →t′) represents existential quan-
+ti/cation of the form ”there exists an x such that x ∈t′ and x ̸∈t”. This is modelled,
+as other instances of quanti/cation before, by an appropriate use of variables (see
+Section 2.2). Thus we have the following rules:
+′; T(t1 →t2); ′′
+′; N(t2 →x); T(t1 →x); ′′
+′; N(t1 →t2); ′′
+′; T(t2 →y); ′′; ∗| ′; N(t1 →y); ′′; ∗
+where t2 is not a variable in X , x ∈X is a variable which does not appear in the
+conclusion, y is an arbitrary variable in X , and * denotes N(t1 →t2).
+The rules corresponding to normal substitution and to the let construct demonstrate
+clearly the diJerence between the two:
+′; T(f(·; ti; ·) →x); ′′
+′; T(ti →y); ′′; ∗| ′; T(f(·; y; ·) →x); ′′; ∗
+′; N(f(·; ti; ·) →x); ′′
+′; N(ti →z); N(f(·; z; ·) →x); ′′
+346
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+′; T([let x := l in t ni] →x′); ′′
+′; T(l →y); ′′; ∗| ′; T(t[y=x] →x′); ′′; ∗
+′; N([let x := l in t ni] →x′); ′′
+′; N(l →z); N(t[z=x] →x′); ′′
+where y is an arbitrary variable in X , z ∈X is a variable which does not appear in the
+conclusion, and ∗denotes repetition of the decomposed formula from the conclusion
+in the premises.
+The complete set of decomposition rules for the logic is given in [16].
+7. Many-sorted rst-order logic with possibly empty carriers of some sorts
+It is well-known that classical deduction rules for /rst-order logic become unsound
+in presence of empty carriers of some sorts. Indeed, if we interpret universal quan-
+ti/cation over an empty set of values as trivially true, and existential quanti/cation
+over such a set—as trivially false, then ∀x:’ implies neither ’(z) nor ∃x:’, which
+contradicts classical entailment. As empty carriers do appear as an useful tool in soft-
+ware speci/cation, providing a complete deduction system for this case is an important
+task. The hitherto existing approaches (see [4, 23, 26]) are based on rather rich lan-
+guages, involving concepts like dynamic sorts, and in general diverge quite far from
+the simplicity of classical /rst-order logic.
+However, using the R–S methodology one can formalize a many-sorted FOL allowing
+for empty carriers in a quite simple way—which again stresses the advantage of that
+methodology in providing complete deduction systems based on simple means. The
+resulting logic is very close to classical FOL, and the main idea consists in preceding
+formulae with a context being a subset of the set of sorts. Such a contextual formula
+has a de/ned value only in models with nonempty carriers of the sorts contained in
+its context.
+We assume a /nite, nonempty set S of sorts (sort names), to be /xed for the sequel,
+and existence of a /xed sort b of logical values. Based on the above, we de/ne a
+many-sorted FO language LS.
+For s ∈S, let Xs be a countable set of individual variables of sort S, with
+Xs ∩Xs′ = ∅
+for s ̸= s′;
+X = 
+s∈S
+Xs:
+The unique sort of a variable x ∈X is denoted by s: x.
+As before, by S∗we denote the set of all /nite sequences of the elements of S; the
+empty sequence is denoted by 0.
+Assume we are given sets Fw;s (w ∈S∗; s ∈S) of function symbols of arity f: w →s,
+and sets Pw (w ∈S∗) of predicate symbols of arity w →b.
+The set TS = 
+s∈S Ts of terms of the language LS, where Ts is the set of terms of
+sort s, is de/ned in the standard way over the sets of variables and function symbols
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+347
+given above. To designate a term as a term of sort s, we use the sort symbol as a
+superscript.
+The minimal context of a term t is de/ned by
+Cmin(t) = {s: x: x ∈X and x occurs in t}:
+For simplicity, contexts are identi/ed with their denotations, which involves writing
+things like “C ⊆S” or “s ∈C”.
+The set PFS of pre-formulae of the language LS is the set of all /rst-order formulae
+de/ned in the usual way over the appropriate signature. The minimal context of a pre-
+formula ’ is the context
+Cmin(’) = {s: x: x ∈Free(’)};
+where Free(’) is the set of all variables having at least one free occurrence in the
+formula ’.
+By a formula of the language LS we mean every expression of the form C:’, where
+C ⊆S is a context, ’ ∈PFS is a pre-formula, and C ⊇Cmin(’).
+The set of all formulae of LS is denoted by FS.
+Thus each formula is of the form C:’, where C ⊆S is a context, and ’ is a “nor-
+mal” (many-sorted) /rst-order formula. Such a formula is interpreted in presence of a
+valuation de/ned for all variables of the sorts in C, and it has no value in a model
+where the carriers of some of the above sorts are empty.
+The language is interpreted in models based on S-sorted structures of the form
+A = ⟨{As}s∈S; F; P⟩
+consisting of a carrier As (possibly empty) for each sort together with interpretations
+F; P of function and predicate symbols consistent with their arities. We assume that
+the /xed sort b of Boolean values has a carrier B of the form B = {tt; +}, where tt
+denotes truth, and + falsity.
+We also assume that all the function and predicate symbols are interpreted as total
+functions and predicates. Because of this, the minimal contexts de/ned above are indeed
+suOcient for the respective terms=formulae to have de/ned values.
+Moreover, the above assumption imposes certain limitations on the pattern of empty
+carriers in the structures for our language. Namely, if the language contains a constant
+f: 0 →s of sort s, then the carrier As of sort s must be nonempty in each model M.
+Further, if the language contains a function symbol f: s →s′ and the carrier As′ is
+empty in a model M, then the carrier As must also be empty in the model M—for
+otherwise the function symbol f could not be interpreted as a total function on the
+carrier of s. These facts will /nd their re<ection in the deduction system.
+The language is interpreted in models of the form M = ⟨A; v⟩, where A is an S-
+sorted structure, and v is an S-sorted valuation of variables in A, de/ned as a partial
+mapping v : X →
+s∈S As, with
+Dom(v) = {Xs: As ̸= ∅};
+v(xs) ∈As
+for any xs ∈Dom(v):
+348
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+Due to possible emptiness of carriers and introduction of contexts, both the interpreta-
+tion of terms and interpretation of formulae are partial functions.
+The interpretation of terms in a model M = ⟨A; v⟩is a partial function TM : TS →
+
+s As such that
+Dom(TM) = {t ∈T: (∀s ∈Cmin(t))As ̸= ∅};
+TM(Ts) ⊂As
+for s ∈S;
+de/ned in the standard way by extending the interpretation of variables given by v to
+all terms through interpreting the function symbols according to their interpretation in
+the structure A.
+If M = ⟨A; v⟩is a model, x ∈Xs and a ∈As, then by M[a=x] we denote the model
+M[a=x] = ⟨A; v[a=x]⟩with v[a=x] de/ned as before.
+The interpretation of formulae in a model M = ⟨A; v⟩is a partial function FM : FS →
+{tt; +} such that Dom(FM) = {C:’ ∈FS: (∀s ∈C)As ̸= ∅} de/ned inductively as fol-
+lows:
+1. for formulae without quanti/ers, FM(C:’) is de/ned on the basis of the interpretation
+TM of terms using the standard interpretation of logical connectives;
+2. FM(C:(∀x:’)) =
+
+
+
+
+
+
+
+
+
+
+
+
+
+tt
+if either As: x = ∅or
+As: x ̸= ∅and FM[a=x]:(C ∪{s: x}):’ = tt
+for every a ∈As: x;
++
+otherwise;
+3. FM(C:(∃x:’)) =
+
+
+
+
+
+
+
+tt
+if As: x ̸= ∅and FM[a=x]:(C ∪{s: x}):’ = tt
+for some a ∈As: x;
++
+otherwise:
+FM is extended to other formulae with quanti/ers by interpreting the logical con-
+nectives in the standard way.
+To develop an R–S system for LS, we assume that our language contains a logical
+constant c : 0 →b, and de/ne special ‘emptiness’ and ‘nonemptiness’ formulae’ Es; Ns
+for each sort s ∈S by
+Es
+df= ∅:∀xs:c ∧¬c;
+Ns
+df= ∅:∃xs:c ∨¬c
+where xs is any variable in Xs, and ∅denotes the empty context.
+Then, for every model M = ⟨A; v⟩, we have
+M |= Es
+iJ As = ∅;
+M |= Ns
+iJ As ̸= ∅;
+where As is the carrier of sort s in structure A.
+The above formulae play a key role in the deduction system, allowing us to deal
+with quanti/cation in presence of empty carriers.
+Each sequence  = 	1; 	2; : : : ; 	n containing either
+1. both the formulae Es; Ns for some s ∈S, or
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+349
+2. each of the formulae Es1; : : : ; Esn; C:’; C:¬’; where C ={s1; s2; : : : ; sn} and ’∈PFS,
+is considered fundamental. Since Es is in fact a (meta-)negation of Ns, the /rst type
+of a fundamental sequence can be seen as a special instance of that for classical logic
+(de/ned as containing both ’ and ¬’). The second type of fundamental sequence is
+a general analogue of the latter for our logic, re<ecting the fact that here “either C:’
+or C:¬:’” holds only if the carriers of all sorts in C are nonempty.
+The rules for connectives also mirror the classical ones, with only the context thrown
+in. For quanti/ers, we have new, double rules: one, quite classical, for quanti/cation
+over a sort with nonempty carrier, and another, nonclassical, for quanti/cation over a
+sort with possibly empty carrier. The latter ones re<ect the fact that universal quan-
+ti/cation over an empty carrier is trivially true, whereas the existential one—trivially
+false.
+(∀1) ′; C:∀x:’; ′′
+′; C:’(z); ′′
+(∀2)
+′; C:∀x:’; ′′
+′; Es: x; (C ∪{s: x}):’(z); ′′
+where s: x ∈C
+where s: x ̸∈C
+and z is a variable which does not appear above the double line
+(∃1)
+′; C:∃x:’; ′′
+′; C:’(t=x); ′′; C:∃x:’
+(∃2)
+′; C:∃x:’; ′′
+′; Ns: x; ′′ | ′; (C ∪{s: x}):’(t=x); ′′; ∗
+where s: x ∈C
+where s: x =∈C
+where ∗stands for C:∃x:’ and t is any term free for x in ’:
+We also have a rule for context manipulation, and a rule re<ecting the limitations on
+the pattern of empty carriers imposed by the language:
+(Cr)
+′; (C ∪{s}):’; ′′
+′; Ns; ′′|′; C:’; ′′
+(Etr)
+′; Es1; : : : ; Esk; ′′
+′; Es1; : : : ; Esk; Es; ′′
+where C ⊃Cmin(’); ’ is a literal, and s1; : : : ; sk; s ∈S are such that Fs1;:::;sk;s ̸= ∅. The
+full set of rules, as well as the soundness and completeness proofs, are given in [15].
+As a /nal remark, let us note that since the decomposition rules of our logic diverge
+from the classical ones in Section 2.1 only in a simple modi/cation of the quanti/er
+rules, and an additional context-handling rule, the proof search=generation mechanism
+used for classical many-sorted logics should be easily adaptable for the logic considered
+here, thus providing a good proof search basis for software speci/cation=validation
+logics.
+8. Three-valued temporal logic for reasoning about concurrency
+Following the above overview of earlier applications of R–S systems in SC logic,
+let us now pass to a quite new application of this mechanism—namely, its use to
+formalize a three-valued approach to temporal logic for reasoning about concurrency.
+350
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+This application is doubly novel in the sense that the hitherto existing temporal
+logics for reasoning about concurrency have been as a rule based on a two-valued
+approach to semantics. However, there seems to be a clear motivation for introducing
+a third logical value uu interpreted as “unknown”. Indeed if we consider semantics
+of concurrent systems based on local states, then it is quite natural that in state s
+we can assign de/nite logical values—tt (true) or + (false)—only to those variables
+that are local to the state s. For example, in a multi-agent system an agent usually
+does not have up-to-date knowledge about the value of variables controlled by other
+agents, because the time he last accessed them they might have been changed by these
+agents. Hence, it is natural to assign in the state s the “unknown” value uu to such
+nonlocal variables. This provides a natural motivation for developing a logic for con-
+currency featuring three logical values: tt, + and uu—which we shall now proceed
+to do.
+8.1. Syntax and semantics
+The temporal logic LT we are going to develop is a propositional logic based on
+partial order structures with the classical temporal operators (see e.g. [8])
+(always),
+ (eventually) and U (until) referring to the future. Since we do not assume existence
+of the next step operator ◦, the logic can be used for models based on continuous time
+(though it is also applicable to discrete time). The language of LT is built over the set
+PROP of propositional atoms with help of the propositional connectives ¬; ∨; ∧and the
+above temporal operators. Thus the set FORMT of formulae is the least set FO such
+that:
+1. PROP ⊂FO,
+2. if 	;  ∈FO, then ¬	; 	 ∨; 	 ∧ ∈FO,
+3. if 	 ∈FO, then 	; ✷	 ∈FO,
+4. if 	;  ∈FO, then 	U ∈FO.
+The language is interpreted in models based on temporal frames of the form
+F = ⟨S; 6⟩;
+where S is a nonempty set of states, and 6 is a partial order on S constituting the
+accessibility relation of F (i.e., 6 is re<exive, weakly antisymmetric and transitive).
+Denote by
+B = {tt; +; uu};
+the range of logical values we consider here. As the three-valued calculus underlying
+our temporal logic we choose the well-known Kleene’s calculus. A model for LT is a
+tuple
+MT = ⟨F; I⟩;
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+351
+where I : S×PROP →B is the interpretation of propositional atoms. Then I is extended
+to the interpretation I ∗of all formulae in FORMT by taking, for any s ∈S:
+1: I ∗(s; p) = I(s; p)
+for p ∈PROP;
+2: I ∗(s; ¬	) =
+
+
+
+
+
+
+
+tt
+iJ I ∗(s; 	) = +;
++
+iJ I ∗(s; 	) = tt;
+uu
+otherwise;
+3: I ∗(s; 	 ∨) =
+
+
+
+
+
+
+
+tt
+iJ either I ∗(s; 	) = tt; or I ∗(s; ) = tt;
++
+iJ I ∗(s; 	) = I ∗(s; ) = +;
+uu
+otherwise;
+4: I ∗(s; 	 ∧) =
+
+
+
+
+
+
+
+tt
+iJ I ∗(s; 	) = I ∗(s; ) = tt;
++
+iJ either I ∗(s; 	) = +; or I ∗(s; ) = +;
+uu
+otherwise;
+5: I ∗(s; 	) =
+
+
+
+
+
+
+
+tt
+iJ (∃s′ ∈S)(s 6 s′ and I ∗(s′; 	) = tt);
++
+iJ (∀s′ ∈S)(s 6 s′ ⇒I ∗(s′; 	) = +);
+uu
+otherwise;
+6: I ∗(s; ✷	) =
+
+
+
+
+
+
+
+tt
+iJ (∀s′ ∈S)(s 6 s′ ⇒I ∗(s′; 	) = tt);
++
+iJ (∃s′ ∈S)(s 6 s′ and I ∗(s′; 	) = +);
+uu
+otherwise;
+7: I ∗(s; 	U) =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tt
+iJ (∃s′ ∈S)(s 6 s′ and I ∗(s′; ) = tt
+and (∀s′′ ∈S)(s 6 s′′ ¡ s′ ⇒I ∗(s′′; 	) = tt))
++
+iJ (∀s′ ∈S)[(s 6 s′ and I ∗(s′; ) ̸= +)
+⇒(∃s′′ ∈S)(s 6 s′′ ¡ s′ and I ∗(s′′; 	) = +)]
+uu
+otherwise;
+where
+s1 ¡ s2
+df≡s1 6 s2;
+s1 ̸= s2:
+Note that in view of the re<exivity of 6 we have I ∗(s; 	U) = tt if I ∗(s; ) = tt. More-
+over, the “until” operator we consider here is a strong one, since I ∗(s; 	U) = tt only
+if there exists an s′ ∈S with s6s′ and I ∗(s; ) = tt. Finally, since universal quanti/-
+cation over an empty set is trivially true, I ∗(s′; ) = + for every s′ with s6s′ implies
+I ∗(s; 	U) = +.
+352
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+Further, in view of the rather complicated character of the U operator there are
+several possible ways of de/ning the condition for I ∗(s; 	U) = +. The clause we
+chose is advocated by its simplicity. Unfortunately, any attempt to separate + from
+uu in this de/nition in a really precise way would yield a very complicated clause,
+resulting in an even more complicated deduction rule.
+We assume a strong notion of satisfaction=validity in the sense that the only desig-
+nated logical value is tt. Thus a formula 	 is
+• satis0ed in a state s of a model MT (MT; s |= 	) if I ∗(s; 	) = tt,
+• satis0ed in a model MT (MT |= 	) if MT; s |= 	 for each state s of MT,
+• valid (|=T 	) if MT |= 	 for every model M.
+8.2. R–S deduction system
+To develop an R–S deduction system for our logic LT, we have to extend the
+original language to a broader deduction language LD, since in order to formulate
+R–S decomposition rules for temporal formulae we need—exactly as in case of tableau
+systems for such logics (see [27])—some means for representing the fact that a formula
+	 holds in a state s, and that states s; s′ are in the accessibility relation, i.e. that s6s′.
+Thus let VARS be a countable set of state variables, and let ≺be the constant
+representing the accessibility relation. We de/ne the set of state formulae as
+FORMS = {x:	: 	 ∈FORMT; x ∈VARS}:
+Intuitively, x:	 means that the temporal formula 	 is satis/ed in the state x. The set of
+accessibility formulae expressing the accessibility relation on states is
+FORMA = {x ≺y: x; y ∈VARS}:
+Finally, the set of formulae of the deduction language LD is de/ned by
+FORMD = FORMS ∪FORMA:
+The underlying temporal frames are the same, but the notion of a model changes to
+MD = ⟨F; I; v⟩;
+where, as before, F = ⟨S; 6⟩is a temporal frame, I : S×PROP →B is the interpretation
+of propositional atoms, and, in addition, v : VARS →S is a valuation of state variables.
+The interpretation I + : FORMD →B of the deduction language formulae is de/ned by
+I +(x:	) = I ∗(v(x); 	);
+I +(x ≺y) =
+ tt
+if v(x) 6 v(y);
++
+otherwise;
+where I ∗is de/ned like in the preceding subsection.
+A formula ’ ∈FORMD is said to be
+• satis/ed in a model M, in symbols M |= ’, iJ I +(’) = tt,
+• valid, in symbols |=’. if M |= ’ for each model M.
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+353
+Fact 1. A formula 	 ∈FORMT is valid if and only if the formula x:	 ∈FORMD is valid;
+where x is an arbitrary variable in VARS.
+Evidently, this means that proving validity in LT can be reduced to proving validity
+in LD—which justi/es the usefulness of our deduction language.
+Since the logic we consider is a three-valued one, the deduction system is developed
+with help of signed formulae (see Section 3) belonging to the set
+SFORM = {N’: ’ ∈FORMD} ∪{T’: ’ ∈FORMD}
+and interpreted according to the rules
+MD |= T(’)
+iJ MD |= ’;
+MD |= N(’)
+iJ MD ̸|= ’:
+Thus our deduction system, denoted by DRT, will operate on sequences  of signed
+formulae; recall that  is considered valid if, for any model MD, some element of 
+is satis/ed in MD.
+Indecomposable formulae are those having one of the following forms:
+T(x:p); N(x:p); T(x:¬p); N(x:¬p); T(x ≺y); N(x ≺y)
+(8)
+where x; y ∈VARS; p ∈PROP.
+Now we can present our R–S deduction system for three-valued temporal logic. In all
+the rules below, the ’s are sequences of signed formulae, with ′ being an indecom-
+posable sequence. Furthermore, * always denotes repetition in the premises of the prin-
+cipal formula under decomposition from the conclusion, 	;  ∈FORMT; x; y; z; v ∈VARS.
+Finally, in all rules save (tr ≺) the variables y; z; w are mutually diJerent, z; w do not
+appear above the double line, and y is an arbitrary variable.
+8.2.1. DRT—an R–S deduction system for the three-valued temporal logic LT
+Fundamental sequences: The fundamental sequences of DRT are the sequences of
+formulae in SFORM that contain either formula (i) or pairs (ii), (iii) given below:
+(i) T(x ≺x);
+(ii) N(x:	); N(x:¬	);
+(iii) T(’); N(’);
+(9)
+where x ∈VARS; 	 ∈FORMT; ’ ∈FORMD.
+Decomposition rules:
+(T¬¬) ′; T(x:¬¬	); ′′
+′; (T(x:	); ′′
+(N¬¬) ′; N(x:¬¬	); ′′
+′; N(x:	); ′′
+(T∧)
+′; T(x:	 ∧); ′′
+′; T(x:	); ′′ | ′; T(x:); ′′
+(N∧)
+′; N(x:	 ∧); ′′
+′; N(x:	); N(x:); ′′
+(T¬∧)
+′; T(x:¬(	 ∧)); ′′
+′; T(x:¬	); T(x:¬); ′′
+(N¬∧)
+′; N(x:¬(	 ∧)); ′′
+′; N(x:¬	); ′′ | ′; N(x:¬)′′
+354
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+(T∨)
+′; T(x:	 ∨); ′′
+′; T(x:	); T(x:); ′′
+(N∨)
+′; N(x:	 ∨); ′′
+′; N(x:	); ′′ | ′; N(x:); ′′
+(T¬∨)
+′; T(x:¬(	 ∨)); ′′
+′; T(x:¬	); ′′ | ′; T(x:¬); ′′
+(N¬∨)
+′; N(x:¬(	 ∨)); ′′
+′; N(x:¬	); N(x:¬); ′′
+(T✷)
+′; T(x:✷	); ′′
+′; N(x ≺z); T(z:	); ′′
+(N✷)
+′; N(x:✷	); ′′
+′; T(x ≺y); ′′; ∗| ′; N(y:	); ′′; ∗
+(T¬✷)
+′; T(x:¬✷	); ′′
+′; T(x ≺y); ′′; ∗| ′; T(y:¬	); ′′; ∗
+(N¬✷)
+′; N(x:¬✷	); ′′
+′; N(x ≺z); N(z:¬	); ′′ X
+(T)
+′; T(x:	); ′′
+′; T(x ≺y); ′′; ∗| ′; T(y:	); ′′; ∗
+(N)
+′; N(x:	); ′′
+′; N(x ≺z); N(z:	); ′′
+(T¬)
+′; T(x:¬	); ′′
+′; N(x ≺z); T(z:¬	); ′′
+(N¬)
+′; N(x:¬	); ′′
+′; T(x ≺y); ′′; ∗| ′; N(y:¬	); ′′; ∗
+(TU)
+′; T(x:	U); ′′
+′; T(x ≺y); ′′; ∗| ′; T(y:); ′′; ∗| ′; N(x ≺z); N(z ≺y); T(y ≺z); T(z:	); ′′; ∗
+(NU)
+′; N(x:	U); ′′
+′; N(x ≺z); N(z:); T(x ≺y); ′′; ∗| ′; N(x ≺z); N(z:); T(y ≺z); ′′; ∗
+| ′; N(x ≺z); N(z:); N(z ≺y); ′′; ∗| ′; N(x ≺z); N(z:); N(y:	); ′′; ∗
+(T¬U)
+′; T(x:¬(	U)); ′′
+′; N(x ≺z); T(z:¬); T(x ≺y); ′′; ∗| ′; N(x ≺z); T(z:¬); T(y ≺z); ′′; ∗
+| ′; N(x ≺z); T(z:¬); N(z ≺y); ′′; ∗| ′; N(x ≺z); T(z:¬); T(y:¬	); ′′; ∗
+(N¬U)
+′; N(x:¬(	U)); ′′
+′; T(x ≺y); ′′; ∗| ′; N(y:¬); ′′; ∗| ′; N(x ≺w); N(w ≺y); T(y ≺w); N(w:¬	); ′′; ∗
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+355
+(tr ≺)
+′; N(x ≺y); N(y ≺z); ′′
+′; N(x ≺y); N(y ≺z); N(x ≺z); ′′
+(as ≺)
+′; N(x ≺y); N(y ≺x); N(y:7); ′′
+′; N(x ≺y); N(y ≺x); N(y:7); N(x:7); ′′
+where 7 is either p or ¬p for some p ∈PROP:
+By way of an explanation, let us /rst note that in Eq. (9), the fundamental sequence in
+(i) expresses re<exivity of the partial order relation, (ii) the basic fact that a formula
+and its negation cannot be both true, and (iii) is just an exact analogue of the condition
+on a fundamental sequence for classical logic.
+As we see, the rules for connectives are three-valued analogues of the corresponding
+rules for classical logic—which is a consequence of the fact that Kleene’s three-valued
+connectives have all the basic properties of the classical connectives except the ex-
+cluded middle law. The rules for ✷and  deal with limited quanti/cation inherent to
+these operators in a way quite analogous to the rules for sim and sim in similarity logic
+(see Section 2.2). They again exhibit the typical pattern of handling quanti/cation in
+R–S systems discussed before. The same is true for the more involved rules concerning
+the operator U.
+The reader can check himself that in order to get any of the modality rules it
+suOces to express the corresponding semantic clause as a quanti/ed meta-formula,
+and than transform this formula into a decomposition rule, remembering that: universal
+quanti/cation is replaced by substitution of a new variable for the quanti/ed one in the
+quanti/ed formula, existential quanti/cation—by substituting any term for the quanti/ed
+variable in the quanti/ed formula and repeating the whole existential formula again,
+disjunction is represented by a comma in a sequence of formulae, and conjunction—by
+branching in a decomposition rule.
+The only expansion rules (see Section 2) of our logic are (tr ≺) and (as ≺). Rule
+(tr ≺) expresses transitivity of the accessibility relation, and rule (as ≺)—antisymmetry
+of the latter relation, whereby x ≺y and y ≺x implies that x; y denote the same state,
+so x can be substituted for y in any state formula (but the rule is limited to atomic
+formulae only in order to delay branching in the decomposition tree). Note that a
+corresponding substitution rule for accessibility formulae is not needed, since it would
+be just a special case of rule (tr ≺).
+Finally, let us note that notation of expansion rules is a somewhat simpli/ed. In fact,
+the formulae in the conclusion can appear in an arbitrary order, and can be separated by
+arbitrary sequences of formulae; of course, both this order and contexts are preserved
+in the premise too. With such rules, their application order will be determined by a
+more detailed control mechanisms mentioned in Section 2.5; basically speaking, the
+/rst (instance of) rule to be applied is that applicable to the leftmost sequence of
+formulae.
+Lemma 1. The deduction system DRT is sound.
+356
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+Proof. From re<exivity of the accessibility relation, the fact that x:	 and x:¬	 can-
+not simultaneously take the value tt and from the properties of signed formulae it
+immediately follows that the fundamental sequences given above are indeed valid.
+According to the remarks preceding the lemma, the rules for connectives are sound
+by the properties of Kleene’s logic, and expansion rules—by the properties of the
+accessibility relation. By way of illustration, let us prove soundness of the basic rules
+for modal operators. The notation of models and their elements follows that introduced
+when de/ning the semantics.
+Note that for greater clarity in case of a model MD = ⟨F; V; I⟩for the deduction
+language LD we use the semantic function I ∗of the underlying model MT = ⟨F; I⟩for
+LT rather than the semantic function I + of MD (recall that I +(x:	) = I ∗(v(x); 	)). This
+facilitates reasoning in case of changing the valuation v for just one variable, since it
+makes v explicit, whereas it is only implicit in I +.
+Rule (T✷): We have to prove that the conclusion (the sequence over the double
+line) is valid if the premise (the sequence under the double line) is valid.
+Let us start with downward implication. We argue by contradiction: assume that
+′; T(x:✷	); ′′ is valid, and suppose M = ⟨F; I; v⟩is a model such that M ̸|= ′;
+N(x ≺z); T(z:	); ′′. Then M ̸|= ′; ′′; v(x)6v(z) and I ∗(v(z); 	) ̸= tt, whence M ̸|=
+T(x:✷	) by the semantic clause for ✷—which is a contradiction. Thus the premise
+must be valid too.
+Now let us pass to the upward implication, assuming that the premise is valid. Sup-
+pose ′; T(x:✷	); ′′ is not valid, and let a model M = ⟨F; I; v⟩be such that M ̸|= ′;
+T(x:✷	); ′′. Then there exists an s ∈S such that v(x)6s and I ∗(s; 	) ̸= tt. Now let
+M ′ = ⟨F; I; v′⟩, where v′ = v[s=z] (see Section 6 for the de/nition). Since z is a new
+variable, then M ̸|= ′; ′′ implies M′ ̸|= ′; ′′. Moreover, as x ̸= z, then we have
+v′(x) = v(x)6s = v′(z) and I ∗(v(z); 	)=I ∗(s; 	)̸=tt. Thus M ̸|=′; N(x≺z); T(z:	); ′′,
+which contradicts our assumption on the validity of the premise. Hence the conclusions
+has to be valid too, and the rule is sound.
+Rule (T): Now we have to prove that the conclusion is valid iJ both the premises
+are valid.
+The downward implication is trivial, since the conclusion is contained in the premises
+(where T(x:	) is marked by *). To prove the upward implication, assume both
+′; T(x ≺y); ′′; ∗and ′; T(y:	); ′′; ∗are valid. Let M = ⟨F; I; v⟩be an arbitrary
+model, and suppose M ̸|= ′; T(x:	); ′′. Then from the validity of both the premises
+it follows that M |= T(x ≺y) and M |= T(y:	). Thus v(x)6v(y) and I ∗(v(y); 	) = tt,
+whence M |= T(x:	)—which is a contradiction. In consequence, the conclusion has
+to be valid, and the rule is sound.
+Since the “until” (U) modality is especially complicated, in its case we will show
+validity of two rules: the standard (T¬U) rule, and the negation rule (TU). Remember
+that * in the premises of the rule denotes TU.
+Rule the conclusion: The downward implication is again trivial. To prove the upward
+implication, assume that all the premises are valid, and suppose that ′; T(x:	U); ′′
+is not valid, i.e. M ̸|= ′; T(x:	U); ′′ for some model M = ⟨F; I; v⟩.
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+357
+Since the premises are valid and M ̸|=′; T(x:	U); ′′, we have in particular M |=
+T(x ≺y); M |= T(y:), whence v(x)6v(y) and I ∗(v(y); ) = tt. As M ̸|= T(x:	U), then
+by the semantic clause for U there must be an s′ ∈S with v(x)6s¡v(y) and
+I ∗(s; 	) ̸= tt. Now let M ′ = ⟨F; I; v′⟩, where v′ = v[s=z]. Then, in view of z ̸= x; y, we
+have
+v′(x) = v(x); v′(y) = v(y)
+and
+v′(z) = s,
+whence
+v′(x)6v′(z)¡v′(y)
+and
+I ∗(v′(z); 	) ̸= tt. In consequence, M ′ |= T(x ≺z); M ′ |= T(z ≺y); M ′ |= N(y ≺z) and
+M ′ |= N(z:	). Furthermore, as M ̸|= ′; T(x:	U); ′′ and z is new, then the same is
+true for M ′. Hence M ′ ̸|= ′; N(x ≺z); N(z ≺y); T(y ≺z); T(z:	); ′′; T(x:	U),
+which contradicts validity of the third premise. Thus the upward implication must
+hold too.
+Rule (T¬U): As before, the downward implication is trivial. To prove the upward
+implication, assume that the premises are valid, and suppose the conclusion is not,
+i.e. M ̸|= ′; T(x:¬(	U)); ′′ for some model M = ⟨F; I; v⟩. Then there is an s ∈S
+such that v(x)6s; I ∗(s; ) ̸= +, and there does not exist an s′ ∈S with v(x)6s′¡s and
+I ∗(s′; 	) = +.
+Let M ′ = ⟨F; I; v′⟩, where v′ = v[s=z]. As z is new, then M ′ ̸|= ′; T(x:¬(	U)); ′′.
+Moreover, M ′ |= T(x ≺z) and M ′ |= N(z:¬). Since the premises are valid, this implies
+M ′ |= T(x ≺y), M ′ |= T(y ≺z), M ′ |= N(z ≺y), M ′ |= T(y:¬	). Thus v′(x)6v′(y);
+v′(y)¡v(z) and I ∗(v′(y); 	) = +. Considering the de/nition of v′, in view of z ̸= y
+we get v(x)6v(y)¡s and I ∗(v(y); 	) = +, which is a contradiction. Thus the upward
+implication must also hold.
+Now it remains to prove completeness. Let us de/ne the notions of a decomposition
+tree, proof and provability as in Section 2. Then we have the following completeness
+result:
+Theorem 3. Each valid sequence  of formulae in SFORMD is provable in DRT.
+Proof. The proof follows the universal pattern outlined in Section 2: we assume that
+ is not provable, and /nd a counter-model for it.
+Let us begin with its most crucial part—construction of a counter-model MC for a
+set  of indecomposable formulae which does not contain any fundamental sequence
+and is closed under the expansion rules (tr ≺); (as ≺). Let ∼be a relation on VARS
+de/ned by
+x ∼y iJ either x = y or N(x ≺y) ∈ and N(y ≺x) ∈:
+Then ∼is re<exive and symmetric. Moreover, it is also transitive in view of the
+fact that  is closed under rule (tr ≺). Indeed: if x ∼y and y ∼z, then either x = y
+or y = z, whence obviously x ∼z, or else (1) N(x ≺y); (2) N(y ≺x); (3) N(y ≺z);
+(4) N(z ≺y) ∈, whence by applying rule (tr ≺) /rst to (1), (3) and then to (4), (2)
+we get N(x ≺z); N(z ≺x) ∈. Thus ∼is an equivalence relation. As the set of states
+of our counter-model we take
+SC = VARS=∼= {[x]∼: x ∈VARS}:
+358
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+For simplicity, we shall write [x] instead of [x]∼. As the temporal frame underlying the
+counter-model we take FC = ⟨SC; 6⟩, where the accessibility relation 6 is de/ned by
+[x] 6 [y] iJ either [x] = [y] or N(x ≺y) ∈:
+It is easy to see that 6 is well-de/ned. Indeed, reasoning in the way exactly analo-
+gous to the proof of transitivity of ∼given above, we can show that, for any x; x′; y; y′
+such that x ̸= x′; y ̸= y′ and x ∼x′; y ∼y′, we have N(x ≺y) ∈ iJ N(x′ ≺y′) ∈,
+whence the de/nition of [x]6[y] is independent of the choice of the representatives
+of classes [x]; [y]. Obviously, 6 is re<exive. It is also weakly antisymmetric, since
+[x]6[y] and [y]6[x] implies either [x] = [y] or N(x ≺y); N(y ≺x) ∈, whence x ∼y
+and again [x] = [y]. Finally, it is also transitive. Indeed, if [x]6[y] and [y]6[z], then
+either [x] = [y] or [y] = [z], whence obviously [x]6[z], or else N(x ≺y); N(y ≺z) ∈.
+As  is closed under rule (tr ≺), this yields N(x ≺z) ∈, whence [x]6[z]. Thus 6
+is a partial order and FC is a correct temporal frame.
+We put MC = ⟨F; I; v⟩, where
+v(x) = [x]
+for x ∈VARS;
+I([x]; p) =
+
+
+
+tt
+iJ N(x:p) ∈;
++
+iJ N(x:¬p) ∈;
+uu
+otherwise:
+Again it is easy to see that I is correctly de/ned. Indeed if x ̸= x′; x ∼x′ and
+N(x′:7) ∈, where 7 is either p or ¬p for some p ∈PROP, then N(x ≺x′),
+N(x′ ≺x); N(x′:7) ∈. As  is closed under rule (as ≺), this implies N(x:7) ∈,
+so the de/nition of I([x]; p) does not depend on the choice of the representative of
+the class [x]. Moreover, as  does not contain any fundamental sequence, then by (9)
+the formulae N(x:p) and N(x:¬p) cannot both belong to , whence there is no clash
+between the tt and + clauses of the de/nition.
+It remains to check that MC is indeed a counter-model for . Our considerations will
+be based on the de/nitions of the interpretation I + on the basis of I and of satisfaction
+of signed formulae given in the preceding section. Let ’ be an arbitrary formula in .
+Then ’ is indecomposable, so it must have one of the forms given in (8):
+T(x:p); N(x:p); T(x:¬p); N(x:¬p); T(x ≺y); N(x ≺y):
+Since we have shown above that neither the value of I([x]; p) nor satisfaction of the
+relation [x]6[y] depend on the choice of the representatives of classes [x]; [y], in all
+the cases below we can assume the representative of a class [z] is just z. In other
+words, in order to evaluate I +(x:	) or I +(x ≺y) we do not have to consider whether
+ contains N(x′:	) or N(x′ ≺y′) for some x′ ∼x; y′ ∼y—but only whether it contains
+N(x:	) or N(x ≺y).
+Case 1: ’ = T(x:p). Then N(x:p) ̸∈, since otherwise  would contain a fundamen-
+tal sequence (see (9)). Hence I +(x:p) = I([x]; p) = + if N(x:¬p) ∈, and otherwise
+I +(x:p) = uu. In both cases MC ̸|= T(x:p).
+Case 2: ’ = N(x:p). Then I +(x:p) = tt and again MC ̸|= N(x:p).
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+359
+Case 3: ’ = T(x:¬p). Then N(x:¬p) ̸∈, since otherwise  would contain a fun-
+damental sequence. Hence I([x]; p) = tt if N(x:p) ∈, and otherwise I([x]; p) = uu,
+whence I +(x:¬p) ∈{+; uu}. In both cases, MC ̸|= T(x:¬p):
+Case 4: ’ = N(x:¬p). Then I([x]; p) = +, whence I +(x:¬p) = tt and MC ̸|= N(x:¬p).
+Case 5: ’ = N(x ≺y). Then [x]6[y], whence I +(x ≺y) = tt and MC ̸|= N(x ≺y).
+Case 6: ’ = T(x ≺y). Then neither x = y nor N(x ≺y) =∈, for otherwise  would
+contain a fundamental sequence. Thus non [x]6[y] and I +(x ≺y) = +, whence
+MC ̸|= T(x ≺y).
+Thus MC is indeed a counter-model for .
+Now let us present in more detail the inductive part of the theorem outlined brie<y
+in Section 2. If a sequence  is not provable, then its decomposition tree DT() is not
+a proof. Hence either the tree is /nite and contains a leaf l labelled by a sequence of
+indecomposable formulae which is not fundamental, or it has an in/nite branch B by
+Koenig’s lemma. Let us denote by  the set of formulae in the label of leaf l in the
+/rst case, and the set of all indecomposable formulae on the branch B in the second
+case. Then  is closed under expansion rules and does not contain a fundamental
+sequence, whence by what we have proved above it has a counter-model MC.
+We shall prove now that  is not valid. If the tree is /nite, then the thesis follows
+immediately from invertibility of the rules and the fact that the sequence labelling the
+leaf l of the tree is not valid. Now consider the case when the tree has an in/nite
+branch B. We shall show that MC—the counter-model for the set of all indecomposable
+formulae of B—is a counter-model for . Let us de/ne the rank r of a formula in
+FORMT by
+1. r(p) = r(¬p) = 0 for p ∈PROP;
+2. r(¬	) = 1 + r(	) for 	 =∈PROP;
+3. r(D	) = 1 + r(	) for D ∈{; ✷};
+4. r(	C) = 1 + max(r(	); r()) for C ∈{∨; ∧; U}.
+Further, de/ne the rank R of formulae in SFORMD as
+1. R(T(x ≺y)) = R(N(x ≺y) = 0;
+2. R(T(x:	)) = R(N(x:	)) = r(	).
+We shall prove that MC ̸|=  by induction on the rank of signed formulae on the branch
+B. We know that MC ̸|= ’ for any signed formula ’ on B with R(’) = 0, since MC is
+a counter-model for all indecomposable formulae on B—and indecomposable formulae
+are exactly formulae of rank 0.
+Suppose some formulae on B are satis/ed in MC, and let ’ be such a formula with
+the least rank. Then R(’)¿0, so ’ is of the form either T(x:	) or T(x:	). Now we shall
+argue on the structure of 	 to show that our assumption leads to a contradiction. We
+shall make use of the fact that if the decomposed formula contained in the conclusion
+of some decomposition rule is on branch B, then one of the sequence of formulae
+resulting from its decomposition and contained in the premises of this rule must be on
+branch B too.
+1. 	 cannot be of the form ¬¬; 1 ∨2; 1 ∧2; ¬(1 ∨2); ¬(1 ∧2). Indeed if e.g.
+’ = T(x:¬¬), then T(MC |= T(x:¬¬) would imply MC |= T(x:), which is a
+360
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+contradiction since T(x:) would also be on B by rule (T¬¬) and R(T(x:))¡R(’).
+The situation with N, as well as with other combinations of connectives correspond-
+ing to single-premise rules is analogous. In case of double-premise rules, branch B
+would have to contain one of the premises—and hence again a formula satis/ed in
+MC with a rank lower than that of ’ (e.g., if ’ = T(x:	 ∧), then B must contain
+either T(x:	) or T(x:)—both satis/ed in MC.
+2. 	 cannot be of the form ; ¬. Suppose /rst that ’ = T(x:). Then MC |= ’
+implies that there exists an y ∈VARS such that [x]6[y] and I ∗([y]; ) = tt. Hence
+for such an y we would have MC |= T(x ≺y) and MC |= T(y:). By rule (T), one
+of them has to be on B. Since both have smaller ranks than ’, this is a contradiction.
+Now suppose that ’ = N(x:). Then for every z ∈VARS such that [x]6[z] we
+have I ∗([z]; ) ̸= tt in MC. In consequence, MC |= N(x ≺z); N(z:). By rule (N),
+both these formulae have to be on branch B. Since one of them must be satis/ed
+in MC and both have smaller ranks than ’, we get a contradiction again.
+The proof for each of the remaining cases is analogous to one of the above.
+3. 	 cannot be of the form ✷; ¬✷. The proofs are analogous to the preceding case
+by duality between ✷and .
+4. 	 cannot be of the form 1U; ¬(1U2). Suppose ’ = T(x:1U2). Then MC |= ’
+implies that there exists y ∈VARSE such that [x]6[y]; I ∗([y]; 2) = tt, and for ev-
+ery z ∈VARSE with [x]6[z]¡[y] we have I ∗([z]; 1) = tt. In consequence, MC |= T
+(x ≺y); MC |= T(y:2), and MC |= N(x ≺z); N(z ≺y); T(y ≺z); T(z:	). Moreover,
+by rule (TU) one of these three sequences of formulae have to be on B, and
+all of the formulae they include have ranks smaller than ’, Thus we arrive at a
+contradiction again.
+The proofs for the other cases are quite analogous.
+Since all the possible forms of ’ have been excluded, no formula on B can hold on
+MC—whence , which is on B as the label of the root of the tree, is not satis/ed in
+MC, and hence not valid.
+From the completeness theorem, Fact 1 and the de/nition of a proof in an R–S
+system given in Section 2 it follows that in order to prove the validity of a temporal
+formula 	 ∈FORMT we have to construct a decomposition tree of the formula T(x:	),
+when x is any variable in VARS. If the tree is /nite and its leaves are labeled with
+fundamental sequences only, then 	 is valid—otherwise it is not.
+It should be noted that the signed formula operators T; N introduced on top of the
+formulae in FORMD can be eliminated by passing from the DRT system to an equivalent
+Gentzen sequent calculus in the way described in the next section.
+9. Transformation of an R–S system into a Gentzen calculus system
+As we have already said, the basic goal—and result—of applying the R–S method-
+ology is a complete R–S system for a given logic. However, in order to propagate or
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+361
+use this result in the more extensive environment of Gentzen sequent calculus users,
+we can transform the latter system almost automatically into a complete Gentzen se-
+quent calculus. The interest of such a transformation is twofold. First, it allows us to
+pass from a complete deduction system for a richer language of signed formulae to an
+equally complete deduction system for the original language in a quite automatic way.
+Second, the Gentzen formalism is much more widely known than the Rasiowa–Sikorski
+one, so such a translation could generate a more widespread interest in, or use of the
+deduction system obtained primarily using Rasiowa–Sikorski method.
+In this /nal section we shall present a method for transforming an R–S calculus for
+signed formulae over some logic into a Gentzen sequent calculus for the original logic.
+The method used is similar to that presented in [10] in case of Beth’s tableaux and
+follows from a close connection between validity of sequents and validity of sequences
+of signed formulae. We omit the more detailed proofs, which are simple generalizations
+of those given, e.g. in [2, 13] for systems with rules having up to two premises only
+(here we allow an arbitrary /nite number of premises).
+The presentation of transformation given here is tailored to an R–S system using
+signed formulae, to show how we can get rid of this temporary extension to the lan-
+guage by passing to sequent calculus. The above method applies of course (with minor
+adaptations) also to an R–S system for a logic with “standard” negation, which does not
+use signed formulae. However, this involves certain additional technical details—which
+was another reason for our choice of presentation.
+Let us start with introducing the basic notions and notation. The notation not de/ned
+below is taken from Sections 1–3.
+Denition 5. By a sequent we mean a pair (:; ) of /nite sets : and  of formulae
+in F, written in the form : ⊢.
+A sequent : ⊢ is said to be valid iJ, for any model M satisfying all the formulae
+in :, at least one formula in  is satis/ed in M.
+Assume that there is some “vocabulary order” on formulae, and that notation of the
+type : = {	1; 	2; : : : ; 	n} used for /nite sets of formulae represents just this order. For
+the above set :, let T(:); N(:) be sequences of signed formulae de/ned by
+T(:) = T(	1); T(	2); : : : ; T(	n);
+N(:) = N(	1); N(	2); : : : ; N(	n):
+Then the simple connection between validity of sequents and validity of signed formu-
+lae is as follows:
+Lemma 2. A sequent : ⊢ is valid whenever the sequence N(:); T() of signed
+formulae is valid.
+Proof. Recall that a sequence of signed formulae is valid iJ, for any model M, some
+formula in this sequence is satis/ed in M. By de/nition, a sequent : ⊢ is valid iJ,
+for every model M such that every 	 ∈: is satis/ed in M, some  ∈ is satis/ed
+in M. In other words, : ⊢ is valid iJ, for every model M, either some 	 ∈: is not
+362
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+satis/ed in M or some  ∈ is satis/ed in M—or, equivalently, for every M, either
+N(	) is satis/ed in M for some 	 ∈: or T() is satis/ed in M for some  ∈. The
+latter condition is obviously tantamount to validity of the sequence N(:); T().
+Assume now that we already have a complete R–S deduction system DRS for the
+language of signed formulae over our original language. Then from the completeness
+theorem for DRS (see Section 2) it follows that
+Fact 2. A sequent : ⊢ is valid whenever the sequence N(:); T() of signed for-
+mulae has a proof in the R–S system; i.e. whenever it has a 0nite decomposition tree
+with all terminal sequences fundamental.
+The above fact suggests a simple method of developing a sequent calculus for our
+original formal language out of the system DRS for sequences of signed formulae; it
+suOces to derive from the fundamental sequences and decomposition rules of DRS the
+corresponding axioms and inference rules of the sequent calculus, basing on the above
+Fact.
+The sequent calculus SC we have in mind will consist of axioms, having the form
+of single (valid) sequents, and inference rules, leading from valid sequents to valid
+sequents. An inference rule is of the form
+:1 ⊢1
+:2 ⊢2 : : : :n ⊢n
+: ⊢
+:
+The sequent : ⊢ will be called the conclusion of the rule, and the sequent(s)
+:1 ⊢1; :2 ⊢2; : : : ::n ⊢n—its premises. A rule is said to be sound iJ its conclusion
+is valid whenever all its premises are valid.
+Thus, we should bear in mind that there are two basic diJerences between decom-
+position rules for signed formulae and inference rules of the sequent calculus:
+• decomposition rules for signed formulae are two-way rules saying that the conclusion
+is valid iJ all the premises are valid, whereas sequent calculus rules are, in principle,
+one-way rules saying that the conclusion is valid whenever all the premises are valid;
+• in proof construction, decomposition rules were used “top down” to construct a
+decomposition tree of a sequence of formulae, whereas sequent calculus rules will
+be used “bottom up” to deduce a sequent from the axioms.
+For any sequence  of signed formulae, let us denote
++ = {	 ∈F: T(	) ∈};
+−= {	 ∈F: N(	) ∈}:
+Then our basic Lemma 1 can be rephrased as follows: for any /nite sequence  of
+signed formulae, the sequent −⊢+ is valid iJ  has a proof in the system DRS.
+This immediately gives rise to:
+Fact 3. If  is a fundamental sequence in DRS; then −⊢+ is a sound axiom of
+the sequent calculus SC.
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+363
+Now suppose that
+′; ; ′′
+′; 1; ′′ | ′; 2; ′′| : : : |′n; ′′;
+is a decomposition rule in DRS. Then, evidently, for any /nite sets :;  ⊂F, the
+sequence N(:); ; T() has a proof in DRS whenever all the sequences N(:); i; T();
+i = 1; 2; : : : ; n, do. In consequence, considering Lemma 1, the sequent :; −⊢; +
+is valid whenever all the sequents :; −
+i
+⊢; +
+i ; i = 1; 2; : : : ; n, are valid. Thus we
+have:
+Lemma 3. For every rule
+′; ; ′′
+′; 1; ′′ | ′; 2; ′′ | : : : | ′; n; ′′;
+in the R–S deduction system DRS;
+:; −
+1 ⊢; +
+1
+:; −
+2 ⊢; +
+2
+: : :
+:; −
+n ⊢; +
+n
+:; −⊢; +
+is a sound inference rule of the sequent calculus SC.
+The above lemma is exempli/ed by the following table which gives sequent calculus
+rules induced by some typical schemata of decomposition rules encountered in R–S
+systems.
+Decomposition rule
+Inference rule for sequents
+′; T(	); ′′
+′; T(	1); ′′
+: ⊢; 	1
+: ⊢; 	
+′; N(	); ′′
+′; N(	1); ′′
+:; 	1 ⊢
+:; 	 ⊢
+′; T(	); ′′
+′; T(	1); T(	2); ′′
+: ⊢; 	1; 	2
+: ⊢; 	
+′; N(	); ′′
+′; N(	1); N(	2); ′′
+:; 	1; 	2 ⊢
+:; 	 ⊢
+′; T(	1); ′′
+′; T(	1); ′′ | ′; T(	2); ′′
+: ⊢; 	1;
+: ⊢; 	2
+: ⊢; 	
+′; N(	); ′′
+′; N(	1); ′′ | ′; N(	2); ′′
+:; 	1 ⊢
+:; 	2 ⊢
+:; 	 ⊢
+(Here all the 	’s and 	i’s are ‘ordinary’ formulae in F.)
+364
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+There is a general schema of proving that the sequent calculus SC resulting from a
+sound complete R–S deduction system is sound and complete:
+Theorem 4 (Soundness and completeness). Any sequent is provable in SC i; it is
+valid.
+Proof. Soundness follows from Fact 2 and Lemma 2. To prove completeness, assume a
+sequent : ⊢ is valid. Then the sequence N(:); T() is also valid, so by completeness
+of DRS it has a /nite decomposition tree T with fundamental sequences at all its
+leaves. Out of that tree, we can easily construct a proof of the original sequent in the
+SC calculus. Namely, we prove by induction that the sequent −⊢+ corresponding
+to any sequence  of formulas labelling a vertex of T is provable. Indeed, the leaves
+are labelled by axiomatic sequences, so the corresponding sequents are axioms of SC.
+Going upwards in T, we can replace each downward application of an R–S rule by an
+upward application of the corresponding sequent calculus rule. We /nish our induction
+at the root, which is labelled by the sequence N(:); T() corresponding to the original
+sequent.
+.
+It should be noted that the sequent calculus SC obtained in this way is usually
+extended by adding the weakening rules which allow us to simplify some special rules
+of SC, e.g. those dealing with existential quanti/cation, by eliminating the repetition
+of the formula from the conclusion in the premises.
+Finally, a natural question arises whether a converse translation—from a Gentzen
+calculus to an R–S system—is possible and=or desirable. This seems doubtful. First,
+no straightforward translation is possible, because R–S rules are invertible, whereas
+in general sequent calculus ones are not. Second, it is not quite clear whether such a
+translation is really advisable. The best reason would be proof search=generation, to
+which an R–S system seems better adapted, but for this purpose a translation to a
+tableau system, the rules of which need not be invertible, seems more sensible.
+10. Conclusions
+The examples presented in the paper prove that the R–S methodology of developing
+a complete deduction system for a logic through analysing its semantics is indeed a
+powerful and universal tool that allows us to develop complete deduction systems for
+a broad class of logics encountered in CS applications in an intuitively clear way,
+according to a uniform procedure.
+As we have seen, the prerequisite for applying the methodology to a logic is suf-
+/cient expressiveness of its language, needed for representing the semantics of its
+operators through syntactic means—because this is what we need to build the rules
+of an R–S deduction system. If a given language is not expressive enough, we can
+sometimes remedy that by introducing certain auxiliary means, like signed formulae,
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+365
+nominals, etc. Sometimes a good method is to either give the logic a relational seman-
+tics, or translate it to relational logic. Indeed, through the use of variables representing
+components of binary relation couples, we can easily model all standard operations on
+relations, as well as many nonstandard ones, by decomposition rules, and thus obtain
+a complete R–S system for relational logics. In such a way, many logics, like e.g.
+modal and substructural ones, have been formalised in an indirect method using the
+R–S methodology (see especially the work of Or lowska, McCaull and others quoted
+below).
+Moreover, as we have argued e.g. in Section 2.5, Rasiowa–Sikorski systems can
+lend themselves very well to automation—at least as well as tableau systems. An
+indirect proof of this fact is the duality of R–S systems to the tableau systems and
+the identity of the general principle underlying both the formalism: direct modelling of
+the semantics through proof rules. A clear proof are the properties of an R–S system
+itself. After a certain re/nement discussed in Section 2.5, the inductive de/nition of
+a decomposition tree can be transformed into a ready-made algorithm for generating
+a decomposition tree of a formula, which in case of it being /nite and having leaves
+labelled by fundamental sequences only constitutes the proof of that formula. Of course,
+a practical use of such an algorithm would require further modi/cations to make it more
+eJective, maybe analogous to those performed in case of tableau systems.
+On the other hand, the advantage of R–S systems over tableaux is invertibility of
+their decomposition rules, which makes them a more powerful and precise tool from
+proof-theoretical viewpoint. The need for the validity of the premises to be equiva-
+lent to the validity of the conclusion enforces a greater discipline in the deduction
+system development and facilitates elimination of possible loopholes. This feature is
+reinforced by the principles of R–S methodology outlined above, which give a concrete
+prescription for developing a complete deductions system in a systematic way. Another
+advantage is that invertible rules are better suited to proof search which facilitates au-
+tomated deduction.
+In view of all these advantages, Rasiowa–Sikorski deduction mechanism certainly
+merits a greater popularity and interest as a very useful tool in many applications. It
+is the author’s hope that this paper might contribute towards achieving this goal.
+Acknowledgements
+The author wishes to express her gratitude to the anonymous referees for their very
+thorough refereeing work and many constructive suggestions, which helped her prepare
+an improved /nal version of the paper.
+References
+[1] E.W. Beth, The Foundations of Mathematics, North-Holland, Amsterdam, 1959.
+366
+B. Konikowska / Theoretical Computer Science 286 (2002) 323–366
+[2] M. Bialasik, B. Konikowska, A logic for non-deterministic speci/cations, in: E. Or lowska (Ed.), Logic
+at Work: Essays Dedicated to the memory of H. Rasiowa, Studies in Fuzziness and Soft Computing,
+Springer, Berlin, 1999, pp. 286–311.
+[3] A. Blikle, Three-valued predicates for software speci/cation and validation, Fund. Inform. 14 (4) (1991)
+387–410.
+[4] A.G. Cohn, A many sorted logic with possibly empty sorts, Proc. CADE-11, Lecture Notes in Arti/cial
+Intelligence, Vol. 607, 1992, pp. 633–647.
+[5] I. DPuntsch, B. Konikowska, A multimodal logic for reasoning about complementarity, J. Appl.
+Nonclassical Logic 10 (2000) 273–301.
+[6] I. DPuntsch, E. Or lowska, Logics of complementarity in information systems, Math. Logic Quart., 2000,
+to appear.
+[7] M. Frias, E. Or lowska, A proof system for fork algebras and its applications to reasoning in logics
+based on intuitionism, Logique et Anal. 150–151–152 (1995) 239–284.
+[8] D.H. Gabbay, H.J. Ohlbach (Eds.), Temporal Logic (ICTL’94), Lecture Notes in Computer Science,
+Vol. 827, 1994.
+[9] H. Hussmann, Nondeterministic algebraic speci/cations and non-con<uent term rewriting, J. Logic
+Programming 12 (1992) 237–255.
+[10] G. Koletsos, Sequent calculus and partial logic, M.Sc. Thesis, University of Manchester, 1978.
+[11] B. Konikowska, Two over three: a two-valued logic for software speci/cation and validation over a
+three-valued predicate calculus, J. Appl. Nonclassical Logic 3 (1) (1993) 39–71.
+[12] B. Konikowska, A logic for reasoning about relative similarity, in: H. Rasiowa, E. Or lowska (Eds.),
+Special Issue of Studia Logica, Reasoning with Incomplete Information, Studia Logica 58 (1997)
+185–226.
+[13] B. Konikowska, A logic for reasoning about similarity, in: E. Or lowska (Ed.), Incomplete Information:
+Rough Set Analysis, Physica-Verlag, New York, 1998, pp. 462–491.
+[14] B. Konikowska, Natural deduction systems for Rosser–Turquette many-valued logic, J. Multiple-Valued
+Logic 4 (3) (1999) 181–205.
+[15] B. Konikowska, Rasiowa–Sikorski deduction system: a handy tool for computer science logic,
+Proceedings WADT’98, Springer Lecture Notes in Computer Science, Vol. 1589, Springer, Berlin,
+1999, pp. 183–197.
+[16] B. Konikowska, M. Bialasik, Reasoning with /rst-order nondeterministic speci/cations, Acta Inform.
+36 (5) (1999) 375–403.
+[17] B. Konikowska, C. Morgan, E. Or lowska, A relational formalisation of arbitrary /nitely many valued
+logic (special issue), Logic J. IGPL 5 (6) (1997) 755–774.
+[18] B. Konikowska, E. Or lowska, A relational formalisation of a generic many-valued modal logic, in:
+E. Or lowska, A. Sza las (Eds.), Relational Methods for CS applications, Physica-Verlag, New York,
+2001, pp. 183–201.
+[19] B. Konikowska, A. Tarlecki, J. Blikle, A three-valued logic for software speci/cation and validation,
+Fund. Inform. 14 (4) (1991) 411–453.
+[20] W. MacCaull, Relational proof system for linear and other substructural logics, Logic J. IGPL 5 (5)
+(1997) 673–697.
+[21] E. Or lowska, Relational proof system for relevant logics, J. Symbolic Logic 57 (1992) 1425–1440.
+[22] E. Or lowska, Relational proof systems for modal logics, in: H. Wansing (Ed.), Proof Theory of Modal
+Logics, Kluwer, Dordrecht, 1996, pp. 55–77.
+[23] H.J. Ohlbach, C. Weidenbach, A resolution calculus with dynamic sort structures and partial functions,
+in: L.C. Aiello (Ed.), Proc. ECAI, Pitman, London, 1990.
+[24] H. Rasiowa, R. Sikorski, The Mathematics of Metamathematics, Warsaw, PWN (Polish Scienti/c
+Publishers), 1963.
+[25] M.
+Walicki,
+S.
+Meldal,
+A
+complete
+calculus
+for
+multialgebraic
+and
+functional
+semantics
+of
+nondeterminism, ACM TOPLAS 17 (2) (1995).
+[26] C. Weidenbach, Uni/cation in sort theories and its applications, Ann. Math. Artif. Intell. 18 (1996)
+261–293.
+[27] P. Wolper, The tableau method for temporal logic: an overview, Logique et Anal. 28 (1985) 119–152.

@@ -1,0 +1,718 @@
+Theoretical Computer Science 335 (2005) 131–146
+www.elsevier.com/locate/tcs
+A brief history of process algebra
+J.C.M. Baeten∗
+Division of Computer Science, Technische Universiteit Eindhoven, P.O. Box 513, 5600 MB Eindhoven,
+The Netherlands
+Received 5 January 2004; received in revised form 13 January 2004; accepted 14 July 2004
+Abstract
+This note addresses the history of process algebra as an area of research in concurrency theory, the
+theory of parallel and distributed systems in computer science. Origins are traced back to the early
+seventies of the twentieth century, and developments since that time are sketched. The author gives his
+personal views on these matters. He also considers the present situation, and states some challenges
+for the future.
+Note: Also report CS-R 04-02, Department of Mathematics and Computer Science, Technische
+Universiteit Eindhoven, http://www.win.tue.nl/fm/pubbaeten.html.
+© 2005 Elsevier B.V. All rights reserved.
+Keywords: Process algebra; History
+1. Introduction
+Computer science is a very young science, that has its origins in the middle of the twen-
+tieth century. For this reason, describing its history, or the history of an area of research in
+computer science, is an activity that receives scant attention. The organizers of a workshop
+on process algebra in Bertinoro in July 2003 (see [3]) aimed at describing the current state
+of affairs and future directions of research in process algebra, an active area of research in
+∗Tel.: +31 40 474 12; fax: +31 40 463 99.
+E-mail address: josb@win.tue.nl (J.C.M. Baeten)
+URL: http://www.win.tue.nl/∼josb.
+0304-3975/$ - see front matter © 2005 Elsevier B.V. All rights reserved.
+doi:10.1016/j.tcs.2004.07.036
+132
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+computer science. In planning the workshop, the question came up how the present situation
+came about. I was asked to investigate the history of process algebra.
+This note addresses the history of process algebra as an area of research in concurrency
+theory, the theory of parallel and distributed systems in computer science. Origins are traced
+back to the early seventies of the twentieth century, and developments since that time are
+sketched.
+First of all, I deﬁne the term ‘process algebra’and consider possible differences of scope
+that people may have. In the rest of the note, I use a strict deﬁnition but also make some
+remarks about related matters. Then, I sketch the state of research in the early seventies,
+and state which breakthroughs were needed in order for the theories to appear. I consider
+the development of CCS, CSP and ACP. In Section 4, I sketch the main developments since
+then.
+Let me stress that I give my personal views on what are the central issues and the important
+breakthroughs. Others may well have very different views. I welcome discussion, in order
+to get a better and more complete account. I brieﬂy consider the present situation, and state
+some challenges for the future.
+2. What is a process algebra?
+The term process algebra is used in different meanings. First of all, let me consider the
+word ‘process’. It refers to behaviour of a system. A system is anything showing behaviour,
+in particular the execution of a software system, the actions of a machine or even the actions
+of a human being. Behaviour is the total of events or actions that a system can perform,
+the order in which they can be executed and maybe other aspects of this execution such as
+timing or probabilities.Always, we describe certain aspects of behaviour, disregarding other
+aspects, so we are considering an abstraction or idealization of the ‘real’behaviour. Rather,
+we can say that we have an observation of behaviour, and an action is the chosen unit of
+observation. Usually, the actions are thought to be discrete: occurrence is at some moment
+in time, and different actions are separated in time. This is why a process is sometimes also
+called a discrete event system.
+The word ‘algebra’ denotes that we take an algebraic/axiomatic approach in talking
+about behaviour. That is, we use the methods and techniques of universal algebra (see e.g.
+[63]). In order to make a comparison, consider the deﬁnition of a group in mathematical
+algebra.
+Deﬁnition 1. A group has a signature (G, ∗, u,−1 ) with the laws or axioms
+• a ∗(b ∗c) = (a ∗b) ∗c,
+• u ∗a = a = a ∗u,
+• a ∗a−1 = a−1 ∗a = u.
+So, a group is any mathematical structure with operators satisfying the group axioms.
+Stated differently: a group is any model of the equational theory of groups. Likewise, we
+can say that a process algebra is any mathematical structure satisfying the axioms given for
+the basic operators. A process is an element of a process algebra. By using the axioms, we
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+133
+can perform calculations with processes. Often, though, process algebra goes beyond the
+strict bounds of universal algebra: we see multiple sorts and binding operators.
+The simplest model of behaviour is to see behaviour as an input/output function. A value
+or input is given at the beginning of the process, and at some moment there is a(nother)
+value as outcome or output. This model was used to advantage as the simplest model of
+the behaviour of a computer program in computer science, from the start of the subject
+in the middle of the twentieth century. It was instrumental in the development of (ﬁnite
+state) automata theory. In automata theory, a process is modeled as an automaton. An
+automaton has a number of states and a number of transitions, going from one state to
+a(nother) state. A transition denotes the execution of an (elementary) action, the basic unit
+of behaviour. Besides, there is an initial state (sometimes, more than one) and a number of
+ﬁnal states. A behaviour is a run, i.e. a path from initial state to ﬁnal state. Important from
+the beginning is when to consider two automata equal, expressed by a notion of equiva-
+lence. On automata, the basic notion of equivalence is language equivalence: a behaviour
+is characterized by the set of executions from the initial state to a ﬁnal state. An algebra
+that allows equational reasoning about automata is the algebra of regular expressions (see
+e.g. [60]).
+Later on, this model was found to be lacking in several situations. Basically, what is
+missing is the notion of interaction: during the execution from initial state to ﬁnal state,
+a system may interact with another system. This is needed in order to describe parallel or
+distributed systems, or so-called reactive systems. When dealing with interacting systems,
+we say we are doing concurrency theory, so concurrency theory is the theory of interacting,
+parallel and/or distributed systems.When talking about process algebra, we usually consider
+itasanapproachtoconcurrencytheory,soaprocessalgebrawillusually(butnotnecessarily)
+have parallel composition as a basic operator.
+Thus, we can say that process algebra is the study of the behaviour of parallel or distributed
+systems by algebraic means. It offers means to describe or specify such systems, and thus
+it has means to talk about parallel composition. Besides this, it can usually also talk about
+alternative composition (choice) and sequential composition (sequencing). Moreover, we
+can reason about such systems using algebra, i.e. equational reasoning. By means of this
+equational reasoning, we can do veriﬁcation, i.e. we can establish that a system satisﬁes a
+certain property.
+What are these basic laws of process algebra? We can list some, that can be called struc-
+tural laws. We start out from a given set of atomic actions, and use the basic operators to
+compose these into more complicated processes. As basic operators, we use + denoting
+alternative composition, ; denoting sequential composition and ∥denoting parallel compo-
+sition. Usually, there are also neutral elements for some or all of these operators, but we do
+not consider these here. Some basic laws are the following (+ binding weakest, ; binding
+strongest).
+• x + y = y + x (commutativity of alternative composition),
+• x + (y + z) = (x + y) + z (associativity of alternative composition),
+• x + x = x (idempotency of alternative composition),
+• (x + y); z = x; z + y; z (right distributivity of + over ;),
+• (x; y); z = x; (y; z) (associativity of sequential composition),
+134
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+• x ∥y = y ∥x (commutativity of parallel composition),
+• (x ∥y) ∥z = x ∥(y ∥z) (associativity of parallel composition).
+These laws list some general properties of the operators involved. Note there is a law
+stating the right distributivity of + over ;, but no law of left distributivity. Adding the left
+distributivity law leads to a so-called linear time theory. Usually, left distributivity is absent,
+and we speak of a branching time theory, where the moment of choice is relevant.
+We can see that there is a law connecting alternative and sequential composition. In
+some cases, other connections are considered. On the other hand, we list no law connecting
+parallel composition to the other operators. It turns out such a connection is at the heart of
+process algebra, and it is the tool that makes calculation possible. In most process algebras,
+this law allows to express parallel composition in terms of the other operators, and is called
+an expansion theorem. Process algebras with an expansion theorem are called interleaving
+process algebras, those without are called partial order or true concurrency. For a discussion
+concerning this dichotomy, see [9].
+So, we can say that any mathematical structure with three binary operations satisfying
+these 7 laws is a process algebra. Most often, these structures are formulated in terms of
+automata, in this case mostly called transition systems. This means a transition system has a
+number of states and transitions between them, an initial state and a number of ﬁnal states.
+The notion of equivalence studied is usually not language equivalence. Prominent among
+the equivalences studied is the notion of bisimulation. Often, the study of transition systems,
+ways to deﬁne them and equivalences on them are also considered part of process algebra,
+even in the case no equational theory is present.
+In this note, I will be more precise: process algebra is the study of pertinent equational
+theories with their models, while the wider ﬁeld that also includes the study of transition
+systems and related structures, ways to deﬁne them and equivalences on them will be called
+process theory.
+3. History
+The history of process algebra will be traced back to the early seventies of the twenti-
+eth century. At that point, the only part of concurrency theory that existed is the theory of
+Petri nets, conceived by Petri starting from his thesis in 1962 [88]. In 1970, we can distin-
+guish three main styles of formal reasoning about computer programs, focusing on giving
+semantics (meaning) to programming languages.
+(1) Operational semantics. A computer program is modeled as an execution of an abstract
+machine. A state of such a machine is a valuation of variables, a transition between
+states is an elementary program instruction. Pioneer of this ﬁeld is McCarthy [67].
+(2) Denotational semantics. More abstract than operational semantics, computer programs
+are usually modeled by a function transforming input into output. Most well-known
+are Scott and Strachey [100].
+(3) Axiomatic semantics. Here, emphasis is put on proof methods proving programs
+correct. Central notions are program assertions, proof triples consisting of precondi-
+tion, program statement and postcondition, and invariants. Pioneers are Floyd [39] and
+Hoare [54].
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+135
+Then, the question was raised how to give semantics to programs containing a parallel
+operator. It was found that this is difﬁcult using the methods of denotational, operational or
+axiomatic semantics as they existed at that time, although several attempts are made (later
+on, it became clear how to extend the different types of semantics to parallel programming,
+see e.g. [86] or [90]).
+There are two paradigm shifts that need to made, before a theory of parallel programs
+in terms of a process algebra can be developed. First of all, the idea of a behaviour as an
+input/output function needed to be abandoned. A program could still be modeled as an
+automaton, but the notion of language equivalence is no longer appropriate. This is because
+the interaction a process has between input and output inﬂuences the outcome, disrupting
+functional behaviour. Secondly, the notion of global variables needs to be overcome. Using
+global variables, a state of a modeling automaton is given as a valuation of the program
+variables, that is, a state is determined by the values of the variables. The independent
+execution of parallel processes makes it difﬁcult or impossible to determine the values of
+global variables at a given moment. It turns out to be simpler to let each process have its
+own local variables, and to denote exchange of information explicitly.
+In the rest of this section, we describe the history of process algebra from the early
+seventies to the early eighties, by focusing on the central people involved. By the early
+eighties, we can say process algebra is established as a separate area of research. Sec-
+tion 4 will consider the developments since the early eighties until the present time by
+subarea.
+3.1. Bekiˇc
+One of the people studying the semantics of parallel programs in the early seventies was
+Hans Bekiˇc. He was born in 1936, and died due to a mountain accident in 1982. In the
+period we are speaking of, he worked at the IBM lab in Vienna, Austria. The lab was well-
+known in the 1960s and 1970s for the work on the deﬁnition and semantics of programming
+languages, and Bekiˇc played a part in this, working on the denotational semantics ofALGOL
+and PL/I. Growing out of his work on PL/I, the problem arose how to give a denotational
+semantics for parallel composition. Bekiˇc tackled this problem in [19]. This internal report,
+and indeed all the work of Bekiˇc is made accessible to us through the work of Cliff Jones
+[20]. On this book, I base the following remarks.
+In [19], Bekiˇc addresses the semantics of what he calls “quasi-parallel execution of
+processes’’. From the introduction, I quote:
+Our plan to develop an algebra of processes may be viewed as a high-level approach:
+we are interested in how to compose complex processes from simpler (still arbitrarily
+complex) ones.
+Bekiˇc uses global variables, so a state  is a valuation of variables, and a program de-
+termines an action A, which gives, in a state (non-deterministically) either null iff it is an
+end-state, or an elementary step f , giving a new state f  and rest-action A′. Further, there
+are ⊔and cases denoting alternative composition, ; denoting sequential composition, and
+// denoting (quasi-)parallel composition.
+136
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+On page 183 in [20], we see the following law for quasi-parallel composition:
+(A//B) =
+(cases
+A : null →B
+(f, A′) →f, (A′//B))
+⊔
+(cases
+B : null →A
+(g, B′) →g, (A//B′))
+and this is called the “unspeciﬁed merging” of the elementary steps of A and B. This is
+deﬁnitely a pre-cursor of what later would be called the expansion law of process algebra.
+It also makes explicit that Bekiˇc has made the ﬁrst paradigm shift: the next step in a merge
+is not determined, so we have abandoned the idea of a program as a function.
+The book [20] goes on with clariﬁcations of [19] from a lecture in Amsterdam in 1972.
+Here, Bekiˇc states that an action is tree-like, behaves like a scheduler, so that for instance
+f ; (g ⊔h) is not the same as (f ; g) ⊔(f ; h) for elementary steps f, g, h, another example
+of non-functional behaviour. In a letter to Peter Lucas from 1975, Bekiˇc is still struggling
+with his notion of an action, and writes:
+These actions still contain enough information so that the normal operations can be
+deﬁned between them, but on the other hand little enough information to fulﬁl certain
+desirable equivalences, such as:
+a; 0 = a
+a; (b; c) = (a; b); c
+a//b = b//a,
+etc.
+In a lecture on the material in 1974 in Newcastle, Bekiˇc has changed the notation of // to
+∥and calls the operator parallel composition. In giving the equations, we even encounter a
+“left-parallel” operator, with laws, with the same meaning that Bergstra and Klop will later
+give to their left-merge operator [21].
+Concluding, we can say that Bekiˇc contributed a number of basic ingredients to the
+emergence of process algebra, but we see no coherent comprehensive theory yet.
+3.2. CCS
+The central person in the history of process algebra without a doubt is Robin Milner.
+A.J.R.G. Milner, born in 1934, developed his process theory CCS (Calculus of Communi-
+cating Systems) over the years 1973 to 1980, culminating in the publication of the book
+[75] in 1980.
+The oldest publications concerning the semantics of parallel composition are [70,71],
+formulated within the framework of denotational semantics, using so-called transducers.
+He considers the problems caused by non-terminating programs, with side effects, and
+non-determinism. He uses the operations ∗for sequential composition, ? for alternative
+composition and ∥for parallel composition. He refers to [19] as related work.
+Next, chronologically, are the articles [74,69]. Here, Milner introduces ﬂow graphs, with
+ports where a named port synchronizes with the port with its co-name. Operators are | for
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+137
+parallel composition, restriction and relabeling. The symbol ∥is now reserved for restricted
+parallel composition. Structural laws are stated for these operators.
+The following two papers are [72,73], putting in place most of CCS as we know it. The
+operators preﬁxing and alternative composition are added and provided with laws. Syn-
+chronization trees are used as a model. The preﬁx  occurs as a communication trace (what
+remains of a synchronization of a name and a co-name). The paradigm of message passing
+is taken over from [55]. Interleaving is introduced as the observation of a single observer
+of a communicating system, and the expansion law is stated. Sequential composition is not
+a basic operator, but a derived one, using communication, abstraction and restriction.
+The paper [51], with Matthew Hennessy, formulates basic CCS, with observational equiv-
+alence and strong equivalence deﬁned inductively. Also, so-called Hennessy–Milner logic
+is introduced, which provides a logical characterization of process equivalence. Next, the
+book [75] is the standard process algebra reference. Here we have for the ﬁrst time in history
+a complete process algebra, with a set of equations and a semantical model. In fact, Milner
+talks about process calculus everywhere in his work, emphasizing the calculational aspect.
+He presents the equational laws as truths about his chosen semantical domain, rather than
+considering the laws as primary, and investigating the range of models that they have.
+An important contribution that was realized just after the appearance of [75] is the formu-
+lation of bisimulation by David Park [87]. This became a central notion in process theory
+subsequently. The book [75] was later updated in [78].
+A related development is the birth of structural operational semantics in [91]. More can
+be read about this in the recent history paper [92].
+3.3. CSP
+A very important contributor to the development of process algebra is Tony Hoare. C.A.R.
+Hoare, born in 1934, published the inﬂuential paper [55] as a technical report in 1976.
+The important step is that he does away completely with global variables, and adopts the
+message passing paradigm of communication, thus realizing the second paradigm shift. The
+language CSP (Communicating Sequential Processes) described in [55] has synchronous
+communication and is a guarded command language (based on [36]). No model or semantics
+is provided. This paper inspired Milner to treat message passing in CCS in the same way.
+A model for CSP was elaborated in [56]. This is a model based on trace theory, i.e. on
+the sequences of actions a process can perform. Later on, it was found that this model
+was lacking, for instance because deadlock behaviour is not preserved. For this reason,
+a new model based on failure pairs was presented in [30] for the language that was then
+called TCSP (Theoretical CSP). Later, TCSP was called CSP again. Some time later it was
+established that the failure model is the least discriminating model that preserves deadlock
+behaviour (see e.g. [43]). In the language, due to the presence of two alternative composition
+operators, it is possible to do without a silent step like  altogether. The book [57] gives a
+good overview of CSP.
+Between CCS and CSP, there is some debate concerning the nature of alternative compo-
+sition. Some say the + of CCS is difﬁcult to understand (“the weather of Milner”), and CSP
+proposes to distinguish between internal and external non-determinism, using two separate
+operators. See also [50].
+138
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+3.4. Some other process theories
+Around 1980, concurrency theory and in particular process theory is a vibrant ﬁeld with
+a lot of activity world wide. We already mentioned research on Petri nets, that is an active
+area [89]. Another partial order process theory is given in [66]. Research on temporal logic
+has started, see e.g. [94].
+Some other process theories can be mentioned. We already remarked that Hoare investi-
+gated trace theory. More work was done in this direction, e.g. by Rem [97]. There is also
+the invariants calculus [7].
+Another process theory that should be mentioned is the metric approach by De Bakker
+and Zucker [17,18]. There is a notion of distance between processes: processes that do not
+differ in behaviour before the nth step have a distance of at most 2−n. This turns the domain
+of processes into a metric space, that can be completed, and solutions to guarded recursive
+equations exist by application of Banach’s ﬁxed point theorem.
+3.5. ACP
+Jan Bergstra and Jan Willem Klop in 1982 started work on a question of De Bakker as to
+what can be said about solutions of unguarded recursive equations. As a result, they wrote
+the paper [21]. In this paper, the phrase “process algebra” is used for the ﬁrst time. We
+quote:
+A process algebra over a set of atomic actions A is a structure A = ⟨A, +, ·, ∥,
+ai(i ∈I)⟩where A is a set containing A, the ai are constant symbols corresponding
+to the ai ∈A, and + (union), · (concatenation or composition, left out in the axioms),
+∥(left merge) satisfy for all x, y, z ∈A and a ∈A the following axioms:
+PA1
+x + y = y + x
+PA2
+x + (y + z) = (x + y) + z
+PA3
+x + x = x
+PA4
+(xy)z = x(yz)
+PA5
+(x + y)z = xz + yz
+PA6
+(x + y)∥z = x∥z + y∥z
+PA7
+ax∥y = a(x∥y + y∥x)
+PA8
+a∥y = ay
+This clearly establishes process algebra in the strict sense as I set it out in Section 2. In the
+paper, process algebra was deﬁned with alternative, sequential and parallel composition,
+but without communication. A model was established based on projective sequences (a
+process is given by a sequence of approximations by ﬁnite terms), and in this model, it is
+established that all recursive equations have a solution. In adapted form, this paper was later
+published in [24]. In [23], this process algebra PA was extended with communication to yield
+the theory ACP (algebra of communicating processes). The book [16] gives an overview
+of ACP.
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+139
+Comparing the three most well-known process algebras CCS, CSP and ACP, we can say
+there is a considerable amount of work and applications realized in all three of them. In that
+sense, there seem to be no fundamental differences between the theories with respect to the
+range of applications. Historically, CCS was the ﬁrst with a complete theory. Different from
+the other two, CSP has a least distinguishing equational theory. More than the other two,ACP
+emphasizes the algebraic aspect: there is an equational theory with a range of semantical
+models. Also, ACP has a more general communication scheme: in CCS, communication is
+combined with abstraction, in CSP, there is also a restricted communication scheme.
+3.6. Further remarks
+In later years, other process algebras were developed. We can mention SCCS [76], CIR-
+CAL [68], MEIJE [8], the process algebra of Hennessy [50].
+We see that over the years many process algebras have been developed, each making
+its own set of choices in the different possibilities. The reader may wonder whether this is
+something to be lamented. In the paper [12], it is argued that this is actually a good thing,
+as long as there is a good exchange of information between the different groups, as each
+different process algebra will have its own set of advantages and disadvantages. When a
+certain notion is used in two different process algebras with the same underlying intuition,
+but with a different set of equational laws, there are some who argue for the same notation,
+in order to show that we are really talking about the same thing, and others who argue for
+different notations, in order to emphasize the different semantical setting.
+4. Developments
+In this section, I will address a number of important developments that have occurred since
+the formulation of the basic process algebras CCS, CSP andACP. Most of the developments
+are collected in the impressive handbook [26].
+4.1. Theory
+A nice overview of the most important theoretical results since the start of process algebra
+is the recent paper [2]. I already mentioned the formulation of the notion of bisimulation by
+Park [87]. Strong bisimulation and weak bisimulation became the central notion of equiva-
+lence in process theory.As an alternative to weak bisimulation, branching bisimulation was
+proposed in [44] with certain advantages [42]. In between bisimulation and trace equiva-
+lence there is a whole lattice of other equivalences, see the overview in [43]. See also [41].
+For process algebra based on partial order semantics, see [28].
+There is a wealth of results concerning process algebra extended with some form of
+recursion, see e.g. the complete axiomatization of regular processes by Milner [77] or the
+overview on decidability in [31].
+Structural operational semantics (SOS) has become the dominant way of providing a
+model for a process algebra. It is standard practice to provide a new operation with SOS
+140
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+rules, even before an equational characterization is attempted. There are many results based
+on the formats of these rules. An overview can be found in [4].
+Finally, there is a whole range of expressiveness results, some examples can be found
+in [22].
+As is also stated in [2], there are many nice results, but also many remaining open
+problems.
+4.2. Tooling
+Over the years, several software systems have been developed in order to facilitate the
+application of process algebra in the analysis of systems. In this subsection, I only mention
+general process algebra tools. Tools that deal with speciﬁc extensions are mentioned below.
+The most well-known general tool is the Concurrency Workbench, see [83], dealing with
+CCS type process algebra. There is also the variant CWB-NC, see [107] for the current
+state of affairs. There is the French set of tools CADP, see e.g. [38]. Further, in the CSP
+tradition, there is the FDR tool (see http://www.fsel.com/).
+The challenge in tool development is to combine an attractive user interface with a
+powerful and fast back engine.
+4.3. Veriﬁcation
+A measure of success of process algebra is the systems that have been successfully
+veriﬁed by means of techniques that come from process algebra. A good overview of the
+current state of affairs is given in [48]. Process algebra focuses on equational reasoning.
+Other successful techniques are model checking and theorem proving. Combination of these
+different approaches proves to be very promising.
+4.4. Data
+Process algebra is very successful in describing the dynamic behaviour of systems. In
+describing the static aspects, treatment of data is very important. Actions and processes
+are parametrized with data elements. The combination of processes and data has received
+much attention over the years. A standardized formal description technique is LOTOS, see
+[29]. Another combination of processes and data is PSF, see [64] with associated tooling.
+The process algebra with data CRL has tooling focusing on equational veriﬁcation, see
+e.g. [47].
+In model checking, the so-called symbolic model checking is employed in order to deal
+with data parameters.
+4.5. Time
+Research on process algebra extended with a quantitative notion of time started with the
+work of Reed and Roscoe in the CSP context, see [96]. A textbook in this tradition is [98].
+There are many variants of CCS with timing, see e.g. [105,84].
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+141
+In the ACP tradition, work starts with [11]. An integrated theory, involving both discrete
+and dense time, both relative and absolute time, is presented in the book [14].
+Also the theory ATP can be mentioned, see [85].
+There are many formulations, in these works and elsewhere, of bisimulation that takes into
+account timing information. Mostly, the passage of time is treated as the occurrence of an
+action: bisimilar processes must have exactly matching timing behaviour. Recent protocol
+veriﬁcation has shown that this may be too strict: perhaps a less discriminating equivalence
+should be used with respect to timing information (see [15]). More research is needed in
+this direction. Also a notion of approximation would be very useful. More experience with
+veriﬁcation of functional behaviour and timing behaviour is certainly needed.
+Tooling has been developed for processes with timing mostly in terms of timed automata,
+see e.g. UPPAAL [58] or KRONOS [106]. Equational reasoning is investigated for CRL
+with timing [101].
+4.6. Mobility
+Research on networks of processes where processes are mobile and conﬁguration of
+communication links is dynamic has been dominated by the -calculus. An early reference
+is [37], the standard reference is [82] and the textbook is [80]. The associated tool is the
+Mobility Workbench, see [103].Also in this domain, it is important to gain more experience
+with protocol veriﬁcation. On the theory side, there are a number of different equivalences
+that have been deﬁned, and it is not clear which is the ‘right’ one to use.
+More recently, other calculi concerning mobility have been developed, notably the am-
+bient calculus, see [32]. As to unifying frameworks for different mobile calculi, Milner
+investigates action calculus [79] and bigraphs [81].
+4.7. Probabilities and stochastics
+Process algebras extended with probabilistic or stochastic information have generated a
+lot of research in recent years. An early reference is [49]. In the CSP tradition, there is [61],
+in the CCS tradition [53], in the ACP tradition [13]. There is the process algebra TIPP with
+associated tool, see e.g. [45], and EMPA, see e.g. [27].
+Recently, the insight that both (unquantiﬁed) alternative composition and probabilistic
+choice are needed for a useful theory has gained attention, see e.g. the work in [34] or [6].
+Notions of abstraction are still a matter of continued research. The goal is to combine
+functional veriﬁcation with performance analysis. A notion of approximation is very im-
+portant here, for an attempt see [35]. Much further work needs to be done on probabilistic
+and stochastic process algebra.
+4.8. Hybrid systems
+Systems that in their behaviour depend on continuously changing variables other than
+time are the latest challenge to be addressed by process algebra. System descriptions in-
+volve differential algebraic equations, connections with dynamic control theory are very
+142
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+important. Here, process algebra research is just at the beginning. The attempts [25,33] are
+worth mentioning.
+In process theory, work centres around hybrid automata [5] and hybrid I/O automata
+[62]. A tool is HyTech, see [52]. A connection with process algebra can be found in [104].
+4.9. Other application areas
+Application of process algebra in other areas can be mentioned.A process algebra dealing
+with shared resources is ACSR [59]. Process algebra has been used to give semantics of
+speciﬁcation languages, such as POOL [102] or MSC [65]. There is work on applications
+in security, see e.g. [40,1] or [99]. Recently, some work has been done on the application
+of process algebra to biological processes, see e.g. [95].
+5. Conclusion
+In this note, a brief history of process algebra is sketched. The early work centred around
+giving semantics to programming languages involving a parallel construct. Here, two break-
+throughs were needed: ﬁrst of all, abandoning the idea that a program is a transformation
+from input to output, replacing this by an approach where all intermediate states are im-
+portant, and, secondly, replacing the notion of global variables by the paradigm of message
+passing and local variables.
+In the 1970s, both these steps were taken, and the process algebras CCS and CSP evolved.
+In doing so, process algebra became an underlying theory of all parallel and distributed
+systems, extending formal language and automata theory with the central ingredient of
+interaction.
+In the following years, much work has been done, and many process algebras have been
+formulated, extended with data, time, mobility, probabilities and stochastics. The work is
+not ﬁnished, however. I formulated some challenges for the future. More can be found
+in [3].
+Acknowledgements
+The author gratefully acknowledges the discussions at the Process Algebra: Open Prob-
+lems and Future Directions Workshop in Bertinoro in July 2003 (see [3]). The slides used
+are reproduced in [10]. In particular, I would like to mention input from Jan Friso Groote
+[46] and Luca Aceto. Comments and suggestions are gratefully acknowledged from Luca
+Aceto, Twan Basten, Jan Friso Groote, Tony Hoare, Sjouke Mauw, Gordon Plotkin, Michel
+Reniers and Erik de Vink.
+References
+[1] M. Abadi, A.D. Gordon, A calculus for cryptographic protocols: the spi calculus, in: Fourth ACM Conf. on
+Computer and Communications Security, ACM Press, New York, 1997, pp. 36–47.
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+143
+[2] L. Aceto, Some of my favorite results in classic process algebra, Tech. Report NS-03-2, BRICS, 2003.
+[3] L. Aceto, Z. Ésik, W.J. Fokkink, A. Ingólfsdóttir (Eds.), Process Algebra: Open Problems and Future
+Directions, BRICS Notes Series NS-03-3, 2003.
+[4] L. Aceto, W.J. Fokkink, C. Verhoef, Structural operational semantics, in: Handbook of Process Algebra,
+North-Holland, Amsterdam, 2001, pp. 197–292.
+[5] R. Alur, C. Courcoubetis, N. Halbwachs, T.A. Henzinger, P.-H. Ho, X. Nicollin, A. Olivero, J. Sifakis,
+S. Yovine, The algorithmic analysis of hybrid systems, Theoret. Comput. Sci. 138 (1995) 3–34.
+[6] S. Andova, Probabilistic process algebra, Ph.D. Thesis, Technische Universiteit Eindhoven, 2002.
+[7] K.R. Apt, N. Francez, W.P. de Roever, A proof system for communicating sequential processes, TOPLAS 2
+(1980) 359–385.
+[8] D. Austry, G. Boudol, Algèbre de processus et synchronisation, Theoret. Comput. Sci. 30 (1984) 91–131.
+[9] J.C.M. Baeten, The total order assumption, in: S. Purushothaman, A. Zwarico (Eds.), Proc. First North
+American Process Algebra Workshop, Workshops in Computing, Springer, Berlin, 1993, pp. 231–240.
+[10] J.C.M. Baeten, Over 30 years of process algebra: past, present and future, in: L.Aceto, Z. Ésik, W.J. Fokkink,
+A. Ingólfsdóttir (Eds.), Process Algebra: Open Problems and Future Directions, Vol. NS-03-3 of BRICS
+Notes Series, 2003, pp. 7–12.
+[11] J.C.M. Baeten, J.A. Bergstra, Real time process algebra, Formal Aspects Comput. 3 (2) (1991) 142–188.
+[12] J.C.M. Baeten, J.A. Bergstra, C.A.R. Hoare, R. Milner, J. Parrow, R. de Simone, The variety of process
+algebra, Deliverable ESPRIT Basic Research Action 3006, CONCUR, 1991.
+[13] J.C.M. Baeten, J.A. Bergstra, S.A. Smolka, Axiomatizing probabilistic processes: ACP with generative
+probabilities, Inform. Comput. 121 (2) (1995) 234–255.
+[14] J.C.M. Baeten, C.A. Middelburg, ProcessAlgebra with Timing, EATCS Monographs, Springer, Berlin, 2002.
+[15] J.C.M. Baeten, C.A. Middelburg, M.A. Reniers, A new equivalence for processes with timing, Tech. Report
+CSR 02-10, Eindhoven University of Technology, Computer Science Department, 2002.
+[16] J.C.M. Baeten, W.P. Weijland, Process Algebra, Vol. 18, Cambridge Tracts in Theoretical Computer Science,
+Cambridge University Press, Cambridge, 1990.
+[17] J.W. de Bakker, J.I. Zucker, Denotational semantics of concurrency, in: Proc. 14th Symp. on Theory of
+Computing, ACM, New York, 1982, pp. 153–158.
+[18] J.W. de Bakker, J.I. Zucker, Processes and the denotational semantics of concurrency, Inform. Control 54
+(1982) 70–120.
+[19] H. Bekiˇc, Towards a mathematical theory of processes, Tech. Report TR 25.125, IBM Laboratory Vienna,
+1971.
+[20] H. Bekiˇc, Programming Languages and their Deﬁnition (Selected Papers edited by C.B. Jones), Lecture Notes
+in Computer Science, Vol. 177, Springer, Berlin, 1984.
+[21] J.A. Bergstra, J.W. Klop, Fixed point semantics in process algebra, Tech. Report IW 208, Mathematical
+Centre, Amsterdam, 1982.
+[22] J.A. Bergstra, J.W. Klop, The algebra of recursively deﬁned processes and the algebra of regular processes,
+in: J. Paredaens (Ed.), Proc. 11th ICALP, Lecture Notes in Computer Science, Vol. 172, Springer, Berlin,
+1984, pp. 82–95.
+[23] J.A. Bergstra, J.W. Klop, Process algebra for synchronous communication, Inform. Control 60 (1,3) (1984)
+109–137.
+[24] J.A. Bergstra, J.W. Klop, A convergence theorem in process algebra, in: J.W. de Bakker, J.J.M.M. Rutten
+(Eds.), Ten Years of Concurrency Semantics, World Scientiﬁc, Singapore, 1992, pp. 164–195.
+[25] J.A. Bergstra, C.A. Middelburg, Process algebra semantics for hybrid systems, Tech. Report CS-R 03/06,
+Technische Universiteit Eindhoven, Department of Computer Science, 2003.
+[26] J.A. Bergstra, A. Ponse, S.A. Smolka (Eds.), Handbook of Process Algebra, North-Holland, Amsterdam,
+2001.
+[27] M. Bernardo, R. Gorrieri, A tutorial on EMPA: A theory of concurrent processes with non-determinism,
+priorities, probabilities and time, Theoret. Comput. Sci. 202 (1998) 1–54.
+[28] E. Best, R. Devillers, M. Koutny, A uniﬁed model for nets and process algebras, in: Handbook of Process
+Algebra, North-Holland, Amsterdam, 2001, pp. 945–1045.
+[29] E. Brinksma (Ed.), Information Processing Systems, Open Systems Interconnection, LOTOS—A Formal
+Description Technique Based on the Temporal Ordering of Observational Behaviour, International Standard,
+ISO, Vol. IS-8807, Geneva, 1989.
+144
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+[30] S.D. Brookes, C.A.R. Hoare, A.W. Roscoe, A theory of communicating sequential processes, J. ACM 31 (3)
+(1984) 560–599.
+[31] O. Burkart, D. Caucal, F. Moller, B. Steffen, Veriﬁcation on inﬁnite structures, in: Handbook of Process
+Algebra, North-Holland, Amsterdam, 2001, pp. 545–623.
+[32] L. Cardelli, A.D. Gordon, Mobile ambients, Theoret. Comput. Sci. 240 (2000) 177–213.
+[33] P.J.L. Cuijpers, M.A. Reniers, Hybrid process algebra. Tech. Report CS-R 03/07, Technische Universiteit
+Eindhoven, Department of Computer Science, 2003.
+[34] P.R. D’Argenio,Algebras and automata for timed and stochastic systems, Ph.D. Thesis, University of Twente,
+1999.
+[35] J. Desharnais,V. Gupta, R. Jagadeesan, P. Panangaden, Metrics for labeled Markov systems, in: J.C.M. Baeten,
+S. Mauw (Eds.), Proc. CONCUR’99, Lecture Notes in Computer Science, Vol. 1664, Springer, Berlin, 1999,
+pp. 258–273.
+[36] E.W. Dijkstra, Guarded commands nondeterminacy and formal derivation of programs, Commun. ACM
+18 (8) (1975) 453–457.
+[37] U. Engberg, M. Nielsen, A calculus of communicating systems with label passing. Tech. Report DAIMI
+PB-208, Aarhus University, 1986.
+[38] J.-C.
+Fernandez,
+H.
+Garavel, A.
+Kerbrat,
+R.
+Mateescu,
+L.
+Mounier,
+M.
+Sighireanu,
+CADP
+(CAESAR/ALDEBARAN development package): a protocol validation and veriﬁcation toolbox, in: R. Alur,
+T.A. Henzinger (Eds.), Proc. CAV ’96, Lecture Notes in Computer Science,Vol. 1102, Springer, Berlin, 1996,
+pp. 437–440.
+[39] R.W. Floyd, Assigning meanings to programs, in: J.T. Schwartz (Ed.), Proc. Symp. in Applied Mathematics,
+Mathematical Aspects of Computer Science, American Mathematical Society, Providence, RI, 1967,
+pp. 19–32.
+[40] R. Focardi, R. Gorrieri, A classiﬁcation of security properties for process algebras, J. Comput. Security
+3 (1995) 5–33.
+[41] R.J. van Glabbeek, The linear time—branching time spectrum II; the semantics of sequential systems with
+silent moves, in: E. Best (Ed.), Proc. CONCUR ’93, Lecture Notes in Computer Science, Vol. 715, Springer,
+Berlin, 1993, pp. 66–81.
+[42] R.J. van Glabbeek,What is branching time semantics and why to use it? in: M. Nielsen (Ed.),The Concurrency
+Column, Bulletin of the EATCS 53, 1994, pp. 190–198.
+[43] R.J. van Glabbeek, The linear time—branching time spectrum I. The semantics of concrete, sequential
+processes, in: Handbook of Process Algebra, North-Holland, Amsterdam, 2001, pp. 3–100.
+[44] R.J. van Glabbeek, W.P. Weijland, Branching time and abstraction in bisimulation semantics, J. ACM 43
+(1996) 555–600.
+[45] N. Götz, U. Herzog, M. Rettelbach, Multiprocessor and distributed system design: The integration of
+functional speciﬁcation and performance analysis using stochastic process algebras, in: L. Donatiello,
+R. Nelson (Eds.), Performance Evaluation of Computer and Communication Systems, Lecture Notes in
+Computer Science, Vol. 729, Springer, Berlin, 1993, pp. 121–146.
+[46] J.F. Groote, Process algebra and structured operational semantics, Ph.D. Thesis, University of Amsterdam,
+1991.
+[47] J.F. Groote, B. Lisser, Computer assisted manipulation of algebraic process speciﬁcations. Tech. Report
+SEN-R0117, CWI, Amsterdam, 2001.
+[48] J.F. Groote, M.A. Reniers, Algebraic Process veriﬁcation, in: Handbook of Process Algebra, North-Holland,
+Amsterdam, 2001, pp. 1151–1208.
+[49] H.Hansson,Timeandprobabilityinformaldesignofdistributedsystems,Ph.D.Thesis,UniversityofUppsala,
+1991.
+[50] M. Hennessy, Algebraic Theory of Processes, MIT Press, Cambridge, MA, 1988.
+[51] M. Hennessy, R. Milner, On observing nondeterminism and concurrency, in: J.W. de Bakker, J. van Leeuwen
+(Eds.), Proc. 7th ICALP, Lecture Notes in Computer Science, Vol. 85, Springer, Berlin, 1980, pp. 299–309.
+[52] T.A. Henzinger, P. Ho, H. Wong-Toi, Hy-Tech: the next generation, in: Proc. RTSS, IEEE, New York, 1995,
+pp. 56–65.
+[53] J. Hillston, A compositional approach to performance modelling, Ph.D. Thesis, Cambridge University Press,
+Cambridge, 1996.
+[54] C.A.R. Hoare, An axiomatic basis for computer programming, Commun. ACM 12 (1969) 576–580.
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+145
+[55] C.A.R. Hoare, Communicating sequential processes, Commun. ACM 21 (8) (1978) 666–677.
+[56] C.A.R. Hoare,A model for communicating sequential processes, in: R.M. McKeag,A.M. Macnaghten (Eds.),
+On the Construction of Programs, Cambridge University Press, Cambridge, 1980, pp. 229–254.
+[57] C.A.R. Hoare, Communicating Sequential Processes, Prentice-Hall, Englewood Cliffs, NJ, 1985.
+[58] K.G. Larsen, P. Pettersson, Wang Yi, Uppaal in a nutshell, J. Software Tools Technol. Transfer 1 (1997).
+[59] I. Lee, P. Bremond-Gregoire, R. Gerber, A process algebraic approach to the speciﬁcation and analysis of
+resource-bound real-time systems. Proc. IEEE, 1994 (special issue on real-time).
+[60] P. Linz, An Introduction to Formal Languages and Automata, Jones and Bartlett, 2001.
+[61] G. Lowe, Probabilities and priorities in timed CSP. Ph.D. Thesis, University of Oxford, Oxford, 1993.
+[62] N. Lynch, R. Segala, F.Vaandrager, H.B. Weinberg, Hybrid I/O automata, in: T. Henzinger, R.Alur, E. Sontag
+(Eds.), Hybrid Systems III, Lecture Notes in Computer Science, Vol. 1066, Springer, Berlin, 1995.
+[63] S. MacLane, G. Birkhoff, Algebra, MacMillan, New York, 1967.
+[64] S. Mauw, PSF: a process speciﬁcation formalism, Ph.D. Thesis, University of Amsterdam, 1991. See
+http://carol.science.uva.nl/psf/.
+[65] S. Mauw, M.A. Reniers, An algebraic semantics for basic message sequence charts, Comput. J. 37 (1994)
+269–277.
+[66] A. Mazurkiewicz, Concurrent program schemes and their interpretations, Tech. Report DAIMI PB-78,Aarhus
+University, 1977.
+[67] J. McCarthy,A basis for a mathematical theory of computation, in: P. Braffort, D. Hirshberg (Eds.), Computer
+Programming and Formal Systems, North-Holland, Amsterdam, 1963, pp. 33–70.
+[68] G.J. Milne, CIRCAL: a calculus for circuit description, Integration 1 (1983) 121–160.
+[69] G.J. Milne, R. Milner, Concurrent processes and their syntax, J. ACM 26 (2) (1979) 302–321.
+[70] R. Milner, An approach to the semantics of parallel programs, in: Proc. Convegno di informatica Teoretica,
+Pisa, Instituto di Elaborazione della Informazione, 1973, pp. 285–301.
+[71] R. Milner, Processes: a mathematical model of computing agents, in: H.E. Rose, J.C. Shepherdson (Eds.),
+Proc. Logic Colloquium, Studies in Logic and the Foundations of Mathematics, Vol. 80, North-Holland,
+Amsterdam, 1975, pp. 157–171.
+[72] R. Milner, Algebras for communicating systems, in: Proc. AFCET/SMF joint colloq. Applied Mathematics,
+Paris, 1978.
+[73] R. Milner, Synthesis of communicating behaviour, in: J. Winkowski, (Ed.), Proc. 7th MFCS, Lecture Notes
+in Computer Science, Vol. 64, Zakopane, Springer, Berlin, 1978, pp. 71–83.
+[74] R. Milner, Flowgraphs and ﬂow algebras, J. ACM 26 (4) (1979) 794–818.
+[75] R. Milner, A Calculus of Communicating Systems, Lecture Notes in Computer Science, Vol. 92, Springer,
+Berlin, 1980.
+[76] R. Milner, Calculi for synchrony and asynchrony, Theoret. Comput. Sci. 25 (1983) 267–310.
+[77] R. Milner, A complete inference system for a class of regular behaviours, J. Comput. System Sci. 28 (1984)
+439–466.
+[78] R. Milner, Communication and Concurrency, Prentice-Hall, Englewood Cliffs, NJ, 1989.
+[79] R. Milner, Calculi for interaction, Acta Informatica 33 (1996) 707–737.
+[80] R. Milner, Communicating and Mobile Systems: the -Calculus, Cambridge University Press, Cambridge,
+1999.
+[81] R. Milner, Bigraphical reactive systems, in: K.G. Larsen, M. Nielsen, (Eds.), Proc. CONCUR ’01, Lecture
+Notes in Computer Science, Vol. 2154, Springer, Berlin, 2001, pp. 16–35.
+[82] R. Milner, J. Parrow, D. Walker, A calculus of mobile processes, Inform. Comput. 100 (1992) 1–77.
+[83] F. Moller, P. Stevens, Edinburgh Concurrency Workbench User Manual (Version 7.1) available from
+http://www.dcs.ed.ac.uk/home/cwb/
+[84] F. Moller, C. Tofts, A temporal calculus of communicating systems, in: J.C.M. Baeten, J.W. Klop (Eds.),
+Proc. CONCUR’90, Lecture Notes in Computer Science, Vol. 458, Springer, Berlin, 1990, pp. 401–415.
+[85] X. Nicollin, J. Sifakis, The algebra of timed processes ATP: theory and application, Inform. Comput. 114
+(1994) 131–178.
+[86] S. Owicki, D. Gries, Verifying properties of parallel programs: an axiomatic approach, Commun. ACM 19
+(1976) 279–285.
+[87] D.M.R. Park, Concurrency and automata on inﬁnite sequences, in: P. Deussen (Ed.), Proc. 5th GI Conf.,
+Lecture Notes in Computer Science, Vol. 104, Springer, Berlin, 1981, pp. 167–183.
+146
+J.C.M. Baeten / Theoretical Computer Science 335 (2005) 131–146
+[88] C.A. Petri, Kommunikation mit automaten. Ph.D. Thesis, Institut fuer Instrumentelle Mathematik, Bonn,
+1962.
+[89] C.A. Petri, Introduction to general net theory, in: W. Brauer (Ed.), Proc. Advanced Course on General
+Net Theory, Processes and Systems, Lecture Notes in Computer Science, Vol. 84, Springer, Berlin, 1980,
+pp. 1–20.
+[90] G.D. Plotkin, A powerdomain construction, SIAM J. Comput. 5 (1976) 452–487.
+[91] G.D. Plotkin,A structural approach to operational semantics, Tech. Report DAIMI FN-19,Aarhus University,
+1981. Reprinted as [93].
+[92] G.D. Plotkin, The origins of structural operational semantics. J. Logic Algebraic Programming 60/61 (2004)
+3–15, 2004 (special issue on structural operational semantics).
+[93] G.D. Plotkin, A structural approach to operational semantics. J. Logic Algebraic Programming 60/61 (2004)
+17–139, 2004 (special issue on structural operational semantics).
+[94] A. Pnueli, The temporal logic of programs, in: Proc. 19th Symp. on Foundations of Computer Science, IEEE,
+1977, pp. 46–57.
+[95] C. Priami, A. Regev, W. Silverman, E. Shapiro, Application of stochastic process algebras to bioinformatics
+of molecular processes, Inform. Process. Lett. 80 (2001) 25–31.
+[96] G.M. Reed, A.W. Roscoe, A timed model for communicating sequential processes, Theoret. Comput. Sci. 58
+(1988) 249–261.
+[97] M. Rem, Partially ordered computations, with applications toVLSI design, in: J.W. de Bakker, J. van Leeuwen
+(Eds.), Foundations of Computer Science IV, Mathematical Centre Tracts, Vol. 159, Mathematical Centre,
+Amsterdam, 1983, pp. 1–44.
+[98] S.A. Schneider, Concurrent and real-time systems (the CSP approach), Worldwide Series in Computer
+Science, Wiley, New York, 2000.
+[99] S.A. Schneider, Process algebra and security, in: K.G. Larsen, M. Nielsen (Eds.), Proc. CONCUR ’01, Lecture
+Notes in Computer Science, Vol. 2154, Springer, Berlin, 2001, pp. 37–38.
+[100] D.S. Scott, C. Strachey, Towards a mathematical semantics for computer languages, in: J. Fox (Ed.), Proc.
+Symp. Computers and Automata, Polytechnic Institute of Brooklyn Press, 1971, pp. 19–46.
+[101] Y.S. Usenko, Linearization in CRL, Ph.D. Thesis, Technische Universiteit Eindhoven, 2002.
+[102] F.W. Vaandrager, Process algebra semantics of POOL, in: J.C.M. Baeten (Ed.), Applications of Process
+Algebra, Cambridge Tracts in Theoretical Computer Science, Vol. 17, Cambridge University Press,
+Cambridge, 1990, pp. 173–236.
+[103] B. Victor, A veriﬁcation tool for the polyadic -Calculus, Licentiate Thesis, Department of Computer
+Systems, Uppsala University, Sweden, May 1994, available as report DoCS 94/50.
+[104] T.A.C. Willemse, Semantics and veriﬁcation in process algebras with data and timing, Ph.D. Thesis,
+Technische Universiteit Eindhoven, 2003.
+[105] W.Yi, Real-time behaviour of asynchronous agents, in: J.C.M. Baeten, J.W. Klop (Eds.), Proc. CONCUR’90,
+Lecture Notes in Computer Science, Vol. 458, Springer, Berlin, 1990, pp. 502–520.
+[106] S.Yovine, Kronos: a veriﬁcation tool for real-time systems, J. Software Tools Technology Transfer 1 (1997)
+123–133.
+[107] D. Zhang, R. Cleaveland, E. Stark, The integrated CWB-NC/PIOAtool for functional veriﬁcation and
+performance analysis of concurrent systems, in: H. Garavel, J. Hatcliff (Eds.), Proc. TACAS ’03, Lecture
+Notes in Computer Science, Vol. 2619, Springer, Berlin, 2003, pp. 431–436.

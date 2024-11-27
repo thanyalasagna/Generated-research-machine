@@ -1,0 +1,593 @@
+IMPROVING THE PERSISTENCE OF FIRST-YEAR 
+UNDERGRADUATE WOMEN IN COMPUTER SCIENCE 
+ 
+Rita Manco Powell 
+University of Pennsylvania 
+3330 Walnut Street 
+Philadelphia, PA 19104 
+215-898-0051 
+rpowell@cis.upenn.edu 
+ 
+ 
+ 
+Abstract 
+This paper describes a study of undergraduate women’s 
+retention in the first-year of the computer science major 
+at the University of Pennsylvania for the purpose of 
+identifying the underlying issues responsible for attrition. 
+The subsequent steps taken by the faculty to improve 
+women’s retention is also discussed. 
+ 
+Categories and Subject Descriptors 
+Gender 
+ 
+General Terms 
+Diversity, Curriculum Issues 
+ 
+Keywords 
+Gender Issues, Persistence, Attrition, Curriculum 
+ 
+1.   Introduction 
+Enrollment in computer science programs nationally 
+began to decline after the technology bust at the turn of 
+the millennium, but the sharpness of the decline in 
+women has been more pronounced.  All science and 
+engineering majors have experienced a steady increase 
+in women’s participation over the past two decades 
+except for computer science.  The goal of a study in the 
+2003-04 academic year was to find out why this 
+situation was occurring at the University of Pennsylvania 
+and determine how Penn’s Department of Computer 
+and Information Science could better support women’s 
+persistence. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+2.   Background 
+Applicants to the University of Pennsylvania apply to 
+one of the university’s four undergraduate schools and 
+matriculate in that school in the freshman year. Students 
+may transfer out of a department and/or a school at the 
+end of the freshman year. Most undergraduate attrition 
+from the computer science majors for both women and 
+men at Penn occurs in the first year of college. Women 
+comprise approximately 20 percent of the CIS incoming 
+class of declared majors each year.  While more male 
+students join the department after the freshman year 
+than transfer out, the proportion of women in a class 
+decreases. The goal of this study was to understand the 
+nature of these women’s experiences in the major, how 
+the students’ interpreted these experiences, and the 
+impact they had on students’ decision to remain in or 
+drop out of the major.  
+ 
+3.   Review of the Literature 
+Many women enter computer science programs with far 
+less experience with computers than men. From 1996-
+2004, girls made up only 16-17 percent of those taking 
+the AP Computer Science A exam and approximately 
+10 percent of those taking AP Computer Science AB 
+exam [3], suggesting girl’s lack of preparation in high 
+school to study computer science in competitive 
+academic programs in college. The home environment 
+highly influences a woman to develop an interest in 
+computer science. In their study at Carnegie Mellon 
+University, Margolis and Fisher [10] found that 40 
+percent of the men and 65 percent of the women came 
+from households in which one or both parents were 
+involved in computing.  In addition, 75 percent of the 
+men in their study fit the profile of someone who was 
+magnetically attracted to computers since childhood, 
+while only 25 percent of the women fit this profile. 
+Although men as well as women are drawn to computer 
+science for the challenge and the opportunities afforded 
+by the discipline to solve problems and advance the 
+body of knowledge in diverse fields, the mythology of 
+the computing “geek” who has an inordinate 24/7 
+fascination with the computer pervades current 
+interpretations of who does computer science. However, 
+Blum and Friege [2] found that after the freshman year, 
+male and female students who persisted in computer 
+science claimed to fit in well with the computing culture 
+both academically and socially. 
+ 
+In college, aspects of the classroom and lab 
+environment can deter women’s persistence. Being 
+subjected to a locker-room environment, enduring 
+inappropriate language and continuous rude and 
+patronizing behavior, and feeling like they constantly 
+must prove themselves and their right to be there 
+isolates women in computer science, forming the basis 
+for the chilly climate hypothesis in the discipline [1], [8], 
+[9], [13]. Although Strenta et al [14] found no evidence 
+for a chilly climate hypothesis in science, math and 
+engineering majors because for those whose grades 
+were the same, persistence was the same, their 
+research did detect a significant gender effect in 
+women’s persistence in computer science. Increasing 
+the critical mass of women was found to increase 
+women’s persistence in the computer science major [5], 
+[10], [11].There is little evidence that negative 
+experiences with faculty are a factor in women’s attrition 
+in computer science. Rather it is more what faculty fails 
+to do in terms of mentoring that cause women to 
+consider leaving science, math and engineering majors.  
+The presence of female faculty is critically important to 
+making the participation of women in a discipline appear 
+and feel normal.  However, the presence of a lone 
+female advisor, which is often the case, will not be 
+enough to address the difficulties women students 
+experience because of their minority status [4], [6], [12]. 
+Women Teaching Assistants and upperclass students 
+can nurture undergraduate students, serve as role 
+models and mentors, and help undergraduates to stay 
+grounded and focused in the major.   
+ 
+4.   The Situation at Penn 
+In the 2003-04 academic year, all first-year computer 
+science students enrolled in a two semester course 
+sequence CSE 120 and 121, Introduction to 
+Programming and Techniques I and II and the labs 
+associated with these courses, CSE 130 and 131. 
+Enrollment and graduation records show that CIS 
+graduates close to the same number of students that 
+the department admits. The transfer-in of students into 
+the department masks the attrition out of the 
+department. In the academic year prior to this research 
+study, 5 of 11 students or 45 percent that switched out 
+of CIS from November 2002 through May 2003 were 
+women. Conversely, only 1 of the 14 students or 7 
+percent who transferred into CIS during this same time 
+period was a woman.  Women made up 25 percent of 
+the introductory computer science course CSE 120 
+enrollment in fall 2002.  By January 2003, women 
+comprised only 19 percent of CSE 121, the second 
+course of the first year sequence.  
+ 
+5.   Research Methodology 
+All twenty four women enrolled in CSE 120 in the fall of 
+2003 were invited to be a part of this study. Fourteen 
+students agreed to participate; all of these students 
+reported that they planned to major in computer science 
+or were seriously considering the major. The research 
+method employed in this study included a series of in-
+depth, semi-structured personal interviews beginning in 
+fall 2003 and continuing through the following fall. Other 
+data sources included two focus groups with the study 
+participants, a focus group with nine male students in 
+the first-year courses, and a focus group with the 
+combined female study group and male first-year focus 
+group. The study participants were also asked to keep 
+journals to record their experiences in computer 
+science. In addition, personal interviews with faculty and 
+administrators, teaching assistants, and female 
+graduate students at the University of Pennsylvania 
+informed this study. The names of all of the students in 
+this study have been changed to maintain their 
+anonymity. 
+ 
+The small sample size of this population made it difficult 
+to derive meaningful results from statistical research 
+methods. An ethnographic, qualitative approach was 
+taken to examine the unique experiences of each 
+individual in the study group and determine what 
+support the department could provide to positively 
+impact her persistence in the major. While this research 
+approach cannot draw conclusions that may be 
+generalized to women in other schools, it provided 
+reliable data on the study participants’ personal 
+experiences and a context within which their decisions 
+to persist with or leave the computer science major at 
+the University of Pennsylvania could be examined. 
+Therefore, this study may serve as a useful comparison 
+to other schools and departments of computer science 
+grappling with the issues surrounding their own female 
+students’ persistence. 
+ 
+6.   Issues Impacting Persistence:  The 
+Students’ Accounts 
+More than half of the study participants’ fathers and 
+several of their mothers were computer scientists or 
+engineers, suggesting the importance of early modeling 
+and encouragement of technology careers for girls. The 
+participants described how their families and middle and 
+high school teachers had nurtured their aptitude for 
+mathematics, and excelling in mathematics in high 
+school was a major contributory factor in their decision 
+to study computer science at Penn. Although the study 
+participants’ pre-college background included a 
+thorough grounding in math and science, most 
+participants reported an inadequate exposure to 
+computer science in high school. As mentioned earlier, 
+although no previous experience with computing was 
+required in the first course in the major, many of the 
+male students in the class actually had a great deal of 
+prior experience from high school, while other male 
+students claimed to have this prior experience. Both 
+academically and psychologically, the disparity in prior 
+experience with computing in the first-year class worked 
+against the study participants’ motivation in that they 
+found it very difficult to keep up with many of their 
+classmates.  They perceived that the introductory 
+course did not afford them a level playing field on which 
+to compete.  One student described how this situation 
+had impacted her: 
+I remember, for the weekly homework problems we 
+had to do in CSE 120, it was often very mind-
+boggling and frustrating because I felt like I should 
+somehow be explaining on my own [sic] to acquire 
+some of the advanced knowledge of programming 
+techniques some people in the class already had.  
+My friends and I would spend hours and hours 
+doing a problem only to find out, after submitting 
+the problem, that someone had spent merely 30 
+minutes on the same problem not because he was 
+a genius or particularly smart (I define being smart 
+as being able to go further and faster than anybody 
+with whom you have started out on the same foot) 
+but because he, with his 3-4 years of experience, 
+already knew some tricks on the lessons that were 
+to be covered later in the course.  There really is 
+nothing more frustrating than this, because you 
+never know what you don’t know.  Maybe it’s 
+because it was an introductory class, and thus 
+everybody was at different levels, but still, you 
+really begin to develop learned-helplessness and 
+just sort of give up.  
+(E. Choi, personal communication, January 18, 
+2004) 
+ 
+Although a few of the women were exposed to computer 
+programming in high school through the AP A computer 
+science course, only one of them took the AP AB 
+advanced course. Several of the students reported that 
+prior to college they did not participate in computing 
+courses and robotics clubs because they did not have 
+enough experience in high school to compete with 
+males. Most of the women struggled in the first-year of 
+their computer science courses to maintain the 
+confidence that they could be successful and 
+consequently to maintain their interest in the major and 
+their belief that it was a good fit for them.  
+ 
+In addition to a lack of prior experience with 
+programming, social isolation from faculty and peers in 
+the computer science major made the first year difficult 
+for many of the women. Social isolation was partially the 
+result of the students’ gender minority status in that they 
+became acquainted with few of their classmates, and 
+they were not included in many of their male 
+classmates’ discussions and activities. Several were too 
+timid to insert themselves into social situations with their 
+classmates, and the first-year courses did not facilitate 
+enough interaction among students. One student 
+described the effect of being excluded from group 
+discussion in lab had on her: 
+Today, almost two months into the school year, we 
+had our first “group” project in CSE 130 lab … 
+While a few of the guys knew each other from 
+outside sources and began to chat easily over 
+topics of mutual interest, I found conversation 
+difficult to begin. Once past asking them their 
+name, which a few timidly answered and none ever 
+asked mine though I am sure not one knew it, I 
+found they would all turn back to one of the other 
+guys to continue chatting. It’s odd because even 
+one of the guys that I initially had befriended at the 
+beginning of the year [acted this way]. 
+(G. Pie, personal communication, October, 2003) 
+ 
+The social isolation, which most of the women in the 
+study group experienced, was exacerbated by faculty’s 
+insistence that students work alone on homework 
+programming assignments in the first-year courses, 
+referring questions only to their instructor or course TA. 
+Working with another student often constituted cheating 
+by the faculty, even though many of the students were 
+struggling with the same material. This restriction 
+marginalized many of the women in the sample by 
+limiting their opportunities to become a part of the 
+informal social peer network where college has a major 
+impact on students. This approach to programming also 
+gave students the mistaken impression that software 
+engineers work alone in an isolated environment, 
+whereas almost all software projects in industry require 
+teamwork and collaboration.   
+ 
+Just as these women passed most of the first-year 
+knowing few of their classmates, they also made few 
+personal acquaintances with faculty.  They did not seek 
+out professors during their office hours because they 
+feared that they did not have a suitable question to ask 
+the professor, and that he would question what 
+prompted them to come to his office hours.  Because 
+they lacked the courage to approach faculty, most of the 
+students relied on Teaching Assistants (TAs) to answer 
+their questions concerning course material and 
+assignments.  The women were scattered throughout 
+seven CSE 130 lab recitation sections, precluding a 
+critical mass of women in any one lab section, and most 
+became acquainted with few other women in the class 
+during the first semester. Although the students enjoyed 
+their residential experience at Penn, they encountered 
+few computer science majors and no other female 
+majors in their college houses. The residential 
+experience helped them bind with the broader 
+university, but did not especially support their affiliation 
+with the School of Engineering and Applied Science or 
+the Department of Computer and Information Science.  
+Therefore, most of these women passed the first 
+semester and a good part of the second semester 
+making few, if any, friendships or contacts in 
+engineering or computer science.   
+ 
+The participants initially did not value all-women support 
+groups in the freshman year.  Several women reported 
+that they shunned women’s groups and activities 
+designed to support them because they believed that 
+their participation in such a group was a tacit admission 
+that they were less capable than the men.  In a focus 
+group, one student explained:    
+There is no guys’ group.  Why is there a girls’ 
+group?  I see us just as individuals, not as girls and 
+guys.  We are all the same.  If you think women 
+need a support group, it’s like women need help, 
+they are weaker. 
+Although these students were put off by offers early in 
+the freshman year to join an all women’s mentoring 
+group, their attitudes noticeably changed as the 
+freshman year progressed.  By the end of the first-year, 
+several students expressed appreciation for all-women’s 
+support groups in computer science because they 
+provided them with opportunities to discuss academic 
+and social issues concerning the major. 
+While many women and men differ in their secondary 
+school background in computer science, they may also 
+differ in their motivations to study computer science in 
+college.  Some students become engaged in computer 
+science initially through their fascination with the actual 
+operating of the computer, while others are more often 
+attracted to the applications of computer science to 
+diverse fields such as graphics, artificial intelligence, 
+cognitive science, and biocomputing [11], [1], [5]. Since 
+many women lack pre-college experience with 
+computing, their lack of knowledge about the field could 
+explain why women tend to look for tangible applications 
+for computer science. In the fall focus group, one 
+woman described her view of the differences in the 
+appeal of the discipline for her as compared to some of 
+her male classmates. 
+ 
+It’s not just that the guys have taken classes before. 
+I know guys who have Linux on their computers 
+because they figured out how to use it. They didn’t 
+take a class on it or anything, but they play with it 
+constantly.  They like that sort of thing. The easiest 
+way to learn CS is to actually do it. You start to 
+think you are not the type because you are not 
+playing with Linux constantly.  I’m not particularly 
+interested in playing with it all the time. I like to be 
+able to use it.  
+ 
+(L. Hermine, personal communication, October 
+2003)   
+ 
+Although all of the women in this study believed that a 
+computer science degree would garner them a good job 
+after graduation, most could not visualize or describe 
+what that job would be like.  This lack of knowledge of 
+the computing field became a significant deterrent to 
+persistence for these women because their first college 
+experience with computing was limited to programming, 
+and they developed the perception of the discipline as a 
+solitary activity of writing and debugging code.  Several 
+women worried that they did not feel passionate about 
+computer science and were not as “gung ho” about 
+computer programming as their peers.  Those who did 
+not enjoy programming assumed that computer science 
+must not be for them, and yet they had little else to look 
+to for a possible fit for their interests in the major. 
+ 
+7.   Academic Results of the Study 
+Group 
+Thirteen of the fourteen study group participants 
+completed CSE 120. The only student who did not 
+complete the class dropped after the first midterm in 
+which she had earned a B. Nine of the fourteen women 
+persisted in the major, enrolling in CSE 121/131 in 
+January ’04, and all nine continued in the major in the 
+following fall. As a group, the study participants 
+completed CSE 120 one point below the class mean 
+grade and completed CSE 121 one point above the 
+class mean.  
+ 
+8.   Impacting Persistence: The 
+Department’s Response 
+The first-year experience in computer science at Penn 
+has significantly changed since 2003.  Through 
+curriculum, policies and practices, computer science 
+departments can mitigate gendered attrition rates [4].  
+The department chair’s teaching CSE 120 has sent a 
+strong message of the importance of students’ early 
+experiences in the major.  The faculty has created 
+multiple pathways into Penn’s computer science majors.  
+Now only students with substantial prior experience with 
+computer programming from high school and who pass 
+a course waiver test are recommended to begin the 
+major with CSE 120.  Students with little previous 
+experience with computer programming who express an 
+interest in the computer science major enroll in CSE 110 
+Introduction to Computer Programming, a less intensive, 
+slower paced course, which gives students time to 
+develop the skills and confidence to be successful in 
+CSE 120.  Faculty also revamped second and third year 
+core courses to address computing skills that were not 
+previously covered in the curriculum, thereby ensuring 
+that all students had the requisite skills to be successful 
+as they moved through the core sequence.     
+  
+In addition to reworking the curriculum, the culture of the 
+CIS department has changed. More opportunities within 
+the department to interact with computer science faculty 
+play to students’ interests in the applications of 
+computer science. One lab period is now set aside to 
+give first-year students the opportunity to chat with 
+faculty in small groups about research and careers. 
+Faculty reach out to students through office hours, 
+which are now informal meetings and therefore less 
+intimidating and regularly attended by more students. 
+The summer research program for undergraduates has 
+been expanded and faculty encourage students to 
+engage in research projects in the summer after the 
+freshman year. Freshmen are assigned a core group of 
+faculty advisors with whom they meet for orientation and 
+lunch on the first day of the fall semester. The advisors 
+also engage new students individually and in small 
+groups for informal advising coffees early in the 
+semester to become better acquainted with their new 
+students. Advising pizza parties to assist students in 
+selecting courses for the next semester have become 
+popular department events, well-attended by both 
+students and faculty. Gatherings such as these held for 
+freshmen throughout the year serve to establish a 
+community for new students, integrating them early into 
+the life of the department.   Building personal 
+relationships with faculty encourage students to become 
+more engaged with the subject matter and to persist 
+with the major. 
+ 
+First-year students gain the advantage of peer 
+support through joining a Penn Mentoring group which 
+meets weekly throughout the academic year under the 
+leadership of upper-class computer science students.  
+The mentors leading the all-women’s group realized that 
+many of the women studying computer science might be 
+grappling with the same issues that faced those in their 
+group and in 2003 they organized the Women in 
+Computer Science (WICS).  Events hosted by WICS 
+provide students with opportunities to discuss 
+curriculum with faculty, meet with recruiters from sought 
+after companies to prepare for internship and job 
+interviews, and make friendships with other students in 
+the major.  Other areas on which the computer science 
+department has focused include first-year students’ 
+interactions with TAs, active learning techniques in TA-
+directed labs, and students’ ability to access academic 
+mentoring and tutoring support.  Instructional staff 
+carefully selects, trains and monitors TAs, and 
+introduced paired programming activities and team 
+assignments as a part of weekly lab recitations.      
+The changes in the computer science curriculum, along 
+with a more highly developed community affording 
+frequent faculty/student and peer interaction  in the 
+computer science department at Penn is credited with 
+improving the persistence of first-year women 
+undergraduates from 50% in 2003 to 85% in 2005, 
+where it has remained, a rate equal to male persistence 
+in the major.     
+ 
+9.   Conclusion 
+This research study found that many of the study 
+participants began the computer science major with an 
+inadequate background from high school in the subject, 
+causing them to struggle to perform as well as their 
+peers with more computer science experience.  
+Because of this fact, which was further heightened by 
+the women’s perception that the male students knew 
+more than they, several women lost confidence in their 
+ability to be successful in the major and subsequently 
+lost interest in the major.  Social isolation accompanied 
+their gender minority status within their peer group 
+further weakening their resolve to persist.  However, this 
+research also suggests that creating more entry points 
+into the major which allow students to begin their 
+studies with others at the same level, and creating more 
+opportunities for a community to develop which is 
+characterized by more frequent interaction for students 
+with faculty and peers, could support the retention of 
+women in the first year of the major.  This study also 
+suggests that the issues that undermine women’s 
+persistence may also be undermining that of some male 
+students and they may benefit from the same initiative 
+designed to support women.   
+ 
+While only 50 percent of first-year women persisted in 
+computer science at Penn in 2003, 85 percent of the 
+women stayed in computer science in 2005 and in the 
+subsequent years, a proportion equal to the persistence 
+of first-year male students at Penn.  The sum of the 
+effects of these academic and community building 
+activities serves to integrate new students early into the 
+fabric of department life and to foster confidence early 
+on in their computing ability. The current retention data 
+at the University of Pennsylvania suggests that this 
+approach produces a more satisfied, productive student.    
+ 
+10.   References 
+[1]   American Association of University Women.  
+(2000).Tech Savvy: Educating Girls in the New 
+Computer Age.  American Association of University 
+Women Educational Foundation: Washington D.C. 
+[2]   Blum, L and C. Friege. (2005). In a More Balanced      
+Computer Science Environment, Similarity is the 
+Difference and Computer Science is the Winner. 
+Computing Research News. 17 (3).  
+[3]   College Board Summary Reporting Service 
+(College Board). College Bound Seniors: A Profile 
+of SAT Program Test Takers. Covering the years 
+from 1996-2006. New York: College Board. 
+Retrieved on February 25, 2007.  
+    [4]  Cohoon, J. McGrath. (1999). Departmental    
+Differences Can Point the Way to Improving 
+Female Retention in Computer Science. SIGCSE 
+Bulletin 31 (1), (pp. 198-202). 
+[5]   Cohoon, J. McGrath. (2001). Toward Improving 
+        Female Retention in Computer Science. 
+       Communications of the ACM. 44 (5), (pp.108-114). 
+[6]   Etzkowitz, H. (1994). Who Will Do Science? In   
+Educating the Next Generation. W. Pearson and I. 
+Fechter, (Eds.) Baltimore: John Hopkins University 
+Press.  
+[7]   Etzkowitz, H., Kemelgor, C. and Uzzi, B. (2000).    
+Athena Unbound: The Advancement of Women in 
+Science and Technology. London: Cambridge 
+University Press[ 
+ [8]   A. Pearl, M. E. Pollack, E. Riskin, B. Thomas, E.                           
+Wolf and A. Wu, Becoming a Computer Scientist: 
+Report of the Committee on the Status of Women in 
+Computer Science, Communications of the 
+Association for Computing Machinery, 33(11):48-
+57, 1990.  
+ [9]   Gurer, D., and T. Camp. (2001). Investigating the 
+Incredible Shrinking Pipeline for Women in 
+Computer Science. (Final Report-NSF Project 
+9812016). 
+[10] Margolis, J. & Fisher, A. (2002). Unlocking the 
+Clubhouse: Women in Computing. Cambridge, MA: 
+The MIT Press. 
+ [11] MIT EECS Committee on Women Undergraduate 
+        Enrollment. (1995). Women Undergraduate 
+        Enrollment in Electrical Engineering and 
+        Computer Science at MIT.  Cambridge, MA: 
+        Massachusetts Institute of Technology.http://www-
+eecs.mit.edu/AY9495/announcements/13.html.  
+[12] Seymour, E., & Hewitt, N. (1997). Talking About 
+       Leaving: Why Undergraduates   Leave the 
+Sciences.  Boulder, Colorado: Westview Press. 
+[13] Spertus, E. (1991). Why are There So Few Female 
+       Computer Scientists?  (AI Technical Report 1315). 
+       Cambridge, MA:, MIT, Artificial Intelligence Lab. 
+[14] Strenta, A., et al. (1994). Choosing and Leaving   
+Science in Highly Selective Institutions.  Research 
+in Higher Education. 35 (5), 13-547. 

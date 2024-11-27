@@ -1,0 +1,1363 @@
+Theoretical Computer Science 366 (2006) 228–247
+www.elsevier.com/locate/tcs
+Weighted tree automata and weighted logics
+Manfred Drostea,∗, Heiko Voglerb
+aInstitute of Computer Science, Leipzig University, D-04109 Leipzig, Germany
+bDepartment of Computer Science, Dresden University of Technology, D-01062 Dresden, Germany
+Abstract
+We deﬁne a weighted monadic second order logic for trees where the weights are taken from a commutative semiring. We prove
+that a restricted version of this logic characterizes the class of formal tree series which are accepted by weighted bottom-up ﬁnite state
+tree automata. The restriction on the logic can be dropped if additionally the semiring is locally ﬁnite. This generalizes corresponding
+classical results of Thatcher, Wright, and Doner for tree languages and it extends recent results of Droste and Gastin [Weighted
+automata and weighted logics, in: Automata, Languages and Programming—32nd International Colloquium, ICALP 2005, Lisbon,
+Portugal, 2005, Proceedings, Lecture Notes in Computer Science, Vol. 3580, Springer, Berlin, 2005, pp. 513–525, full version in
+Theoretical Computer Science, to appear.] from formal power series on words to formal tree series.
+© 2006 Elsevier B.V. All rights reserved.
+Keywords: Weighted automata; Tree automata; MSO-logics; Formal power series
+1. Introduction
+In automata theory, Büchi’s and Elgot’s fundamental theorems [12,20] on the coincidence of regular languages with
+languages deﬁnable in monadic second order logic (for short: MSO-logic) led to various extensions. Thatcher and
+Wright [39] and Doner [16] established a corresponding equivalence for trees. Engelfriet [22,23] and Courcelle [14]
+proved a characterization of a large class of context-free graph languages as images of MSO-deﬁnable functions on
+sets of trees. Bloem and Engelfriet [4] proved that the tree transductions computed by a particular class of attributed
+tree transducers coincide with the MSO-deﬁnable tree transductions. On a different strand, following Schützenberger
+[35], weighted automata form a quantitative extension of classical automata, cf. [34,3,31] for surveys; this recently led
+to practical applications in digital image compression [15,28], in model-checking of probabilistic systems [38,1] and
+in natural language processing [13].
+Very recently, Droste and Gastin [18] deﬁned a weighted logic and obtained a characterization of the behavior of
+weighted automata on words by sentences of this weighted logic, thereby extending Büchi’s and Elgot’s classical
+results. Intuitively, this logic allows us to “count” how often a formula is true, thus it includes quantitative aspects.
+In this paper, we will consider a weighted logic for trees and we will achieve an extension of the result of Thatcher and
+Wright [39] and Doner [16] to the case of weighted tree automata.
+∗Corresponding author.
+E-mail addresses: droste@informatik.uni-leipzig.de (M. Droste), vogler@tcs.inf.tu-dresden.de (H. Vogler).
+0304-3975/$ - see front matter © 2006 Elsevier B.V. All rights reserved.
+doi:10.1016/j.tcs.2006.08.025
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+229
+Weighted tree automata have been considered by a number of researchers [10,2,37,29,24,33,6,19] and have been
+used for efﬁcient code selection [25,7]. In such tree automata, transitions are assigned a weight which might model,
+e.g., resources used for its execution, length of time needed, or its reliability. To cope with such situations uniformly,
+the weights are taken as elements of a semiring. In our weighted logic we take the elements of the given semiring as
+atomic formulas. In order to deﬁne the semantics of the negation of a formula, we restrict in our syntax negation to
+atomic formulas. In comparison to the classical logics for trees, this is no essential restriction but forces us to include
+universal quantiﬁcation into the syntax. However, already in weighted logics for words [18], in general there are
+series deﬁnable in this general weighted logic which are not recognizable by weighted automata. Fortunately, we can
+restrict universal quantiﬁcation appropriately. Our main result states that for any commutative semiring the behaviors of
+weighted tree automata are precisely the series arising as semantics of sentences of our restricted weighted MSO-logic
+(cf. Theorem 5.1). If the semiring is locally ﬁnite, all sentences of our weighted MSO-logic have recognizable semantics
+(cf. Theorem 6.5).
+The development of our weighted logic for trees is quite similar to the weighted logic for words [18]. Assuming
+familiarity with the unweighted logics for trees, background results on weighted tree automata, and the arguments for
+the word case in [18], several of our proofs can be obtained straightforwardly as an amalgamation and adjustment of the
+existing proofs from these three strands. However, a main difference arises for the treatment of the universal quantiﬁer
+on ﬁrst order variables. Roughly speaking, this difference is due to the need for synchronizing of variables in different
+subtrees; this problem does not arise in the case of words.
+Moreover, crucial differences and open problems occur with respect to constructibility and decidability questions.
+Given any computable ﬁeld (e.g., the rational numbers), we can show that for any restricted weighted MSO-sentence we
+can effectively construct an equivalent weighted tree automaton (cf. Corollary 5.8). Hence, given two such sentences,
+we can decide whether their semantics are equal (cf. Corollary 5.9). But, our procedures are not primitive recursive.
+This is due to the present lack of a comparable algebraic theory for weighted tree automata like it was developed for
+weighted automata on words, cf. [3,31]. Consequently, it is open at present how to check (for suitable semirings like
+arbitrary ﬁelds) whether a given weighted MSO-sentence for trees is restricted; for words this is possible [18]. This
+calls for further research on such questions for weighted tree automata.
+2. Tree languages and tree automata
+Let N = {0, 1, 2, . . . }. A ranked alphabet is a tuple (, rk) where  is a ﬁnite set and rk :  →N. For
+every m⩾0, the set of all symbols of  with rank m is denoted by (m). In the sequel we use the phrase “let  be
+a ranked alphabet”, if either the function rk is an arbitrary one or it is known from the context. We denote the value
+max{rk() |  ∈} by max. In examples, a particular ranked alphabet  is speciﬁed by showing the set  and
+attaching the respective rank to every symbol as superscript as, e.g.,  = {(2), (0)}. The set of (ﬁnite, labeled and
+ordered) -trees, denoted by T, is the smallest subset T of ( ∪{(, )} ∪{, })∗such that if  ∈(m) with m⩾0 and
+s1, . . . , sm ∈T , then (s1, . . . , sm) ∈T . In case m = 0, we identify ( ) with . Clearly T = ∅iff (0) = ∅. Since
+we are not interested in the case that T = ∅, we assume that (0) ̸= ∅for every ranked alphabet  appearing in this
+paper.
+We deﬁne the set of positions in a tree by means of the mapping pos: T →P(N∗) inductively as follows: (i)
+if t ∈(0), then pos(t) = {}, and (ii) if t = (s1, . . . , sm) where  ∈(m), m⩾1 and s1, . . . , sm ∈T, then
+pos(t) = {} ∪{i.v | 1⩽i ⩽m, v ∈pos(si)}.
+For every t ∈T and w ∈pos(t), the label of t at w and the subtree of t at w, denoted by t(w) ∈ and
+t|w ∈T, respectively, are deﬁned inductively as follows: if t = (s1, . . . , sm) for some  ∈(m) with m⩾0 and
+s1, . . . , sm ∈T, then t() =  and t| = t, and if w = i.v and 1⩽i ⩽m, then t(w) = si(v) and t|w = si|v.
+Next we recall, for the convenience of the reader, basic back-ground on bottom-up ﬁnite state tree automata, also
+see [26,27]. A bottom-up ﬁnite state tree automaton (for short: bu-fta) is a tuple M = (Q, , , F) where Q is a ﬁnite
+set (of states),  is a ranked alphabet (of input symbols),  = ( |  ∈) is a family of transition functions of the
+form  : Qm →P(Q) where m⩾0 and  ∈(m), and F ⊆Q (ﬁnal states). A bottom-up ﬁnite state tree automaton
+is deterministic if for every m⩾0,  ∈(m), and q1, . . . , qm ∈Q, the set (q1, . . . , qm) is a singleton. In this case
+we identify the set (q1, . . . , qm) with its element.
+Now we deﬁne the run semantics of a bu-fta M. Let t ∈T. A run of M on t is a mapping r : pos(t) →Q. A run r
+is valid if whenever w ∈pos(t) and t(w) =  ∈(m) for some m⩾0, then r(w) ∈(r(w.1), . . . , r(w.m)). In other
+230
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+words, a run r is valid if at every position w the state r(w) is the result of applying the transition performed at w to the
+states assigned to the predecessors of w.
+Let RM(t) and Rv
+M(t) denote the sets of all runs of M on t and all valid runs of M on t, respectively. We note that
+if M is deterministic, then there is a unique valid run of M on t, denoted by rt.
+The tree language accepted by M is the set L(M) = {t ∈T | ∃r ∈Rv
+M(t) : r() ∈F}. (We note that the run
+semantics of M is equivalent to the initial algebra semantics which is usually associated with M, cf. e.g. [39, p. 58].)
+A tree language L is recognizable (resp. deterministically recognizable) if there is a (resp. deterministic) bottom-up
+ﬁnite state tree automaton M such that L = L(M). By applying the usual powerset construction, one obtains that
+every recognizable tree language is also deterministically recognizable (cf. [39, Theorem 1]). It is well known that the
+class of recognizable tree languages is closed under the boolean operations (i.e., union, intersection, and complement;
+cf. [39, Theorem 2]).
+Next we brieﬂy recall the MSO-logic on trees and the generalization of Büchi’s result, namely that MSO-deﬁnable
+tree languages are exactly the recognizable tree languages [39,16]. Let  be a ranked alphabet. The set MSO() of all
+formulas of MSO-logic over  is deﬁned as the smallest set F such that
+(1) F contains all atomic formulas label(x), edgei(x, y), and x ∈X and
+(2) if ,  ∈F, then also  ∨,  ∧, ¬, ∃x., ∃X., ∀x., ∀X. ∈F,
+where  ∈, x, y are ﬁrst order variables, 1⩽i ⩽max, and X is a second order variable. The set of free variables of
+ is denoted by Free().
+Let V be a ﬁnite set of ﬁrst order and second order variables. The ranked alphabet V = ( × {0, 1}V, rk) is deﬁned
+by rk((, f )) = rk() for every f ∈{0, 1}V. For a symbol (, f ) ∈V we denote  by (, f )1 and f by (, f )2.
+A V-tree s is valid if for every ﬁrst order variable x ∈V, there is exactly one w ∈pos(s) such that (s(w)2)(x) = 1.
+The subset of TV containing all valid trees is denoted by T v
+V . We put  = Free().
+Every valid V-tree s corresponds to a pair (t, ) where t ∈T and  is a (V, t)-assignment; such an assignment
+is a function which maps ﬁrst order variables in V to elements of pos(t) and second order variables in V to subsets
+of pos(t). More precisely, we say that s and (t, ) correspond to each other if pos(t) = pos(s), t is obtained from s
+by replacing s(w) by s(w)1 for every w ∈pos(t), and for every ﬁrst order variable x, second order variable X, and
+w ∈pos(s), we have that (s(w)2)(x) = 1 iff (x) = w, and (s(w)2)(X) = 1 iff w ∈(X). In the sequel we will
+identify a valid V-tree with the corresponding pair (t, ).
+Let s be an arbitrary V-tree, x be a ﬁrst order variable, and w ∈pos(s). Then s[x →w] is the V∪{x}-labeled
+tree obtained from s by putting (s[x →w](v)2)(x) = 1 iff v = w. Similarly, if X is a second order variable and
+I ⊆pos(s), then s[X →I] is the V∪{X}-tree obtained from s by putting (s[X →I](v)2)(X) = 1 iff v ∈I. If here
+s = (t, ), we also write s[x →w] = (t, [x →w]) and s[X →I] = (t, [X →I]).
+Let  be a formula in MSO() and s = (t, ) be a valid V-tree such that Free() ⊆V. Then the relation “(t, )
+satisﬁes ”, denoted by (t, ) ⊨, is deﬁned as usual. We put
+LV() = {(t, ) ∈T v
+V | (t, ) ⊨}
+and we will simply write L() instead of LFree()(). Now we recall the equivalence between recognizable tree lan-
+guages and MSO-deﬁnable tree language; cf. [39, Theorems 14 and 17], [16, Theorems 3.7 and 3.9], or
+[27, Proposition 12.2]: The tree language LV() is recognizable over V. Conversely, for every recognizable tree
+language L over , there is an MSO-sentence  such that L = L(). It follows from this, but can also easily be shown
+directly, that the set T v
+V is recognizable.
+Let us denote by MSO−() the set of all MSO()-formulas in which negation is applied only to atomic formulas.
+By applying de Morgan’s laws and by pulling negation over a ﬁrst or second order quantiﬁer (as, e.g., by ¬(∀x.) →
+∃x.¬), we obtain the well-known fact that for every  ∈MSO() there is a  ∈MSO−() such that L() =
+L().
+3. Tree series and weighted tree automata
+A semiring is an algebraic structure (K, +, ·, 0, 1) with operations sum + and product · and constants 0 and 1
+such that (K, +, 0) is a commutative monoid and (K, ·, 1) is a monoid, multiplication distributes over addition, and
+a · 0 = 0 · a = 0 for every a ∈K. Whenever the operations and constants of a semiring are clear from the context,
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+231
+we abbreviate (K, +, ·, 0, 1) by K.The semiring K is commutative if · is commutative. Important examples of semirings
+are
+• the boolean semiring B = ({0, 1}, ∨, ∧, 0, 1) with disjunction ∨and conjunction ∧,
+• the semiring of natural numbers (N, +, ·, 0, 1), abbreviated by N, with the usual addition and multiplication,
+• the tropical semiring Trop = (N ∪{∞}, min, +, ∞, 0) where the sum and the product operations are min and +,
+resp., extended to N ∪{∞} in the usual way.
+A (formal) tree series is a mapping S : T →K where usually (S, t) is written rather than S(t). The support of S is the
+set supp(S) = {t ∈T | (S, t) ̸= 0}, and the image of S is the set im(S) = {(S, t) | t ∈T}. The set of all tree series
+(over  and K) is denoted by K⟨⟨T⟩⟩. For two tree series S, T ∈K⟨⟨T⟩⟩and k ∈K, the sum S + T , the Hadamard
+product S ⊙T , and the product k ·S are each deﬁned pointwise for every t ∈T as follows: (S +T, t) = (S, t)+(T, t),
+(S ⊙T, t) = (S, t) · (T, t), and (k · S, t) = k · (S, t).
+For every L ⊆T, the characteristic tree series 1L : T →K is deﬁned for every t ∈T by (1L, t) = 1 if t ∈L,
+and (1L, t) = 0 otherwise.
+A tree series S : T →K is a recognizable step function if there are an n⩾1 and recognizable tree languages
+L1, . . . , Ln ⊆T such that S = n
+i=1 ki · 1Li.
+Lemma 3.1. Let S : T →K be a recognizable step function. Then there is a partitioning U1, . . . , Um of T where
+U1, . . . , Um are recognizable tree languages, and there are l1, . . . , lm ∈K such that S = m
+i=1li · 1Ui.
+Proof. Let S = n
+i=1ki · 1Li for some n⩾1 and recognizable tree languages L1, . . . , Ln ⊆T. Let F be the set of all
+mappings of type {1, . . . , n} →{1, c}. For every mapping f ∈F, deﬁne the tree language Uf = n
+i=1 Lf (i)
+i
+where
+L1
+i = Li and Lc
+i = T \ Li. Note that the Uf ’s form a partitioning of T. For every such f deﬁne lf = 
+i∈f −1(1)ki.
+Then clearly, S = 
+f ∈F lf · 1Uf .
+□
+This shows that S is a recognizable step function iff im(S) is ﬁnite and for every k ∈K, the set S−1(k) = {t ∈T |
+(S, t) = k} is a recognizable tree language.
+Now we introduce weighted bottom-up ﬁnite state tree automata and their behavior. For further investigations, see
+[2,29,11,24,33,6,19].
+Let (K, +, ·, 0, 1) be a commutative semiring. Moreover, let Q be a ﬁnite set (of states) and  a ranked alphabet
+(of input symbols). A (bottom-up) tree representation (over Q, , and K) is a family 	 = (	m | m ∈N) of mappings
+	m : (m) →KQm×Q. A weighted bottom-up ﬁnite state tree automaton (over K) (for short: wta) is a quadruple
+M = (Q, , 	, 
+) where 	 is a tree representation over Q, , and K, and 
+ : Q →K is the weight function for leaving
+a state (ﬁnal weights). (We note that we view KQm×Q as the set of (Qm × Q)-matrices with entries taken from K;
+thus, following the usual matrix notations, for every m⩾0,  ∈(m), and q1, . . . , qm, q ∈Q we write 	m()q1...qm,q
+to denote the entry in the matrix 	m() at row (q1, . . . , qm) and at column q.)
+In this paper we will associate the run semantics with a wta as deﬁned, e.g., in [19]. (We note that the run semantics
+is equivalent to the initial algebra semantics, cf. [6, Lemma 4.1.13].)
+Let t ∈T and r : pos(t) →Q be a run of M on t; also let w ∈pos(t). The weight wtM(t, r, w) of r on t at w is
+deﬁned as follows: if t(w) =  ∈(m) for some m⩾0, then
+wtM(t, r, w) = 	m()r(w.1)...r(w.m),r(w).
+The weight of r on t is deﬁned by
+wtM(t, r) =
+
+w∈pos(t)
+wtM(t, r, w)
+(recall that K is a commutative semiring). We note that here we associate with every run a weight and need not deﬁne
+the concept of valid runs; so to speak, a run on t is “valid” or “makes sense”, if all values wtM(t, r, w) (w ∈pos(t))
+are non-zero. Note that wtM(t, r) = 0 can also arise due to zero-divisors in K.
+The tree series accepted by M, denoted by SM ∈K⟨⟨T⟩⟩, is the tree series deﬁned, for every t ∈T, by
+(SM, t) =
+
+r∈RM(t)
+wtM(t, r) · 
+(r()).
+232
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+Fig. 1. Example of an input tree with its zig-zag path and the sets X and Y of nodes.
+A tree series S ∈K⟨⟨T⟩⟩is called recognizable if there is a wta M over K such that S = SM. The class of all
+recognizable tree series is denoted by Krec⟨⟨T⟩⟩. Clearly, supp(Brec⟨⟨T⟩⟩) is the class of recognizable tree languages.
+Example 3.2 (length of the zig-zag path). Let  = {(2), (0)} be a ranked alphabet. For every t ∈T, the zig-zag
+path of t is the unique path of t which starts at its root and alternatingly moves down to the ﬁrst or second successor of
+the current node, until a leaf is reached. For instance, the zig-zag path of t = ((, (, )), ) contains four nodes
+which are labeled by , , , and , respectively (cf. Fig. 1 ignoring the sets X and Y at the time being). Thus, we
+can deﬁne the tree series zigzag ∈N⟨⟨T⟩⟩over the natural number semiring such that for every t ∈T, the value
+(zigzag, t) is the number of nodes (or positions) on the zig-zag path of t.
+Next we describe a wta M = (Q, , 	, 
+) over N such that SM = zigzag. Let t be an arbitrary input tree. The idea
+of processing t is as follows. M can read every input subtree in the blind state d thereby producing weight 1. At every
+node v, M can start to check, whether v lies on the zig-zag path of t or not (check for membership on the zig-zag path);
+this is done by using two states 1 and 2; the state 2 has ﬁnal weight 
+(2) = 1, all the other states have ﬁnal weight 0.
+Formally, we deﬁne the wta M = (Q, , 	, 
+) over the semiring of natural numbers as follows:
+• Q = {1, 2, d},
+• 
+(2) = 1 and 
+(1) = 
+(d) = 0,
+• blind acceptance:
+	0(),d = 	2()dd,d = 1,
+switching from blind acceptance to checking:
+	2()dd,1 = 	2()dd,2 = 1
+check for membership on the zig-zag path:
+	0(),2 = 	0(),1 = 	2()1d,2 = 	2()d2,1 = 1,
+for every other combination q1, q2, q3 ∈Q we deﬁne
+	2()q1q2,q3 = 0.
+Clearly, we only have to take into consideration those runs on an input tree t which end up at the root in state 2 (because
+for every other run r we have wtM(t, r) · 
+(r()) = 0). Intuitively, it is clear that there are as many such runs on t as
+the zig-zag path has positions; every such run has weight 1; this sums up to (zigzag, t).
+□
+Next we turn to basic properties of recognizable tree series.
+Lemma 3.3. Let K be a semiring.
+(1) Let L ⊆T be a recognizable tree language. Then 1L ∈K⟨⟨T⟩⟩is recognizable.
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+233
+(2) For every k ∈K, the constant tree series k ∈K⟨⟨T⟩⟩which maps every tree to k, is recognizable.
+(3) Let K be commutative and S, T ∈K⟨⟨T⟩⟩be recognizable. Then S + T and S ⊙T are recognizable.
+Proof. (1) Let L ⊆T be accepted by the deterministic bottom-up ﬁnite state tree automaton M = (Q, , , F).
+Then construct the wta MK = (Q, , 	, 
+) over K as follows: for every m⩾0,  ∈(m), and q, q1, . . . , qm ∈Q, let
+	m()q1...qm,q = 1 if q = m(q1, . . . , qm), and 	m()q1...qm,q = 0 otherwise, and for every q ∈Q, let 
+(q) = 1 if
+q ∈F and 
+(q) = 0 otherwise. Clearly, SMK = 1L(M) = 1L.
+(2) Consider the wta M = (Q, , 	, 
+) where Q = {q}, for every m⩾0 and  ∈(m), deﬁne 	m()qm,q = 1 where
+
+(q) = k. Clearly, SM = k.
+(3) Let S, T ∈K⟨⟨T⟩⟩be accepted by wta M1 and M2, respectively. We can assume that the sets of states of M1
+and M2 are disjoint. Then we can construct in the well-known way (by “taking the union of M1 and M2”) a wta M
+such that SM = S + T (cf. e.g., [19, Lemma 6.4]). The claim for S ⊙T has been proved in [5, Corollary 3.9] (also cf.
+[2, Proposition 5.1]).
+□
+As an immediate consequence of Lemma 3.3, every recognizable step function is a recognizable series. Finally,
+we recall that the class of recognizable tree series is closed under relabelings. For this, let  and  be two ranked
+alphabets and  :  →P() be a mapping such that () ⊆(m) for every m⩾0 and  ∈(m). This mapping is
+extended to a mapping ′ : T →P(T) by deﬁning inductively ′((s1, . . . , sm)) = {(t1, . . . , tm) |  ∈(), t1 ∈
+′(s1), . . . , tm ∈′(sm)} for every m⩾0,  ∈(m), and s1, . . . , sm ∈T. Note that every such mapping ′ is a
+relabeling (in the sense of [21, Deﬁnition 3.1]); that is, it can be computed by a one-state, linear, and nondeleting
+bottom-up or top-down tree transducer. Also note that the set {s | t ∈′(s)}) is ﬁnite for every t ∈T. We will denote
+′ also by . Next we extend  to a mapping  : K⟨⟨T⟩⟩→K⟨⟨T⟩⟩by deﬁning ((S), t) = 
+s∈T,t∈(s) (S, s) for
+every S ∈K⟨⟨T⟩⟩and t ∈T. In the sequel we call mappings like  relabelings.
+We note that relabelings can be computed by particular linear nondeleting tree transducers in the sense of [30]. There
+the closure of the class of recognizable tree series under such transducers is proved, cf. [30, Corollary 14]; however,
+throughout that paper it is assumed that semirings are commutative and continuous. Since we want to prove our main
+results for commutative semirings which are not necessarily continuous, we give a direct construction for this closure
+property.
+Lemma 3.4. Let S ∈K⟨⟨T⟩⟩and  : K⟨⟨T⟩⟩→K⟨⟨T⟩⟩be a relabeling. If S is recognizable, then (S) is recogniz-
+able.
+Proof. Let M = (Q, , 	, 
+) be a wta over K and  :  →P() such that () ⊆(m) for every  ∈(m). Construct
+the wta M′ = (Q, , 	′, 
+) over K where 	′
+m()q1...qm,q = 
+∈,∈() 	m()q1...qm,q for every m⩾0,  ∈(m), and
+q1, . . . , qm, q ∈Q.
+First we note the following auxiliary statement: for every t ∈T and r′ ∈RM′(t) the equation
+wtM′(t, r′) =
+
+s∈T,t∈(s)
+wtM(s, r′)
+(1)
+holds. Note that for every s ∈T with t ∈(s) we have pos(s) = pos(t) and thus also RM(s) = RM′(t). The proof of
+Eq. (1) is straightforward and thus left to the reader.
+Then we can compute as follows: (SM′, t) = 
+r′∈RM′(t) wtM′(t, r′)·
+(r′())
+(1)
+= 
+r′∈RM′(t)
+
+s∈T,t∈(s) wtM(s, r′)·
+
+(r′()) = 
+s∈T,t∈(s)
+
+r′∈RM′(t) wtM(s, r′) · 
+(r′()) = 
+s∈T,t∈(s) (SM, s) = ((SM), t).
+□
+4. Weighted MSO-logic on trees
+Here we will deﬁne the weighted MSO-logic on trees. This is a generalization of the weighted MSO-logic
+(on strings) as given in [18]. On the other hand, it generalizes (unweighted) MSO-logic on trees in the same way
+as weighted MSO-logic generalizes (unweighted) MSO-logic on strings. We will also provide basic properties of our
+weighted MSO-logic.
+In this section we will always assume that the underlying semiring (K, +, ·, 0, 1) is commutative. Moreover,
+we assume that  is a ranked alphabet.
+234
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+Deﬁnition 4.1. The set MSO(K, ) of all formulas of weighted MSO-logic over K and  on trees (for short: weighted
+MSO-logic) is deﬁned to be the smallest set F such that
+(1) F contains all the atomic formulas k, label(x), edgei(x, y), and x ∈X and the negations ¬label(x),
+¬edgei(x, y), and ¬(x ∈X), and
+(2) if ,  ∈F, then also  ∨,  ∧, ∃x., ∃X., ∀x., ∀X. ∈F,
+where k ∈K,  ∈, x, y are ﬁrst order variables, 1⩽i ⩽max(rk()), and X is a second order variable.
+Clearly, if we drop formulas of the form k from MSO(K, ), then we obtain MSO−(). That is, MSO−() ⊆
+MSO(K, ).
+Deﬁnition 4.2. Let  ∈MSO(K, ) and V be a ﬁnite set of variables containing Free(). The semantics of  is the
+formal tree series V ∈K⟨⟨TV ⟩⟩deﬁned as follows: if s ∈TV is not valid, then we put (V, s) = 0. Otherwise,
+we deﬁne (V, s) ∈K inductively as follows where (t, ) corresponds to s.
+(kV, s) = k,
+(label(x)V, s) =
+ 1
+if t((x)) = ,
+0
+otherwise,
+(edgei(x, y)V, s) =
+ 1
+if (y) = (x).i,
+0
+otherwise,
+(x ∈XV, s) =
+ 1
+if (x) ∈(X),
+0
+otherwise ,
+(¬V, s) =
+ 1
+if (V, s) = 0,
+0
+if (V, s) = 1
+if  is of the form label(x), edgei(x, y), or x ∈X,
+( ∨V, s) = (V, s) + (V, s),
+( ∧V, s) = (V, s) · (V, s),
+(∃x.V, s) =
+
+w∈pos(s)
+(V∪{x}, s[x →w]),
+(∃X.V, s) =
+
+I⊆pos(s)
+(V∪{X}, s[X →I]),
+(∀x.V, s) =
+
+w∈pos(s)
+(V∪{x}, s[x →w]),
+(∀X.V, s) =
+
+I⊆pos(s)
+(V∪{X}, s[X →I]).
+We write  rather than Free(). Note that if  is a sentence, then  ∈K⟨⟨T⟩⟩. Also note that the unweighted
+case is obtained by considering the Boolean semiring B: in fact, if we view an (unweighted) formula  in MSO−()
+as a formula in MSO(B, ), and calculate  ∈B⟨⟨T⟩⟩, then the disjunction ∨and the conjuction ∧occurring in 
+are interpreted (as usual) by inﬁmum and supremum, respectively; so, in particular, both distributivity laws hold. In
+general, for arbitrary commutative semirings, only conjunction distributes over disjunction.
+In the weighted case we will also work with formulas from MSO−() and, in particular, with the quantiﬁer-free
+fragment of MSO−(), denoted by qf-MSO−(); this is the set of all formulas in MSO−() which do not contain
+any quantiﬁer. For such formulas, it will be necessary to disambiguate disjunctions. For this purpose, we deﬁne the
+syntactic transformations (.)+ and (.)−on qf-MSO−() by simultaneous induction as follows: for every ,  ∈qf-
+MSO−(),
+(1) if  is atomic or the negation of an atomic formula, then we deﬁne + =  and −= ¬ with the convention
+that ¬¬ is ,
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+235
+(2) ( ∨)+ = + ∨(−∧+) and ( ∨)−= −∧−, and
+(3) ( ∧)−= −∨(+ ∧−) and ( ∧)+ = + ∧+.
+Clearly, LV(+) = LV() and LV(−) = T v
+V \ LV().
+While specifying a particular tree series by means of a weighted MSO-formula it is often helpful to use the implication
+symbol as a macro (as in the unweighted case). However, in the weighted case, the macro has to be deﬁned more
+carefully, because negation is only available on atomic formulas. Also we want to disambiguate disjunctions. Formally,
+let  ∈qf-MSO−() and  ∈MSO(K, ). Then we deﬁne  → as a shorthand for the formula −∨(+ ∧).
+If ,  ∈qf-MSO−(), let  ↔ abbreviate ( →) ∧( →).
+We can now show that the formal power series semantics of such disambiguous formulas only take 0 and 1 as values.
+Observation 4.3. Let  ∈qf-MSO−() and V be a ﬁnite set of variables containing Free(). Then +V = 1LV()
+and −V = 1LV(¬). In particular, +V and −V are recognizable.
+Proof. Straightforward induction on the structure of .
+□
+Next we show that universal ﬁrst order quantiﬁcation preserves characteristic tree series.
+Observation 4.4. Let  ∈MSO−() and V = Free() ∪{x}. If V = 1LV(), then ∀x. = 1L(∀x.).
+Proof. Let s = (t, ) ∈TFree(∀x.). Clearly, (∀x., s) ∈{0, 1}. In fact,
+(∀x., s) = 1 iff ∀w ∈pos(s) : (Free()∪{x}, s[x →w]) = 1
+iff ∀w ∈pos(s) : s[x →w] ∈LFree()∪{x}()
+iff s ∈L(∀x.).
+□
+Examples for sentences in this weighted logic for words have been given in [18]. Here we give two further examples
+for our setting of trees.
+Example 4.5 (number of leaves). Let  = {(2), (0), (0)} be a ranked alphabet and K be an arbitrary semiring.
+Consider the formula  = ∃x.label(x) in MSO(K, ). For every tree t, then
+
+∃x.label(x), t
+
+=
+
+w∈pos(t)
+(label(x){x}, t[x →w])
+= |{w ∈pos(t) | t(w) = }|,
+the number (in K) of -leaves of t. For instance, if K = N, the semiring of natural numbers, this is the actual
+number; if K = Z/3Z, this is the actual number modulo 3; if K = B, this is 1 if there is an -leaf in t, and 0
+otherwise.
+Example 4.6 (length of the zig-zag path). Consider the formal tree series zigzag of Example 3.2 which associates to
+every tree the number of the positions on its zig-zag path. Here we will show that zigzag is MSO(N, )-deﬁnable.
+Consider the following formula in MSO(N, ) (cf. Fig. 1 for the input tree ((, (, )), ), the zig-zag path indicated
+as double line, and the sets X and Y of nodes):
+ = ∃X.∃Y.(root ∈X \ Y) ∧(edge1(X) = Y) ∧(edge2(Y) = X) ∧count(X, Y),
+where the four macros are deﬁned as follows:
+• (root ∈X \ Y) = ∃z.root(z) ∧(z ∈X) ∧¬(z ∈Y),
+• root(z) = ∀z′.¬edge1(z′, z) ∧¬edge2(z′, z),
+• (edge1(X) = Y) = ∀x.∀y.edge1(x, y) →
+
+¬(y ∈X) ∧(x ∈X ↔y ∈Y)
+
+,
+• (edge2(Y) = X) = ∀x.∀y. edge2(y, x) →
+
+¬(x ∈Y) ∧(y ∈Y ↔x ∈X)
+
+,
+• count(X, Y) = ∃z.(z ∈X) ∨(z ∈Y).
+236
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+Since the root of a tree is unique, we obtain that (root ∈X \ Y) = 1L for L = {(t, ) ∈T{X,Y} |  ∈
+(X)\(Y)}. Since the predecessor of a node is uniquely determined, by Observation 4.4 the series (edge1(X) = Y)
+and (edge2(Y) = X are recognizable step functions with values in {0, 1}. Also, for every s = (t, ) ∈T{X,Y}, the
+following two statements are equivalent:
+(1) ((root ∈X \ Y) ∧(edge1(X) = Y) ∧(edge2(Y) = X), s) = 1,
+(2)
+• (X) ∪(Y) is exactly the set of nodes of the zig-zag path through the root of s,
+• the root of s is in (X) \ (Y),
+• for every w ∈pos(s) ∩(Y), the predecessor of w is in (X) \ (Y), and
+• for every w ∈(pos(s) ∩(X)) \ {}, the predecessor of w is in (Y) \ (X).
+Then  ∈N⟨⟨T⟩⟩is the tree series such that, for every tree t ∈T, the number (, t) is the length of the zig-zag
+path through t. For instance, (, ((, (, )), )) = 4. Here, N can also be replaced by an arbitrary commutative
+semiring, and similar remarks as at the end of Example 4.5 apply.
+Recall that we have deﬁned the semantics V for any ﬁnite set of variables V containing Free(). Now we show
+that these semantics’ are consistent with each other.
+Lemma 4.7. Let  ∈MSO(K, ) and V a ﬁnite set of variables containing Free(). Then, for every (t, ) ∈T v
+V ,
+(V, (t, )) = (, (t, |Free())).
+Moreover,  is recognizable iff V is recognizable.
+Proof. The ﬁrst statement can be proved analogously to [18, Proposition 3.3]. For the ﬁnal claim consider the mapping
+ : V → such that (s) = (t, |Free()) for every s = (t, ) ∈TV . We ﬁrst assume that  is recognizable. We
+deﬁne the relabeling in the sense of Section 3 which is induced by −1 :  →P(V).Then V = −1()⊙1T v
+V .
+Thus, by Lemma 3.4, also −1() is recognizable. Since T v
+V is a recognizable tree language, it follows from Lemma
+3.3 that V is recognizable.
+Conversely, let V be recognizable. Let F ⊆T v
+V be the set of those trees s = (t, ) such that (x) =  (resp.
+(X) = {}) for every variable x (resp. X) in V \ Free(). Then F is a recognizable tree language and for every
+(t, ′) ∈T v
+ there is a unique (t, ) ∈F such that ((t, )) = (t, ′). Then  = (V ⊙1F ) and by Lemmata 3.3
+and 3.4 we have that  is recognizable.
+□
+Now let Z ⊆MSO(K, ). We will call a tree series S : T →K Z-deﬁnable if there is a sentence  ∈Z such that
+S = . It has been shown in [18] that there are MSO(, K)-deﬁnable series which are not recognizable. Consider
+e.g. the formula  = ∀x.∀y.2 over the semiring N of natural numbers and a monadic ranked alphabet  = {(1), (0)}
+(cf. [18, Example 3.4]). Then, for every t = n(), (, t) = 2(n+1)2. However, these values cannot be reached by
+any wta. Thus, we look for a careful restriction of MSO(, K) by means of which the class Krec⟨⟨T⟩⟩is characterised.
+We follow the lines of [18].
+Deﬁnition 4.8. A formula  ∈MSO(K, ) is restricted, if it does not contain a universal set quantiﬁcation of the form
+∀X., and whenever  contains a universal ﬁrst order quantiﬁcation of the form ∀x., then  is a recognizable step
+function.
+The set of all restricted formulas of MSO(K, ) is denoted by RMSO(K, ). The set of all restricted existential
+formulas of MSO(K, ), denoted by REMSO(K, ), is the set of all restricted formulas of MSO(K, ) of the form
+ = ∃X1, . . . , Xn. with  containing no set quantiﬁcation. Observe that in contrast, in RMSO(K, )-formulas
+existential set quantiﬁers might occur also in the interior of the formula, possibly after a universal ﬁrst order quantiﬁer.
+The set of all tree series S ∈K⟨⟨T⟩⟩which are deﬁnable by some sentence in RMSO(K, ) (resp. in REMSO(K, ))
+is denoted by Krmso⟨⟨T⟩⟩(resp. Kremso⟨⟨T⟩⟩). An example of a formula in REMSO(K, ) is  of Example 4.6.
+Only a very special case of the following lemma will be needed later on. We include a general statement due to the
+independent importance of implications.
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+237
+Lemma 4.9. Let  ∈qf-MSO−(), let  ∈MSO(K, ), and let V be a ﬁnite set of variables containing Free() ∪
+Free(). Then  →V = −V + +V ⊙V. Moreover, if  is a recognizable step function (resp.,
+recognizable), then so is  →.
+Proof. The equation claimed is immediate from the deﬁnition of the macro  →. Since the intersection of two
+recognizable tree languages is again recognizable, it easily follows that the class of recognizable step functions is
+closed under the Hadamard product. This, Lemma 4.7, and Observation 4.3 imply the claim for  → if  is a
+recognizable step function. If  is just recognizable, apply Lemma 4.7, Observation 4.3 and Lemma 3.3.
+□
+5. The main result
+The main result of this paper shows the coincidence of recognizability, RMSO-, and REMSO-deﬁnability of tree
+series.
+Theorem 5.1. Let  be a ranked alphabet and K any commutative semiring. Then Krec⟨⟨T⟩⟩= Krmso⟨⟨T⟩⟩=
+Kremso⟨⟨T⟩⟩.
+This result generalizes the corresponding result of [18] for series on words to series on trees; we obtain the word
+result from Theorem 5.1 by considering monadic ranked alphabets . Theorem 5.1 will be proved in Sections 5.1 and
+5.2. Throughout, we assume that K is a commutative semiring.
+5.1. Deﬁnable tree series are recognizable
+As in the unweighted case, we prove this implication by induction on the structure of the formula. We start with
+atomic formulas.
+Lemma 5.2. Let  ∈MSO(K, ) be atomic or the negation of an atomic formula. Then  is recognizable.
+Proof. If  = k where k ∈K, we apply Lemma 3.3. Now let  be of the form label(x) or (edgei(x, y)) or (x ∈X)
+or a negation of these formulas. Then  ∈qf-MSO−(), so L() is a recognizable tree language. Hence  = 1L()
+is recognizable.
+□
+Now we turn to disjunction and conjunction.
+Lemma 5.3. Let ,  ∈MSO(K, ) such that  and  are recognizable tree series. Then  ∨ and  ∧
+are recognizable.
+Proof. Let V = Free() ∪Free(). By Deﬁnition 4.2,  ∨ = V + V and  ∧ = V ⊙V which
+are recognizable due to Lemmas 3.3 and 4.7.
+□
+Next we prove that tree series deﬁned by formulas of the form ∃x. or ∃X. are recognizable.
+Lemma 5.4. Let  ∈MSO(K, ) such that  is recognizable. Then ∃x. and ∃X. are recognizable.
+Proof. ∃X. : let V = Free(∃X.); note that X /∈V. Consider the relabeling  : TV∪{X} →TV deﬁned by erasing
+the X-row, i.e., (t, ) = (t, |V). Let s ∈TV . We note that s is valid iff s[X →I] is valid for every I ⊆pos(s).
+Hence, by deﬁnition of ∃X. and of relabeling, we have for every s ∈TV :
+(∃X., s) =
+
+I⊆pos(s)
+(V∪{X}, s[X →I])
+=
+
+t∈−1(s)
+(V∪{X}, t)
+= ((V∪{X}), s).
+238
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+Thus, ∃X. = (V∪{X}). Since Free() ⊆V ∪{X} and  is recognizable, by Lemma 4.7 also V∪{X} is
+recognizable. Hence by Lemma 3.4, also ∃X. is recognizable.
+∃x. : Let V = Free(∃x.); note that x /∈V. Consider the relabeling  : TV∪{x} →TV which is deﬁned by
+erasing the x-row, as above. Let s ∈TV . We note that s is valid iff s[x →w] is valid for every w ∈pos(s). Then we
+have for every s ∈TV :
+(∃x., s) =
+
+w∈pos(s)
+(V∪{x}, s[x →w])
+= (1)
+
+t∈−1(s)
+tis valid
+(V∪{x}, t)
+= (2)
+
+t∈−1(s)
+(V∪{x}, t)
+= ((V∪{x}), s).
+At (1) observe that, if s is valid, there is a bijection between the index sets pos(s) and T v
+V∪{x} ∩−1(s); if s is not
+valid, then the set T v
+V∪{x} ∩−1(s) is empty. For (2), note that (V∪{x}, t) = 0 for every non-valid t. Now we proceed
+as in the previous case and obtain that ∃x. is recognizable.
+□
+In the next lemma we prove that tree series deﬁnable by formulas of the form ∀x. are recognizable if  is a
+recognizable step function. The idea of the construction of the wta is the same as in [18, Lemma 4.4]. However, here
+we also have to “synchronize” variables in different subtrees (a more detailed explanation is given inside the proof);
+this problem does not arise in the case of words.
+Lemma 5.5. Let  ∈MSO(K, ) such that  is a recognizable step function. Then ∀x. is recognizable.
+Proof. Let W = Free() and V = Free(∀x.) = W \ {x}. By assumption,  = n
+j=1 kj · 1Lj for some n⩾1,
+kj ∈K, and recognizable tree languages L1, . . . , Ln ⊆TW . By Lemma 3.1 we can assume that the sets L1, . . . , Ln
+form a partition of TW .
+First we assume that x ∈W. Let  = ×{1, . . . , n} be the ranked alphabet with rank function rk((, j)) = rk()
+for every (, j) ∈. A tree s ∈TV corresponds to the tuple (s′, ) where s′ ∈TV is obtained from s by dropping the
+second component from the label of every node, and  : pos(s) →{1, . . . , n} is deﬁned by (w) = j if s(w) = (, j, f )
+for some  ∈ and f ∈{0, 1}V. Vice versa, every such tuple (s′, ) corresponds to a tree s ∈TV . Hence we can
+assume that elements of TV have the form (s′, ). Then let
+L = {(s′, ) ∈TV | ∀w ∈pos(s′), 1⩽j ⩽n : if (w) = j, then s′[x →w] ∈Lj}.
+Note that for every s′ ∈TV there is a unique  such that (s′, ) ∈L, because the Lj’s form a partition of TW .
+Next we prove that L is a recognizable tree language. In fact, L = 
+1⩽j ⩽n 
+Lj where
+
+Lj = {(s′, ) ∈TV | ∀w ∈pos(s′) : if (w) = j, then s′[x →w] ∈Lj}.
+We prove that 
+Lj is recognizable. Let Mj = (Q, W, , F) be a deterministic bottom-up ﬁnite state tree automaton
+such that L(Mj) = Lj. We will construct the deterministic bottom-up ﬁnite state tree automaton 
+Mj = (
+Q,V,, 
+F)
+which recognizes 
+Lj. The main idea in this construction is taken from the corresponding result of [18] and it is roughly
+described as follows. On an input tree s = (s′, ), the automaton 
+Mj simulates the work of Mj on s′ and, whenever
+a position w of s′ is encountered for which (w) = j holds, then, additionally, 
+Mj splits off a copy of Mj; this copy
+behaves as if at w the x would occur. However, here we have to reﬁne this idea a bit, because we have to guarantee
+that the placement of x is done at most once in s′. For this, we maintain a bit b in every state of 
+Mj which indicates
+whether the x was placed (b = 1) or not (b = 0). Then, while traversing with 
+Mj over the input tree s, we only form
+the possible transitions on a k-ary symbol (, l, f ) from those states of the successors for which the sum of their bits
+is not greater than 1.
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+239
+Formally, we construct 
+Mj = (
+Q,V,, 
+F) by setting 
+Q = P(Q × {0, 1}) and 
+F = {U ⊆Q × {0, 1} |
+U∩(Q×{1}) ⊆F ×{1}}, and  = {(,l,f )}(,l,f )∈V is deﬁned for every (, l, f ) ∈(m)
+V , m⩾0, and P1, . . . , Pm ∈
+Q
+by
+(,l,f )(P1, . . . , Pm) = P,
+where
+P =
+ P ′
+if l ̸= j,
+P ′ ∪P ′′
+if l = j.
+and
+P ′ =
+	
+(,f [x→0])(p1, . . . , pm),
+m
+
+i=1
+bi
+
+ (pi, bi) ∈Pi for every1⩽i ⩽m and
+m
+
+i=1
+bi ⩽1
+
+and
+P ′′ =
+
+(,f [x→1])(p1, . . . , pm), 1
+
+| (pi, 0) ∈Pi for every 1⩽i ⩽m} .
+Roughly speaking, P ′ formalizes the propagation of the bit value 0, if all successors of the current symbol (labeled
+by (, l, f )) have bit value 0, or of the bit value 1, if exactly one of the successors has bit value 1. If l = j, then
+additionally to this propagation, 
+Mj can change from the bit vector (0, . . . , 0) to the bit value 1, thereby placing the x
+to this position and splitting off a new copy of Mj. Now we will show that 
+Mj recognizes 
+Lj.
+Since Mj and 
+Mj are deterministic, we have that for every (s′, ) ∈TV the sets Rv
+Mj (s′[x →w]) and Rv
+
+Mj ((s′, )) of
+runs are singletons. Recall that these runs are denoted by rs′[x→w] and r(s′,), respectively. Then for every (s′, ) ∈TV
+we have that
+r(s′,)() =
+
+rs′[x→∅](), 0
+
+∪{(rs′[x→w](), 1) | w ∈pos(s′), (w) = j},
+(2)
+where s′[x →∅] ∈TW denotes the tree obtained from s′ ∈TV by replacing every label (, f ) by (, fx) and
+fx : V ∪{x} →{0, 1} extends f by setting fx(x) = 0. Eq. (2) can be proved by structural induction on s = (s′, ) as
+follows.
+Let s = (, l, f )(s1, . . . , sm) ∈TV with s = (s′, ) and si = (s′
+i, i) for every 1⩽i ⩽m. Moreover, let s′ =
+(, f )(s′
+1, . . . , s′
+m). We assume that Eq. (2) holds for s1, . . . , sm (I.H.). Then we ﬁrst prove the following equation:
+	
+(,f [x→0])(p1, . . . , pm),
+m
+
+i=1
+bi
+
+ (pi, bi) ∈rsi(),
+m
+
+i=1
+bi ⩽1
+
+= {(rs′[x→∅](), 0)} ∪{(rs′[x→uw](), 1) | 1⩽u⩽m, w ∈pos(s′
+u), u(w) = j}.
+(3)
+Proof of Eq. (3).
+	
+(,f [x→0])(p1, . . . , pm),
+m
+
+i=1
+bi
+
+ for every 1⩽i ⩽m: (pi, bi) ∈rsi() and
+m
+
+i=1
+bi ⩽1
+
+,
+I.H.2
+=
+	
+(,f [x→0])(p1, . . . , pm),
+m
+
+i=1
+bi
+
+ for every 1⩽i ⩽m :
+[(pi, bi) = (rs′
+i[x→∅](), 0) or (pi, bi) = (rs′
+i[x→w](), 1), w ∈pos(s′
+i), i(w) = j] and
+m
+
+i=1
+bi ⩽1
+
+,
+=
+
+(,f [x→0])(rs′
+1[x→∅](), . . . , rs′m[x→∅]()), 0
+
+∪
+
+((,f [x→0])(rs′
+1[x→∅](), . . . , rs′u[x→w](), . . . , rs′m[x→∅]()), 1)|1⩽u⩽m, w∈pos(s′
+u), u(w) = j
+
+,
+=
+
+rs′[x→∅](), 0
+
+∪
+
+rs′[x→uw](), 1
+
+| 1⩽u⩽m, w ∈pos(s′
+u), u(w) = j
+
+.
+240
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+This ﬁnishes the proof of Eq. (3). Now let l ̸= j. Then
+rs() =(,l,f )(rs(1), . . . , rs(m)) = (,l,f )(rs1(), . . . , rsm())
+=
+	
+(,f [x→0])(p1, . . . , pm),
+m
+
+i=1
+bi
+
+ (pi, bi) ∈rsi(),
+m
+
+i=1
+bi ⩽1
+
+=
+
+rs′[x→∅](), 0
+
+∪
+
+rs′[x→uw](), 1
+
+| 1⩽u⩽m, w ∈pos(s′
+u), u(w) = j
+
+(by Eq. (3))
+=
+
+rs′[x→∅](), 0
+
+∪
+
+rs′[x→w](), 1
+
+| w ∈pos(s′), (w) = j
+
+.
+Now let l = j. Then
+rs() =(,l,f )(rs1(), . . . , rsm())
+=
+	
+(,f [x→0])(p1, . . . , pm),
+m
+
+i=1
+bi
+
+ (pi, bi) ∈rsi(),
+m
+
+i=1
+bi ⩽1
+
+∪{((,f [x→1])(rs′
+1[x→∅](), . . . , rs′m[x→∅]()), 1)}
+=
+
+rs′[x→∅](), 0
+
+∪
+
+rs′[x→uw](), 1
+
+| 1⩽u⩽m, w ∈pos(s′
+u), u(w) = j
+
+∪{(rs′[x→](), 1)}
+(by Eq.(3)and deﬁnition of run)
+=
+
+rs′[x→∅](), 0
+
+∪
+
+rs′[x→w](), 1
+
+| w ∈pos(s′), (w) = j
+
+.
+This ﬁnishes the proof of Eq. (2). Also, by the assumption that L(Mj) = Lj, for every w ∈pos(s′), we have
+s′[x →w] ∈Lj
+iff rs′[x→w]() ∈F.
+It follows that (s′, ) ∈
+Lj iff (for every w ∈pos(s′): (w) = j implies rs′[x→w]() ∈F) iff∗r(s′,)() ∈
+F iff
+(s′, ) ∈L(
+Mj) where we use Eq. (2) at the equivalence, which is indicated by the ∗. Hence 
+Lj is recognizable by 
+Mj.
+Thus, there is a bottom-up ﬁnite state tree automaton 
+M = (
+Q,V,, 
+F) such that L( 
+M) = L. We can assume that
+
+M is deterministic. Finally, we construct the wta M = (
+Q,V, 	, 
+) by deﬁning, for every m⩾0, (, l, f ) ∈V, and
+q1, . . . , qm, q ∈
+Q,
+	m((, l, f ))q1...qm,q =
+
+kl
+if (,l,f )(q1, . . . , qm) = q,
+0
+if otherwise.
+Moreover, for every q ∈
+Q, we deﬁne 
+(q) = 1 if q ∈
+F and 0 otherwise. Clearly, also M is deterministic. Thus,
+it should be clear that for every (s′, ) ∈TV (note that K is commutative)
+(SM, (s′, )) =
+ 
+1⩽j ⩽n k|−1(j)|
+j
+if (s′, ) ∈L,
+0
+if otherwise.
+Now we deﬁne the relabeling  : K⟨⟨TV ⟩⟩→K⟨⟨TV ⟩⟩by ((, , f )) = (, f ) for every (, , f ) ∈V. Then for
+every s′ ∈TV :
+((SM), s′) =
+
+(s′,)∈−1(s′)
+(SM, (s′, ))
+= (SM, (s′, )) where  : pos(s′) →{1, . . . , n} is the unique mapping such that (s′, ) ∈L
+=
+
+1⩽j ⩽n
+k|−1(j)|
+j
+=
+
+w∈pos(s′)
+(, s′[x →w]) due to the fact that  is a recognizable step function
+= (∀x., s′).
+Hence (SM) = ∀x. and thus, by Lemma 3.4 ∀x. is recognizable.
+Now assume that x /∈W, and thus V = W. Then we consider the formula ′ =  ∨edge1(x, x). By Lemmas 5.2
+and 5.3 we have that ′ is recognizable, in particular, ′ is a recognizable step function, and by an easy calculation,
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+241
+we obtain that ′V∪{x} = V∪{x}. Thus, ∀x.′V = ∀x.V which is recognizable by what we have shown
+above.
+□
+Then the next theorem follows from Lemmata 5.2, 5.3, 5.4, and 5.5.
+Theorem 5.6. Krmso⟨⟨T⟩⟩⊆Krec⟨⟨T⟩⟩.
+Next we turn to effectiveness and decidability questions and show results for a particular class of semirings, viz.
+computable ﬁelds. We will need the following preparation.
+Proposition 5.7 (Seidl [36, Theorem 4.2], also cf. Bozapalidis [10]). Let K be a computable ﬁeld. It is decidable for
+two effectively given weighted bottom-up ﬁnite state tree automata M and M′, whether SM = S′
+M or not.
+Using this, we can show:
+Corollary 5.8. Let K be a computable ﬁeld. There is an effective procedure which produces, for a given restricted
+MSO(K, )-formula , a weighted bottom-up ﬁnite state tree automaton M such that  = SM.
+Proof. By induction on the structure of . For this, we have to show that all our preceding proofs are constructive.
+This is mostly well known or easy, and it remains to consider the proof of Lemma 5.5. So let  be a recognizable
+step function. We may assume that  = SM for some given wta M, and we have to construct a wta which accepts
+the tree series ∀x..
+We list all tuples (k1, . . . , kn, M1, . . . , Mn) such that n⩾1, k1, . . . , kn ∈K and M1, . . . , Mn are deterministic
+bottom-up ﬁnite state tree automata. For each such tuple, we construct a wta M′ such that SM′ = 
+1⩽j ⩽n kj ·1L(Mj ),
+and we use Proposition 5.7 to check whether SM = SM′. Since SM is a recognizable step function, working through
+our list we will eventually obtain a tuple for which this equality holds. Now we can use the values kj and automata Mj
+of this tuple in our proof of Lemma 5.5 to construct the required weighted automaton for ∀x..
+□
+The result of Corollary 5.8 also holds for other semirings K than ﬁelds, see Section 6. However, whether it holds for
+all commutative semirings remains open at present. As an immediate consequence of Corollary 5.8 and Proposition
+5.7 we obtain:
+Corollary 5.9. Let K be a computable ﬁeld, and let  and ′ be two RMSO(K, )-sentences. Then it is decidable
+whether  = ′.
+5.2. Recognizable tree series are deﬁnable
+Here, let K again denote an arbitrary commutative semiring. In this section we show that recognizable tree series
+are REMSO-deﬁnable. That is, given a wta M, we will explicitly present a formula  of weighted REMSO-logic such
+that SM = . As in the proof of the weighted case for strings [18],  can be chosen to have the form ∃X1 . . . ∃Xn.
+where every second order variable Xi corresponds to a transition of M and identiﬁes those nodes of a tree t at which
+M applies this transition. The subformula  represents a particular run of M, i.e., it (1) guarantees that the sets of
+nodes which are identiﬁed by X1, . . . , Xn, form a partitioning of the set of all nodes of t, and that the transitions of
+neighbored nodes match (cf. the subformula M, given below), (2) computes the weight of the run, and (3) computes
+the weight for leaving M at the root of t. We prepare this theorem by deﬁning some formulas and notions which are
+relevant for the description of runs of a wta by means of weighted logic.
+Deﬁnition 5.10. Let M = (Q, , 	, 
+) be a wta.
+• Let X1, . . . , Xn be set variables. The partition formula associated with X1, . . . , Xn is the formula partition ∈
+MSO−() deﬁned as follows:
+partition = ∀x.
+⎛
+⎝
+
+1⩽i ⩽n
+⎛
+⎝(x ∈Xi) ∧
+
+1 ⩽j ⩽n
+j̸=i
+¬(x ∈Xj)
+⎞
+⎠
+⎞
+⎠.
+242
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+• The set of all transitions at -symbols is the set BM = {(⃗q, , q) | m⩾0, ⃗q ∈Qm,  ∈(m), q ∈Q}.
+An enumeration of the set BM is a bijection  : BM →{1, . . . , n} where n = |BM|; in the sequel we will ab-
+breviate X((⃗q,,q)) by X⃗q,,q.
+• Let  be an enumeration of BM. The run-formula associated with M and  is the formula M, ∈MSO−() with
+free variables X1, . . . , Xn deﬁned as follows:
+M, = partition ∧M,,1 ∧M,,2,
+where
+M,,1 =
+
+(⃗q,,q)∈BM
+∀x.
+
+(x ∈X⃗q,,q) →label(x)
+
+,
+M,,2 =
+
+(⃗q,,q)∈BM ,
+⃗q=(q1,... ,qm)
+∀x.
+⎛
+⎜⎜⎜⎝(x ∈X⃗q,,q) →∃y1 . . . ∃ym.
+⎛
+⎜⎜⎜⎝edge(x, y1 . . . ym)
+∧
+
+( ⃗p1,1,q1)∈BM,
+...
+( ⃗pm,m,qm)∈BM
+(y1 ∈X ⃗p1,1,q1) ∧· · · ∧(ym ∈X ⃗pm,m,qm)
+⎞
+⎟⎟⎟⎠
++⎞
+⎟⎟⎟⎠,
+edge(x, y1 . . . ym) = edge1(x, y1) ∧. . . ∧edgem(x, ym).
+LetusmakesomeobservationsontheformulasinDeﬁnition5.10.Theseformulasdonotcontainanysetquantiﬁcation
+and whenever there is a subformula of the form ∀x., then  is a recognizable step function. Thus, the formula M,
+is in RMSO(K, ). Moreover, by Observation 4.4 we have that M,V = 1LV(M,).
+Theorem 5.11. Krec⟨⟨T⟩⟩⊆Kremso⟨⟨T⟩⟩.
+Proof. Let M = (Q, , 	, 
+) be a wta,  : BM →{1, . . . , n} be an enumeration of the set BM, and V = {X1, . . . , Xn}.
+We put  = M,. Let t ∈T. First we show that there is a bijection between the set RM(t) of all runs of M on t and
+the set
+Asst,M = { |  is a (V, t)-assignment, (t, ) ⊨}
+of all (V, t)-assignments which satisfy . For this, let r: pos(t) →Q be a run of M on t. We deﬁne the (V, t)-
+assignment r : V →P(pos(t)) as follows: For every 1⩽i ⩽n, if i = (((q1, . . . , qm), , q)), then deﬁne r(Xi) =
+{w ∈pos(t) | r(w.1) = q1, . . . , r(w.m) = qm, t(w) = , r(w) = q}. It is obvious that (t, r) ⊨. Conversely,
+let  be a (V, t)-assignment such that (t, ) ⊨. Then deﬁne the run r : pos(t) →Q as follows: for every
+w ∈pos(t), due to the fact that in particular (t, ) ⊨partition, there are uniquely determined m⩾0, ⃗q ∈Qm,  ∈
+(m), and q ∈Q such that w ∈(X⃗q,,q), and we put r(w) = q. Since (t, ) ⊨, it follows that r is a run
+on t.
+Now consider the following formula of weighted MSO-logic:
+ =  ∧
+
+(⃗q,,q)∈BM
+∀x.
+
+(x ∈X⃗q,,q) →	m()⃗q,q
+
+∧∃z.
+
+root(z) ∧
+
+(⃗q,,q)∈BM
+(z ∈X⃗q,,q) ∧
+(q)
+
+,
+where root(z) = ∀x.
+
+¬edge1(x, z)∧· · ·∧¬edgemax(x, z)
+
+. Clearly, for every t ∈T there is exactly one w ∈pos(t)
+such that (t, [z →w]) ⊨root(z), namely w = . By Lemma 4.9,  is restricted.
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+243
+Let t ∈T and r : pos(t) →Q be a run of M on t. By the discussion above there is a uniquely determined
+(V, t)-assignment r such that (t, r) ⊨. Then we can calculate as follows:
+V(t, r) =
+
+
+(⃗q,,q)∈BM
+	m()
+|r(X⃗q,,q)|
+⃗q,q
+
+· 
+(r())
+(since K is commutative, we can now permute the occurrences of values 	m()⃗q,q)
+=
+
+
+w∈pos(t)
+	m(t(w))r(w.1)...r(w.m),r(w)
+
+· 
+(r())
+(where m = rk(t(w)))
+=
+
+
+w∈pos(t)
+wtM(t, r, w)
+
+· 
+(r())
+= wtM(t, r) · 
+(r()).
+Now let  = ∃X1. . . . ∃Xn.. Then  ∈REMSO(K, ). We show that SM = . Let t ∈T and put V =
+{X1, . . . , Xn}. Then
+(t) =
+
+ is a (V,t)-assignm.
+(t, )
+=
+
+ is a (V,t)-assignm.
+(t,)⊨
+(t, ) =∗
+
+r∈RM(t)
+(t, r)
+=
+
+r∈RM(t)
+wtM(t, r) · 
+(r()) = (SM, t).
+where the equation marked by ∗is due to the bijection between runs and assignments shown above.
+□
+Theorems 5.6 and 5.11 imply the main result, Theorem 5.1.
+Let us extend the syntax of our weighted logic by adding an atomic formula root(z) which holds for (t, ) iff (z) = ,
+the root of t. That is
+
+root(z), (t, )
+
+=
+ 1
+if (z) = ,
+0
+otherwise.
+Then an easy analysis of the proof of Theorem 5.11 shows that we can restrict ourselves to just one application of the
+universal ﬁrst order quantiﬁer.
+Corollary 5.12. Let S ∈Krec⟨⟨T⟩⟩. Then S =  for a formula  of the form  = ∃X1 . . . ∃Xn.∀x. where 
+contains the formula root(z) and only ﬁrst order existential quantiﬁcations, and  is a recognizable step function.
+6. Locally ﬁnite semirings
+As noted before, easy examples show that there are MSO(K, )-deﬁnable series which are not recognizable (compare
+[18]). In this section, we wish to show that for a large class of semirings K, all MSO(K, )-deﬁnable tree series are
+recognizable. Again let  denote an arbitrary ranked alphabet.
+If K is a semiring and A ⊆K, we denote by ⟨A⟩the subsemiring of K generated by A. Clearly, we may construct
+⟨A⟩by ﬁrst taking the closure A′ of A ∪{0, 1} under multiplication, then ⟨A⟩is the closure of A′ under addition.
+A semiring K is called locally ﬁnite, if each ﬁnitely generated subsemiring of K is ﬁnite. A monoid is called locally
+ﬁnite, if each ﬁnitely generated submonoid is ﬁnite. Clearly, a semiring (K, +, ·, 0, 1) is locally ﬁnite iff both monoids
+(K, +, 0) and (K, ·, 1) are locally ﬁnite (apply the remark on ⟨A⟩above, or cf. [17, Section 4] or [9, Lemma 2.5]).
+For example, any Boolean algebra (B, ∨, ∧, 0, 1) is locally ﬁnite. The max–min semiring Rmax,min = (R+ ∪
+{∞}, max, min, 0, ∞) of positive reals, used for maximum capacity problems of networks, is locally ﬁnite. More
+generally, any distributive lattice (L, ∨, ∧, 0, 1) with smallest element 0 and largest element 1 is locally ﬁnite.
+244
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+The following result slightly generalizes [8, Theorem 9] where wta with ﬁnal states rather than ﬁnal weights were
+considered.
+Lemma 6.1. Let K be a locally ﬁnite commutative semiring, k ∈K, and S ∈Krec⟨⟨T⟩⟩. Then S−1(k) is a recognizable
+tree language. In particular, S is a recognizable step function.
+Proof. Let M = (Q, , 	, 
+) be a wta over K which accepts S. We will construct a deterministic bottom-up ﬁnite state
+tree automaton Mk such that L(Mk) = S−1
+M (k). Let Mk = (Q′, , , F) such that
+• Q′ = (K′)Q where K′ = ⟨{	m()q1...qm,q | m⩾0,  ∈(m), q, q1, . . . , qm ∈Q} ∪{
+(q) | q ∈Q}⟩⊆K; i.e., Q′
+is the set of Q-vectors over K′;
+• for every m⩾0,  ∈(m), P1, . . . , Pm ∈Q′, and q ∈Q we deﬁne
+(P1, . . . , Pm)q =
+
+q1,... ,qm∈Q
+(P1)q1 · . . . · (Pm)qm · 	l()q1...qm,q,
+and
+• F = {P ∈Q′ | k = 
+q∈Q
+Pq · 
+(q)}.
+We recall that, since Mk is deterministic, for every t ∈T there is a unique valid run of Mk on t, denoted by rt, and
+t ∈L(Mk) iff rt() ∈F. Now we claim for every position w ∈pos(t), that
+rt(w)q =
+
+r∈RM (t|w)
+r()=q
+
+u∈pos(t|w)
+wtM(t|w, r, u)
+for every q ∈Q.
+This claim can be proved straightforwardly by induction on the “height” of w in t; this is deﬁned as the maximal length
+of a path from w to the leaves in t. Next we compute (SM, t) where at (∗) we will use the above equation for w = .
+(SM, t) = 
+q∈Q
+
+r∈RM (t)
+r()=q
+
+
+w∈pos(t)
+wtM(t, r, w)
+
+· 
+(q)
+= (∗) 
+q∈Q
+(rt())q · 
+(q).
+Using this equality we can argue as follows: t ∈S−1
+M (k) iff (SM, t) = k iff rt() ∈F iff t ∈L(Mk). This proves that
+L(Mk) = S−1
+M (k).
+Finally, it is clear that S = 
+k∈K′ k · 1S−1(k) and hence S is a recognizable step function.
+□
+We note the following basic result (cf. [3, Lemma III.1.2] for the string case).
+Lemma 6.2. Let  be a ranked alphabet, K and L two commutative semirings,  : K →L a semiring morphism, and
+S ∈Krec⟨⟨T⟩⟩. Then the series (S) =  ◦S : T →L with ((S), t) = ((S, t)) for every t ∈T is recognizable.
+Proof. Let M be a wta over K which recognizes S. Applying  to all weights occurring in M yields a wta which
+recognizes (S) (compare [8, Lemma 3]).
+□
+Although most of the following result was shown in [32], we indicate an alternative proof, since this permits
+straightforward effective constructions which we will need later on.
+Lemma 6.3. Let  be a ranked alphabet.
+(1) (Cf . [32]). Let S ∈Zrec⟨⟨T⟩⟩and a, b ∈Z with b ̸= 0. Then S−1(a + bZ) is a recognizable tree language.
+(2) Let S ∈Nrec⟨⟨T⟩⟩and a ∈N. Then the languages S−1({n ∈N | n⩾a}), S−1({n ∈N | n⩽a}), and S−1(a) are
+recognizable tree languages.
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+245
+Proof. Analogous to the proof of [3, Corollaries III.2.4 and III.2.5], using Lemmas 6.1 and 6.2. 1
+□
+Proposition 6.4. Let K be a locally ﬁnite commutative semiring,  :  → a relabeling and S : T →K
+a recognizable series. Then the series (S) : T →K deﬁned by ((S), t) := 
+s∈−1(t) (S, s) (t ∈T) is
+recognizable.
+Proof. By Lemma 6.1, S has the form S = n
+j=1 kj · 1Lj with n ∈N, kj ∈K and recognizable tree languages
+Lj ⊆T (j = 1, . . . , n) which form a partition of T. For any t ∈T, let mj(t) := |−1(t) ∩Lj|. Then ((S), t) =
+n
+j=1 k
+mj (t)
+j
+. For each j ∈{1, . . . , n}, the submonoid of (K, ·, 1) generated by {kj} is ﬁnite. Choose a minimal aj ∈N
+such that k
+aj
+j
+= k
+aj +x
+j
+for some x > 0 and let bj be the smallest such x > 0. Then ⟨kj⟩= {1, kj, k2
+j, . . . , k
+aj +bj −1
+j
+},
+and for each t ∈T, we have k
+mj (t)
+j
+= k
+dj (t)
+j
+for some uniquely determined dj(t) ∈N with 0⩽dj(t)⩽aj + bj −1.
+Note that if 0⩽d < aj, then k
+mj (t)
+j
+= kd
+j iff mj(t) = d, and if aj ⩽d < aj +bj, then k
+mj (t)
+j
+= kd
+j iff mj(t) ∈d +bjN.
+For each 0⩽d < aj + bj and 1⩽j ⩽n let Mj
+d := {t ∈T | dj(t) = d}. Then ((S), t) = n
+j=1 k
+dj (t)
+j
+=
+
+d1,... ,dn:0⩽dj <aj +bj (j=1,... ,n) kd1
+1 · . . . · kdn
+n · (1M1
+d1∩···∩Mn
+dn, t).
+For every 1⩽j ⩽n, let 1′
+Lj : T →N be the characteristic function of Lj with values 0, 1 ∈N. By Lemma
+3.4 the series Sj := (1′
+Lj ) : T →N is recognizable, and (Sj, t) = 
+s∈−1(t) (1′
+Lj , s) = mj(t) (t ∈T). Hence
+Mj
+d = {t ∈T | mj(t) = d} = S−1
+j (d) if 0⩽d < aj, and Mj
+d = {t ∈T | mj(t) ∈d + bjN} = S−1
+j (d + bjN) if
+aj ⩽d < aj + bj. In each case, Mj
+d is recognizable by Lemma 6.3. Hence (S) is recognizable.
+□
+As a consequence, we obtain for locally ﬁnite and commutative semirings that the semantics of all sentences of our
+MSO-logic are recognizable series.
+Theorem 6.5. Let K be a locally ﬁnite commutative semiring. Then Krec⟨⟨T⟩⟩= Kmso⟨⟨T⟩⟩.
+Proof. The inclusion Krec⟨⟨T⟩⟩⊆Kmso⟨⟨T⟩⟩is immediate by Theorem 5.11. For the converse, we prove by structural
+induction for any MSO(K, )-formula  that  is recognizable. We may apply Lemmas 5.2–5.4, and for universal
+ﬁrst order quantiﬁcation we use Lemmas 6.1 and 5.5. The induction step for universal second-order quantiﬁcation
+follows from Proposition 6.4, using a relabeling  : V∪{X} →V which deletes X where V = Free() similarly as
+in the proof of Lemma 5.4.
+□
+Finally, we turn to constructibility and decision problems for computable locally ﬁnite commutative semirings K.
+By Lemma 6.1, every MSO(K, )-formula  not containing universal second order quantiﬁers is restricted. Hence the
+set RMSO(K, ) is recursive.
+Corollary 6.6. Let K be a computable locally ﬁnite commutative semiring. Given an MSO(K, )-formula , we can
+effectively compute a wta M such that  = SM.
+Proof. We follow the proof of Theorem 6.5. The constructions underlying the lemmata used are all effective.
+We consider the case of universal ﬁrst order quantiﬁcation. If M is a wta, we can compute the ﬁnite subsemiring
+K′ of the proof of Lemma 6.1 and hence also the automata Mk for each k ∈K′. Now follow the proof of Lemma 5.5.
+Finally, we consider universal second order quantiﬁcation. In the proof of Proposition 6.4, we obtain wta for the series
+Sj. Following the proof of Lemma 6.3 we obtain bottom-up ﬁnite state tree automata for the languages Mj
+d and hence
+a wta for the series (S). Thus, the proof of Theorem 6.5 is constructive.
+□
+Corollary 6.7. Let K be a computable locally ﬁnite commutative semiring. It is decidable whether two given
+MSO(K, )-formulas  and  satisfy  = .
+1 Lemma 6.3, part 2 is also stated in [32]. However, its proof uses the Inverse Image Theorem of [32] which requires the additional hypothesis
+that the image of S is ﬁnite. This assumption is avoided here.
+246
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+Proof. By Corollary 6.6, construct two wta M and M′ such that  = SM and  = SM′. It remains to decide
+whether SM = SM′. For this, compute a ﬁnite subsemiring K′ of K which contains all possible values of SM and
+SM′. Now, following the proof of Lemma 6.1, check whether the tree languages S−1
+M (k) and S−1
+M′ (k) are equal, for each
+k ∈K′.
+□
+7. Conclusions and open problems
+The proof of Corollary 5.8 shows that if K is a ﬁeld, the set RMSO(K, ) is recursively enumerable. Two open
+questions arise. First, the proof of Corollary 5.8 used a “brute force” argument to show the effectiveness of Lemma 5.5.
+For actual constructions, it would be desirable to have a more explicit method. Second, an open question is whether
+for an arbitrary MSO(K, )-formula  we can decide whether  is restricted. Proceeding by structural induction, for
+this one would need a method for deciding whether an effectively given tree series is a recognizable step function. For
+weighted automata on words, this was achieved in [18] using results from the theory of formal power series, employing,
+in particular, Burnside-type results on monoids of matrices over the ﬁeld K. For tree series, such a theory seems to be
+lacking. Thus, we do not know whether the set RMSO(K, ) is recursive.
+The present paper shows that the weighted logic introduced in [18] is robust, because it admits an extension to
+trees. This motivates the question whether there is an equivalent weighted version of the characterization of the large
+class of context-free graph languages (mentioned in the introduction) by images of MSO-deﬁnable functions on sets
+of trees [22,23,14]. Also one might investigate the weighted extension of the difﬁcult result that particular attributed
+tree transducers are characterized by MSO-deﬁnable graph transduction [4].
+Acknowledgments
+We are grateful to the referees for suggesting improvements to the ﬁrst version of the paper. Also we are grateful to
+Andreas Maletti for pointing out a more succinct wta in Example 3.2.
+References
+[1] C. Baier, B. Haverkort, H. Herrmanns, J.-P. Katoen, Model-checking algorithms for continuous time markov chains, IEEE Trans. on Software
+Eng. 29 (7) (2003) 1–18.
+[2] J. Berstel, C. Reutenauer, Recognizable formal power series on trees, Theoret. Comput. Sci. 18 (2) (1982) 115–148.
+[3] J. Berstel, Ch. Reutenauer, Rational Series and Their Languages, EATCS-Monographs, Vol. 12, Springer, Berlin, 1988.
+[4] R. Bloem, J. Engelfriet, A comparison of tree transductions deﬁned by monadic second order logic and by attribute grammars, J. Comput.
+System Sci. 61 (2000) 1–50.
+[5] B. Borchardt, A pumping lemma and decidability problems for recognizable tree series, Acta Cybernet. 16 (4) (2004) 509–544.
+[6] B. Borchardt, The theory of recognizable tree series. Ph.D. Thesis, TU Dresden, 2004.
+[7] B. Borchardt, Code selection by tree series transducers, in: Ninth Internat. Conf. on Implementation and Application of Automata (CIAA’04),
+Kingston, Canada, Proceedings, Lecture Notes in Computer Science, Vol. 3317, Springer, Berlin, 2005, pp. 57–67.
+[8] B. Borchardt, A. Maletti, B. Šešelja, A. Tepavˇcevic, H. Vogler, Cut sets as recognizable tree languages, Fuzzy Sets and Systems 157 (2006)
+1560–1571.
+[9] B. Borchardt, H. Vogler, Determinization of ﬁnite state weighted tree automata, J. Automata Languages and Combinatorics 8 (3) (2003)
+417–463.
+[10] S. Bozapalidis, Effective construction of the syntactic algebra of a recognizable series on trees, Acta Inform. 28 (1991) 351–363.
+[11] S. Bozapalidis, Equational elements in additive algebras, Theory Comput. Systems 32 (1) (1999) 1–33.
+[12] J.R. Büchi, Weak second–order arithmetic and ﬁnite automata, Z. Math. Logik Math. 6 (1960) 66–92.
+[13] A.L. Buchsbaum, R. Giancarlo, J.R. Westbrook, On the determinization of weighted ﬁnite automata, SIAM J. Comput. 30 (5) (2000)
+1502–1531.
+[14] B. Courcelle, The monadic second-order logic of graphs V: on closing the gap between deﬁnability and recognizability, Theoret. Comput. Sci.
+80 (1991) 153–202.
+[15] K. Culik, J. Kari, Image compression using weighted ﬁnite automata, Comput. Graphics 17 (1993) 305–313.
+[16] J. Doner, Tree acceptors and some of their applications, J. Comput. System Sci. 4 (1970) 406–451.
+[17] M. Droste, P. Gastin, On aperiodic and star-free formal power series in partially commuting variables, in: Formal Power Series and Algebraic
+Combinatorics (Moscow 2000), Springer, Berlin, 2000, pp. 158–169, full version in Theory of Computing Systems, to appear.
+[18] M. Droste, P. Gastin, Weighted automata and weighted logics, in: Automata, Languages and Programming—32nd International Colloquium,
+ICALP 2005, Lisbon, Portugal, 2005, Proceedings, Lecture Notes in Computer Science, Vol. 3580, Springer, Berlin, 2005, pp. 513–525, full
+version in Theoretical Computer Science, to appear.
+[19] M. Droste, C. Pech, H. Vogler, A Kleene theorem for weighted tree automata, Theory Comput. Systems 38 (2005) 1–38.
+M. Droste, H. Vogler / Theoretical Computer Science 366 (2006) 228–247
+247
+[20] C.C. Elgot, Decision problems of ﬁnite automata design and related arithmetics, Trans. Amer. Math. Soc. 98 (1961) 21–52.
+[21] J. Engelfriet, Bottom-up and top-down tree transformations—a comparison, Math. Systems Theory 9 (3) (1975) 198–231.
+[22] J. Engelfriet, A characterization of context-free NCE graph languages by monadic second-order logic on trees, in: G. Rozenberg, H. Ehrig,
+H.-J. Kreowski (Eds.), Graph Grammars and their Application to Computer Science Fourth Internat. Workshop, Bremen, Germany, 1990.
+Proceedings, Lecture Notes in Computer Science, Vol. 532, 1991, pp. 311–327.
+[23] J. Engelfriet, V. van Oostrom, Logical description of context-free graph languages, J. Comput. System Sci. 55 (1997) 489–503.
+[24] Z. Ésik, W. Kuich, Formal tree series, J. Automata Languages, Combinatorics 8 (2) (2003) 219–285.
+[25] C. Ferdinand, H. Seidl, R. Wilhelm, Tree automata for code selection, Acta Inform. 31 (8) (1994) 741–760.
+[26] F. Gécseg, M. Steinby, Tree Automata, Akadémiai Kiadó, Budapest, 1984.
+[27] F. Gécseg, M. Steinby, Tree languages, in: G. Rozenberg, A. Salomaa (Eds.), Handbook of Formal Languages, Vol. 3, Springer, Berlin, 1997,
+pp. 1–68, Chapter 1.
+[28] U. Hafner, Low bit-rate image and video coding with weighted ﬁnite automata, Ph.D. Thesis, Universität Würzburg, Germany, 1999.
+[29] W. Kuich, Formal power series over trees, in: S. Bozapalidis (Ed.), Third Internat. Conf. on Developments in Language Theory, DLT 1997,
+Thessaloniki, Greece, Proceedings, Aristotle University of Thessaloniki, 1998, pp. 61–101.
+[30] W. Kuich, Tree transducers and formal tree series, Acta Cybernet. 14 (1999) 135–149.
+[31] W. Kuich, A. Salomaa, Semirings, Automata, Languages, EATCS Monographs on Theoretical Computer Science, Springer, Berlin, 1986.
+[32] O. Louscou-Bozapalidis, Some remarks on recognizable tree series, Internat. J. Computer Math. 70 (1999) 649–655.
+[33] Chr. Pech, Kleene-type results for weighted tree automata. Ph.D. Thesis, TU Dresden, 2003.
+[34] A. Salomaa, M. Soittola, Automata-Theoretic Aspects of Formal Power Series. Texts and Monographs in Computer Science, Springer, Berlin,
+1978.
+[35] M.P. Schützenberger, On the deﬁnition of a family of automata, Inform. and Control 4 (1961) 245–270.
+[36] H. Seidl, Deciding equivalence of ﬁnite tree automata, SIAM J. Comput. 19 (3) (1990) 424–437.
+[37] H. Seidl, Finite tree automata with cost functions, Theoret. Comput. Sci. 126 (1) (1994) 113–142.
+[38] E. Stark, On behaviour equivalence for probabilistic i/o automata and its relationship to probabilistic bisimulation, J. Automata Languages
+Combinatorics 8 (2003) 361–395.
+[39] J.W. Thatcher, J.B. Wright, Generalized ﬁnite automata theory with application to a decision problem of second-order logic, Math. Systems
+Theory 2 (1) (1968) 57–81.

@@ -1,0 +1,1639 @@
+Theoretical Computer Science 374 (2007) 229–260
+www.elsevier.com/locate/tcs
+Hybrid commitments and their applications to zero-knowledge
+proof systems$
+Dario Catalanoa, Ivan Viscontib,∗
+a Dip. di Matematica e Informatica, Universit`a di Catania, Viale Andrea Doria 6, 95126 Catania, Italy
+b Dip. di Informatica ed Appl., Universit`a di Salerno, Via Ponte Don Melillo, 84084 Fisciano, SA, Italy
+Received 4 October 2005; received in revised form 30 November 2006; accepted 15 January 2007
+Communicated by A. Fiat
+Abstract
+We introduce the notion of hybrid trapdoor commitment schemes. Intuitively a hybrid trapdoor commitment scheme is a
+primitive which can be either an unconditionally binding commitment scheme or a trapdoor commitment scheme depending on the
+distribution of commitment parameters. Moreover, such two possible distributions are computationally indistinguishable. Hybrid
+trapdoor commitments are related but different with respect to mixed commitments (introduced by Damg˚ard and Nielsen at Crypto
+2002). In particular hybrid trapdoor commitments can either be polynomially trapdoor commitments or unconditionally binding
+commitments, while mixed commitments can be either trapdoor commitments or extractable commitments. In this paper we show
+that strong notions (e.g., simulation sound, multi-trapdoor) of hybrid trapdoor commitments admit constructions based on the sole
+assumption that one-way functions exist as well as efﬁcient constructions based on standard number-theoretic assumptions. To
+further stress the difference between hybrid and mixed commitments, we remark here that mixed commitments seem to require
+stronger theoretical assumptions (and the known number-theoretic constructions are less efﬁcient). Our main result, is to show how
+to construct concurrent and simulation-sound zero-knowledge proof systems (in contrast to the arguments recently presented in
+[I. Damg˚ard, Efﬁcient concurrent zero-knowledge in the auxiliary string model, in: Advances in Cryptology — Eurocrypt’00, in:
+Lecture Notes in Computer Science, vol. 1807, Springer-Verlag, 2000, pp. 418–430; P. MacKenzie, K. Yang, On simulation-sound
+trapdoor commitments, in: Advances in Cryptology — Eurocrypt’04, in: Lecture Notes in Computer Science, vol. 3027, Springer-
+Verlag, 2004, pp. 382–400; R. Gennaro, Multi-trapdoor commitments and their applications to proofs of knowledge secure under
+concurrent man-in-the-middle attacks, in: Advances in Cryptology — Crypto’04, in: Lecture Notes in Computer Science, vol.
+3152, Springer-Verlag, 2004, pp. 220–236]) in the common reference string model. We crucially use hybrid trapdoor commitments
+since we present general constructions based on the sole assumption that one-way functions exist and very efﬁcient constructions
+based on number-theoretic assumptions.
+c⃝2007 Elsevier B.V. All rights reserved.
+Keywords: Commitment schemes; Zero-knowledge proofs
+$ A preliminary version of this paper appears in [D. Catalano, I. Visconti, Hybrid trapdoor commitments and their applications, in: 32nd
+International Colloquium on Automata, Languages, and Programming, ICALP 05, in: Lecture Notes in Computer Science, vol. 3580, Springer-
+Verlag, 2005, pp. 298–310. [20].]
+∗Corresponding author.
+E-mail addresses: catalano@dmi.unict.it (D. Catalano), visconti@dia.unisa.it (I. Visconti).
+0304-3975/$ - see front matter c⃝2007 Elsevier B.V. All rights reserved.
+doi:10.1016/j.tcs.2007.01.007
+230
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+1. Introduction
+Commitment schemes are arguably among the most important and useful primitives in cryptography. Intuitively a
+commitment scheme can be seen as the digital equivalent of a sealed envelope. If a party A wants to commit to some
+message m she just puts it into the sealed envelope, so that whenever A wants to reveal the message, she opens the
+envelope. Clearly, such a mechanism can be useful only if it meets some basic requirements. First of all the digital
+envelope should hide the message: no party other than A should be able to learn m from the commitment (this is often
+referred in the literature as the hiding property). Second, the digital envelope should be binding, meaning with this
+that A can not change her mind about m, and by checking the opening of the commitment one can verify that the
+obtained value is actually the one A had in mind originally (this is often referred to as the binding property). These
+two properties make commitments very useful in a wide range of cryptographic applications such as zero-knowledge
+protocols, multi-party computation, digital auctions and electronic commerce.
+A commitment scheme is a primitive to generate and open commitments. More precisely a commitment scheme is
+a two-phase protocol between two probabilistic polynomial time algorithms sender and receiver. In a ﬁrst stage
+(called the commitment phase) sender commits to a message m using some appropriate function Com which takes
+as input m and some auxiliary value r and produces as output a value c. The value c is sent to receiver as a
+commitment on m. In the second stage (called the decommitment phase) sender “convinces” receiver that c is
+actually a valid commitment on m (if receiver is not convinced, it just outputs some special string). A commitment
+scheme with this form is called non-interactive since both stages require only one message from sender to receiver.
+The requirements that we make on a commitment scheme are the following ones. First, if both sender and receiver
+behave honestly, then at the end of the decommitment phase receiver is convinced that sender had committed to
+bit m with probability 1. This is often referred to as the correctness requirement. Second a cheating receiver can
+not guess m with respect to any other legal message m′ with probability signiﬁcantly better than 1/2. This is the
+so-called hiding property. Finally, a cheating sender should be able to open a commitment (i.e., to decommit) with
+both m and m′ ̸= m only with very small (i.e., negligible) probability (this is the binding property). Each of the last
+two properties (i.e., hiding and binding) can be satisﬁed unconditionally or relatively to a computational assumption.
+In our context (i.e., where only two parties are involved) this immediately implies that one can not hope to build a
+commitment scheme where both the hiding and the binding properties hold unconditionally. Unconditionally binding
+commitment schemes have been constructed under the sole assumption that one-way functions exist [57] and in that
+construction an initial message of the receiver is required. It is known how to construct non-interactive unconditionally
+binding commitment schemes by using any one-to-one one-way function [6]. In [4], the authors show how to
+construct non-interactive commitments based on one-way functions and derandomization techniques. Constant-round
+unconditionally hiding commitment schemes have been constructed under the assumption that collections of claw-
+free functions [46] or collision resistant hash functions [51] exist. Recently in [50] it is shown how to construct
+unconditionally hiding commitment schemes from any regular one-way function, but unfortunately, these schemes
+are not constant round.
+Since commitment schemes are very useful primitives they are often used as building blocks to construct larger
+protocols. In this sense it is often the case that the two basic requirements described above turn out to be insufﬁcient.
+For this reason commitment schemes with additional properties have been proposed. Here we highlight some of these
+constructions, others, more directly related to our results, will be discussed in the next section.
+A trapdoor commitment scheme (sometimes also called chameleon commitment), is a commitment scheme with
+an associated pair of public and private keys (the latter also called the trapdoor). Knowledge of the trapdoor allows
+the sender to open the commitment in more than one way (this is often referred to as the equivocality property).
+On the other hand, without knowledge of the trapdoor, equivocality remains computationally infeasible. When the
+commitments computed by means of a trapdoor are distributed exactly as real commitments then the trapdoor
+commitment scheme is unconditionally hiding. Trapdoor commitments have been shown to exist under the assumption
+that one-way functions exist [38].
+A commitment scheme is said to be non-malleable if – very informally – given a commitment c on some message
+m, knowledge of c does not help another party in constructing a new commitment c′ of a message m′ related to
+m. Such a property is referred to as non-malleability with respect to commitment and is studied for unconditionally
+binding commitment schemes. Another different property is non-malleability with respect to opening. In this case, c′
+is a commitment that once c is opened to m, can be opened to a value m′ related to m. Non-malleable commitments
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+231
+with respect to commitment have been deﬁned in [34], and the ﬁrst constant-round construction in the plain model
+has been given in [2] for the stand-alone case (i.e., the protocol is interactive and has to be executed in isolation,
+concurrency is not allowed). Non-interactive non-malleable commitments with respect to opening have been originally
+constructed in [31,40,32]. Such constructions have been recently improved in [26] where once the commitment
+parameters have been established (by a trusted third party), it is possible to compute any polynomial number of
+non-malleable commitments.
+An extractable commitment (also known as commitment scheme with extractability) is a commitment scheme
+where we allow the existence of a secret key whose knowledge permits us to extract the message stored in the
+commitment. At the same time, without knowledge of the secret key, the message remains (computationally) hidden.
+Finally a universally composable commitment is a commitment scheme with the very useful property that –
+informally – even if one concurrently composes it with any other protocol, the security of the commitment scheme
+is preserved. Universal composability is a very strong notion, which, for the case of commitment schemes, seems to
+require concurrent non-malleability and extractability.
+The ﬁrst construction of a universally composable commitment scheme has been presented in [14] and it has been
+later improved in [16,28] and in [26].
+1.1. Other notions of commitments
+Simulation-sound trapdoor commitments. Garay et al. [42] introduced the notion of simulation-sound trapdoor
+commitments (SSTCs, for short) which was later relaxed by MacKenzie and Yang in [55]. In a nutshell an SSTC
+scheme is a trapdoor commitment scheme that associates a label called a tag to each commitment. An adversary of
+an SSTC scheme can not equivocate a commitment with a certain tag, even after seeing a polynomial number of
+equivocations for commitments with different tags.
+In [42] SSTCs are used to construct efﬁcient universally composable zero-knowledge arguments that remain secure
+even when facing adaptive adversaries (i.e., adversaries which are allowed to adaptively corrupt parties involved in
+the protocol). In [55] is presented a simpler – and slightly weaker – deﬁnition of SSTC and the authors prove that
+the resulting primitive is actually equivalent to secure signatures [49]. The notion of SSTC introduced in [55], being
+weaker with respect to the one in [42] allows one to construct more efﬁcient number-theoretic implementations.
+Interestingly, this weaker notion still remains sufﬁcient to construct many applications (such as simulation-sound
+zero-knowledge argument systems).
+Multi-trapdoor commitments. The notion of a multi-trapdoor commitment scheme was introduced by
+Gennaro [44]. A multi-trapdoor commitment scheme is a family of trapdoor commitments such that each scheme
+in the family is a trapdoor commitment scheme. The main feature of multi-trapdoor commitments is that they admit a
+master trapdoor whose knowledge allows one to equivocate for any commitment scheme in the family. Furthermore
+every commitment in the family admits also its own local trapdoor. However knowledge of the local trapdoor for
+a given scheme does not allow one to equivocate on another scheme of the family (unless of course the master
+trapdoor is available). In [44], Gennaro presents two very efﬁcient constructions (based on the strong RSA and on
+the strong Difﬁe–Hellman assumptions respectively) as well as several applications. The main application of multi-
+trapdoor commitments is the construction of left-concurrent non-malleable arguments of knowledge. Here the left-
+concurrent non-malleable setting is a model in which the adversary can play in a polynomial number of sessions the
+role of veriﬁer while in one session he plays the role of prover. As already pointed out in [55], a left-concurrent non-
+malleable argument of knowledge is actually an unbounded simulation-sound zero-knowledge argument system. We
+stress that the multi-trapdoor commitments presented in [44] allows for simulation-sound zero-knowledge argument
+systems that are more efﬁcient than the ones presented in [55]. The deﬁnition of multi-trapdoor commitments given
+in [44] requires unconditional hiding. This property is obviously enjoyed by both implementations of multi-trapdoor
+commitments given in [44]. However, in the applications given in [44], unconditional hiding is not used. Since even
+our applications will only use computational hiding, we will focus in both the deﬁnitions and the constructions on
+multi-trapdoor commitments that are computationally hiding.
+We ﬁnally notice that in [44] multi-trapdoor commitments were constructed under number-theoretic assumptions
+only.
+232
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+Mixed commitments. In [28] Damg˚ard and Nielsen introduced the notion of mixed commitments. Informally, a
+mixed commitment scheme can be either a trapdoor commitment scheme or an extractable commitment scheme, the
+exact nature depends on the distribution according to which the public key is generated. If the public key is composed
+by some speciﬁc keys (referred to as E-keys) then the scheme is an unconditionally hiding trapdoor commitment
+scheme. If instead the public key is composed by some other speciﬁc keys (referred to as X-keys) then the scheme
+is an unconditionally binding and extractable commitment scheme. Of course no key can be both an E-key and an
+X-key. A crucial property of mixed commitment schemes is that no polynomially bounded adversary (not having
+access to secret keys or trapdoors corresponding to the public key) should be able to distinguish E-keys from X-keys.
+In [28] some efﬁcient implementations have been derived from Damg˚ard–Jurik’s [27] variant of the Paillier [60]
+cryptosystem and from the Okamoto–Uchiyama [59] cryptosystem. Moreover the authors showed how to use mixed
+commitments to build universally composable commitments with the constraint that the size of the public key
+depends on the number of players. More recently Damg˚ard and Groth [26] improved this construction by proposing
+a universally composable commitment scheme based on the strong RSA assumption, that can work with a reference
+string whose size does not depend on the number of players involved in the protocol. This result is achieved by
+combining a non-malleable commitment scheme with mixed commitments.
+1.2. Our contributions
+In this paper we introduce the notion of a hybrid trapdoor commitment scheme. Informally a hybrid trapdoor
+commitment scheme is a general commitment primitive with commitment parameter generation algorithms HGen
+and HTGen. If the commitment parameters are obtained as the output of HGen then the resulting scheme is an
+unconditionally binding commitment scheme, while if the parameters are generated by HTGen the produced scheme is
+actually a trapdoor commitment scheme. Moreover, as for mixed commitments, no polynomially bounded adversary,
+taking as input only the (public) commitment parameters, should be able to tell the difference between keys generated
+from HGen and keys produced by HTGen.
+Notice that the notion of hybrid trapdoor commitment may look very similar to that of mixed commitment. There
+is a crucial difference however. Depending on the way the parameters are generated a mixed commitment can be
+either an extractable commitment or a trapdoor commitment. In our case, on the other hand, we require only that the
+commitment is either unconditionally binding or a trapdoor commitment scheme.
+As mentioned before, mixed commitments have been introduced to construct universally composable commitments
+and indeed Damg˚ard and Nielsen proved that it is possible to construct a universally composable commitment from
+a mixed commitment where the number of E-keys over the total number of keys is negligible and that the number
+of X-keys over the total number of keys is almost 1. Interestingly, a recent result by Damg˚ard and Groth [26] shows
+that universally composable commitments imply key exchange and, when implemented in the shared random string
+model, they imply oblivious transfer. Therefore it seems unlikely that universally composable commitments can be
+implemented from one-way functions only.
+In this paper, on the other hand, we show that hybrid trapdoor commitments can be constructed from any one-way
+function.
+To improve on efﬁciency we then turn our attention to speciﬁc number-theoretic constructions and we propose three
+different implementations. The ﬁrst one is very efﬁcient and relies on the Decisional Difﬁe–Hellman assumption. The
+remaining two are based on Paillier’s [60] Decisional Composite Residuosity Assumption (DCRA for brevity) and
+build on previous constructions by Catalano et al. [18] and Bresson et al. [12]. Interestingly the DCRA-based solutions
+enjoy the extractability property and turn out to be mixed commitment schemes. In particular our ﬁrst DCRA-based
+solution is very efﬁcient and it is actually slightly more efﬁcient than the two implementations proposed by Damg˚ard
+and Nielsen [28]. Our construction of hybrid trapdoor commitments that are based on the Difﬁe–Hellman assumption
+is much more efﬁcient than the known constructions of mixed commitments.
+Stronger extensions. We study some stronger extensions of hybrid trapdoor commitments. In particular we show
+how to build hybrid simulation-sound trapdoor commitments and hybrid multi-trapdoor commitments from the sole
+assumption that one-way functions exist. Moreover, we present some practical implementations based on number-
+theoretic assumptions.
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+233
+In this paper we show that multi-trapdoor commitment schemes are actually equivalent to digital signatures which
+are secure with respect to generic chosen message attack. Informally in a generic chosen message attack the adversary
+can obtain signatures only on a list of messages chosen before the public key of the signer is published. This is clearly a
+weaker notion with respect to the standard one where the adversary is allowed to choose the messages adaptively. Since
+SSTCs are actually equivalent to standard secure signatures, from a practical point of view, our result further clariﬁes
+why the known (practical) implementations of multi-trapdoor commitments are more efﬁcient than the corresponding
+implementations of SSTC.
+Techniques. The construction of a hybrid trapdoor commitment scheme consists in producing a scheme that is a
+trapdoor commitment scheme for some commitment parameters while it is an unconditionally binding commitment
+scheme for other commitment parameters. We stress that the two distributions of the commitment parameters are
+indistinguishable. Once we achieve this result, we combine the basic hybrid trapdoor commitment scheme with a tag-
+based simulation-sound trapdoor (resp., multi-trapdoor) commitment scheme. This is based on a parallel execution
+of the two commitment schemes, thus obtaining a hybrid tag-based simulation-sound trapdoor (resp., multi-trapdoor)
+commitment scheme. We ﬁnally stress that the results of [26] actually achieve hybrid trapdoor commitments based on
+one-way functions only, even though this is not explicitly formalized and claimed in their work.
+Applications. The main contribution of this paper is to show how to use the different variants of hybrid trapdoor
+commitments to achieve the following results.
+1. Using hybrid trapdoor commitments we show how to construct three-round concurrent zero-knowledge proof
+systems, in the shared random string model, for all NP languages. We give a construction based on the existence
+of any one-way function and an efﬁcient construction that is based on the DDH assumption. These results improve
+the computational soundness achieved in a previous result by Damg˚ard [29] in the sense that ours are actually
+zero-knowledge proofs rather than zero-knowledge arguments.
+2. Using either hybrid SSTC or hybrid multi-trapdoor commitments we show how to construct an unbounded
+simulation-sound zero-knowledge proof system in the common reference string model. This improves the recent
+results of [55,44] where similar results were presented for unbounded simulation-sound zero-knowledge arguments
+(rather than proofs).
+Comparison with other previous results. One of the techniques that we use in the constructions for hybrid trapdoor
+commitments is that of having two different algorithms for generating the reference string. The former outputs
+an “honest” reference string (i.e., a reference string that does not contain any trapdoor), while the latter outputs
+a fake reference string along with the corresponding trapdoor. The distributions of the two reference strings are
+indistinguishable. This technique was ﬁrst introduced in [8] for achieving non-interactive zero-knowledge proofs.
+The same technique has been used in [30] for achieving non-malleable non-interactive zero-knowledge proofs under
+the assumption that trapdoor permutations exist. Both proof systems crucially use an NP-reduction by following the
+FLS-paradigm [37]. In this paper we basically show that this same technique can be used to construct (1) three-round
+simulation-sound zero knowledge proofs under the sole assumption that one-way functions exist; (2) very efﬁcient
+three-round simulation-sound zero knowledge proofs under standard number-theoretic assumptions.
+The ﬁrst non-interactive non-malleable commitment based on one-way functions was previously presented in [31]
+but there the adversary can only see one commitment computed on a given reference string. In [16] it is shown that
+the trapdoor commitment scheme based on Hamiltonian graphs of [38] allows the adversary to see any polynomial
+number of commitments before computing the mauled one. We stress that our contribution shows that hybrid trapdoor
+commitments are commitments secure even against computationally unbounded adversarial committers and that admit
+very efﬁcient constructions based on number-theoretic assumptions and constructions based on the sole assumption
+that one-way functions exist.
+Proofs versus arguments. A proof system has the following property: any adversarial prover (regardless of his
+computing power) has negligible probability of making an honest veriﬁer accept a false statement. This strong
+notion of soundness differs from the corresponding notion of soundness of an argument system, where security for
+honest veriﬁers holds only against polynomial-time adversarial provers. The notions of argument and proof differ
+dramatically when zero knowledge is considered. For example, while it is known that any NP language has a
+perfect zero-knowledge argument [11], if an NP-complete language has a perfect zero-knowledge proof then the
+234
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+polynomial hierarchy collapses to its second level [41,10]. With respect to constant-round zero knowledge, the current
+state of knowledge gives us a constant-round (computational) zero-knowledge proof for NP under the assumption
+that collections of claw-free functions or collision-resistant hash functions exist [46,51], while constant-round zero-
+knowledge arguments for NP are known to exist under the assumption that one-way functions exist [5].
+As discussed above, in this paper we show that our new notion of commitment scheme can be used to obtain some
+strong variants of zero-knowledge proof systems.
+2. Deﬁnitions
+We now give some basic deﬁnitions that we will use in this paper. We use the notation {β1, . . . , βk : α} to specify
+the probability distribution of α after the sequential executions of events β1, . . . , βk. In general, we assume that an
+algorithm A has access to some random (auxiliary) input even though this is not explicitly speciﬁed. Moreover, if A
+is a probabilistic algorithm we denote by A(x) the random variable describing the output of A on input x. We say that
+a function ν is negligible iff for all constants c there exists n0 such that for all n > n0 it holds that 0 ≤ν(n) < 1/nc.
+A binary relation R is polynomially bounded if it is decidable in polynomial time and there exists a polynomial
+p such that for all pairs (x, w) ∈R it holds that |w| ≤p(|x|). We denote by L R = {x|∃y : (x, w) ∈R} the
+NP-language associated with R.
+For an NP-language L we denote by RL the witness relation associated with L deﬁned as x ∈L ⇔∃w : (x, w) ∈
+RL.
+Deﬁnition 2.1. A function f : {0, 1}⋆→{0, 1}⋆is called one way if the following conditions hold:
+1. there exists a deterministic polynomial-time algorithm A such that on input x, A outputs f (x);
+2. for every non-uniform probabilistic polynomial-time algorithm A′ there exists a negligible function ν such that for
+all sufﬁciently large k, it holds that
+Pr
+
+x ←{0, 1}k; A′( f (x)) ∈f −1( f (x))
+
+< ν(k).
+We now give deﬁnitions for several notions of commitment schemes. For readability we will use “for all m” to
+mean any possible message m of length polynomial in the security parameter. We start with the standard notion of
+commitment scheme with its two main variants (i.e., unconditionally binding and unconditionally hiding). Note that
+all deﬁnitions will use a commitment generator function that outputs the commitment parameters. Therefore, such
+commitments have a straightforward implementation in the common reference string model where a trusted third
+party generates a reference string that is later received as common input by all parties. In some cases the commitment
+parameters generated by the commitment generator function will be strings with uniform distribution; in such cases
+the corresponding commitments can be implemented in the shared random string model which is a set-up assumption
+weaker than the common reference string model.
+Deﬁnition 2.2. (Gen, Com, Ver) is a commitment scheme (CS, for short) if:
+– efﬁciency: Gen, Com and Ver are polynomial-time algorithms;
+– completeness: for all m it holds that
+Prob
+
+crs ←Gen(1k); (com, dec) ←Com(crs, m) : Ver(crs, com, dec, m) = 1
+
+= 1;
+– binding: for any polynomial-time algorithm sender there is a negligible function ν such that for all sufﬁciently
+large k it holds that
+Prob
+
+crs ←Gen(1k); (com, m0, m1, dec0, dec1) ←sender(crs) :
+m0 ̸= m1 and Ver(crs, com, dec0, m0) = Ver(crs, com, dec1, m1) = 1
+
+≤ν(k);
+– hiding: for any adversary receiver there is a negligible function ν such that for all m0, m1 where |m0| = |m1|
+and all sufﬁciently large k it holds that
+Prob
+
+crs ←Gen(1k); b ←{0, 1}; (com, dec) ←Com(crs, mb) : b ←receiver(com)
+
+< 1
+2 + ν(k).
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+235
+If the binding property holds with respect to a computationally unbounded algorithm sender, the commitment
+scheme is said to be unconditionally binding; if instead, the hiding property holds with respect to a computationally
+unbounded algorithm receiver, the commitment scheme is said to be unconditionally hiding.
+We now give the deﬁnition of a trapdoor commitment scheme. In particular we strengthen the computational
+indistinguishability of the computed commitments so that it holds even if the distinguisher takes as input the trapdoor
+information. This allows one to use the same commitment parameters for any polynomial number of commitments
+(and actually all our results hold in this stronger setting).
+Deﬁnition 2.3. (Gen, Com, TCom, TDec, Ver) is a trapdoor commitment scheme (TCS, for short) if Gen(1k) outputs
+a pair (crs, aux), Gencrs is the related algorithm that restricts the output of Gen to the ﬁrst element crs,
+(Gencrs, Com, Ver) is a commitment scheme and TCom and TDec are polynomial-time algorithms such that:
+– trapdoorness: for all m the probability distributions:
+{(com, dec) ←Com(crs, m) : (crs, com, dec, m)}
+and
+{(com′, auxcom′) ←TCom(crs, aux); dec′ ←TDec(auxcom′, m) : (crs, com′, dec′, m)}
+are computationally indistinguishable to any adversary that knows aux.
+In the next theorem we show that the existence of one-way functions is sufﬁcient for constructing trapdoor
+commitment schemes under the above deﬁnition.
+Theorem 2.4. Under the assumption that one-way functions exist, there exists a trapdoor commitment scheme.
+Proof. Let f be a one-way function. Consider the commitment scheme proposed by Naor (see Appendix B for a
+discussion about Naor’s commitment scheme), an instance (Gen, Com, Ver) of such a commitment scheme can be
+constructed by using f . We now construct the following trapdoor commitment scheme (Gen, Com, TCom, TDec, Ver).
+Algorithm Gen produces a random string crs that can be interpreted as crs = setup ◦com1 (where ◦denotes
+concatenation). Here setup denotes the ﬁrst message of Naor’s commitment scheme and com1 is computed as a
+commitment of the string 1k. The second output of Gen is the decommitment aux corresponding to the commitment
+com1.
+Algorithm Com on input crs and a message m runs the simulator S of Blum’s Σ-protocol (again see Appendix B
+for more details about Σ protocols and an implementation of Blum’s Σ-protocol based on the existence of one-way
+functions only) for proving that (setup, com1) is a commitment of string 1k. In particular S runs on input (setup, m)
+to obtain an accepting transcript (setup, a, m, z). The output of Com is the pair (com = a, dec = z).
+Algorithm Ver simply veriﬁes that (setup, com, m, z) is an accepting transcript for the statement “(setup, com1)
+is a commitment of the string 1k”.
+Algorithm TCom, on input (crs, aux) computes a valid ﬁrst message a for Blum’s Σ-protocol for proving that
+(setup, com1) is a commitment of the string 1k. TCom outputs a and auxa = crs ◦aux ◦aux′ where aux′ is the
+auxiliary information generated by the prover algorithm of Blum’s Σ-protocol when the ﬁrst message a is computed.
+Algorithm TDec on input auxa and a string m, runs the prover algorithm of Blum’s Σ-protocol on input the
+transcript (setup, a, m) to obtain the last message z such that (setup, a, m, z) is an accepting transcript. TDec can
+run the prover algorithm since he can pick from auxa both the decommitment aux corresponding to com1 (i.e., the
+witness for the statement) and the auxiliary information aux′ corresponding to a. The output of TDec is dec = z.
+(Gen, Com, TCom, TDec, Ver) is a trapdoor CS. First notice that the scheme is (computationally) binding. Indeed if
+there exists an algorithm sender that manages to open a commitment in two different ways, by running the extractor
+algorithm of Blum’s Σ-protocol one can obtain a cycle in the graph and then a witness for the statement “com is a
+commitment of the string 1k”. Thus, the existence of such a sender would lead to breaking the hiding property of
+Naor’s commitment scheme.
+Next, knowing a cycle in the graph (or, equivalently, knowing a witness for the given statement) one can efﬁciently
+compute a valid decommitment dec = z for any commitment a and any string m. Such a triple (a, m, z) obtained
+using algorithms TCom and TDec is computationally indistinguishable from a triple (a′, m, z′) computed by using
+Com even to a distinguisher that knows the trapdoor, i.e., the cycle in the graph. Indeed, by the honest-veriﬁer zero-
+knowledge property of Blum’s Σ-protocol the only difference is in the pair (a, a′). This is because, the ﬁrst message of
+236
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+Blum’s Σ-protocol contains commitments to graphs. In fact, the message a computed by the honest prover algorithm
+corresponds to commitments of randomly permuted graphs, some of them are opened to show the original graphs,
+other are opened to show Hamiltonian cycles in the randomly permuted graphs, the remaining commitments are never
+opened. The message a′ computed by the simulator corresponds in part to commitments of permuted graphs that
+are opened to show the original graphs, in part to commitments of randomly chosen Hamiltonian cycles that are
+opened to show the Hamiltonian cycles and in part by commitments that are never opened. Since in both a and a′
+the commitments are computed using Naor’s commitment scheme, the only difference is in the commitments that are
+never opened. Therefore, any distinguisher (even on input the trapdoor) would allow one to break (with a polynomially
+related probability) the hiding property of the commitment scheme used in the ﬁrst round of Blum’s Σ-protocol (which
+in our case, is Naor’s commitment scheme).
+We now discuss the case in which the distinguisher is allowed to query any polynomial number l of commitments
+and decommitments and it is challenged to distinguish the case in which commitments are honestly computed and
+opened from the opposite case in which commitments are computed and opened by means of the trapdoor. Using a
+standard hybrid argument we show that if A is a (polynomially bounded) adversary succeeding in the above task,
+then one can build an adversary B out of it that violates the trapdoorness property of the underlying commitment
+scheme. Such a B receives on input the public parameters (together with the trapdoor) corresponding to some trapdoor
+commitment scheme. We remark that B is allowed access to a challenging oracle O that, ﬁrst outputs crs and aux and
+then, when asked on input m outputs a challenge (com, dec) that is sampled using either Com or TCom, TDec according
+to some random and secret bit b (wlog we assume that b = 0 means that the challenge is produced using TCom, TDec).
+B works as follows: ﬁrst it obtains crs and aux from O, then it chooses an index j uniformly and at random in the
+range {1, . . . ,l}. Next, whenever A on input crs asks its i-th query, for some message mi, B answers in the following
+way:
+if i < j it computes a commitment and a decommitment of mi using Com, and hands the resulting values to A;
+if i > j it computes a commitment and a decommitment of mi using TCom, TDec, and hands the resulting values to
+A;
+if i = j it queries O on input m j and hands the obtained challenge (com, dec) to A.
+At some point A may output a bit d. In particular we can assume that A outputs 1 if it thinks that all the
+commitments were created using Com and 0 if it thinks that all of the commitments are fake ones. B simply outputs
+the same d as its own guess.
+Let us denote by Gk the scenario where the ﬁrst k queries are answered using Com while the remaining l −k queries
+are answered using TCom, TDec. We denote by Pk the probability that A wins when running in scenario Gk. Clearly,
+one has that the advantage µA of A in succeeding in its guess is µA = |P0 −Pl|. The probability µB that B correctly
+guesses b, on the other hand, is given by
+µB = Pr[B →b′|b = b′] = 1
+l
+
+lX
+k=1
+Pk −
+lX
+k=1
+Pk−1
+ = 1
+l µA
+thus concluding our proof.
+□
+The deﬁnitions of commitment and trapdoor commitment schemes presented above can be extended by adding one
+more input to algorithms Com, Ver and TCom that is, a label referred to as “tag”. In this case, algorithm Ver has an
+additional constraint, it outputs 1 only if the same tag has been used as input by algorithms Com or TCom. In particular,
+we will use such a tag-based deﬁnition of commitment when we consider the notion of a simulation-sound trapdoor
+commitment.
+Now we deﬁne multi-trapdoor commitment schemes.
+Deﬁnition 2.5. (Gen, Sel, Tkg, Com, TCom, TDec, Ver) is a multi-trapdoor commitment scheme (MTCS, for short)
+if:
+– efﬁciency: Gen, Sel, Tkg, Com, TCom, TDec and Ver are polynomial-time algorithms;
+– completeness: for all m it holds that
+Prob((PK, TK) ←Gen(1k); pk ←Sel(PK); (com, dec) ←Com(pk, m) : Ver(pk, com, dec, m) = 1) = 1;
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+237
+– multi-trapdoorness (implies hiding): for all (PK, TK) generated with non-zero probability by Gen(1k), for all pk
+where pk ←Sel(PK), for all m the following probability distributions
+{(com, dec) ←Com(pk, m) : (pk, com, dec, m)}
+{tk ←Tkg(TK, pk); (com′, aux) ←TCom(tk); dec′ ←TDec(aux, m) : (pk, com′, dec′, m)}
+are computationally indistinguishable to any adversary knowing TK.
+– binding: there is a negligible function ν such that for all m0 ̸= m1 and any pair of polynomial-time algorithms
+(sender0, sender1) it holds that
+Prob(( e
+pk = {pk1, . . . , pkk}, aux) ←sender0(1k); (PK, TK) ←Gen(1k);
+(pk, com, m0, m1, dec0, dec1) ←senderOPK
+1
+(PK, aux) : pk ̸∈e
+pk ∧
+Ver(pk, com, dec0, m0) = Ver(pk, com, dec1, m1) = 1) ≤ν(k)
+where OPK operates as follows:
+– On input (pk ∈e
+pk): compute (g
+com, ξ) ←TCom(tk), where tk = Tkg(TK, pk), store (g
+com, pk, ξ) and output
+g
+com.
+– On input (g
+com, m): if for some pk and some ξ, a tuple (g
+com, pk, ξ) is stored, compute g
+dec ←TDec(ξ, m) and
+output g
+dec.
+Note that an efﬁcient algorithm OPK can be implemented using the master trapdoor.
+Remark 2.6. Notice that our deﬁnition of multi-trapdoor commitments is slightly different with respect to the one
+given by Gennaro in [43]. First of all, we allow the possibility of using a trapdoor even during the commitment phase
+(as done in the deﬁnition of SSTC given in [55]). One can easily verify that the construction given in [44] remains
+sound with respect to the new deﬁnition as well.
+Our deﬁnition also assumes that the hiding property holds only with respect to polynomially bounded adversaries
+(while in the original deﬁnition the scheme is required to be unconditionally hiding). This (more general) deﬁnition
+allows us to construct multi-trapdoor commitments from any one-way function (see Theorem 3.3). On the other hand it
+seems unlikely that unconditionally hiding trapdoor commitment schemes can be constructed from one-way functions
+(and even from trapdoor permutations [39]). Moreover, we point out here, that for all our applications it is sufﬁcient
+to consider multi-trapdoor commitment schemes which are hiding only in a computational sense.
+Finally we assume wlog that a local public key also contains the master public key.
+Now we deﬁne simulation-sound trapdoor commitment schemes which are based on the notion of tag-based
+commitment schemes brieﬂy discussed above.
+Deﬁnition 2.7. (Gen, Com, TCom, TDec, Ver) is a tag-based Simulation-Sound trapdoor commitment scheme (SSTCS,
+for short) if:
+– (Gen, Com, TCom, TDec, Ver) is a tag-based trapdoor commitment scheme;
+– Simulation-Sound Binding: for any polynomial-time algorithm sender there is a negligible function ν such that
+Prob
+
+(crs, aux) ←Gen(1k); (com, tag, m0, m1, dec0, dec1) ←senderOcrs(crs) : (m0 ̸= m1)∧
+Ver(crs, com, dec0, m0, tag) = Ver(crs, com, dec1, m1, tag) = 1 ∧tag ̸∈Q) ≤ν(k),
+where Ocrs operates as follows:
+– On input (tag): compute (g
+com, ξ) ←TCom(aux, tag), add tag to Q, store (g
+com, tag, ξ), and output g
+com.
+– On input (g
+com, m): if for some tag and some g
+com, a tuple (g
+com, tag, ξ) is stored, compute g
+dec ←TDec(ξ, m)
+and output g
+dec.
+Again, an efﬁcient algorithm Ocrs can be implemented by using the auxiliary information generated along with
+crs.
+A brief review of the main tools used in our constructions is given in Appendix B.
+238
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+2.1. Hybrid trapdoor commitments: Deﬁnitions
+Now we are ready to introduce the notion of a hybrid trapdoor commitment. As sketched in the introduction, such
+a notion considers the existence of two commitment generation functions whose public outputs are computationally
+indistinguishable. Still the properties of the two resulting commitment schemes are very different. We start with the
+basic notion of a hybrid trapdoor commitment scheme.
+Deﬁnition 2.8. (HGen, HTGen, HCom, HTCom, HTDec, HVer) is a hybrid trapdoor commitment scheme (HTCS, for
+short) if:
+– binding: (HGen, HCom, HVer) is an unconditionally binding commitment scheme;
+– trapdoorness: (HTGen, HCom, HTCom, HTDec, HVer) is a trapdoor commitment scheme.
+– hybridness: let HTGen′ be an algorithm that restricts the output (crs, aux) of HTGen(1k) to crs, then the
+following probability distributions are computationally indistinguishable: {crs0 ←HGen(1k) : crs0} and
+{crs1 ←HTGen′(1k) : crs1}.
+The notion given above can be extended to be a tag-based commitment scheme (as for the case of standard trapdoor
+commitment schemes).
+We now deﬁne the notions of hybrid multi-trapdoor and hybrid simulation-sound trapdoor commitment schemes.
+We stress that for the latter we focus on tag-based commitments (obtained by adding a label – the tag – as input to the
+algorithms that compute and verify commitments).
+Intuitively, since multi-trapdoor and simulation-sound trapdoor commitment schemes deﬁne families of trapdoor
+commitment schemes, for the hybrid variant of such primitives, we require that each scheme in the family is a hybrid
+trapdoor commitment scheme.
+Deﬁnition 2.9. (HGen, HTGen, HSel, HTkg, HCom, HTCom, HTDec, HVer) is a hybrid multi-trapdoor commitment
+scheme (HMTCS, for short) if:
+– multi-trapdoorness: (HTGen, HSel, HTkg, HCom, HTCom, HTDec, HVer) is a multi-trapdoor commitment scheme;
+– hybridness: let HGen′(1k) be an algorithm that runs HGen(1k) obtaining (crs, aux), runs HSel(crs) obtaining
+pk and then outputs pk; moreover let HTGen′ be an algorithm that runs HTGen(1k) obtaining (crs′, aux′),
+runs HSel(crs′) obtaining pk, runs HTkg(aux′, pk) obtaining tk and then outputs (pk, tk); then it holds that
+(HGen′, HTGen′, HCom, HTCom, HTDec, HVer) is a hybrid trapdoor commitment scheme.
+Deﬁnition 2.10. (HGen, HTGen, HCom, HTCom, HTDec, HVer) is a hybrid simulation-sound trapdoor commitment
+scheme (HSSTCS, for short) if:
+– simulation soundness: (HTGen, HCom, HTCom, HTDec, HVer) is a simulation-sound trapdoor commitment scheme;
+– hybridness: (HGen, HTGen, HCom, HTCom, HTDec, HVer) is a hybrid trapdoor commitment scheme.
+3. Hybrid trapdoor commitments: Constructions
+We now show that hybrid trapdoor commitment schemes exist with respect to all the variants deﬁned in Section 2.1.
+In particular, for each deﬁnition, we show both a construction based on general primitives and a practical construction
+based on number-theoretic assumptions.
+We start with a construction for a hybrid trapdoor commitment scheme.
+Theorem 3.1. Under the assumption that one-way functions exist, there exists a hybrid trapdoor commitment scheme.
+Proof. Let f be a one-way function. Consider the commitment scheme proposed by Naor (see Appendix B
+for a discussion about Naor’s commitment scheme), an instance (Gen, Com, Ver) of such a commitment scheme
+can be constructed by using f . We now construct the following hybrid trapdoor commitment scheme HTCS =
+(HGen, HTGen, HCom, HTCom, HTDec, HVer).
+Algorithm HGen produces a random string crs that can be interpreted as crs = setup ◦com0 (where ◦denotes
+concatenation). Here setup denotes the ﬁrst message of Naor’s commitment scheme and com0 is a random string.
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+239
+Notice that since Naor’s commitments are pseudorandom com0 corresponds to a valid commitment to 1k only with
+negligible probability (this follows from the properties of Naor’s commitment scheme).
+Algorithms HTGen, HCom, HTCom, HTDec, HVer correspond to algorithms Gen, Com, TCom, TDec, Ver deﬁned in
+the proof of Theorem 2.4. We report here again their descriptions by adding some comments that are useful for this
+proof.
+Algorithm HCom on input crs and a message m runs the simulator S of Blum’s Σ-protocol (again see Appendix B
+for more details about Σ protocols and an implementation of Blum’s Σ-protocol based on the existence of one-way
+functions only) for proving that (setup, com0) is a commitment of string 1k (which is with overwhelming probability
+a false statement). In particular S runs on input (setup, m) to obtain an accepting transcript (setup, a, m, z). The
+output of HCom is the pair (com = a, dec = z).
+Algorithm HVer simply veriﬁes that (setup, com, m, z) is an accepting transcript for the statement “(setup, com0)
+is a commitment of the string 1k”.
+Algorithm HTGen outputs a string crs = setup ◦com1 precisely as HGen, the only difference is that com1 is
+computed as a commitment of the string 1k. The second output of HTGen is the decommitment aux corresponding
+to the commitment com1. Notice that, assuming that Naor’s commitment scheme is computationally hiding, the
+distribution of the crs generated by HTGen, is computationally indistinguishable from the distribution of the crs
+generated by HGen (which is a random string).
+Algorithm HTCom, on input (crs, aux) computes a valid ﬁrst message a for Blum’s Σ-protocol for proving that
+(setup, com1) is a commitment of the string 1k (which in this case is a true statement). HTCom outputs a and
+auxa = crs ◦aux ◦aux′ where aux′ is the auxiliary information generated by the prover algorithm of Blum’s
+Σ-protocol when the ﬁrst message a is computed.
+Algorithm HTDec on input auxa and a string m, runs the prover algorithm of Blum’s Σ-protocol on input the
+transcript (setup, a, m) to obtain the last message z such that (setup, a, m, z) is an accepting transcript. HTDec can
+run the prover algorithm since he can pick from auxa both the decommitment aux corresponding to com1 (i.e., the
+witness for the statement) and the auxiliary information aux′ corresponding to a. The output of HTDec is dec = z.
+Efﬁciency, completeness and hybridness. Efﬁciency and completeness can be easily veriﬁed by inspection.
+Hybridness follows from the fact that a distinguisher of the distributions of the commitment parameters generated
+by HGen and HTGen can be used for breaking the pseudorandomness of Naor’s commitments.
+(HGen, HCom, HVer) is an unconditionally binding CS. When the commitment parameters are generated by
+algorithm HGen, unconditional binding follows from the fact that, when the sender runs the protocol, the statement
+com0 is a commitment of the string 1k – inferred by the commitment parameters – is false. Thus, once the pair
+(setup, com = a) is established, there exists only one pair (m, z) such that (setup, a, m, z) is an accepting transcript
+for the false statement “com0 is a commitment of the string 1k” (otherwise it would be possible to extract a witness for
+a false statement, which is clearly impossible).
+Now we show that a polynomial-time algorithm receiver that breaks the hiding property can be used to construct
+an algorithm B that breaks the hiding property of Naor’s commitments. Assume there exists a receiver receiver
+that can distinguish between the distributions {(com0, dec0) ←HCom(crs, m0) : com0} and {(com1, dec1) ←
+HCom(crs, m1) : com1} with probability 1/2 + µ (for some non-negligible quantity µ). On input a challenge com
+(which is either a commitment of 1k or a commitment of 0k) and the set-up message setup for Naor’s commitment
+scheme, B constructs the commitment (HGen, HCom, HVer) as follows.
+HGen simply sets crs = setup ◦com. The algorithms HCom and HVer remain unchanged. Now, B ﬂips a bit b,
+chooses two random messages m0, m1, computes comb = HCom(crs, mb) and runs receiver on input comb, m0, m1
+(with common reference string crs). Eventually receiver stops and outputs ˆb as its guess for the hidden bit b.
+Now, if ˆb = b, B claims that com is a commitment of 0k, otherwise it claims that com is a commitment of 1k. This
+is because if com is a commitment of 0k then the construction above gives rise to a valid commitment (i.e., comb is a
+valid commitment of mb) and thus the advantage of receiver in predicting b is close to µ.
+On the other hand, if com is a commitment of 1k then receiver can not guess b with probability non-negligibly
+better than 1/2. This is because, this time, the statement “com is a commitment of the string 1k” is a true one. Thus, for
+a ﬁxed value comb, and for any message m there always exists a value z such that (setup, comb, m, z) is an accepting
+240
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+transcript.1 This means that the value comb does not reveal any information about mb. Thus, receiver can not guess
+b with probability non-negligibly better than 1/2.
+(HTGen, HCom, HTCom, HTDec, HVer) is a trapdoor CS. This follows directly by Theorem 3.1, by observing that
+(HTGen, HCom, HTCom, HTDec, HVer) are the same algorithms as used in that Theorem.
+From the previous properties, we have that HTCS enjoys both hybridness and trapdoorness, therefore the claim
+holds.
+Theorem 3.2. Under the assumption that the Decisional Difﬁe–Hellman problem is hard, there exists an efﬁcient
+hybrid trapdoor commitment scheme.
+Proof. We use the same proof ideas as used to prove Theorem 3.1. To gain in efﬁciency however, we consider more
+speciﬁc number-theoretic constructions. In what follows we only discuss the aspects of the proof which are different
+with respect to the previous one. First of all, while in Theorem 3.1 the security is proved by resorting to the properties
+of Naor’s commitment scheme, in this case we use the DDH assumption.
+Let G be a group of order q where the DDH problem is conjectured to be hard. Informally this means that
+given two random elements g, h ̸= 1 ∈G, it is computationally infeasible to distinguish between (g, h, gr, hr)
+and (g, h, gr1, hr2) for three random elements r,r1,r2 ∈Zq.
+Algorithm HGen outputs a random string crs. From a random string it is possible to deterministically extract a
+quadruple such that the probability that its distribution is different from (g, h, gr1, hr2) is negligible. Instead, HTGen
+outputs a crs and the auxiliary information aux = r, such that by running the same deterministic extraction procedure,
+the resulting quadruple has the same distribution as (g, h, gr, hr). Notice that by the hardness of the DDH problem,
+the output crs of HTGen is computationally indistinguishable from a random string.
+Consider the Σ-protocol for proving the equality of two discrete logarithms (see Appendix B). Let us call ∇this
+protocol. Denoting by (g, h, g1, h1) the quadruple in the crs, we use ∇to prove that g1 and h1 have the same discrete
+logarithm with respect to bases g and h, respectively.
+As for the case of the proof of Theorem 3.1, when HGen is used, the instance for the Σ-protocol is false.
+Consequently, once a commitment a is sent, it can correspond to at most one message m such that there exists
+an accepting transcript (a, m, z). When the commitment parameters (g, h, gr, hr) are established by HTGen, then
+knowledge of r (the trapdoor) allows one to send a commitment a that can later be opened as any possible message
+m. This is because, by running the prover algorithm of the Σ-protocol on input r (as witness) and m (as challenge),
+it is always possible to ﬁnd a z such that (a, m, z) is an accepting transcript. In this a commitment computed and
+opened by means of the trapdoor is statistically indistinguishable from the one that is honestly computed and opened
+and therefore, is indistinguishable even if the receiver knows the trapdoor. This means that, standard hybrid arguments
+show that the security is preserved for any polynomial number of commitments. The efﬁciency of this commitment
+scheme directly follows from the efﬁciency of the considered Σ-protocol.
+□
+Other efﬁcient implementations based on Paillier’s Decisional Composite Residuosity Assumption [60] enjoy also
+the extractability property and can be found in Appendix C.
+A construction for hybrid multi-trapdoor (resp., simulation-sound trapdoor) commitment schemes may seem, at
+ﬁrst, much harder to achieve. After all, multi-trapdoor commitments need more complex parameters (with respect
+to basic trapdoor ones) and, to have a hybrid version of them, we need to make sure that these parameters remain
+distributed in such a way that it should be hard to say which of the two commitment generation algorithms was used
+to produce them.
+Informally, we solve this problem by composing a multi-trapdoor (resp., simulation-sound trapdoor) commitment
+scheme with a hybrid trapdoor commitment scheme as those described so far. The composition is made by considering
+the concatenation of both commitment parameters. Moreover all the operations made by the committing and
+decommitting algorithms are performed twice, once for each subscheme. Intuitively, using this technique, when
+a multi-trapdoor (resp., simulation-sound trapdoor) commitment scheme is composed with the hybrid trapdoor
+commitment scheme instantiated as a trapdoor commitment scheme, the resulting scheme is still a multi-trapdoor
+1 Note that, even though such a z is guaranteed to exist, B may not be able to efﬁciently compute it. This is not a problem for our proof as all
+that we need is to make sure that such a z actually exists.
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+241
+(resp., simulation-sound trapdoor) commitment scheme. On the other hand, if the hybrid trapdoor commitment scheme
+is instantiated as an unconditionally binding commitment scheme, then the resulting scheme is unconditionally
+binding. By the indistinguishability of the commitment parameters of the two instantiations we obtain the desired
+result.
+More formally, we prove the following theorems.
+Theorem 3.3. Under the assumption that multi-trapdoor commitment schemes exist there exists a hybrid multi-
+trapdoor commitment scheme.
+Proof. First of all, the existence of multi-trapdoor commitment schemes implies the existence of one-way functions
+and therefore by Theorem 3.1 implies the existence of hybrid trapdoor commitment schemes.
+Let C0 = (Gen, Sel, Tkg, Com, TCom, TDec, Ver) and C1 = (HGen, HTGen, HCom, HTCom, HTDec, HVer) be
+respectively a multi-trapdoor commitment scheme and a hybrid trapdoor commitment scheme.
+We now show a construction of C = (HGen′, HTGen′, HSel′, HTkg′, HCom′, HTCom′, HTDec′, HVer′) which is a
+hybrid multi-trapdoor commitment scheme.
+HGen′(1k) outputs crs = PK0 ◦crs1 where (PK0, TK0) is the output of Gen(1k) and crs1 is the output of HGen(1k).
+HTGen′(1k) outputs (crs = PK0 ◦crs1, aux = (TK0, aux1)) where (PK0, TK0) is the output of Gen(1k) and
+(crs1, aux1) is the output of HTGen(1k).
+HSel′(crs = PK0 ◦crs1) outputs pk = (pk0, crs1) where pk0 is the output of Sel(PK0).
+HTkg′(aux = (TK0, aux1), pk) outputs tk = (tk0, aux1) where tk0 is the output of Tkg(TK0, pk).
+HCom′(pk = pk0 ◦crs1, v) outputs (com = (com0, com1), dec = (dec0, dec1)) where (com0, dec0) is the output
+of Com(pk0, v) and (com1, dec1) is the output of HCom(crs1, v).
+HTCom′(tk
+=
+(tk0, aux1), v) outputs (com
+=
+(com0, com1), auxcom
+=
+(auxcom0, auxcom1)) where
+(com0, auxcom0) is the output of TCom(tk0) and (com1, auxcom1) is the output of HTCom(aux1).
+HTDec′(auxcom = (auxcom0, auxcom1), v′) outputs dec′ = (dec′
+0, dec′
+1) where dec′
+0 and dec′
+1 are respectively
+the output of TDec(auxcom0, v′) and the output of HTDec(auxcom1, v′).
+HVer′(pk = pk0 ◦crs1, com = (com0, com1), dec = (dec0, dec1), v) outputs a bit b = (b0 ∧b1) where
+Ver(pk0, com0, dec0, v) = b0 and HVer(crs1, com1, dec1, v) = b1.
+Efﬁciency and completeness are straightforward.
+Multi-trapdoorness. Now we prove that (HTGen′, HSel′, HTkg′, HCom′, HTCom′, HTDec′, HVer′) is a multi-trapdoor
+commitment scheme. In particular we have to prove the following properties: multi-trapdoorness, hiding and binding.
+To prove that the given scheme is a multi-trapdoor one, we assume that there exists an adversary A that breaks the
+multi-trapdoor property with some (non-negligible) advantage µ. Then we show how to build an efﬁcient algorithm
+B which uses A to break either the multi-trapdoorness of C0 or the trapdoorness of C1. We consider the following
+games:
+Game G0: A commitment on a message m is generated by concatenating a commitment generated using the function
+Com (i.e., the commitment function of C0) and a commitment generated using HCom (i.e., the commitment
+function of C1).
+Game G1: A commitment on a message m is generated by concatenating a commitment generated using Com and a
+commitment generated using the function HTCom (i.e., the equivocation function of C1).
+Game G2: A commitment on a message m is generated by concatenating a commitment generated using the function
+TCom (i.e., the equivocation function of C0) and a commitment generated using HTCom.
+We deﬁne Pi (i = 0, 1, 2) as the probability that A succeeds in game Gi. Since we are assuming that A has a
+(non-negligible) advantage µ in breaking the multi-trapdoorness property of C, we have that
+µ = |P0 −P2| ≤|P0 −P1| + |P1 −P2|
+Thus either |P0 −P1| or |P1 −P2| has to be non-negligible.
+In what follows we focus on the simpler case in which the adversary asks one commitment only. The more general
+case in which A may ask polynomially many commitments goes as discussed in the proof of Theorem 3.1.
+If |P0 −P1| is non-negligible, we proceed as follows. B receives on input, from a challenging oracle OM the public
+parameters for a multi-trapdoor commitment scheme C0 and uses A to break the multi-trapdoorness property of C0 as
+242
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+follows. First it runs the HGen algorithm to generate a hybrid trapdoor commitment scheme C1 (for which, of course it
+will know the trapdoor to equivocate). Next it chooses a random message m and asks OM to commit to it. The oracle
+works as follows. On input m it ﬂips a random bit b and, if b = 0 it commits to m using the function Com, otherwise it
+commits to m using the function TCom (in fact, in this latter case B would commit to nothing). In both cases the oracle
+outputs the commitment com, and the corresponding decommitment dec for m. Next B commits to m using HCom
+and outputs the composition of the two commitments (i.e., the one received from the oracle and the one it produced).
+Clearly if A on input m, the received commitment and the corresponding decommitment, has some non-negligible
+advantage in guessing if it is playing game G0 or game G1, this can be used here to guess b with non-negligible
+advantage (and then to break the multi-trapdoorness property of C0).
+If |P1 −P2| is non-negligible, B receives on input, from a challenging oracle Oh the public parameters for a hybrid
+trapdoor commitment scheme C1 and uses A to break the trapdoorness property of C1 as follows. First it runs the Gen
+algorithm to generate a multi-trapdoor commitment scheme C0. Next it chooses a random message m and asks Oh to
+either produce a commitment on m using HCom or using HTCom (according to a hidden bit b). Let com∗, dec∗be the
+commitment and decommitment returned by the oracle. Next B commits to m using TCom and outputs the composition
+of the two commitments (i.e., the one received from the oracle and the one it produced) and the two decommitments.
+Once again, if A on input m, the commitment and decommitment, has some non-negligible advantage in guessing if
+it is playing game G1 or game G2 this can be used to guess b with non-negligible advantage (and then to break the
+trapdoorness property of C1).
+The hiding property can be proved similarly. Assume that we have an adversary A that breaks the hiding property
+of C; we show here how to use it to break the hiding property of either C0 or C1. We consider the following games
+based on two messages m1, m0 (such that m0 ̸= m1 and |m0| = |m1|).
+Game G0: A commitment on the message m0 is generated by concatenating a commitment (to m0) generated using
+the function Com (i.e., the commitment function of C0) and a commitment generated using HCom (i.e., the
+commitment function of C1).
+Game G1: A commitment is generated by concatenating a commitment to m0 generated using the function Com and
+a commitment to m1 generated using HTCom.
+Game G2: A commitment on the message m1 is generated by concatenating a commitment generated using the
+function TCom and a commitment generated using HTCom.
+The rest proceeds exactly as for the multi-trapdoorness property.
+The binding property, on the other hand, can be reduced to the binding property of the multi-trapdoor commitment
+scheme only. More precisely we prove that if there is an attacker A for this property then it can be used to construct
+an efﬁcient algorithm B that breaks the binding property of the underlying multi-trapdoor commitment scheme.
+B goes as follows. It receives on input the public parameters for the multi-trapdoor commitment scheme C0 and
+it generates a hybrid trapdoor commitment scheme C1. Finally it sets C = C0 ◦C1 as the hybrid multi-trapdoor
+commitment scheme. Note that, by these positions, the public parameters of C1 are totally independent with respect
+to those of C0. This is crucial for our proof to go through correctly.
+Now whenever A asks for an equivocation for some key pki, B “transforms” pki into a valid public key pk′
+i for
+C0 and asks a similar question of equivocation oracle for the multi-trapdoor commitment scheme. Once it gets back
+an answer a, it creates a fake commitment a′ for C1 using its own trapdoor and sends a ◦a′ to A. If A produces an
+equivocation on a previously unasked key, B can easily use it to break the binding property of C0 in an obvious way.
+Hybridness. The commitment parameters have two different distributions that only depend on the generation
+algorithm of the hybrid trapdoor commitment subscheme. Therefore, a distinguisher of the two distributions of the
+commitment parameters generated by our scheme can be easily reduced to a distinguisher of the distributions of the
+commitment parameters generated by the hybrid trapdoor commitment subscheme used in the construction.
+Remark. Algorithms HGen and HTGen run on input the same security parameter 1k and obviously each of them
+uses a different randomness. Notice that this is required by our construction of hybrid multi-trapdoor commitment
+schemes. Indeed, if the master trapdoor of the multi-trapdoor commitment subscheme and the trapdoor of the hybrid
+trapdoor commitment subscheme are related, the binding of the resulting hybrid multi-trapdoor commitment scheme
+could not hold anymore. This is due to the game played by the adversary of the binding property that by means of
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+243
+a polynomial number of accesses to a decommitting oracle, could compute from two different openings of the same
+commitment, the trapdoor of the hybrid trapdoor commitment subscheme. Obviously, if this trapdoor is related to the
+master trapdoor of the multi-trapdoor commitment subscheme or even to a local trapdoor not used during the queries
+to the oracle, the adversary violates the binding of the scheme.
+□
+Note that, with the theorem above, we show how to construct hybrid multi-trapdoor commitments from the
+hypothesis that multi-trapdoor commitments exist. We also show that multi-trapdoor commitments exist iff secure
+signature against generic chosen message attack exist (see Appendix D for further discussions about these objects).
+Notice that one-way functions are equivalent to secure signatures [67] in the sense of [49], which, in turn, imply
+secure signatures against generic chosen message attack exist. This means that Theorem 3.3 can be restated as follows.
+Theorem 3.4. Under the assumption that one-way functions exist, there exists a hybrid multi-trapdoor commitment
+scheme.
+As for the case of hybrid trapdoor commitments we brieﬂy discuss some efﬁcient implementations based on number
+theoretic assumptions. These constructions can be obtained straightforwardly from the two efﬁcient multi-trapdoor
+commitment schemes presented in [44] (the reader is referred to [44] for more details). In particular, the ﬁrst relies
+on the strong RSA assumption and on the decisional Difﬁe–Hellman assumption. The second implementation can
+be shown to be secure under the strong Difﬁe–Hellman assumption and, again, on the decisional Difﬁe–Hellman
+assumption. The reader is referred to Appendix A for a discussion about the strong RSA assumption and the strong
+Difﬁe–Hellman assumption.
+Theorem 3.5. Under the assumption that the strong RSA and DDH problems are hard (or under the assumption
+that the strong Difﬁe–Hellman [9] and DDH problems are hard), there exists an efﬁcient hybrid multi-trapdoor
+commitment scheme.
+Proof. The construction of a hybrid multi-trapdoor commitment scheme given in the proof of Theorem 3.3 used a
+modular composition of a multi-trapdoor commitment scheme and a hybrid trapdoor commitment scheme. Therefore,
+by using the results of [44] (see the full version at [43]) and Theorem 3.2 the claim holds.
+□
+Theorem 3.6. Under the assumption that one-way functions exist, there exists a hybrid simulation-sound trapdoor
+commitment scheme.
+Proof. Let C0 = (Gen, Com, TCom, TDec, Ver) be the simulation-sound trapdoor commitment scheme presented
+in [55] that is based on the existence of a one-way function f . By Theorem 3.1 the existence of f implies the
+existence of a hybrid trapdoor commitment scheme C1 = (HGen, HTGen, HCom, HTCom, HTDec, HVer). We use both
+C0 and C1 to construct C = (HGen′, HTGen′, HCom′, HTCom′, HTDec′, HVer′) which is a hybrid simulation-sound
+trapdoor commitment scheme.
+HGen′(1k) outputs (crs = crs0 ◦crs1) where crs0 is the output of Gen(1k) and crs1 is the output of HGen(1k).
+HTGen′(1k) outputs (crs = crs0 ◦crs1, aux = (aux0, aux1) where (crs0, aux0) is the output of Gen(1k) and
+(crs1, aux1) is the output of HTGen(1k).
+HCom′(crs, v, tag) outputs (com = (com0, com1), dec = (dec0, dec1)) where (com0, dec0) is the output of
+Com(crs0, v, tag) and (com1, dec1) is the output of HCom(crs1, v).
+HTCom′(crs
+=
+crs0 ◦crs1, aux
+=
+(aux0, aux1), v, tag) outputs (com
+=
+(com0, com1), auxcom
+=
+(auxcom0, auxcom1)) where (com0, auxcom0) is the output of TCom(aux0, v, tag) and (com1, auxcom1) is the output
+of HTCom(aux1, v).
+HTDec′(auxcom = (auxcom0, auxcom1), com = (com0, com1), v, tag) outputs dec = (dec0, dec1) where dec0
+is the output of TDec(auxcom0, v, tag) and dec1 is the output of HTDec(auxcom1, v).
+HVer′(crs = crs0 ◦crs1, com = (com0, com1), dec = (dec0, dec1), v, tag) outputs a bit b = (b0 ∧b1) where
+Ver(crs0, com0, dec0, v, tag) = b0 and HVer(crs1, com1, dec1, v) = b1.
+The proof of this theorem follows the one for Theorem 3.3.
+Efﬁciency and completeness are straightforward.
+244
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+Simulation soundness. Now we prove that (HTGen′, HCom′, HTCom′, HTDec′, HVer′) is a simulation-sound trapdoor
+commitment scheme. In other words we have to prove that:
+1. (HTGen′, HCom′, HTCom′, HTDec′, HVer′) is a tag-based trapdoor commitment scheme;
+2. the simulation-sound binding property holds.
+To prove the ﬁrst statement we start by showing that given (crs, aux) ←HTGen′(1k) then the two distributions
+{(com, dec) ←HCom′(crs, v) : (crs, com, dec, v)}
+and
+{(com′, auxcom′) ←HTCom′(aux); dec′ ←HTDec′(auxcom′, v) : (crs, com′, dec′, v)}
+are computationally indistinguishable.
+The following proof is, mutatis mutandis, the same as the one given to prove the multi-trapdoorness property of
+the scheme presented in Theorem 3.3. Thus, here we skip some obvious details already discussed there.
+Assume, for the sake of contradiction, that this does not hold, than we show that either C0 or C1 can not be a
+trapdoor commitment scheme. We consider the following games
+Game G0: A commitment (with respect to tag tag) on a message m is generated by concatenating a commitment
+generated using the function Com (i.e., the commitment function of C0) and a commitment generated using
+HCom (i.e., the commitment function of C1).
+Game G1: A commitment (with respect to tag tag) on a message m is generated by concatenating a commitment
+generated using the function TCom (i.e., the equivocation function of C0) and a commitment generated using
+HCom.
+Game G2: A commitment on a message m (with respect to tag tag) is generated by concatenating a commitment
+generated using the function TCom and a commitment generated using HTCom (i.e., the equivocation function
+of C1).
+We deﬁne Pi (i = 0, 1, 2) as the probability that A (i.e., the adversary that is assumed to break the trapdoorness
+property of C) succeeds in game Gi. Since we are assuming that A has a (non-negligible) advantage µ in breaking
+the simulation-soundness property of C, we have that
+µ = |P0 −P2| ≤|P0 −P1| + |P1 −P2|.
+Thus either |P0 −P1| or |P1 −P2| has to be non-negligible.
+In the former case we proceed as follows. We construct an algorithm B that receives on input, from a challenging
+oracle OSS the public parameters for a simulation sound trapdoor commitment scheme C0 and uses A to break the
+trapdoor property of C0 as follows. First it runs the HTGen algorithm to generate a hybrid trapdoor commitment
+scheme C1. Next it chooses a random message m and asks OSS to commit to it. The oracle works as follows. On input
+m it ﬂips a random bit b and, if b = 0 it commits to m using the function Com, otherwise it commits using the function
+TCom. In both cases, the oracle outputs the computed commitment along with the corresponding decommitment to m.
+Next B commits to m using HCom and outputs the composition of the two commitments (i.e., the one received from
+the oracle and the one it produced) and of the two decommitments. Clearly if A has some non-negligible advantage
+in guessing if it is playing game G0 or game G1 this can be used here to guess b with non-negligible advantage (and
+then to break the trapdoorness property of C0).
+A similar argument can be done for the case on which |P1 −P2| is non-negligible.
+The hiding property can be proved similarly. Assume that we have an adversary A that breaks the hiding property
+of C; we show how to use it to break the hiding property of either C0 or C1. The rest of the proof goes exactly as for
+the case of the hiding property for the multi-trapdoor commitment scheme discussed in the proof of Theorem 3.3.
+The binding property can be proved exactly as we proved the binding property for the multi-trapdoor commitment
+scheme of Theorem 3.3.
+It remains to prove the second statement, i.e., that the simulation sound binding property holds. We prove this by
+showing that if there exists an adversary A that breaks the simulation sound binding property of C, it can be used, by
+an algorithm B, to break the same property of C0. B goes as follows. On a preliminary phase B runs a key generation
+algorithm to generate a hybrid trapdoor commitment scheme C1. Then it receives as input, from a challenging oracle
+OSSTC, the public parameters for a simulation sound trapdoor commitment scheme C0 and generates C as described
+in the very ﬁrst part of the proof of this theorem.
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+245
+Whenever A asks an equivocation query on C, B asks for a corresponding equivocation query on C0 to the oracle
+OSSTC and uses the received answer to produce a valid equivocation for C. Thus if A breaks the simulation-sound
+binding property of C, this immediately leads B to break the simulation-sound binding property of C1.
+Hybridness. The commitment parameters have two different distributions that only depend on the generation
+algorithm of the hybrid trapdoor commitment subscheme. Therefore, a distinguisher of the two distributions of the
+commitment parameters generated by our scheme can be easily reduced to a distinguisher of the distributions of the
+commitment parameters generated by hybrid trapdoor commitment subscheme used in the construction.
+□
+Theorem 3.7. Under the assumption that the DSA signature scheme is secure and the DDH problem is hard (or under
+the assumption that the Cramer–Shoup signature scheme [25] is secure and the DDH problem is hard), there exists
+an efﬁcient hybrid simulation-sound trapdoor commitment scheme.
+Proof. The construction of a hybrid simulation-sound trapdoor commitment scheme given in the proof of Theorem 3.6
+used a modular composition of a simulation-sound trapdoor commitment scheme and a hybrid trapdoor commitment
+scheme. Therefore, by using the results of [55] and Theorem 3.2 the claim holds.
+□
+4. Hybrid trapdoor commitments: Applications
+In this section we describe some important applications of our primitive. In particular we show that hybrid trapdoor
+commitments can be used to construct interactive protocols that achieve strong notions of zero knowledge. More
+precisely we improve the computational soundness of the concurrent zero-knowledge arguments of [29], and of both
+the simulation-sound and left-concurrent non-malleable zero-knowledge arguments of [44,55] by showing how to
+achieve zero-knowledge proofs (rather than only arguments). Therefore the security of our constructions holds even
+against computationally unbounded adversarial provers. Moreover, our zero-knowledge proofs can be based on the
+same complexity-theoretic assumptions as used in [29,44,55]. The efﬁcient constructions also require the hardness of
+the DDH problem.
+4.1. Background
+The classical notion of a zero-knowledge proof system has been introduced in [48]. Roughly speaking, in a zero-
+knowledge proof system a prover can prove to a veriﬁer the validity of a statement without releasing any additional
+information. Since its introduction, the concept of a zero-knowledge proof system and the simulation paradigm have
+been widely used to prove the security of many protocols.
+Concurrent zero knowledge. The notion of concurrent zero knowledge [35] formalizes security in a scenario
+in which several veriﬁers access concurrently a prover and maliciously coordinate their actions so as to extract
+information from the prover. In [15] it has been shown that in the black-box model ˜Ω(log n) rounds are necessary
+for concurrent zero knowledge for non-trivial languages. The ﬁrst concurrent zero-knowledge proof system for NP
+has been given by [65] that showed that O(nϵ) rounds are sufﬁcient for any ϵ > 0. Poly-logarithmic round-complexity
+was achieved in [52] and, ﬁnally, in [64] it is shown that ˜O(log n) rounds are sufﬁcient. The proof systems presented
+in [65,52,64] are black-box zero knowledge and the round-complexity of the proof system of [64] is almost optimal
+in view of the lower bound proved in [15]. Thus unlike the stand-alone case, black-box concurrent zero knowledge
+can not be achieved in a constant number of rounds.
+Different models have been presented in which round-efﬁcient black-box concurrent zero knowledge is possible.
+In [35,36,45] constant-round concurrent zero-knowledge proof systems have been presented by relaxing the
+asynchrony of the model or the zero-knowledge property. In [29,8], constant-round concurrent zero-knowledge proof
+systems have been presented assuming the existence of a common reference string or a shared random string (i.e., a
+trusted third party) while in [33,70] a constant-round concurrent zero-knowledge with concurrent soundness argument
+system is shown by assuming that there exists a public repository that contains the public keys of the veriﬁers. In [63]
+an almost constant-round concurrent zero-knowledge argument systems is presented by assuming the existence of
+only one stateful prover. Furthermore, Pass [61] gave a constant-round concurrent zero-knowledge argument with a
+super-polynomial-time simulator. In [1], Barak presented a non-black-box constant-round bounded-concurrent zero-
+knowledge argument system. The construction of [1] assumes that the maximum number of concurrent sessions is
+known in advance.
+246
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+Simulation-sound zero knowledge. Simulation-sound zero knowledge has been introduced in [68] for the purpose
+of constructing cryptosystems secure against adaptive chosen-ciphertext attacks. This concept is related to the concept
+of non-malleability introduced in [34]. Indeed, both notions deal with an adversary (called the man-in-the-middle) that
+simultaneously participates in many executions of a proof systems and acts as a prover in some of them and as a veriﬁer
+in the other ones. The adversary has complete control over the scheduling of the messages in the executions of the
+protocols. Informally, a zero-knowledge proof system is said to be concurrent simulation sound if the information that
+the man-in-the-middle adversary collects as a veriﬁer from concurrent sessions played with a simulated prover does
+not help him to prove a false statement. Here the man-in-the-middle can choose to see simulated proofs of true and
+false statements.
+Simulation-sound zero knowledge plays an important role for proving the security of protocols. Indeed, when the
+simulation paradigm is used to prove the security of a protocol, the simulator could, in some cases, need to simulate
+the proof of a false statement. Here simulation soundness is crucial since the adversary could gain knowledge from
+such a proof in order to prove a false statement in another protocol.
+4.2. Deﬁnitions
+Notation. We use the same notation as [55,54]. Let A and B be two interactive algorithms, we deﬁne ⟨A, B⟩crs(x)
+as the local output of B after an interactive execution with A using crs as common reference string. The transcript of
+an algorithm is the pair composed by its input and output. Two transcripts match if the ordered input messages of the
+ﬁrst are equivalent to the ordered output of the other, and vice versa. We use the notation tr ▷◁tr′ to indicate that tr
+matches tr′. Moreover we denote by A a wrapper algorithm that handles concurrent interactions of A. More precisely,
+A can receive two types of input:
+1. (START, α, x, w). For this input the wrapper starts a new (interactive) session of A, with label α, common input x,
+(freshly generated) randomness r and private input w. We require that the new machine uses the common reference
+of A.
+2. (MSG, α, m). For this input the wrapper sends m to the interactive machine labeled with α (if such a machine
+exists) and outputs the output message of that machine.
+We denote by (x, tr, b) the output of A where x is the common input, tr the transcript of the sessions (input and
+output messages) and b the output. We say that B and C are coordinated if they have a single control, but distinct
+inputs and outputs. Given four interactive algorithms A, B, C and D we denote by (⟨A, B⟩, ⟨C, D⟩)crs the output of
+D after an interactive execution with C and an interactive execution of A and B, all using crs as a common reference
+string.
+Deﬁnition 4.1 (Unbounded Zero Knowledge Proofs). Let L be an NP-language, G, P, V, S0, S1 be probabilistic
+polynomial-time algorithms. We say that Π = (G, P, V, S = (S0, S1)) is an unbounded concurrent zero-knowledge
+proof system in the common reference string model for L, if:
+– completeness: for every x ∈L where |x| = POLY(k), all w such that RL(x, w) = 1 there exists a negligible
+function ν such that
+Prob(crs ←G(1k) : ⟨P(w), V ⟩(crs)(x) = 0) ≤ν(k);
+– soundness: for any unbounded algorithm P⋆there exists a negligible function ν such that for any x ̸∈L,
+Prob(crs ←HGen(1k); ⟨P⋆, V ⟩(crs)(x) = 1) ≤ν(k);
+– unbounded concurrent zero knowledge: for any polynomial-time adversarial veriﬁer V ⋆there exists a negligible
+function ν such that
+|Prob(ExptV ⋆(k) = 1) −Prob(ExptS
+V ⋆(k) = 1)| ≤ν(k)
+where the experiments ExptV ⋆(k) and ExptS
+V ⋆(k) are deﬁned as follows:
+ExptV ⋆(k):
+ExptS
+V ⋆(k) :
+crs ←G(1k)
+(crs, aux) ←S0(1k)
+return⟨P, V ⋆⟩crs
+return⟨S′(aux), V ⋆⟩crs
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+247
+where S′(aux) on input a common reference string crs, common input x and private input w, computes
+b = RL(x, w) and then if b = 1 he runs S1(aux, x), otherwise he aborts (we assume that a prover on input a
+bad witness aborts as well).
+Notice that, in the deﬁnition above, S1 is required to simulate only valid proofs. This is realized by having S′ access
+the witness for the given statement and executing S1 only if the witness is valid. Thus, S1 does not know the witness
+and has to simulate a valid proof from x only. This approach assumes that (as previously speciﬁed in [68,55]), for the
+case in which the statements are adaptively chosen by the adversary, the latter has to supply a witness to the prover
+(and thus to S′). This is because the prover here is restricted to probabilistic polynomial time, and then may not be
+able to generate witnesses by himself. As argued by Sahai [68], this seems to capture the correct notion of unbounded
+zero knowledge. In particular, this requirement does not allow A to test membership in L. This is because, intuitively,
+the adversary can produce valid witnesses and test their truthfulness only for statements of its own choice.
+Deﬁnition 4.2 (Unbounded Simulation-Sound Zero-Knowledge Proofs). Let L be an NP-language and G, P, V, S0,
+S1 be probabilistic polynomial-time algorithms. We say that Π = (G, P, V, S = (S0, S1)) is an unbounded simulation-
+sound zero-knowledge proof system in the common reference string model for L, if there exists a negligible function
+ν such that for all k it holds that:
+– unbounded concurrent zero knowledge: Π is an unbounded concurrent zero-knowledge proof system for L;
+– unbounded simulation soundness: for any polynomial-time adversary A = (A0, A1), where A0 and A1 are
+coordinated there exists a negligible function ν such that Prob(ExptA(k) = 1) ≤ν(k) where the experiment
+ExptA(k) is deﬁned as follows:
+ExptA(k):
+(crs, aux) ←S0(1k)
+(x, tr, b) ←(⟨S1(aux), A0⟩, ⟨A1, V ⟩)crs
+Let Q be the set of the transcripts of S1(aux)
+return 1 if and only if b = 1, x ̸∈L and for all tr′ ∈Q tr ̸▷◁tr′.
+Notice that since S′′ does not check whether there is a witness for x ∈L. S1 potentially simulates both true and
+false proofs.
+4.3. Concurrent zero-knowledge proof systems
+In [29], three-round concurrent zero-knowledge arguments in the common reference string model are presented.
+More precisely Damg˚ard [29] presents a general protocol based on the existence of one-way functions only and an
+efﬁcient implementation based on number-theoretic assumptions. In this section we improve on this result by showing
+(constructively) the existence of three-round concurrent zero-knowledge proof (in contrast to argument) systems in
+the common reference string model. The ﬁrst construction needs the sole assumption that one-way functions exist,
+while the second, more efﬁcient, construction relies on the decisional Difﬁe–Hellman assumption. Interestingly both
+constructions hold in the shared random string model as well.
+In our construction we consider unbounded black-box zero-knowledge proof systems with a non-rewinding
+simulator (which, consequently, is also concurrent zero knowledge).
+Theorem 4.3. If one-way functions exist, there exists a three-round concurrent zero-knowledge proof system in the
+common reference string model for any NP language.
+Proof. Consider the language for graph Hamiltonicity and the Σ-protocol by Blum [7] based on the existence of
+one-way functions (see Section B). We consider the following common reference string crs = crs0 ◦crs1 where
+crs0 corresponds to the ﬁrst message of Naor’s commitment scheme while crs1 corresponds to the commitment
+parameters of a hybrid trapdoor commitment scheme HTCS= (HGen, HTGen, HCom, HTCom, HTDec, HVer) based on
+the existence of one-way functions only.
+The prover P runs the prover algorithm of Blum’s Σ-protocol to obtain the ﬁrst message a. Then P uses HTCS
+(and in particular HCom) to commit to a, i.e., it computes (com, dec) – that are, respectively, the commitment and
+decommitment of a – and it sends com to the veriﬁer V .
+248
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+V replies with a challenge c (as in Blum’s Σ-protocol).
+P runs again the prover algorithm of Blum’s Σ-protocol to compute the last message z and sends (a, dec, z) to the
+veriﬁer. Finally, if HVer(crs1, com, dec, a) = 1 and (crs0, a, c, z) is an accepting transcript (for Blum’s Σ-protocol),
+the veriﬁer accepts the proof.
+Completeness is straightforward.
+Soundness follows from the fact that when the prover and the veriﬁer interact, the reference string speciﬁes an
+unconditionally binding commitment scheme, therefore the proof of soundness proceeds exactly as the one for Blum’s
+Σ-protocol that holds against any unbounded adversarial prover.
+To prove that the protocol is concurrent zero knowledge we describe a simulator S = (S0, S1) that works as follows.
+S0 computes crs′ = crs′
+0 ◦crs′
+1 where crs′
+0 is the output of algorithm receiver of Naor’s commitment scheme
+and crs′
+1 is computed by running algorithm HTGen. Recall that HTGen returns a trapdoor aux as auxiliary output. This
+trapdoor will be used later by S1. Note that, in this case, the string crs′
+1 speciﬁes a trapdoor commitment scheme.
+Once the common reference string is generated, S1 runs the ﬁrst round of the prover algorithm of Blum’s Σ-
+protocol2 and computes a. Next S1 runs HTCom (with commitment parameters crs′
+1 and trapdoor aux) and obtains
+back the pair (com, dec) corresponding to the committing and decommitting keys of a commitment of junk bits. S1
+proceeds by sending com to the veriﬁer V ⋆and waits for V ⋆to send a challenge c′.
+Once c′ is received, S1 runs the simulator corresponding to the special honest-veriﬁer zero-knowledge property of
+Blum’s Σ-protocol, on input crs′
+0 and c′. S1 obtains a pair a′, z′ such that (crs′
+0, a′, c′, z′) is an accepting transcript
+for the veriﬁer of Blum’s protocol. S1 runs algorithm HTDec by using the trapdoor aux in order to open com as a′ and
+outputs decommitting key dec′. Finally S1 sends to V ⋆the last message (a′, dec′, z′).
+We can now focus on the difference between the concurrent proofs given by the simulator with respect to the ones
+given by the honest prover. We consider the following games.
+Game G0: this game corresponds to an execution of the honest prover.
+Game G1: the only difference from game G0 is that here the reference string is generated using the simulator.
+Game G2: the only difference from game G1 is that now the prover uses the cheating committing and decommitting
+algorithms HTCom, HTDec instead of the honest one HCom.
+Game G3: this game corresponds to an execution of the simulator and the the only difference from game G2 is that
+now the prover uses the simulator of the special honest-veriﬁer zero-knowledge property.
+Standard hybrid arguments can be used to show that the two distributions are computationally indistinguishable.
+First of all, game G0 and game G1 are not distinguishable since otherwise the hybridness property of the hybrid
+trapdoor commitment scheme is contradicted. Game G1 and game G2 are not distinguishable since otherwise the
+trapdoorness of the trapdoor commitment scheme that is part of the hybrid trapdoor commitment scheme can be
+easily contradicted (notice that this holds even in the presence of any polynomial number of commitments, moreover
+we proved the indistinguishability of our commitments even with respect to adaptive adversarial receivers). Finally,
+game G2 and game G3 are not distinguishable since the special honest veriﬁer zero-knowledge property of the Blum
+Σ-protocol works for any possible challenge (thus even for adaptively chosen challenges) and is known to be preserved
+even in the case of concurrent executions.
+□
+Notice that the reference string used in the proof of Theorem 4.3 is uniformly distributed. Thus we have the
+following corollary.
+Corollary 4.4. If one-way functions exist, there exists a three-round concurrent zero-knowledge proof system in the
+shared random string model for any NP language.
+Theorem 4.5. Given an NP language L that admits an efﬁcient Σ-protocol, then under the DDH assumption there
+exists a three-round concurrent zero-knowledge proof system in the common reference string model for L.
+Proof. The proof follows the one of Theorem 4.3, however in this case we can use the efﬁcient DDH-based hybrid
+trapdoor commitment scheme described in Theorem 3.2 and an unconditionally binding commitment scheme based
+on the DDH assumption (e.g., the one proposed in [56]).
+□
+2 In this round the prover does not use the witness.
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+249
+Notice that the reference string used in the proof of Theorem 4.5 is uniformly distributed. Thus we have the
+following corollary.
+Corollary 4.6. Given an NP language L that admits an efﬁcient Σ-protocol, then under the DDH assumption there
+exists a three-round concurrent zero-knowledge proof system in the shared random string model for L.
+4.4. Simulation-sound zero knowledge
+The notion of simulation soundness has been used for the design of many secure cryptographic primitives (see for
+instance [68,62]). Informally, a proof system is simulation sound if an adversary that plays the role of veriﬁer when
+the proofs are simulated for both true and false instances, is not able to play as a prover another session of the protocol
+in which he convinces an honest veriﬁer of a false statement.
+In [55], MacKenzie and Yang proposed three-round unbounded simulation-sound zero-knowledge argument
+systems in the common reference string model, in particular their arguments use simulation-sound trapdoor
+commitment schemes, therefore they obtain efﬁcient argument systems based on the security of DSA [58] or the
+Cramer–Shoup [25] signature schemes and argument systems based on the existence of one-way functions.
+As already discussed in Section 1.1, the multi-trapdoor commitments presented in [44] allow for more efﬁcient
+constructions of unbounded simulation-sound zero-knowledge argument systems.
+In this section we extend their results by showing the existence (constructively) of three-round unbounded
+simulation-sound zero-knowledge proof (in contrast to argument) systems in the common reference string model.
+We can achieve this result either by using hybrid simulation-sound trapdoor commitments instead of non-hybrid
+simulation-sound trapdoor commitments in the construction of [55] or by using hybrid multi-trapdoor commitments
+instead of non-hybrid multi-trapdoor commitments in the construction of [44].
+For each of these two results we give a ﬁrst construction that needs the sole assumption that one-way functions
+exist. Then we give a more efﬁcient second construction that requires (on top of the assumptions described for the
+efﬁcient constructions of [55] and [44]) the decisional Difﬁe–Hellman assumption.
+Theorem 4.7. If one-way functions exist, there exists a three-round unbounded simulation-sound zero-knowledge
+proof system in the common reference string model for any NP language.
+Proof. Given any one-way function, we know by Theorem 3.6 that there exists (constructively) a hybrid simulation-
+sound trapdoor commitment scheme HSSTCS. The basic idea of this proof is then to plug HSSTCS (rather than
+an SSTC) in the construction of [55] (see Fig. 2 of [54]). Now we show that this allows us to obtain a three-round
+unbounded simulation-sound zero-knowledge proof system in the common reference string model (rather than an
+argument as in [55]).
+Completeness. This property follows directly by inspection.
+(Classical) soundness. The ﬁrst part of the common reference string is generated by HGen, thus when the prover P
+runs the protocol to compute a commitment of a (where, again, a is the ﬁrst message of the underlying Σ-protocol)
+he actually uses an unconditionally binding commitment scheme. This means that even an unbounded prover can not
+later open the commitment with a message a′ ̸= a. Indeed suppose that P⋆succeeds in proving a false statement
+with some non-negligible probability p. Let (a, c, z) be the transcript of the corresponding Σ-protocol and let coma
+be the commitment that has been opened as a commitment of a. Now since we are dealing with a Σ-protocol we
+can run an extractor that, having black-box access to P⋆, obtains another accepting transcript (a′, c′, z′) which is still
+valid with respect to the commitment coma. Notice that such an extractor succeeds in polynomial time because p is
+non-negligible and the challenges are chosen uniformly and at random. Thus the statement being false, it has to be the
+case that a′ ̸= a otherwise, by the special-soundness property of the Σ-protocol, we would obtain a witness for a false
+statement (and this is a contradiction). However, the fact that a′ ̸= a and both correspond to the same commitment
+coma violates the unconditional binding of the commitment scheme instantiated by HGen.
+Unbounded concurrent zero knowledge. The simulator uses HTGen to generate the reference string and uses the
+corresponding trapdoor to generate a straight-line simulation. The output of the simulator (that runs only on input true
+250
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+statements) and the output of a real interaction between a prover and an adversarial veriﬁer V ⋆have the following
+differences:
+1. the reference string is generated by HTGen instead of HGen;
+2. the simulator uses HTCom and HTDec instead of HCom;
+3. the simulator uses the special honest-veriﬁer zero-knowledge property of the Σ-protocol instead of the prover
+algorithm of the Σ-protocol.
+Suppose that an adversarial veriﬁer A = V ⋆outputs 1 with probability pR after a real interaction but outputs
+1 with probability pS after a simulated interaction. We show that there exists a negligible function ν0 such that
+|pR −pS| ≤ν0(k). As discussed above, in the real game, algorithm HGen generates the commitment parameters
+and A interacts with P, while in the simulated game algorithm HTGen generates the commitment parameters and A
+interacts with a simulator. Consider the following hybrid games.
+Game 0: the commitment parameters are generated by HTGen, A0 interacts with an algorithm H0 that runs the
+honest sender protocol of the commitment scheme and the honest prover algorithm of the Σ-protocol.
+Game 1: the commitment parameters are generated by HTGen, A0 interacts with an algorithm H1 that uses HTCom
+and HTDec to compute and open commitments and runs the honest prover algorithm of the Σ-protocol.
+Let p0 be the probability that A outputs 1 at the end of the ﬁrst hybrid game and p1 be the probability that A
+outputs 1 at the end of the second hybrid game.
+Since the only difference between the real game and the ﬁrst hybrid game consists of the algorithm that generates
+the commitment parameters we have that there must be a negligible function ν1 such that |p0−pR| < ν1(k), otherwise
+A can be used to break the hybridness property of the hybrid simulation-sound trapdoor commitment scheme.
+Since the only difference between the two hybrid games is the use of HCom in the ﬁrst hybrid game and of TCom and
+TDec in the second one, we have that there must be a negligible function ν2 such that |p0 −p1| ≤ν2(k), otherwise A
+can be used to break the trapdoorness of the hybrid trapdoor commitment scheme.
+Finally, it must be the case that |p1 −pS| ≤ν3(k) for some non-negligible function ν3, otherwise A can be used to
+distinguish the second hybrid game from the simulated game. The only difference between these two games is the use
+of the honest prover algorithm of the Σ-protocol in the second hybrid game and of the simulator of the honest-veriﬁer
+zero-knowledge property of the Σ-protocol in the simulated one. A is therefore a distinguisher between a transcript
+of the honest prover of the Σ-protocol and the output of the honest-veriﬁer zero-knowledge protocol. This contradicts
+the special honest-veriﬁer zero-knowledge property of the Σ-protocol.
+From the previous discussion we have that there exists a negligible function ν0 such that |pR −pS| ≤ν0(k).
+Unbounded simulation soundness. To prove unbounded simulation-soundness we proceed as follows. Suppose
+that an adversary A succeeds in proving a false statement after having seen simulated proofs (we stress
+that in this case the reference string is generated by HTGen as discussed in the proof of the unbounded
+concurrent zero-knowledge property). We show that the ability of A to produce a valid proof on a
+false statement can be used to violate the simulation soundness of a hybrid simulation-sound trapdoor
+commitment scheme (HGen, HTGen, HCom, HTCom, HDec, HVer), i.e., the simulation-sound binding property of
+(HTGen,HCom, HTCom,HDec, HVer).
+More precisely, we show an algorithm A′ that plays the role of sender in the game described above for the
+simulation-sound binding property of Deﬁnition 2.7 and, by black-box accessing to A, it either breaks the simulation
+sound binding property of the commitment scheme or it breaks the unforgeability of the underlying one-time signature
+scheme (see [54]).
+The proof closely follows that of Theorem 4.1 in [54].
+A′ receives as challenge the commitment parameters of a simulation-sound trapdoor commitment scheme
+generated by HTGen. The polynomial-time adversary A = (A0, A1) interacts with A′ for obtaining accepting proofs
+of both true and false statements. More speciﬁcally, in the simulated game, A′ completes his proofs by asking to
+an oracle to equivocate some commitments with respect to his public keys for the one-time secure signature scheme
+(that correspond to different tags for the commitment scheme). If A succeeds in proving a false statement by using
+a public key already used by A′, then A can be used to break the security of the one-time secure signature scheme.
+This is because there actually exist at least two different transcripts (one of A′ and one of A) with correct signatures
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+251
+with respect to the same public key. If instead A uses a new public key then the proof proceeds very similarly to the
+one of classical soundness. Indeed, by using the extractor of the Σ-protocol, with non-negligible probability A will
+complete again the protocol and from the two transcripts it is possible to extract two valid and different decommitments
+with respect to the same commitment (and of course with respect to the same tag). This case therefore violates the
+simulation-sound binding property of the commitment scheme since for this tag (that corresponds to the new public
+key) the equivocation oracle has not been used.
+Note that the transcript (i.e., the distribution of the reference string and the messages exchanged) of the simulation
+performed by A′ that we have described above, is perfectly indistinguishable with respect to the one described in
+ExptA(k) of Deﬁnition 4.2. Therefore, we have shown that Prob(ExptA(k) = 1) ≤ν(k) and the claim holds.
+Complexity-theoretic assumptions. To conclude this proof we remark here that when using the variation of the
+Σ-protocol of Blum discussed in Appendix B, we have that the Σ-protocol exists under the sole assumption that
+one-way functions exist. Moreover, it is well known that one-time secure signature scheme can be constructed from
+any one-way function [67].
+□
+Theorem 4.8. Given an NP-language L that admits an efﬁcient Σ-protocol, then under the assumption that DSA is
+a secure signature scheme and that the DDH assumption holds (or that the Cramer–Shoup signature scheme is secure
+and that the DDH assumption holds) there exists an efﬁcient three-round unbounded simulation-sound zero-knowledge
+proof system in the common reference string model for L.
+Proof. The proof follows the one of Theorem 4.7, however in this case we use the efﬁcient hybrid simulation-
+sound trapdoor commitment scheme that we have shown to exist in Theorem 3.7 under the same number-theoretic
+assumptions as considered in the statement of this theorem.
+□
+Hybrid multi-trapdoor commitments for simulation-sound zero-knowledge proofs. The approach used to
+achieve simulation-sound zero-knowledge proofs from hybrid simulation-sound trapdoor commitments by using the
+construction of [55] is quite general and can be used for simulation-sound zero-knowledge proofs from hybrid multi-
+trapdoor commitments by using the construction of [44]. In the proof of Theorem 4.7 we have shown that by replacing
+a (non-hybrid) simulation-sound trapdoor commitment scheme with a hybrid one, then an unbounded simulation-
+sound zero-knowledge argument can be transformed into an unbounded simulation-sound zero-knowledge proof. This
+same approach can be used for the case of (non-hybrid) multi-trapdoor commitment schemes and their application
+to unbounded simulation-sound zero-knowledge arguments [44] (we stress that in [44] such a notion is referred to as
+left-concurrent non-malleable zero-knowledge argument). Since the improvement is based on the same techniques as
+used for Theorem 4.7, we only discuss this case informally.
+Consider the unbounded simulation-sound zero-knowledge argument of [44]. We require that the unbounded
+adversarial prover runs the protocol by using some unconditionally binding commitment scheme such as the one
+deﬁned by the commitment parameters generated by algorithm HGen of a hybrid multi-trapdoor commitment scheme
+HMTCS. As a consequence, the protocol resorts to the properties of the Σ-protocol and by using the variation of
+Blum’s Σ-protocol presented in Appendix B we have that in the common reference string it is a proof (in contrast to
+argument) and it can be based on the existence of one-way functions only. The simulator S for the zero-knowledge
+property uses HTGen to generate the commitment parameters and uses the auxiliary information to equivocate the
+commitments, precisely as discussed in the proof of Theorem 4.7 (i.e., the considered commitment scheme is a multi-
+trapdoor commitment scheme instead of an unconditionally binding one).
+Suppose that the commitment parameters are established by S, and a polynomial-time adversary A that mounts a
+man-in-the-middle attack that violates the simulation-sound property. It is easy to verify that, in such a case, the proof
+strictly follows the one of [44] and it can be shown that the existence of A can be used to reach a contradiction (actually
+in this scheme we have as additional assumption the existence of a family of collision-resistant hash functions) or to
+show that a polynomial-time algorithm A′ that has oracle access to A can give the same argument system as given by
+A without mounting the man-in-the-middle attack.
+The following theorem follows from the above informal discussion and under the number-theoretic assumptions
+discussed in Appendix A.
+Theorem 4.9. Given an NP-language L that admits an efﬁcient Σ-protocol, if collision-resistant hash functions
+exist then under the sRSA and the DDH assumption or the sDH and the DDH assumptions there exists an
+252
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+efﬁcient three-round unbounded simulation-sound zero-knowledge proof system in the common reference string model
+for L.
+5. Conclusions
+In this paper we have motivated and formalized the notion of hybrid trapdoor commitment. We have shown
+different constructions based on the sole assumption that one-way functions exist and very efﬁcient constructions
+under number-theoretic assumptions.
+For the main result of this paper, we have crucially used these commitments in order to achieve strong notions of
+zero knowledge proofs (in contrast to arguments) that can be implemented either under weak complexity-theoretic
+assumptions or efﬁciently under number-theoretic assumptions.
+More recently, in [21,19] hybrid trapdoor commitments have been shown to imply mercurial commitments [22]
+and thus are a building block for the construction of zero-knowledge sets [53].
+Acknowledgments
+The work described in this paper has been supported in part by the European Commission through the IST Program
+under Contract IST-2002-507932 ECRYPT. The work of the second author is also supported in part through the FP6
+program under contract FP6-1596 AEOLUS. The authors would like to thank the anonymous reviewer of Theoretical
+Computer Science for many useful comments and suggestions.
+The ﬁrst author’s work was entirely done while a CNRS researcher at the D´epartement d’Informatique de l’Ecole
+Normale Sup´erieure, Paris, France. The second author’s work was partially done while he was a post-doctoral fellow
+at the D´epartement d’Informatique of the Ecole Normale Sup´erieure in Paris, France.
+Appendix A. Some number theoretic assumptions
+A.1. The strong RSA assumption
+Let N = pq be the product of two primes. We denote by φ(N) the Euler function of N; it is a well known fact from
+number theory that φ(N) = (p −1)(q −1). Let e be an integer relatively prime to φ(N), the RSA assumption [66]
+states that, given a random element y ∈Z∗
+N, it is computationally infeasible to compute the unique x ∈Z∗
+N such
+that xe ≡y mod N. The strong RSA assumption, introduced in [3], states that given a random element y as above, it
+remains computationally infeasible to ﬁnd a couple (x, e), with e ̸= 1 such that xe ≡y mod N. Thus the difference,
+with respect to the standard RSA assumption, is that here the adversary is allowed to choose the exponent e for which
+she will be able to compute the required root. More formally, denoting with RSA(k) the set of composite moduli, N
+such that N is the product of two k/2-bit primes, we state that
+Assumption A.1. We say that the strong RSA assumption holds if, for all probabilistic polynomial time adversaries
+A and for sufﬁciently large k one has
+Pr[N ←RSA(k); y ←Z∗
+N; (x, e) ←A(N, y) : xe ≡y mod N]
+is negligible in k.
+A.2. The strong Difﬁe–Hellman assumption
+Let G be a cyclic group of order q and let g be a generator of G. The strong DH assumption, introduced by [9],
+states that no polynomially bounded adversary, on input G, g, gy, gy2, . . . , gyℓ, for some random secret y ∈Zq,
+should be able to produce a couple (x, e) such that x y+e = g in G. More formally
+Assumption A.2. Let G be a cyclic group of prime order q, where |q| = k. We say that the strong ℓ−DH assumption
+holds in G if for all probabilistic polynomial time adversaries A and for sufﬁciently large k one has that
+Pr[y ←Zq; (x ∈G, e ∈Zq) ←A(G, g, gy, gy2, . . . , gyℓ) : x y+e = g]
+is negligible in k.
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+253
+Appendix B. Tools
+In this section we discuss some tools that we use in our constructions.
+Naor’s commitment scheme. Given a pseudorandom generator G, the bit commitment scheme proposed by
+Naor [57] works as follows. The receiver sends a 3k-bit string r to the sender. The sender randomly selects a k-
+bit string s and commits to 0 by sending G(s), instead he commits to 1 by sending G(s) ⊕r. Finally the sender opens
+the committed bit by sending s. Naor’s scheme has the following properties:
+– Assumptions: it is based on the existence of pseudorandom generators; it is known how to construct them on the
+assumptions that one-way functions exist [47].
+– Round complexity: there exists a set-up stage in which the receiver sends one message, then the sender has to play
+only one round for each commitment.
+– Security: it is an unconditionally binding commitment scheme.
+– Message distribution: both the set-up message of the receiver and the commitments computed by the sender are
+indistinguishable from random strings for polynomial-time algorithms.
+In the reference string model (in particular in the shared random string model) Naor’s commitment scheme can
+be implemented as a non-interactive commitment scheme by replacing the set-up message sent by the receiver with a
+piece of the reference string. Obviously, the bit commitment scheme can be extended to a string commitment scheme
+by simply iterating the described scheme for each bit of the string.
+Σ-protocols. A Σ-protocol is a three-round interactive protocol between two probabilistic algorithms, an honest
+prover P and an honest veriﬁer V . The algorithms receive as common input a statement “x ∈L”. P has as auxiliary
+input a witness w such that (x, w) ∈RL where L is an NP-language and x belongs to L. At the end of the protocol
+V decides whether the transcript is accepting with respect to the statement or not. Since a cheating prover P⋆can
+interact with a veriﬁer on input a false statement “x ∈L”, we denote by eL the language of the instances (both true
+and false) that can be used as common input with a veriﬁer. Obviously it holds that L ⊆eL.
+The Σ-protocols we consider in this paper have the following properties:
+– Public coin: V sends random bits only.
+– Special soundness: let (a, c, z) and (a, c′, z′) be two accepting transcripts for a statement “x ∈L”. If c ̸= c′ then
+x ∈L (i.e., the statement is true) and there exists an efﬁcient algorithm E, referred to as extractor, that on input
+(x, a, c, z, c′, z′) outputs w such that (x, w) ∈RL. Therefore we consider proofs (in contrast to arguments).
+– Special honest-veriﬁer zero knowledge: there is an efﬁcient algorithm S, referred to as simulator, that on input
+a true statement “x ∈L” outputs for any c a pair (a, z) such that the triple (a, c, z) is indistinguishable from
+the transcript of a conversation between P and V . Moreover, the triple (a, c, z) generated so far is an accepting
+transcript independently of the truthfulness of the statement3 (i.e., it holds for any x ∈eL).
+As a consequence of the properties described above, if x ∈eL \ L then for any ﬁrst message a there is only one pair
+(c, z) such that (a, c, z) is an accepting transcript, therefore when the prover and the veriﬁer run the protocol as input
+a false statement, a can be used as a commitment and z as a decommitment of a commitment of string c.
+There are in the literature many Σ-protocols with these properties, most notably, the protocol of Blum [7] that is
+a Σ-protocol for the NP-complete language Hamiltonicity, the protocol of Schnorr [69] for proving knowledge of a
+discrete logarithm and its variants (e.g., equality of discrete logarithms and other compositions by means of Boolean
+formulae [24]).
+In general we assume that the prover computes message z by using some auxiliary information generated during
+the computation of message a.
+Blum’s Σ-protocol for Hamiltonicity. In [7] Blum presented a Σ-protocol for the NP-complete language
+Hamiltonicity. A variation of Blum’s Σ-protocol is instantiated on any one-way function by means of Naor’s
+commitment scheme in the reference string model. This is achieved by ﬁrst requiring that the reference string contains
+3 This property is also required by the Σ protocols of [55].
+254
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+a string setup that corresponds to the message played by the receiver of Naor’s commitment scheme. Secondly,
+for each proof the parties play the three rounds that we denote (a, c, z) of the original Blum’s Σ-protocol with the
+following variation: the commitments encoded in message a are computed by using the second round of Naor’s
+commitment scheme.
+Auxiliary language. Given a commitment com and a message m, it is possible to reduce the decisional problem
+“is com a commitment of a commitment of string m ?” to the decisional problem “is G a Hamiltonian graph ?” by
+means of a general NP-reduction [23]. Therefore, we will assume that it is possible to use the previously discussed
+implementation of Blum’s Σ-protocol to prove that a given commitment corresponds to a given string under the sole
+assumption that one-way functions exist.
+Σ-protocol for equality of two discrete logarithms. An efﬁcient Σ-protocol for proving the equality of two
+discrete logarithms can be achieved by means of an AND-composition of the Σ-protocol of Schnorr [69] for proving
+knowledge of a discrete logarithm, in particular the prover uses the same random tape in the two cases (and the same
+witness). More precisely, on input two generators g1, g2 ∈G, and two values h1, h2 ∈G one proves knowledge
+of x = logg1 h1 = logg2 h2, by running two instances of the Schnorr protocol in parallel, using a common random
+choice, a common challenge and a common response. For details, see [13].
+Appendix C. Additional efﬁcient implementations of hybrid trapdoor commitments
+In this section we described two simple and efﬁcient constructions of hybrid trapdoor commitments that achieve
+also the extractability property. The constructions are based on the hardness of factoring and inverting RSA[N, N]
+(i.e., RSA where the public exponent is set to N). In the following we focus on the basic notion of trapdoor
+commitment, stronger properties (such as simulation soundness) can be achieved straightforwardly by applying the
+techniques discussed in Section 3.
+First, however we discuss an intractability assumption that is going to be used in our constructions.
+Let N be the product of two k/2-bit safe primes (i.e., primes of the form p = 2p′ + 1 where p′ is prime). Let G
+be the group of elements of order (λ(N)/2)N in Z∗
+N2 and G′ the group of elements of order λ(N)/2 in Z∗
+N2. Now
+assume an element h is chosen uniformly and at random in G or in G′ according to some random bit b. We consider
+the following (decisional) problem. Given on input h and N (but not the factorization of the latter) guess b with
+probability signiﬁcantly better than 1/2. In what follows we will refer to this problem as to the Decisional Subgroup
+Composite Residuosity problem (DSCR for brevity) and, for sufﬁciently large k, we assume it to be intractable.
+The reader may have noticed that the conjecture sketched above looks very similar to the Decisional Composite
+Residuosity (DCR) assumption suggested by Paillier [60]. Informally the DCR assumption states that, for sufﬁciently
+large k, it is infeasible to distinguish N residues modulo N 2 (i.e., elements of the form z = x N mod N 2) from random
+elements in Z∗
+N2. Indeed, for the case of moduli obtained as the product of safe primes, the following lemma shows
+that the two assumptions are actually equivalent.
+Lemma C.1. Let N = pq be the product of two safe primes, then DCR is intractable if and only if DSCR is
+intractable.
+Proof. First observe that any adversary solving the DCR problem can be trivially used to break the DSCR problem.
+Consequently we focus here on proving that the inverse direction holds as well.
+Let A be an adversary for the DSCR problem, our goal is to construct an adversary A′ which receives on input a
+random challenge for the DCR problem and “uses” A to solve it. In particular A′ receives on input h, N and has to
+determine if it is an N-th residue or not. As a ﬁrst step A′ computes c = h2 mod N 2 and if c = 1 it outputs yes. If
+c ̸= 1, A′ gives it to A and outputs whatever A outputs.
+Let us denote by QRN2 the group of quadratic residues modulo N 2 and with QN RN2 the group of quadratic
+residues which are also N-th residues in Z∗
+N2. Now observe that c is a random element either in QRN2 or in QN RN2.
+In the ﬁrst case the probability that c ∈G is overwhelming (roughly 1 −1/
+√
+N). Similarly, if c ∈QN RN2, the
+probability that c ∈G′ is overwhelming (roughly 1 −1/√λ(N)). Thus, skipping some simple details, it holds that
+Prob[A′ succeeds] ≈Prob[A succeeds].
+□
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+255
+C.1. First construction
+In this section we present a factoring-based construction which uses as a basic building block a trapdoor
+commitment scheme proposed by Bresson et al. [12]. In the following we describe in detail the algorithms HGen,
+HTGen, HCom, HTCom, HTDec, HVer.
+Key generation. The algorithm HTGen goes as follows. It takes as input the quantity 1k, where k is the usual security
+parameter, and randomly chooses two random k/2-bit safe primes p, q and sets N = pq. Next, denoting with G the
+cyclic group of quadratic residues modulo N 2, it chooses uniformly and at random an element h of maximal order in
+G. Finally it outputs crs = ⟨h, N⟩and aux = ⟨p, q⟩.
+The algorithm HGen is very similar to HTGen: the only difference is that here the algorithm chooses uniformly and
+at random an element h′ in the subgroup G′ – of G – of elements having order λ(N)/2. The output of HGen(1k) is
+then crs′ = ⟨h′, N⟩.
+Notice that, assuming the DCR assumption holds, the two distributions according to which crs and crs′ are
+generated are computationally indistinguishable.
+Committing to a message. The algorithms HCom and HTCom are actually identical. To commit to a message m ∈Z N
+the sender chooses r ∈R Z N2 and sets
+(com = hr(1 + mN) mod N 2, dec = r) = HCom(crs′, m).
+Algorithm HTCom has on input crs and aux instead of crs′ and m and performs the same computation of HCom by
+using a randomly chosen m′.
+As already proved by Bresson et al. [12], under the assumption that factoring large safe-prime moduli is hard,
+HTGen, HTCom, HTDec, HVer is a trapdoor commitment scheme.
+It remains to show that HGen, HCom, HVer is an unconditionally binding commitment scheme. First we prove that,
+for any (m′,r′), (m,r) such that
+hr′(1 + m′N) mod N 2 = hr(1 + mN) mod N 2
+it holds that m = m′ mod N 2. To see this observe that the equation above can be rewritten as
+hr′−r(1 + (m′ −m)N) = 1 mod N 2.
+(1)
+Now notice that h has order λ(N)/2 while 1 + (m′ −m)N has order N. Thus the only possibility for equation 1 to
+be true is to have that r = r′ mod λ(N)/2 and m = m′ mod N as required.
+The hiding property, on the other hand, is implied by the DCR assumption.
+C.2. An alternative construction based on RSA[N, N]
+Now we present a solution based on the hardness of inverting the RSA[N, N] function. This construction builds on
+(trapdoor) commitment scheme originally proposed by Catalano et al. [18]. Again, we describe in detail the algorithms
+HGen, HTGen, HCom, HTCom, HTDec, HVer.
+Key generation. The algorithm HTGen is as follows. It takes as input the quantity 1k, where k is the security
+parameter, and randomly chooses two random k/2-bit safe primes p, q and sets N = pq. Next it chooses a random
+element h ∈Z∗
+N2 and outputs crs = ⟨h, N⟩and aux = ⟨p, q⟩.
+The algorithm HGen looks very similar to HTGen: as before the only difference is in the choice of h. In this
+case the algorithm chooses, uniformly and at random, an N-th residue h′ in Z∗
+N2. The output of HGen(1k) is then
+crs′ = ⟨h′, N⟩.
+Once again, under the DCR assumption, the two distributions according to which crs and crs′ are generated are
+computationally indistinguishable.
+Committing to a message. Similarly to the construction presented in the previous section, the algorithms HCom and
+HTCom are actually the same. To commit to a message m ∈Z N the sender chooses r ∈R Z∗
+N, s ∈Z N and sets
+(com = (1 + mN)r Nhs mod N 2, dec = (r, s)) = HCom(crs, m).
+256
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+Algorithm HTCom has on input crs and aux instead of crs′ and m and performs the same computation of HCom by
+using a randomly chosen m′.
+In [18] Catalano et al. proved that, under the assumption that inverting RSA with public exponent set to N is hard,
+HTGen, HTCom, HTDec, HVer is a trapdoor commitment scheme.
+It remains to prove that HGen, HCom, HVer is an unconditionally binding commitment scheme. However this follows
+immediately from the fact that, when h is chosen as a random N-th residue in Z∗
+N2, our commitment scheme actually
+becomes Paillier’s encryption scheme with public base g = (1 + N).
+Appendix D. Multi-trapdoor commitments and signature schemes
+In this section we clarify the relationship between multi-trapdoor commitment schemes and signature schemes.
+In particular we show that multi-trapdoor commitment schemes are actually equivalent to signature schemes secure
+against generic chosen message attack (for brevity we will refer to this class of signature schemes as weak signatures).
+In a nutshell in a generic chosen message attack the adversary is allowed to obtain (from the signer S) valid signatures
+for a chosen list of messages m1 . . . mℓbefore trying to produce a forgery. More precisely, in this scenario, we allow
+the adversary to choose the messages but only in a generic way, meaning with this that the list of messages is chosen
+before S’s public key is revealed (and thus the attack is generic in the sense that it does not depend on the speciﬁc
+public key).
+We prove the equivalence between the two primitives by showing how to construct a multi-trapdoor commitment
+scheme from any weak signature scheme and vice versa.
+D.1. Multi-trapdoor commitments based on weak signatures
+Here we show how to construct a multi-trapdoor commitment scheme from any weak signature scheme. Our basic
+construction is not completely new in the sense that we adapt to our case a reduction method previously proposed by
+Canetti et al. [17] and by MacKenzie and Yang [55]. Thus before going into the details of the reduction we brieﬂy
+discuss the speciﬁc tools we need.
+1. We use the Naor [57] commitment scheme based on pseudorandom generators. Pseudorandom generators can be
+constructed from any one-way function [47]. One-way functions are equivalent to secure signatures (and therefore
+are also equivalent to weak signatures).
+2. A parameter LPKi is included. Intuitively LPKi is the i-th (public) key for the multi-trapdoor commitment scheme
+we are about to construct.
+3. As underlying NP language we consider the veriﬁcation relation
+{((VK, LPKi), σi) | Verify((VK, LPKi), σi) = 1}
+where VK is the veriﬁcation key for the given weak signature scheme and Verify is the signature veriﬁcation
+algorithm. Intuitively a local trapdoor for the scheme we have in mind is just a signature σi (with respect to the
+public key VK) of the local public key LPKi.
+The multi-trapdoor commitment scheme goes as follows. Gen (on input 1k) generates a pair of matching signing
+and veriﬁcation keys MSK and MVK for a weak signature scheme. Next it generates a set LS which is the space from
+which local public keys are sampled (in particular we assume that the statement “x ∈LS” is efﬁciently veriﬁable).
+Gen outputs the public key MPK = (MVK, LS).
+The algorithm Sel on input MPK outputs some element in LS that we denote LPKi.
+Tkg on input LPKi and MSK checks that LPKi ∈LS and, if yes, produces a signature σi on LPKi. Tkg outputs σi as
+local trapdoor.
+To commit to a bit b, Com((MPK, LPKi), b) uses the NP relation
+{(MPK, LPKi) | ∃σi : Verify((MPK, LPKi), σi) = 1}
+and produces an NP-reduction from this relation to the Hamiltonicity relation for a graph G, having q nodes, so that
+ﬁnding a Hamiltonian cycle in G is equivalent to computing σi. Then it proceeds as follows.
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+257
+• To commit to 0, pick a random permutation π of the graph G and commit to the entries of the adjacency matrix one
+by one, using the underlying commitment scheme based on pseudorandom generators. To decommit, just release
+π and decommit to every entry of the adjacency matrix.
+• To commit to 1, choose a randomly labelled q-cycle in the graph and commit to all the entries in the adjacency
+matrix which correspond to edges of the q-cycle. For the remaining entries just provide random values (in the
+appropriate range). To decommit open only the entries corresponding to the randomly chosen q-cycle.
+The algorithm TCom on input ((MPK, LPKi), σi) computes the graph G associated with (MPK, LPKi) and using σi
+ﬁnds a Hamiltonian cycle HG(G) in G. It then selects a random permutation π of the nodes of G and, using Com,
+commits to all the entries of the adjacency matrix of π(G) one by one. Finally it sets ω = (G, HG(G)).
+TDec on input ω a commitment com and a bit b goes as follows. If b = 0 then it decommits using the decommitment
+of zero. If b = 1 it decommits via the decommitment procedure for 1, using HG(G) as underlying Hamiltonian cycle.
+It remains to show that if we have an adversary A that can break the binding property of the scheme presented
+above then we can use this adversary to implement an adversary B (whose running time is polynomially related to
+that of A) that breaks the weak signature scheme.
+First of all B receives as input a message space M. It sets LS = M and forwards this information to A. A
+proceeds by choosing ℓpublic keys (for some parameter ℓ) pk1 . . . pkℓ. Next B sets m1 = pk1, . . . , mℓ= pkℓas
+its own list of candidate messages to be signed. Note that once B receives the signatures (σ1, . . . , σℓ) for the selected
+messages, it can easily equivocate on every pki (for i = 1, . . . , ℓ). This is because for each public key in the list it
+knows the corresponding (local) private key. Now assume A manages to output a triple (com, dec, dec′) such that
+Ver((MPK, pk), com, dec, m) = Ver((MPK, pk), com, dec′, m′) = 1 where m ̸= m′ and pk ̸= pki for i = 1, . . . , ℓ.
+In such a case, however, B can use this double opening to extract a Hamiltonian cycle in G and thus a signature on
+the (previously unasked) message m = pk, which means that B can break the weak signature scheme.
+D.2. Weak signatures from multi-trapdoor commitments
+Here we show the converse direction, namely how to construct a weak signature scheme out of a multi-trapdoor
+commitment scheme. The basic idea of this construction is to set, as message space for the signature scheme, the
+public key space of the multi-trapdoor commitment scheme. Then to sign a message M one shows the ability to open
+a commitment with public key M to both zero and one. In detail the construction goes as follows. Let MTC be the given
+multi-trapdoor commitment scheme. We deﬁne SigMTC = (SigGenMTC, SignMTC, VerifyMTC) as follows.
+• On input 1k, SigGenMTC runs Gen(1k) and obtains back as output (MPK, MSK) together with a public key space LS.
+Then SigGenMTC sets V K = MPK and SK = MSK and M = LS (where by M we mean the message space).
+• On input the signing key SK and a message m, SignMTC ﬁrst checks if m ∈M and, if yes, it runs
+tk ←Tkg(SK, m), (C, ω) ←TCom(tk)
+and
+y0 ←TDec(ω, 0)
+y1 ←TDec(ω, 1)
+The signature is then σ = (C, y0, y1).
+• To verify a signature for a message m ∈M, one just checks that the following equalities Ver(m, C, y0, 0) = 1 and
+Ver(m, C, y1, 1) = 1 are satisﬁed.
+Theorem D.1. Let MTC be a multi-trapdoor commitment scheme then SigMTC is a signature scheme that is
+existentially unforgeable against generic chosen message attack.
+Proof. To prove the statement we assume there exists an adversary A for SigMTC and then we show how to construct
+an attacker B which “uses” A to break the binding property of the underlying multi-trapdoor commitment scheme
+MTC. When B receives the public key space LS for MTC, it sets M = LS and forwards this information to A. At
+some point A sends to B a list of messages m1, m2, . . . , mℓfor which it would like to have a signature. B then, sets
+pk1 = m1, . . . , pkℓ= mℓas the list of public keys to submit to the equivocation oracle E. Then when B receives
+the public key MPK for the multi-trapdoor commitment scheme it sets PK = MPK as the public key for the signature
+scheme and sends this information to A.
+258
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+Next B simulates the signing oracle by simply asking E to generate commitments and decommitments for the
+pki’s selected previously. Now if we assume that A can break the existential unforgeability of the signature scheme,
+this means that, with some non-negligible probability A will be able to generate a signature σ for a message
+m ∈M not in the list it previously submitted. In particular σ will be a triplet of the form (C, y0, y1) such that
+Ver(MPK, C, m, y0, 0) = Ver(MPK, C, m, y1, 1) and pk = m was not previously used in any query to E. This, clearly,
+leads to a contradiction.
+□
+References
+[1] B. Barak, How to go beyond the black-box simulation barrier, in: 42nd Symposium on Foundations of Computer Science, FOCS’01, IEEE
+Computer Society Press, 1109 Spring Street, Suite 300, Silver Spring, MD 20910, USA, 2001, pp. 106–115.
+[2] B. Barak, Constant-round coin-tossing with a man in the middle or realizing the shared random string model, in: 43th IEEE Symposium on
+Foundations of Computer Science, FOCS’02, 2002, pp. 345–355.
+[3] N. Bari´c, B. Pﬁtzmann, Collision-free accumulators and fail-stop signature schemes without trees, in: Advances in Cryptology —
+Eurocrypt’97, in: Lecture Notes in Computer Science, vol. 1233, Springer Verlag, 1997, pp. 480–494.
+[4] B. Barak, S.J. Ong, S. Vadhan, Derandomization in criptography, in: Crypto’03, 2003.
+[5] M. Bellare, M. Jakobsson, M. Yung, Round-optimal zero-knowledge arguments based on any one-way function, in: W. Fumy (Ed.), Advances
+in Cryptology — Eurocrypt’97, in: Lecture Notes in Computer Science, vol. 1223, Springer-Verlag, 1997, pp. 280–305.
+[6] M. Blum, Coin ﬂipping by phone, in: 24th IEEE Computer Conference, CompCon, 1982, pp. 133–137.
+[7] M. Blum, How to prove a theorem so no one else can claim it, in: Proceedings of the International Congress of Mathematicians, 1986,
+pp. 1444–1451.
+[8] M. Blum, A. De Santis, S. Micali, G. Persiano, Non-interactive zero-knowledge, SIAM J. Comput. 20 (6) (1991) 1084–1118.
+[9] D. Boneh, X. Boyen, Short signatures without random oracles, in: Advances in Cryptology — Eurocrypt’04, in: Lecture Notes in Computer
+Science, vol. 3027, Springer-Verlag, 2004, pp. 56–73.
+[10] R. Boppana, J. Hastad, S. Zachos, Does co-NP have short interactive proofs? Inf. Process. Lett. 25 (2) (1987) 127–132.
+[11] J. Brassard, D. Chaum, C. Crep´eau, Minimum disclosure proofs of knowledge, J. Comput. Syst. Sci. 37 (2) (1988) 156–189.
+[12] E. Bresson, D. Catalano, D. Pointcheval, A simple public-key cryptosystem with a double trapdoor decryption mechanism and its applications,
+in: Advances in Cryptology — Asiacrypt’03, in: Lecture Notes in Computer Science, vol. 2894, Springer-Verlag, 2003, pp. 37–54.
+[13] J. Camenisch, Group Signature Schemes and Payment Systems Based on the Discrete Logarithm Problem, in: ETH-Series in Information
+Security an Cryptography, vol. 2, 1998.
+[14] R. Canetti, M. Fischlin, Universally composable commitments, in: Advances in Cryptology — Crypto’01, in: Lecture Notes in Computer
+Science, vol. 2139, Springer-Verlag, 2001, pp. 19–40.
+[15] R. Canetti, J. Kilian, E. Petrank, A. Rosen, Black-box concurrent zero-knowledge requires ω(log n) rounds, in: 33st ACM Symposium on
+Theory of Computing, STOC’01, ACM, 2001, pp. 570–579.
+[16] R. Canetti, Y. Lindell, R. Ostrovsky, A. Sahai, Universally composable two-party and multi-party secure computation, in: 34th ACM
+Symposium on Theory of Computing, STOC’02, ACM, 2002, pp. 494–503.
+[17] R. Canetti, Y. Lindell, R. Ostrovsky, A. Sahai, Universally composable two-party and multi-party secure computation, in: 34th ACM
+Symposium on Theory of Computing, STOC’02, ACM, 2002, pp. 494–503.
+[18] D. Catalano, R. Gennaro, N. Howgrave-Graham, P.Q. Nguyen, Paillier cryptosystem revisited, in: 8th ACM Conference on Computer and
+Communications Security, CCS’01, ACM, 2001, pp. 206–214.
+[19] D. Catalano, Y. Dodis, I. Visconti, Mercurial commitments: Minimal assumptions and efﬁcient constructions, in: Proc. of the 3rd Theory of
+Cryptography Conference, TCC’06, in: Lecture Notes in Computer Science, Springer-Verlag, 2006.
+[20] D. Catalano, I. Visconti, Hybrid trapdoor commitments and their applications, in: 32nd International Colloquium on Automata, Languages,
+and Programming, ICALP 05, in: Lecture Notes in Computer Science, vol. 3580, Springer-Verlag, 2005, pp. 298–310.
+[21] D. Catalano, I. Visconti, Non-interactive mercurial commitments from one-way functions, ECRYPT-Provilab Technical Report, October 12,
+2005.
+[22] M. Chase, A. Healy, A. Lysysanskaya, T. Malkin, L. Reyzin, Mercurial commitments with applications to zero-knowledge sets, in: Proc. of
+EUROCRYPT, 2005, pp. 422–439.
+[23] S.A. Cook, The complexity of theorem proving procedures, in: 3rd Symposium on Foundations of Computer Science 1971, FOCS’71, 1971,
+pp. 151–158.
+[24] R. Cramer, I. Damg˚ard, B. Schoenmakers, Proofs of partial knowledge and simpliﬁed design of witness hiding protocols, in: Y. Desmedt
+(Ed.), Advances in Cryptology — Crypto’94, in: Lecture Notes in Computer Science, vol. 839, Springer-Verlag, 1994, pp. 174–187.
+[25] R. Cramer, V. Shoup, Signature schemes based on the strong RSA assumption, in: 6th ACM Conference on Computer and Communications
+Security, CCS’99, ACM, 1999.
+[26] I. Damg˚ard, J. Groth, Non interactive and reusable non-malleable commitments, in: 35th ACM Symposium on Theory of Computing, ACM,
+2003, pp. 426–437.
+[27] I. Damg˚ard, M. Jurik, A generalization, a simpliﬁcation and some applications of paillier’s probabilistic public-key system, in: Public key
+Cryptography, in: Lecture Notes in Computer Science, vol. 1992, Springer Verlag, 2001, pp. 119–136.
+[28] I. Damg˚ard, J.B. Nielsen, Perfect hiding and perfect binding universally composable commitment schemes with constant expansion factor,
+in: Advances in Cryptology — Crypto’02, in: Lecture Notes in Computer Science, vol. 2442, Springer-Verlag, 2002, pp. 581–596.
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+259
+[29] I. Damg˚ard, Efﬁcient concurrent zero-knowledge in the auxiliary string model, in: Advances in Cryptology — Eurocrypt’00, in: Lecture Notes
+in Computer Science, vol. 1807, Springer-Verlag, 2000, pp. 418–430.
+[30] A. De Santis, G. Di Crescenzo, R. Ostrovsky, G. Persiano, A. Sahai, Robust non-interactive zero knowledge, in: Advances in Cryptology —
+Crypto’01, in: Lecture Notes in Computer Science, vol. 2139, Springer-Verlag, 2001, pp. 566–598.
+[31] G. Di Crescenzo, Y. Ishai, R. Ostrovsky, Non-interactive and non-malleable commitment, in: 30th ACM Symposium on Theory of Computing,
+STOC’98, ACM, 1998, pp. 141–150.
+[32] G. Di Crescenzo, J. Katz, R. Ostrovsky, A. Smith, Efﬁcient and non-interactive non-malleable commitment, in: Advances in Cryptology —
+Eurocrypt’01, in: Lecture Notes in Computer Science, vol. 2045, Springer-Verlag, 2001, pp. 40–59.
+[33] G. Di Crescenzo, G. Persiano, I. Visconti, Constant-round resettable zero knowledge with concurrent soundness in the bare public-key model,
+in: Advances in Cryptology — Crypto’04, in: Lecture Notes in Computer Science, vol. 3152, Springer-Verlag, 2004, pp. 237–253.
+[34] D. Dolev, C. Dwork, M. Naor, Non-malleable cryptography, SIAM J. Comput. 30 (2) (2000) 391–437.
+[35] C. Dwork, M. Naor, A. Sahai, Concurrent zero-knowledge, in: 30th ACM Symposium on Theory of Computing, STOC’98, ACM, 1998,
+pp. 409–418.
+[36] C. Dwork, A. Sahai, Concurrent zero-knowledge: Reducing the need for timing constraints, in: H. Krawczyk (Ed.), Advances in Cryptology
+— Crypto’98, in: Lecture Notes in Computer Science, vol. 1462, Springer-Verlag, 1998, pp. 442–457.
+[37] U. Feige, D. Lapidot, A. Shamir, Multiple non-interactive zero knowledge proofs under general assumptions, SIAM J. Comput. 29 (1) (1999)
+1–28.
+[38] U. Feige, A. Shamir, Zero-knowledge proofs of knowledge in two rounds, in: Advances in Cryptology — Crypto’89, in: Lecture Notes in
+Computer Science, vol. 435, Springer-Verlag, 1990, pp. 526–544.
+[39] M. Fischlin, On the impossibility of constructing non-interactive statistically-secret protocols from any trapdoor one-way function, in: CT-
+RSA’02, in: Lecture Notes in Computer Science, vol. 2271, Springer-Verlag, 2002, pp. 79–95.
+[40] M. Fischlin, R. Fischlin, Efﬁcient and non-malleable commitment schemes, in: Advances in Cryptology — Crypto’00, in: Lecture Notes in
+Computer Science, vol. 1880, Springer-Verlag, 2000, pp. 413–431.
+[41] L. Fortnow, The complexity of perfect zero-knowledge, in: 19th ACM Symposium on Theory of Computing, STOC’87, 1987, pp. 204–209.
+[42] J. Garay, P. MacKenzie, K. Yang, Strengthening zero-knowledge protocols using signatures, in: Advances in Cryptology — Eurocrypt’03,
+in: Lecture Notes in Computer Science, vol. 2045, Springer-Verlag, 2003, pp. 177–194.
+[43] R. Gennaro, Multi-trapdoor commitments and their applications to proofs of knowledge secure under concurrent man-in-the-middle attacks
+(full version), In e-print archive, available at: http://eprint.iacr.org/2003/214/, 2003.
+[44] R. Gennaro, Multi-trapdoor commitments and their applications to proofs of knowledge secure under concurrent man-in-the-middle attacks,
+in: Advances in Cryptology — Crypto’04, in: Lecture Notes in Computer Science, vol. 3152, Springer-Verlag, 2004, pp. 220–236.
+[45] O. Goldreich, Concurrent zero-knowledge with timing, revisited, in: 34th ACM Symposium on Theory of Computing, STOC’02, ACM, 2002,
+pp. 332–340.
+[46] O. Goldreich, A. Kahan, How to construct constant-round zero-knowledge proof systems for NP, J. Cryptol. 9 (3) (1996) 167–190.
+[47] O. Goldreich, L. Levin, A hard-core predicate for all one-way functions, in: 21st ACM Symposium on Theory of Computing, STOC’89, 1989,
+pp. 25–32.
+[48] S. Goldwasser, S. Micali, C. Rackoff, The knowledge complexity of interactive proof-systems, SIAM J. Comput. 18 (6) (1989) 186–208.
+[49] S. Goldwasser, S. Micali, R. Rivest, A digital signature scheme secure against adaptive chosen message attacks, SIAM J. Comput. 17 (2)
+(1988) 281–308.
+[50] I. Haitner, O. Horvitz, J. Katz, C.Y. Koo, R. Morselli, R. Shaltiel, Reducing complexity assumptions for statistically-hiding commitment,
+in: Advances in Cryptology — Eurocrypt’05, in: Lecture Notes in Computer Science, vol. 3494, Springer-Verlag, 2005, pp. 58–77.
+[51] S. Halevi, S. Micali, Practical and provably-secure commitment schemes from collision-free hashing, in: Advances in Cryptology —
+Crypto’96, in: Lecture Notes in Computer Science, vol. 1109, Springer-Verlag, 1996, pp. 201–215.
+[52] J. Kilian, E. Petrank, Concurrent and resettable zero-knowledge in poly-logarithmic rounds, in: 33rd ACM Symposium on Theory of
+Computing, STOC’01, ACM, 2001, pp. 560–569.
+[53] S. Micali, M. Rabin, J. Kilian, Zero-knowledge sets, in: Proc. 44th IEEE Symposium on Foundations of Computer Science, FOCS, 2003.
+[54] P. MacKenzie, K. Yang, On simulation-sound trapdoor commitments. In e-print archive, available at: http://eprint.iacr.org/2003/252/, 2003.
+[55] P. MacKenzie, K. Yang, On simulation-sound trapdoor commitments, in: Advances in Cryptology — Eurocrypt’04, in: Lecture Notes in
+Computer Science, vol. 3027, Springer-Verlag, 2004, pp. 382–400.
+[56] D. Micciancio, E. Petrank, Simulatable commitments and efﬁcient concurrent zero-knowledge, in: Advances in Cryptology — Eurocrypt’03,
+in: Lecture Notes in Computer Science, vol. 2045, Springer-Verlag, 2003, pp. 140–159.
+[57] M. Naor, Bit commitment using pseudorandomness, J. Cryptol. 4 (2) (1991) 151–158.
+[58] NIST. Digital Signature Standard (DSS). FIPS PUB 186, December 1998.
+[59] T. Okamoto, S. Uchiyama, A new public-key cryptosystem as secure as factoring, in: Advances in Cryptology — Eurocrypt’98, in: Lecture
+Notes in Computer Science, vol. 1233, Springer-Verlag, 1998, pp. 308–318.
+[60] P. Paillier, Public-key cryptosystems based on composite degree residuosity classes, in: J. Stern (Ed.), EUROCRYPT’99, in: LNCS, vol. 1592,
+Springer-Verlag, 1999, pp. 223–238.
+[61] R. Pass, Simulation in quasi-polynomial time and its applications to protocol composition, in: Advances in Cryptology — Eurocrypt’03,
+in: Lecture Notes in Computer Science, vol. 2045, Springer-Verlag, 2003, pp. 160–176.
+[62] R. Pass, A. Rosen, Bounded-concurrent secure two-party computation in a constant number of rounds, in: 44th IEEE Symposium on
+Foundations of Computer Science, FOCS’03, 2003.
+[63] G. Persiano, I. Visconti, Single-prover concurrent zero knowledge in almost constant rounds, in: 32nd International Colloquium on Automata,
+Languages, and Programming, ICALP 05, in: Lecture Notes in Computer Science, vol. 3580, Springer-Verlag, 2005, pp. 228–240.
+260
+D. Catalano, I. Visconti / Theoretical Computer Science 374 (2007) 229–260
+[64] M. Prabhakaran, A. Rosen, A. Sahai, Concurrent zero-knowledge with logarithmic round complexity, in: 43th IEEE Symposium on
+Foundations of Computer Science, FOCS’02, 2002, pp. 366–375.
+[65] R. Richardson, J. Kilian, On the concurrent composition of zero-knowledge proofs, in: Advances in Cryptology — Eurocrypt’99, in: Lecture
+Notes in Computer Science, vol. 1592, Springer-Verlag, 1999, pp. 415–431.
+[66] R. Rivest, A. Shamir, L. Adleman, A method for obtaining digital signatures and public key cryptosystems, Commun. ACM (1978) 120–126.
+[67] J. Rompel, One-way functions are necessary and sufﬁcient for digital signatures, in: 22nd ACM Symposium on Theory of Computing,
+STOC’90, 1990, pp. 12–19.
+[68] A. Sahai, Non-malleable non-interactive zero knowledge and adaptive chosen-ciphertext security, in: 40th Symposium on Foundations
+of Computer Science, FOCS’99, IEEE Computer Society Press, 1109 Spring Street, Suite 300, Silver Spring, MD 20910, USA, 1999,
+pp. 543–553.
+[69] C.P. Schnorr, Efﬁcient signature generation for smart cards, J. Cryptol. 4 (3) (1991) 239–252.
+[70] I. Visconti, Efﬁcient zero knowledge on the internet, in: 33rd International Colloquium on Automata, Languages, and Programming,
+ICALP’06, in: Lecture Notes in Computer Science, Springer-Verlag, 2006.

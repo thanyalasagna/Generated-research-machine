@@ -1,0 +1,1649 @@
+Theoretical Computer Science 32 (1984) 157-172 
+North-Holland 
+I57 
+A PARALLEL-DESIGN 
+DISTRIBUTED-IMPLEMENTATION 
+(PDDI) 
+GENERAL-PURPOSE 
+COMPUTER 
+Uzi VISHKIN* 
+Department of Computer Science, Cwrattt rnstitute, New York University, New York, NY 10012, 
+U.S.A. 
+Communicated by M. Nivat 
+Received July 1983 
+Abstract. 
+A scheme of’ an cfhcient general-purpose 
+parallel computer is introduced. 
+Its design 
+space (i.e., the model for whiich parallel programs are written), is a permissive parallel RAM model 
+of computation. 
+The implementation 
+space is presented as a scheme of a synchronous 
+distributed 
+machine which is not more involved than a sorting network followed by a merging network. An 
+efficient translation 
+from the design space into the implementation 
+space is given. Suppose for 
+some t and s ttzre is a parallel algorithm in the design space which has depth (i.e., parallei time) 
+0( t/p) using ,Y ijlocessors 
+for all p < x This translates 
+to an algorithm in the implementation 
+space wit:, depth O(t/s) for all s d t/l where I depend3 on the choice of the sorting and merging 
+networks, s is the number of *powerful’ processors used (processors not in the sorting or merging 
+networks) and _f(s, m) auxiliary processors, where m is the size of the common memory in the 
+design space, For a specific choice, I= log’ s +log m and j(s, m) = O(s log’ s + m log m), compar- 
+ing favorably with alternative 
+known solutions. Since many parallel algorithms are designed for 
+a wide range or processors 
+our solutior: 
+pays the fine for implementation 
+where it hurts least. 
+1. Introduction 
+This paper is motivated 
+by the fact that the tremendous 
+potential 
+power of 
+microstructure 
+technology 
+can be realized only if we find effective parallel architec- 
+tures and algorithms 
+for utilizing large numbers of small but powerful processors. 
+On one hand, synchronous 
+shared memory models of parallel computation 
+have 
+been shown to be a very effective framework 
+for designing 
+algorithms 
+for many 
+problems. On the other hand, physical limitations of currently available technologies 
+suggest one, but only one, basic constraint: 
+in a machine built as an assemblage of 
+a large number of processing 
+elements, each processor can be connected 
+only to a 
+fixed number of other processors, 
+and this in a fixed pattern. 
+In order to support the claim that such models of parallel computation 
+are effective 
+we mention a few salient algorithms that can be implemented 
+in them. (Most of these 
+algorithms were designed for such models.) Finding the maximum among n elements 
+* Present address: 
+Department 
+of Computer 
+Science, 
+School 
+of Mathematical 
+Sciences, 
+Tel Aviv 
+University, 
+Tel Aviv 69978, Israel. 
+Part of the research 
+reported 
+here was performed 
+during 
+the author’s visit ‘It IBM Thomas J. Watson 
+Research 
+Center 
+from September 
+198 I to August 
+1982. 
+0304-3975/84/$3.00 
+@ 1984, Elsevier 
+Science 
+Publishers 
+B.V. (North-Holland) 
+IS8 
+U. Vishkin 
+[23]. Merging [5,23]. Sorting ([2,5, 12,20,23] and more). Computing 
+convex hulls 
+in two dimensions 
+[ 191. Computing 
+connected 
+components 
+of undirected 
+graphs 
+[6, 13,24,30,33]. 
+Computing 
+biconnected 
+components 
+of an undirected 
+graph [28]. 
+Algorithms 
+on trees [ 17,281. Data structures 
+[2 I]. Finding max-flow in a network 
+[25]. Numerous 
+numerical 
+algorithms 
+(for a survey see [I I]). 
+We suggest a solution for the following problem. 
+Problem. 
+Design an efficient general-purpose 
+parallel computer 
+that satisfies three 
+requirements: 
+(1) The design space (i.e., the model of computation 
+for which programs 
+are 
+written) is a permissitle synchronous 
+shared memory model of parallel computation. 
+In particular, 
+the Fetch-and-* 
+Parallel RAM (F&L* PRAM). 
+It is slightly more permissive than the concurrent-read 
+concurrent-write 
+parallel 
+RAM (CRCW PRAM). See [26] for a formal 
+definition 
+of the CRC'W PRAM. The 
+(xw 
+PRAM consists of a sequence P,, P,, . . . , P,, of RAM'S operating synchronously 
+in parallel. Each individual 
+RAM is similar* to a standard 
+uniprocessor 
+model as 
+defined in [ 1, Chapter 1 J. In particular, 
+e.Ach RAM is assumed to have its own local 
+random-access 
+memory 
+and has instructions 
+for typical arithmetic 
+and boolean 
+operations 
+and for reading from and writing into its local memory. The RAM'S also 
+have access io a shared memory of size W, and each RAM has instructions 
+for reading 
+from and writing into the common 
+memory 
+using one of its private registers to 
+specify the common 
+memory address. Several processors 
+may read simultaneously 
+from the same memory location. If more than one processor attempts to write into 
+the same location 
+in common 
+memory 
+at the same time, the lowest numbered 
+processor cucceeds. Let us go back to the F&* PRAI\L 
+Let A be a common 
+memory address. C, be a local register of processor 
+P, and 
+d- bc XI associative 
+imd commutative 
+operation. 
+Define the Fetch-and-* 
+(Lb) 
+instruction 
+as follows. (It is similar to [U].) If processor 
+P, performs an F&*t:(A, ei) 
+and no other processor 
+performs 
+at the same time an instruction 
+that relates to 
+address A, then a local register of P, is assigned with the contents of A and A is 
+assigned with A*e,. Suppose thrrt se\‘eral processors 
+perform simultaneously 
+F&* 
+(for the :;ame * operation) 
+instructions 
+that relate to A. The result is defined to be 
+its if they performed 
+these instructions 
+serially in some order. 
+We assume that no processor is seeking access to address A with another type 
+of instruction 
+or with an F&* instruction 
+for another * ope::\tion. 
+If this happens 
+the Agorithm 
+is corx4dered 
+illegal. Alternatively, 
+some default 
+results can be 
+imagined.) The F&* ~JKW is a uuw 
+PRAM that allows these F&* instructions 
+for 
+some set of * operations. 
+Each instruction takes one time unit (uniform cost criterion). 
+Both the program 
+and the input ;ire located in the common 
+memory. 
+(2) The implementation 
+!Bpac2 (i.e., the model of computation 
+in which the 
+machine is specified) is a synchronous 
+distributed 
+model of parallel computation, 
+where each processor 
+is connected 
+in a fixed pattern to a small number of others. 
+(31 There is an eficicnt 
+automatic 
+procedure 
+that trwsltites 
+every algorithm 
+for 
+rhc &ign 
+~p;~ce into the implc‘nentation 
+space. 
+A PDDl general-purpose computer 
+159 
+This presentation 
+of the problem explains why we call our solution a parallel- 
+design distributed-implementation 
+( PDDI) computer. 
+This problem lies in the heart of the theory of parallel computation. 
+An efficient 
+solution 
+of the problem. plays also a central 
+role in the theory 
+of distributed 
+computation, 
+since it le;lds to a utilization 
+of distributed 
+machines 
+visualizing a 
+mathematically 
+appealing 
+and effective design space. In general, it seems unhkely 
+that programmers 
+will be able to write efficient algorithms directly for fixed pattern 
+distributed 
+machines 
+even if the fixed pattern changes from one algorithm to the 
+other as implied 
+by the general-purpose 
+distributed 
+computer 
+of Galil and Paul 
+[lo]. (The term ‘distributed’ 
+in the prest rlt paper corresponds 
+to ‘parallel’ in [IO].) 
+This explains why our problem is more keneral than theirs: their design space is a 
+s nchronous 
+distributed 
+model of computation; 
+[16] implies that there exists a 
+c 
+simple translation 
+of a program 
+in their design space into our design space in 
+constant time using the Sam:: order of the number of processors. Thus, our simulation 
+can be utilized to solve the problem of simulating every special-purpose 
+synchronous 
+distributed 
+machine on our PDDI machine. A simulation that solves this problem is 
+the main contribution 
+of [lo]. The worst-case time analysis of their solution is the 
+same as ours (without the improvemnt 
+due to the efficient version of Section 6) for 
+comparable 
+cases. However, our solution allows more general patterns of communi- 
+cation for the Jc+. 
+space and, therefore, equips the designer with more powerful 
+design tools. For example, 
+information 
+~.*bicF ib known to one processor only (it 
+appears in its local memory) may become known to any subset of the processors 
+in constant time through the common memory by utilizing both the common memory 
+and simultaneous 
+reads from the same common 
+memory location. 
+While a time 
+lower bound 
+of the order of the logarithm 
+of the number of processors 
+can be 
+readily established 
+for instances of this problem in a synchronous 
+distributed model 
+where the degree of qach node is bounded by a constant, due to fan-in considerations. 
+Our solution compares favorably with the ‘naive’ solution for the main problem. 
+By the naive solution 
+we mean the following: 
+There arc (I) 
+p (balanced) 
+binary 
+trees each having In leaves, called ‘processor-trees’, 
+and (2) rrr (balanced} binary 
+trees each having p leaves, called ‘memory-trees’: 
+each of the leaves of a processor- 
+tree is shared with a 1eJf of a distinct memory-tree. 
+Each processor- (resp. memory-,) 
+tree corresponds 
+to one of the F&* PRAM 
+p processors (resp. m common memory 
+locations). The communication 
+between a processor and a common memory location 
+is simulated 
+in the obvious way via their shared leaf. Extending it for a translation 
+of F&L*: GRAM algorithms by this synchronous 
+distributed machine is straightforward. 
+The naive solution multiplies 
+time requirements 
+by O(log no +log p) and processor 
+requirements 
+by O(m). Use of pipelining in a way similar to our solution can further 
+improve this solution. The main disadvantage 
+of this approach is the relatively large 
+number 
+(0( pm)) of ‘auxiliary’ processors 
+required. This inefficiency is due to the 
+fact that each leaf is dedicated 
+to simulate 
+communication 
+between 
+a certain 
+processor 
+and a certain common 
+memory location regardless of the need for such 
+communication 
+in the time unit being simulated. Our solution provides for a dynamic 
+assignment 
+of auxiliary processors for this purpose, thereby substantially 
+reducing 
+160 
+U. Vishkin 
+the number of auxiliary processors. Applications 
+of this technique 
+can be found in 
+[7], [ 151 (for related simulation 
+problems) 
+and [a:] (for sorting). This technique 
+is 
+sometimes 
+called ‘Orthogonal 
+Trees’. 
+Simulations 
+of tightly coupled parallel computation 
+models by a distributed 
+model 
+of computation 
+is also studied in a few other papers. Each of these works either 
+solves another 
+problem 
+than ours or does not provide 
+for a worst-case 
+efficient 
+solution. Lev, Pippenger and Valiant [ 161 mention simulations 
+of the exclusive-read 
+exclusive-write 
+(EREW) 
+PRAM model, where concurrent 
+access of more than one 
+processor to the same common memory location is forbidden. 
+Borodin and Hopcroft 
+[5] outline another solution for our problem for the case p = m. We refer to their 
+simulation 
+later in the paper. Vishkin [29] presents a solution for an easier problem. 
+The implementation 
+space is an EREW 
+RAM and no! a distributed 
+machine. 
+The comprehensive 
+paper [22] describes the ‘Paracomputer’, 
+a model of parallel 
+computation 
+very similar to our CRCW PRAM and proposes 
+the former as a model 
+suitable for studying theoretical 
+aspects of parallel computation. 
+Various Paracom- 
+puter algorithms are implemented 
+in the ‘Ultracomputer’ 
+(a perfect shuffle imercon- 
+nection machine). The paper [9] suggests to replace the cncw-PRAM-Paracomputer 
+by a Fetch-and-Add-Pram-Paracomputer 
+and the Perfect-Shuffle-Ultracomputer 
+by 
+another interconnection 
+network. The automatic 
+procedure 
+for the simulation 
+of 
+the Paracomputer 
+by the Ultracomputer 
+which is suggested 
+is claimed to satisfy a 
+good average-case 
+criterion. No claims are made regarding worst-case criteria that 
+this simulation 
+satisfies. Note finally that the subsection 
+on ‘alignment 
+networks’ 
+by Kuck [14] contains a survey of known interconnection 
+networks for processors 
+and memories. 
+The general design of the machine is given in the next section. It is followed by 
+3 few details that prepare the reader for the simulation. 
+Section 3 gives an important 
+part of the simulation. 
+its correctness 
+is pro\ren in Section 4. Other parts of the 
+simulation 
+ru-c discussed 
+in Section 5. An efficient version of our simulation 
+that 
+utilizes pipelining and gives our resuh an edge over previously suggested simulations 
+appears in Section h. Section 7 inchides a few concluding 
+remarks. 
+2. Preliminaries 
+In outlining 
+the solution, there was ;tn short to describe it in the most general 
+form leaving 2s much freedom to the reader as possible for tilling in details that 
+might have ;I few alternatives. 
+More specifically, an i~?lplelnentati.)n scheme is given 
+that reduces the simufation 
+problem into the problems 
+of de$-+lg 
+networks for 
+sorting and merging. These problems are probably among the first to be considered 
+in tiny INN technology. Thompson 
+[27j describes, for example, thirteen ( !) algorithms 
+for sorting in a model of VLSI. Let us describe the machine. 
+Tier .s,rnchronorrs distrihtrttd 
+corrzpuwr (SD(‘): 
+The machine 
+has a sequence 
+of 
+I< 81 XI’S s, . s,. . . . . S, to be called szrpt’~-p~“~‘t’.~.s~r.~. 
+Each individual 
+super-processor 
+.4 PDC ’ general-purpose computer 
+161 
+has many properties 
+in common 
+with the processors 
+of the F&* PRAM. Actually, 
+the description 
+of the processors of the parallel computation 
+model, up to lhe point 
+( where we start discussing 
+their access to the common memory (that does not exist 
+I 
+/ here), is similar for the super-processors. 
+Our model employs also two families of 
+’ fairly degenerate 
+processors: 
+(1) A sequence 
+of processors 
+R,, &, . . . , R,, called 
+I comparator-processors 
+; and (2) A third sequence 
+of processors 
+MI, M2,. . . , M,, 
+called memory-processors. 
+Each OC the @.zomparator-processors has instructions 
+for checking the predicates 
+= and <. Each of the comparator- 
+or mt mory-processors 
+has a small local memory ; 
+i it can read from and write into its local memory; it can perform only the * operations 
+that we wish to include in the F&* instr4c)n 
+of our F&* PRAM design space. It 
+’ has a program 
+which is independent 
+of the algorithm 
+being implemented. 
+This 
+program is located in its local memory. 
+All processors operate synchronously 
+in parallel. They can be thought of as nodes 
+(vertices) that are connected 
+by lines (edges) forming a graph of c.ommunication. 
+Fig. 1 illustrates the general sfrucLure of the SDC graph of communication; 
+supcr- 
+processors 
+are 
+represented 
+by circles 
+and 
+memory-processors 
+by triangles. 
+Comparator-nroc,ssors 
+only fill the area referred to as sorting and merging networks. 
+Each processqjr has an additional 
+instruction that serves as the main communication 
+tool. The information 
+to be communicated 
+is loaded into a communication 
+register 
+which corresponds 
+to the adjacent line on which this information 
+is to be transmitted. 
+The processor 
+on the other side of the line may read this register. The degree of 
+each vertex of our graph of communication 
+does not exceed 4. Every instruction 
+takes one time unit (uniform cost criterion). 
+Note that we do not specify the sorting and merging network. Our results and 
+analysis hold for any such networks. For instance, we may use Batcher’s networks. 
+Our goal is to implement 
+the F&k* PRAM into the SDC. 
+We define a l-l 
+correspondence 
+between the p processors 
+of zhe F&* 
+PRAM 
+model and the p super-processors 
+of the SDC. Each super-processor 
+S, is ‘respon- 
+sible’ to simulate the behavior of its corresponding 
+P,. 
+Another 
+l-l correspondence 
+is defined between the m addresses of the common 
+memory and the memt)ry-processors. 
+Each memory-processor 
+M, i I responsible to 
+store and simulate the updates of the content of (common) memor:! address i. The 
+simulation 
+of access of processors 
+to the common 
+memory is done by the super- 
+processors 
+and the memory-processors 
+through 
+a network rbf nodes and lines. All 
+the nodes in this network are comparator 
+processors. 
+To distinguish 
+between time units of the algorithm 
+and its implementation 
+we 
+refer to the former as pulses. We assume that the pulses can be partitioned 
+into 
+three sets: reading pulses, F&a pulses, and writing pulses. 
+Remark. 
+The variant of simultaneous 
+access to the same (common) memory location 
+for a mixed objective (e.g., two or more of reading, F&k* and writing) can be avoided 
+without Lhanging the running time of the algorithm by an order of magnitude. Break 
+U. Vishkin 
+(a 
+I) 
+*$‘!,__-” 
+..!J [(o, Ad,] --) 
+-. 
+(a2,2) 
+;‘s,)‘c_ 
+--_.- 
+-. _--_.- 
+.-’ 
+[(a2, 
+2),d2] 
+. 
+. 
+;q 
+4. 
+(a,,p) 
+[(op,P-),i-;j-- 
+: 
+STEP 
+I 
+--_-.- 
+-_) 
+STEP 4 
++_-- 
+..-. -..-._ -- 
+SORTING 
+(0 12"2) 
+_I- --._-- --___------) 
+NETWORK 
+[((lj2’ J2)tdj21 
+(ajpt 
+lp) 
+f___ _ 
+a 
+__. - .- 
+._-- - 
+~ 
+[(Oj p 1 Jp)*djpl 
+A, 
+(I,C,) 
+t----- 
+h, \ 
+-* 
+L _ .__- 
+STEP 2 
+STEP 3 
+f---------_--_ 
+- 
+e-4 
+! 
+-Ai 
+MERGING 
++. 
+,pl, 
+(2,c2) 
+,__;&I;--- 
+.- ) 
+/ 
+-- 
+--Y 
+, 
+1 
+-d 
+i 
+--_ 
+I-lg. I. lhc 
+nctuork 
+of‘ the implementation. 
+By t-- 
+we mean that Ia,, 1) is transmitted 
+on this line 
+[(Cl,. I ,.A 1 
+from 
+left to right while 
+[(d ,. I ), d,] is transmitted 
+from 
+right 
+to It,ft. 
+each time unit into three. In the first third part of the reading is performed, 
+in the 
+second the F‘&:~ and in the third the writing. 
+Remark. 
+Let Seq(n) be the lowest worst-case upper bound on the running time of 
+a sequential 
+algorithm 
+for a certain problem 
+of input size n. Obviously, 
+the best 
+upper bound on the parallel running time achievable, without improving the sequen- 
+tial result, for an algorithm 
+using p processors 
+in the F&* PRAM 
+is of the form 
+O(Seq( n)/p). An S.ilgorithm that achieves this running time is said to have ‘optimal 
+speed-up’, or more aimpiy to be ‘optimal’. Upper bounds on ihe worst-case resource 
+requirements 
+of algorirhms 
+which are designed 
+for parallel 
+PRAM'S 
+are usually 
+presented as: Depth O( J*) for z processors and rn common memory locations (!v, Z, rn 
+may be functions 
+of the input parameters). 
+An equivalent 
+formulation 
+of such a 
+result is: Depth 0(( _v*z)/p) 
+for all p s z processors and m common memory locations 
+for the same ~1~ z and nz. We use mostly the Fecond formulation. 
+A PDDI generul-purpose compu tcr 
+163 
+3. Simulation of a reading pulse 
+Say that processor 
+Pi, 1 6 i -G p, wishes to read from address ai of the common 
+memory. Then Si (the corresponding 
+super-processor) 
+communicates 
+this by writing 
+into its communication 
+register. In case Pi does not wish to read at the pulse, ai is 
+assigned fictitiously a nonexistent 
+address. (This nonexistent 
+address is the default 
+content of Pi’s communication 
+register.) So, if Pi wishes to perform any instruction 
+other than having 
+access to the common 
+memory 
+then Si (the corresponding 
+superproces-or) 
+can do it in one time Init. 
+The simulation 
+of reading from the common 
+memory involves four steps. 
+Step 1. Apply a sorting network (e.g , Batcher’s [3] network) to sort the pairs 
+(Cl,, l), (a?, 2), . . . , (up, p) in the lexicographic 
+order. Namely, (a,, i) < (aj, j) iff a, -C a, 
+or a, = 0, and 
+i <j. 
+Denote 
+the outyr;; 
+of the sorting 
+procedure 
+by (a,,, j,), 
+f a,,, iA 
+* ’ - 3 w,,.r 
+.&d’ 
+Processors that wish to read from the same address are represented 
+in this output 
+by consecutive 
+serial numbers, and sorted according to their original serial numbers. 
+As we mentioned 
+earlier, 
+comparator-processors 
+take the place of comparator 
+modules 
+in the sorting network (and in the merging network of the next step). In 
+addition to their functioning 
+as such, they keep for each input the line on which it 
+arrived. Tt is used i:7 Step 4 for returning each (a, i) along the same path it arrived 
+on. 
+Remark. A similar application 
+of sorting appears also in [5] and [29]. However, the 
+contribution 
+of this paper is in the next step where we show how to use merging 
+networks for the purpose of fanning out the contents of memory cells to processors 
+that seek to read them. The use of merging networks enables us to use pipelining 
+(set: Section 6) in the efficient version of our simulation, 
+which improves the time 
+complexity 
+of [5]. Also, the number of auxiliary processors seems to be smaller than 
+theirs. It should be noted that they do not specify the number of processors. The 
+above applies for comparable 
+cases only, since [5] presented their solution only for 
+the case p = vn. The merging networks are used in a nonstandard 
+way since we are 
+interested in the intermediate 
+computations 
+of the network rather than in the merging 
+itself. In a companion 
+paper [3 1] we coin the name ‘lucid-box composition technique’ 
+(as opposed 
+to black-box compositions) 
+for this wider notion for using effectively 
+intermediate 
+results of existing (or supposedly 
+existing) procedures 
+for the purpose 
+of designing 
+new ones. This paper includes more examples where this technique is 
+useful. 
+Step 3. Apply a merging network (e.g., Batcher’s network) to merge the output 
+of the sorting network (ai,, j& ( aj,, j,), . . . , (a,,, j,,), and the (sorted) list of addresses 
+of the common memory denoted (w.1.g.) by 1,2, . . , m. For the merging, we define 
+(ai, i) <j iff ai d j. The comparator-processors 
+of the merging network keep for each 
+input pair (a,, i) the line on which it arrived. 
+164 
+U. Vislrkin 
+To each memory address i we attach its content Ci that moves together with i in 
+the merging network. To each pair (+, j) we attach a variable 4” Upon entering the 
+merging network at the beginning of Step 2, dj is ‘undefined’ 
+for each j, I =s j 6 p. 
+Whenever a memory address j meets a pair (ai, i), such that ai = j, in a comparator- 
+processor of the network we copy the content of this address into db Whenever two 
+pairs (a, i) and (aj, j) such that ai = Uj meet at a comparator-processor 
+and one of 
+them, say (a,, i), found already in a previous time unit its di (di f ‘undefined’) 
+we 
+copy this value into dj 
+Fig. 2 illustrates Step 2. 
+r (3,1) 
+/ (3,2) 
+j (7,3) 
+: (7,4) 
+! (7,5) 
+i (8.7) 
+lL(8.8, 
+? I\ ,‘i 
+,,$, ,-c__f -LF-_t_j_?. 
+- - -- ---j----~~ 
+Fig. 2. Example ofStep 2. p = wt = 8, a, = U, = 3, Q.~ = a, = + - ~1, = 7, a7 = (2% = 8. Dotted boxes represent 
+comparator-processors 
+in which content of some common memory 
+address is copied in Step 2. Dashed 
+boxes represent comparator-processors 
+which are member of Vy, in the proof of Theorem 
+1. 
+Actually, we eliminate the output lines of the merging network, since we are not 
+interested (as explained 
+later) in the merging itself; so the last layer of the Batcher 
+merging network, fQr instance. will be the last ‘layer’ of our implementation 
+network. 
+The comparator-processor 
+of this last layer, together 
+with the first and last 
+comparator-processor 
+of the first layer of the Batcher’s merging network are referred 
+to ;IS terrrzinclls as there are output lines on the network that emanate from them. It 
+should be clear how to generalize the definition 
+of terminals 
+to general merging 
+networks. In the next section we prove that upon finishing Step 2, when [‘a,, j), d,] 
+is transmitted 
+to a corresponding 
+terminal comparator-processor 
+d, = c_ namely, d, 
+equals the content of memory address a, which is exactly what super-irocessor 
+s, 
+wishes to read. 
+A PDDI general-purpose computer 
+165 
+Step 3. Each [(a,, i), di] is returned through the merging network, along the paths 
+it traversed during Step 2, to its ‘output processor’ of the sorting network. 
+Step 4. It is further returned to its S,. 
+4. Correctness proof of the reading pulse simulation 
+TO ,remind the reader, [(a,, j), dj] cctrresponds 
+to a message originated 
+at super- 
+processor j. This super-processor 
+w~si es to read from address 
+ay We claim tha; 
+upon arriving at its corresponding 
+tern.inal 
+comparator-processor, 
+at Step 2, the 
+1 ariable gi, of this message, is assigned with c,,,, the content of address ai. Sending 
+the message [(a,& 
+41 back to super-processor 
+j in a later step will achieve the goal 
+of bringing 
+cc,, to j’s ‘knocrledge’. 
+Let Pi,, Pi-3 . . . , P,k (i, < i2 < 
+l * - < ik) be all the processors that wish to read from 
+the common 
+memory address j (u,, = j for 1 s I s k) in the current pulse. 
+Let us define recursively 
+the set Vj that contains 
+comparator-processors 
+and 
+memory processor j (vertices) as its elements: 
+(1) jc y: 
+(2) UC y, Ii-fC?r Lame M’E Vj, there is a line directed from u’ to v such that the 
+message (j, ci) or a message [(a,,, i,), di! 3, (1 s Is 
+L), was transmitted 
+at Step 2 along 
+this line. 
+See, for example, the set V, in Fig. 2. 
+Remark. In general merging networks it is possible (apparently 
+due to redundancy) 
+that the set V, induces a connected 
+graph which is not a tree. it is easy to see thAt 
+in Ratcher’s network it induces a tree. 
+Theorem 1. Let ~1 he a terminal comparator-processor which corresponds to a message 
+[(ai,, ir), di,] (1 s Is 
+k). (Namely, 
+this message is receked 
+at v but not trunsmitted 
+,filrther bj* Step 2 of the simulation.) Then t; E y,. (Remember 
+a,, = j.) 
+_ _ 
+Remark. Theorem 1 readily implies the correctness of the reading pulse sinxlation. 
+This is because every comparator-processor 
+~1 in V, ‘gets’ the value of cj through a 
+line that implied 
+its membership 
+in y (see the recursive definition 
+of vj> and 
+therefore 
+each d,, is assigned 
+by cj until the message [(a,,, i,), d,,] arrives to its 
+car responding 
+terminal comparator-processor. 
+Proof of Theorem 1. The only fact required for the proof is that the merging network 
+is correct. The output of our merging includes 
+a successive list of k + 1 elements 
+sorted in the following order: 
+166 
+U. Vishkin 
+We assume that common 
+memory addresses 
+are limited to integers, and so are 
+the ai’s. (There could be a problem when a, corresponds 
+to a nonexistent 
+address.) 
+Imagine that instead of (j, c,) we take (j - i, CT,) leaving all the other inputs as they 
+were. In that case, the same list of k + 1 elements is placed in the same block of the 
+output but in a different order. The new order is 
+Remark. 
+Although 
+we do not need the output lines of the merging network for the 
+simulation, 
+we use them here for the sake of argument. 
+Claim. 
+( 1) Ever!* /ilIe d2ich 
+is traversed by one qf our k + 1 messages 
+in tfte first 
+applic-ation of the network is traversed by orle of the corresponding k -I- 1 messages in 
+the .wcwd application and vice versa. 
+Proof of the claim. 
+If a certain entering line to a comparator-processor 
+transmits 
+one of the k + I messages in each application 
+(not necessarily 
+the same) and tne 
+other entering line to this comparator-processor 
+transmits one of the other messages 
+in both applications, 
+the result of the comparison 
+will be the same. Thus, correspond- 
+ing inputs will be sent through the same emanating line:,. The case where both inputs 
+belong. or do not belong, to the k + I messages in both applications 
+is easy because 
+no ‘harm’ can be done. 
+t:’ , 
+Froof of Theorem I (contir~ucd). Let us look at one of‘ the [(a,,, il), d,,) messages. We 
+wish to prove that its corresponding 
+terminal comparator-processor 
+belongs to V,. 
+Let us trace this [(a,,, i,), d,:J messagt: in both applications 
+of the merging network 
+described above. We are going 10 have two paths that start at the same input. J>enote 
+by C, the last comparator-processor 
+that belongs to both paths before they split for 
+the first time. There is such r, because the paths do not end at the same output 
+line. Proving that I’, E V, would imply that the corresponding 
+terminal comparator- 
+processor to our message I( cl,,, ii), d,, ] belongs to V,. Just apply the definition 
+of V, 
+to the path traverxcl by the message from P, to this terminal comparator-processor 
+to ~;ee that. So, it remains to show that 19~ 
+t. V,. 
+Since one of the I‘,.s entering lines input the message [(n,,, i,), tl,,)] in boih applica- 
+tions the messages input on the other entering line could not be the same. Let v-7 
+hc the c‘omp;trator-processor 
+on the other side of this line. As 11, had a dikent 
+output from onto irpplicatiun 
+of the network to the other, one ot‘ its entering lines 
+hack to transmit diiftxent 
+input>. Let 11~ be the cc~nlpar;ttc~r-processor on the other 
+Gdc ot‘such a line, and w on. Since our mcrgin g network is tinite and cyclic 
+M’C 
+arrive eventually 
+at memory processor j. This is because it is ‘responsible’ 
+for the 
+wily input line to the merging network which inputs ditfercnt data in both applica- 
+tion5. 
+A PDDI geneml-purpose 
+computer 
+167 
+5. Simulation of F&* and writing pulses 
+Consider 
+a general merging network, where V does not necessarily induce a tree. 
+(Recall the remark that precedes Theorem 
+I .) Following the ideas of the fan-out 
+method 
+of Step 2 in the reading 
+pulse simulation, 
+we can identify 
+very easily 
+comparator-processors 
+whose in-degree in the graph induced by I$ are 2. Eliminating 
+one of the entering edges in each of them would reduce the induced 
+graph to a 
+tree. Denote 
+this tree by VJ. Appendix 
+A shows how to utilize a binary-tree 
+synchronous 
+di~ri buted 
+machine for t*omputation of an L%* instruction. 
+The F&* 
+instructions 
+that relate to the same shqred memory location are entered into the 
+leaves of the tree. Then we climb up tht tree from the leaves to the root. Later we 
+:*eturn to the leaves. The main idea here is that the V: trees can serve as these trees. 
+Let us look at Fig. 1 ano try to imagine the direction in which the data moves in 
+the SDC machine. 
+There will be six steps instead of four in the reading pulse 
+simulation. 
+In the first and second steps the information 
+moves from left to right 
+in the sorting and merging networks, respectively. The Vj trees, which are subgraphs 
+of the merging network, lie on their side, the roots on the left of the leaves. Climbing 
+up the trees corresponds 
+to moving data from right to left in the merging network. 
+This is done in Step 3. In Step 4 we climb down the tree and, therefore, move from 
+left to right 
+ild tiu irierging network. In Steps 5 and 6 the data are moved from right 
+to left in the merging and srjrting netwurkc. respectively, 
+thereby trensmitting 
+the 
+required ‘partial sums’ to the processors. (The sums were transmitted 
+to the appropri- 
+ate common 
+memory locations in Step 3.) 
+No new ideas are required 
+for simulation 
+of the writing pulse. It is left as al-t 
+exercise for the interested 
+reader. 
+Compkxii_v. 
+Using Batcher’s merging and sorting networks; the sorting network 
+requires 
+O(log’ p) layers, each has O(p) 
+comparator-processors. 
+The merging 
+network has O(log( p + m)) layers, 0( m +p) comparator-processor 
+in each, plus m 
+memory processors. 
+So, to implement 
+one pulse of the algorithm in the F&* PRAM 
+into the SDC machine, we need O(log’ p +log(m +p)) time. 
+In the next section we show how this can be improved. 
+6. t3hcient 
+simulation 
+Let us have a second look at a pulse of an algorithm of the F&* PRAM. Say that 
+our parallel computation 
+model employs p processors and uses common memory 
+of size m ;ts before. So far, we have presented 
+a simulation 
+of this algorithm in an 
+SDC machine 
+which uses p super-processors, 
+m memory-processors 
+and J( Q, nr) 
+comparator-processors 
+where f is a function of p and m that depends on the sorting 
+and merging networks that we utilize. Let I( p, m) be the longest directed path startitlg 
+at a super processor, or at a memory processor 
+in the combined (both merging and 
+sorting) network of rhe implementation. 
+168 
+rl/ Vi&kin 
+in this section the number of th_e super-processors 
+is denoted 
+by s. It is smaller 
+than p, the number of processors of the parallel computation 
+model. While m, the 
+number 
+of memory-processors, 
+is the same as the number 
+of common 
+memory 
+addresses, as before. 
+Super-processor 
+S,, i s id s, will be ‘responsible’, 
+during this section, to simulate 
+thk behavior of processors 
+Pi, Pi+y, fi+zv, . . . in each pulse of the algorithm which is 
+formulated 
+in the parallel computation 
+model. Therefore, 
+we sbmetimes 
+call the 
+processors of the F&* PRAM design space virtual processors. 
+We do it by pipelining. 
+In the first time unit df the pulse simulation, 
+we start a 
+process similar to the simulation 
+of an algorithm 
+that is given for P,, . . . , f5 only 
+and 111 common 
+memory addresses by S,, . . . , S,. We call this process the firsf c_lTclr 
+of the pulse simulatiorl. 
+After a constant 
+number of time units we start a second 
+cycle similar to the pulse simulation 
+of an algorithm 
+that is given for P, +l, . . . , P2., 
+and m common memory addresses by S,, . . . , & and so on. Simulation 
+of reading 
+pulses does not require more than that. Simulation 
+of a F&* pulse involves the 
+following additional 
+observations. 
+Let J* denote both the common memory location that a certain F&* instruction 
+rt+ites to, and the memory 
+processor 
+that simulates 
+this memory 
+address. 
+No 
+ccjnfusion will arise. We use the V:. trees which are formed during each cycle in a 
+form similar to the previous section. t>ue to a small change, however, these trees 
+compute the F&* instruction 
+relative to the present pulse (rather than to the present 
+cycle). Remember that memory-processor 
+J’ is the root of all these Vi trees. Recall. 
+from the way the previous section invokes the appendix, 
+that the computation 
+of 
+ihe F;‘Rr* instruction 
+involves computation 
+of the A numbers 
+(moving up the V:. 
+tree or, equivalently, 
+moving right to left in the merging 
+network) 
+followed 
+by 
+computation 
+of the B numbers (moving down 
+Vl). Here, we start by computing 
+similarly the A numbers. 
+Following this, memory-processor 
+J* has its A number in 
+Vi of the current cycle; this is the ‘*-sum’ of the contents of all virtual processors 
+that participate 
+in the F&k instruction 
+and are simulated 
+by the cycle. (This A 
+number corresponds 
+to A@, I) of Appendix 
+A. Denote it by A( ~1) and the corres- 
+por~iing B number by H(J$) Let us call the time immediately 
+after the computation 
+4 H _r)+- R( !*I * A( _v) by memory-processor 
+~7 and before the nest cycle arrives at 
+\* the !C&c,itrl of thiz ~ycic. It should be obvious that at this time menlor.y-processor 
+1. i% ‘retid?’ for the cycle that follows :tnd the comput:itions 
+for this cycle will be 
+with respect 
+tc? the pulse being simul;rted. 
+Tllis 1s so since the only interaction 
+between cycles is at the memory processors. 
+The degree of each node in the graph of’ communication 
+of our SDC machine is 
+actually bounded 
+by sixteen (physical1.y it is bounded 
+by four) in the simulation 
+that involves pipelining. 
+This is bec:lust:: 
+i 1 ) loch line can be used Gmultaneously 
+in both directions by tivo different cycles 
+ot- fhC s;1n1e pulse. 
+A PDDl general-purpose 
+computer 
+169 
+If we wish that a processor of the SDC machine is not concerned 
+with more thnn 
+one of its lines at a time we can do it by partitioning 
+the lines of the network into 
+seventeen 
+sets (the maximum 
+degree of a node plus one, by Vizing’s Edge Coloring 
+Theorem 
+[4]) in such a way that no two lines of the same set share a node. 
+So it takes O(p/s + I@, m)) time units to simulate one pulse of the algorithm. If 
+p/s 3 I@, m), then the number of time units is simply 0( p/s). So, to sum up, we 
+have the following theorem. 
+Theorem 2. Given an algorithm with dqth 
+O( tIrp> for all p d x in a F&* PRAM with 
+p processors and m common memory ad&.~ses 
+where t, x and m are some nurrzbers. 
+We can simulate it in an SDC machine with s super-processors, m memory-processors 
+and-f@, m) comparator-:qrocessors in depth 0( t/s) for s s xl@, 
+m)‘. 
+One possible configuration 
+(mentioned 
+above) results in O( s( log s )’ + ~11 log m) 
+degenerate 
+processors 
+and I( s, m) = (log s 1’ +log m where m is the size of the 
+common memory. A second possible configuration, 
+which uses the recently suggested 
+sorting network of [2] ena?-les US to replace the (log s)’ term by log s in the last two 
+formulae. 
+However. the constants involved in the second configuration 
+are substan- 
+tiany larger. 
+7. Conclusion 
+A consequence 
+of the use of pipelining 
+in our efficient siml_!ation where each 
+super-processor 
+simulate\ 
+the behavior 
+of several processors 
+is the incentive to 
+design optimal (or close to optimal) algorithms 
+for a much wider range qfprocessors 
+( virtual processors) than actually available and to use the extensive ‘library’ of such 
+known algorithms. 
+The result of this paper foilows [9,26,29,32] 
+in supporting 
+a more permissive 
+design space as long as the fine for realizing it in feasible implementation 
+spaces 
+does no,t increase. For example, consider a CREW (concurrent-read, 
+exclusive-write) 
+PRAM (similar to [8]). It ih a CRCW 
+PRAM that does not allow simultaneous 
+access 
+to the same memory location by several processors 
+for write purposes. One could 
+expect that implementing 
+algorithms 
+given in a CREW 
+PRAM into a synchronous 
+distributed 
+model, where each node has a small degree, will require less time or 
+less processors 
+than doing the same for algorithms 
+given in a CRCW 
+PRAM and that 
+this ‘ratio’ will be even smaller for implementing 
+the F&* rRAh4. By ‘less’ we mean 
+less by more than a constant 
+factor. As far as I know, every efficient solution for 
+the first problem has corresponding 
+solution for the second problem that preserves 
+both the time and the number of processors, thus supporting 
+the permissive models 
+of computation. 
+Moreover, 
+in [32] it is proven t.hat this situation 
+holds for any 
+‘reasonable 
+simulation 
+of the C-RLW wbw 
+into the SIX’. 
+170 
+U. Vishkin 
+Consider the case where the m common memory addresses are partitioned 
+among 
+N memory-processors 
+where N s m and only one address of each memory-processor 
+may be accessed at a time. Let us overview an adaptation 
+of the PDDI 
+to this case 
+which seems to approximate 
+better current technological 
+limitations 
+(according 
+to 
+[14] and [9]). I n addition 
+to the sorting and merging network, 
+our revised 
+PDDI 
+includes a balanced 
+binary tree having p (the number of super-processors) 
+leaves. 
+Each leaf is connected 
+to an output line of the sorting network (which is also an 
+input line of the merging network). Inputs for the sorting network are triples of the 
+form (m,, 
+a,, 
+i) where mi is a memory-processor 
+number and ai is an address at its 
+local memory (i is a super-processor 
+number as before). The binary tree is used to 
+queue up requests for distinct addresses of the same memory-processor 
+by attaching 
+them serial numblers. The simple details are left to the reader. These requests are 
+pipelined 
+into the merging network accordingly. 
+Note that there is an unavoidable 
+bottleneck 
+due to the fact that only one address of each memory-processor 
+can be 
+referenced at a time. We do not elaborate on further details regarding this extension 
+of our solution since no new ideas are involved. Finally, we would like to mention 
+that Mehlhorn 
+and Vishkin [I 81 suggested recerltly 12 few strategies to control these 
+bottlenecks. 
+Appendix 
+A. The F’&* 
+implementation 
+trek! 
+The following simple binary tree synch**onous distributed 
+machine provides for 
+the implementation 
+of the F&* PKAI\<I. 
+It is similar to the Fetch-and-Add 
+implementa- 
+tion of [9]. Let n be a positive integer. For simplicity we assume that t1 is a power 
+of 2. Let o = log n (all logarithms 
+in this paper are to the base of 2). Let T be a 
+complete 
+binary tree with II leaves. A processor 
+is associated 
+with every node in 
+the tree. It is represented 
+by a combination 
+[h,j], 
+h being its height in the tree 
+andj its serial number among the other nodes at the same height (see Fig. 2). Assume 
+. 
+. 
+11, I,, - - * 9 il, are k numbers 
+where 
+I s i, < i2 < - - - c iA s )I and k is some integer. 
+(3 I) 
+K\ 
+(2 I) 
+(2 2) 
+A 
+A 
+(0.1) 
+(0 2) (0.3) 
+(0.4) 
+(0 5) (0.6) 
+(0.7) 
+(0.6) 
+hp. 
+7 
+A PDDI general-purpose computer 
+171 
+There 
+are k numbers 
+bi,, bi,, . . . , bi, which 
+are associated 
+with leaves [0, i,], 
+[0, i_,), . . . , [0, ik], and a number c associated 
+with the root of the tree. As before, * 
+is any associative 
+and commutative 
+binary operation. 
+A neutral element for the * operation 
+is denoted 
+by 0: for instance, the neutral 
+element 
+for the + cperation 
+is ilhe number zero. We use 0 to denote the number 
+zero as well. No confusion 
+will arise. 
+Every node in the tree is associated with two numbers, 
+A(h, j) and B( 11, 
+j). The 
+A numbers 
+satisfy initially 
+A(i, j) = ‘6 
+i 
+, ifi=Oancj= 
+i,forsomci,lSkk, 
+0 
+otherwise. 
+The B number of the rorOe satisfies initially B( LY, 1) = c. Our goal is that the B numbers 
+will satisfy eventually 
+B(O,i,)=~*A(O,i,)~A(O,i,)*~~~*.4(0,~i..,)=c*h,,-j-6,.,:~~~~~6,, 
+, 
+for i Sjs 
+k, 
+and B( CY, 1) = c * b,, * ‘hi, * - ~’ 
+l * !I,~. 
+The following 
+(distributed) 
+computation 
+is performed 
+‘up the tree’ (from the 
+leaves to the rod:). 
+Immediately 
+after this computation 
+reaches the root we perform 
+the following 
+computation 
+down the tree. 
+B(h,.j) +- 
+I 
+Z?(/? +l,G) 
+* A(ti,j- 
+I) 
+B(h +l,f(j+l)) 
+Right after the computation 
+leaves ths root 
+B(a, 1) * Ata, 1). 
+ifj is even, 
+otherwise. 
+node its processor performs 
+B(cx, 1) +- 
+Note that the computation 
+time is proportional 
+to the height of the tree, i.e., 
+O(log I? 1. 
+The Vi trees which are obtained by the simulation 
+are binary but not complete. 
+Adapting 
+the computation 
+described above to these trees is very simple. Observe 
+that node-processors 
+which are not on a shortest path from a root to an active leaf 
+(a leaf of the form [0, i,] for some I, 1 s k 
+k) do not participate in the computation. 
+A node-processor 
+of the V: tree that has on e son is treated as if it is a left son. 
+Werences 
+A.V. Aho, 
+J.E. Hopcroft 
+and J.D. 
+Ullman. 
+TIje Design 
+and Analysis of‘ C’omputer Algorithms 
+(Addison-Wesley, 
+Reading, 
+MA, 1974). 
+M. Ajtai. J. Komlos 
+and E. Szemeredi, 
+An O(n log n) sorting 
+network, 
+Proc. I.5 AC’M Symp. on 
+‘Theoq- of Computing ( 1983) 1-9. 
+K.F. Batcher, Sorting networks 
+d,ld their applications, 
+Proi: /1 FIPSSpriq 
+Joirlt Computer C’cJr$irrer:cve 
+32(1068) 
+338-343. 
+172 
+U. Vishkin 
+[4] C. Berge, Graphs and Hypergraphs 
+(North-Holland,, 
+Amsterdam, 
+1973). 
+[5] /I. Borodin and J.E. Hopcroft, Routing, merging and sorting nn parallel models of computation, 
+Proc. 14 AC&I 
+Symp. on Theory of Computing (1982) 338-344. 
+[6] F.Y. Chin, J. Lam and I. Chen, Efficient parallel 
+algorithms for .ome graph problems, 
+Comm. ACM 
+25 (9) ( 1982) 659-665. 
+[7] D.M. Eckstein, Simultaneous 
+memory access, TR-79..6, Computer Science Dept., Iowa State Univer- 
+sitv. Ames. 
+1979. 
+d 
+, 
+S. Fortune and J. Wyllie, 
+Parallelism 
+in random 
+access machines, 
+Pruc. 10th ACM 
+Symp. on new 
+0f Computing (1978) pp. 114-l 18. 
+A. Gottlieb, 
+R. Grishman, 
+C.P. 
+Kruskal, 
+K.P. McAuliffe, L. Rudolph 
+and M. Snir, The NYU 
+ultracomputer- 
+designing 
+an MIMD 
+shared 
+memory 
+parallel 
+machine, 
+1EEt: 
+7’rans. 
+C’omput. 
+C-32 (2) (i983) 
+175-189. 
+Z. Galil and W.J. Paul, An efficient general purpo(;e parallel computer, J. ACM 
+30 (2) (lVh3)360-387. 
+D. Heller, 
+A survey of parallel 
+algorithms 
+in numerical 
+linear 
+algebra, 
+SIAM Ret? 20 (4) (1978) 
+740-777. 
+D.S. Hirschberg, 
+Fast parallel 
+sorting algorithms, 
+Comm. 
+ACM 
+21 (8) (19781657-661. 
+D.S. Hirschberg, 
+A.K. 
+Chandra 
+and D.V. Sarwate, 
+Computing 
+connected components 
+on parailel 
+computers, 
+Comm. ACM 
+22 (8) (1979) 461-464. 
+D.J. Kuck, 
+A survey of parallel 
+machine 
+organization 
+and programming, 
+Cnmput. 
+Surueys 9 (1) 
+( 1977) 29-59. 
+G. Lev, Size bounds and parallel algorithms 
+for networks, 
+Ph.D. Thesis, Rept. C’ST-8-80, 
+Dept. of 
+Computer 
+Science, 
+University 
+of Edinburgh, 
+1980. 
+G. Lev, N. Pippenger 
+and J.G. Valient, 
+A fast parallel 
+algorithm 
+for routing in permuting 
+networks, 
+IEEE 
+Trans. Cornput. 
+C-30 (2) (1981) 93-100. 
+N. Meg!ddo, 
+Applying 
+parallel 
+computaticxl 
+algorithms 
+in the design of serial algorithms, 
+Proc. 
+22nd IEEE 
+Symp. on Foundations 
+qf Computer 
+Science ( 198 I ) 399-408. 
+K. Mehlhorn 
+and U. Vishkin, 
+Randomized 
+and deterministic 
+simulations 
+of PRAMS 
+by parallel 
+machines with restricted 
+granularity 
+of par;lllel 
+memories, 
+.4cta lnformatica, 
+to appear. 
+D. Nath, 
+S.N. Maheshwari 
+and P.C.P. 
+Bhatt, 
+Parallel 
+algorithms 
+for the convex hull problem 
+in 
+two dimensions, 
+Proc. CONPAR 
+,%‘I, Lecture 
+Notes in Computer 
+Science 111 (Springer, 
+Berlin, 
+I98 I 1 358-372. 
+F. P. Preparata, 
+New parallel-sorting 
+schemes, IEEE 
+Trans. Compur. 
+C-27 ( 1978) 669-672. 
+W. Paul, U. Vishkin 
+and H. Wrrgener, Parallel computation 
+on I!-3-trees. 
+TR-70. 
+Dept. of Computer 
+Science, (‘ourant 
+Institute, 
+New York 
+Univ., 
+NY. 
+19X,7: in: Proc. 10th SCALP. 
+Lecture 
+Notes in 
+Computer 
+Science 154 (Springer, 
+Berlin, 
+1983) 597-609. 
+J.T. Schwartz, 
+Ultracomputers, 
+AC,41 Trclns. Progmmrnittg 
+Languages 
+and .(j\~cv~~s 2 ( 19801 484-S: I. 
+Y. Shiloach and U. Vishkin. 
+Finding the maximum. 
+merging and sorting in :I parallel 
+computation 
+model, J. rllgorirhms 
+2 ( I ) ( 19X I ) 88-102. 
+Y. Shiloach and U. Vishkin, 
+An O(log n) parallel 
+connectivity 
+algorithm, 
+.I. Algorithms 
+3 ( I ) ( I9S21 
+57-67. 
+Y. Shiloach 
+and U. Vishkin, 
+An 0( n**2 log 11) parir:llel nlax-tlow 
+algorithm, 
+.l. Algorithms 
+3 (2) 
+i IORZf 128-146. 
+L.J. Stockmeyer 
+and U. Vishkin, Simulation 
+of parallel 
+random xcess machines hy circuits, S/,4,%! J. 
+( %I/I”l. 
+I3 ( 2 1 ( I984) 409322. 
+(‘.I). Thompson, 
+The VLSI 
+complexity 
+of sorting, 
+IF’EE 
+7rctrr.s. C‘omp~. 
+C-32 ( 12) ( 19X3 \. 
+R.E.. Tarjan and li. Vishkin, An etlicient parallel biconnectivity 
+algorithm, 
+SfAhf .I. c‘ov~pur., to appear. 
+1’. Vihhkin, 
+Implementation 
+of Gmultaneoutr 
+memory 
+ilddresh ;1cccss in models that forhid 
+it, .I. 
+.Mg0tlrht71\ 4 ( I I ( Iwu) 45-m. 
+I’. Vishkin, 
+An optimal 
+p;irallcl connccti\ it> algorithm, 
+KC’ Ol4Q, lf3hl J.J. M’itthon Rebciirch C‘t’ntw, 
+Yorhtcjun 
+Heights. 
+NY, 
+1981 : IIi.scw~t~ .4pp1. Mtr~l~.. 10 tippc;tr. 
+I_;. Vishkin, 
+Luc.id-hoses 
+1.5. bliick-hoseh, 
+Preprint, 
+1 YS3. 
+I 
+Khkin, 
+On choice of’ ,i model of prirallel 
+wmputation, 
+TR-b I, fjept. 
+of (‘omputtx 
+Sciwcc. 
+(‘our~nt 
+Institute. 
+NW \r’ork i!nil.. 
+19>s3 
+; .I. C’rmpl. S\~.~~rnrs 
+.S(+,. to appear. 
+J.C‘. Wyflie. The complexit) 
+ofparall<t 
+computation, 
+TR 73-.3,47, IIept. ot‘<‘omputer 
+Science, Cornell 
+University. 
+Ithaca, NY, 1379. 

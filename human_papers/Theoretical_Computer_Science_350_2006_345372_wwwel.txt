@@ -1,0 +1,1389 @@
+Theoretical Computer Science 350 (2006) 345–372
+www.elsevier.com/locate/tcs
+Games with winning conditions of high Borel complexity
+Olivier Serre∗
+LIAFA, Université Paris VII, CNRS, 2, place Jussieu, case 7014 F-75251 Paris Cedex 05, France
+Abstract
+We ﬁrst consider inﬁnite two-player games on pushdown graphs. In previous work, Cachat et al. [Solving pushdown games with
+a 3-winning condition, in: Proc. 11th Annu. Conf. of the European Association for Computer Science Logic, CSL 2002, Lecture
+Notes in Computer Science, Vol. 2471, Springer, Berlin, 2002, pp. 322–336] have presented a winning decidable condition that
+is 3-complete in the Borel hierarchy. This was the ﬁrst example of a decidable winning condition of such Borel complexity. We
+extend this result by giving a family of decidable winning conditions of arbitrary ﬁnite Borel complexity. From this family, we
+deduce a family of decidable winning conditions of arbitrary ﬁnite Borel complexity for games played on ﬁnite graphs. The problem
+of deciding the winner for these conditions is shown to be non-elementary.
+© 2005 Elsevier B.V. All rights reserved.
+Keywords: Pushdown automata; Two-player games; Borel complexity
+1. Introduction
+Inﬁnite two-player games have been intensively studied in the last few years. One of the main motivations is the
+strong relation that exists with veriﬁcation questions and controller synthesis. For instance, -calculus model checking
+for ﬁnite graphs (respectively, for pushdown graphs) is polynomially equivalent to the problem of deciding the winner
+in a game played on a ﬁnite graph [7] (respectively, on a pushdown graph [24]). In addition, constructing a winning
+strategy is the same as synthesizing a discrete controller [1].
+One important branch of game theory is developed in the framework of descriptive set theory in which the central
+question is determinacy, that is, the existence of a winning strategy. One of the deepest results is due to Martin [15]
+and states that, for Borel winning conditions, games are determined. In computer science, the games considered are in
+general equipped with winning conditions of low Borel complexity and therefore trivially determined. Nevertheless,
+deciding the winner is, in many cases, a difﬁcult problem. Since we are mostly interested in decidable games, it is
+natural to ask whether there exist decidable games of arbitrary high ﬁnite Borel complexity.
+For ﬁnite graphs and for the natural conditions appearing in veriﬁcation and model-checking, efﬁcient algorithms are
+known to decide the winner and to compute the associated winning strategies [20,25,10,22]. These winning conditions
+all belong to a low level of the Borel hierarchy, namely to the boolean closure of the Borel class 2.
+ This research has been partially supported by the European Community Research Training Network “Games and Automata for Synthesis and
+Validation” (GAMES), (Contract HPRN-CT-2002-00283), see www.games.rwth-aachen.de.
+∗Tel.: +33 1 44 27 28 48; fax: +33 1 44 27 68 49.
+E-mail address: serre@liafa.jussieu.fr.
+0304-3975/$ - see front matter © 2005 Elsevier B.V. All rights reserved.
+doi:10.1016/j.tcs.2005.10.024
+346
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+In [21], Thomas proposes to study games with winning conditions of Borel level larger than 2. In the paper, we
+focus on this topic and exhibit a family of winning conditions on pushdown games that have an arbitrary high Borel
+complexity while remaining decidable.As a corollary, one obtains a similar result for games on ﬁnite graphs. In addition,
+these games have effective winning strategies.
+The ﬁrst results concerning high-level Borel conditions come from pushdown games. In this model, the game graph
+is the inﬁnite graph of the conﬁgurations of a pushdown process. Walukiewicz has shown that parity games on such
+graphs can be effectively solved [24]. For this model, winning conditions exploiting the inﬁnity of the stack become
+natural. In [4], Cachat et al. have considered the following condition: Eve wins a play if and only if some conﬁguration
+is inﬁnitely often visited. They have shown that it is a decidable winning condition belonging to 3. More recently,
+Bouquet et al. have considered in [2] winning conditions that are boolean combinations of a Büchi condition with a
+condition called unboundedness that requires the stack to be unbounded. Gimbert has used the elegant method from
+[12] to study the boolean combination of a parity condition with unboundedness [9]. All these winning conditions are
+closely related to the one of [4] and remain decidable [2,9]. A natural question was therefore to consider higher-level
+winning conditions.
+In this paper, we give a uniform answer to the question of [21] by providing a family of winning conditions of
+increasing ﬁnite Borel complexity. The main idea is to require the stack to converge to some limit and then to have
+additional conditions on the limit. To solve classical conditions on pushdown games, one method consists in reducing
+the problem to a game on a ﬁnite graph [24,2]. We adapt this method and reduce the problem of deciding the winner in
+a pushdown game to the problem of deciding the winner in another pushdown game, equipped with a lower winning
+condition. Therefore, the proof goes by induction.
+From the proofs we also infer the effectiveness of the winning strategies. Whereas for previously studied winning
+conditions on pushdown games, the set of winning positions was regular, it is no longer the case here. The exact nature
+of these sets remains open. We further show that the complexity of determining the winner for these high-level Borel
+winning conditions is non-elementary and is elementary-hard. We also show that Eve has, from a winning position, a
+persistent strategy, that is, a strategy using memory but such that the move given from some vertex is always the same
+for a given play.
+The paper is organized as follows. In Section 2, we start with basic deﬁnitions on games and introduce the family
+of winning conditions that we will consider in the rest of the paper. In Section 3, we precisely characterize the Borel
+complexity of these winning conditions. In Section 4, we give the decidability results and constructions of these games.
+Remark that it gives a new proof of the decidability results of [4]. In Section 5, we show that the complexity of deciding
+the winner for such winning conditions is non-elementary and is elementary-hard. Finally, in Section 6, we discuss
+several points.
+2. Deﬁnitions
+2.1. Basic deﬁnitions
+An alphabet A is a ﬁnite or inﬁnite set of letters. A∗denotes the set of ﬁnite words on A, A the set of inﬁnite words
+on A and A∞the set A∗∪A. The empty word is denoted by ε. For a word u, we denote its (possibly inﬁnite) length
+by |u|. For i < |u|, we write u(i) for the ith letter of u.
+Let u ∈A∗and v ∈A∞. Then u is a preﬁx of v, denoted u ⊑v if there exists some word w ∈A∞such that
+v = u · w. For any word u ∈A∞, there exists a unique preﬁx of length k for all k⩽|u|. This preﬁx is denoted
+by u↾k.
+Deﬁnition 1 (Limit of a sequence of ﬁnite words). Let (ui)i ⩾0 ∈(A∗)N be an inﬁnite sequence of words. The limit
+limi∈N ui of (ui)i ⩾0 is the maximal word satisfying the following: for each j, there exists an index r such that
+the jth letter of limi∈N ui equals the jth letter of up for every p⩾r. Note that limi∈N ui can be either ﬁnite or
+inﬁnite.
+We recall now the classical notion of deterministic pushdown automaton. A deterministic pushdown automaton with
+input from A∞is a tuple A = ⟨Q, , A, ⊥, qin, ⟩, where Q is a ﬁnite set of states,  is a ﬁnite set of stack symbols,
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+347
+⊥∈ is a special bottom-of-stack symbol, A is the ﬁnite input alphabet, qin ∈Q is the initial state and
+ : Q ×  × A →{skip(q), pop(q), push(q, ) | q ∈Q,  ∈ \ {⊥}}
+is the transition function. In addition, we require that for all q, q′ ∈Q, a ∈A, (q, ⊥, a) ̸= pop(q′) (the bottom-of-
+stack symbol is never removed).
+A stack is an element of the set St = ( \ {⊥})∗· ⊥. A conﬁguration of A is a pair (q, ) with q ∈Q and  ∈St.
+Note that the top stack symbol in some conﬁguration (q, ) is the leftmost symbol of .
+A conﬁguration (q, ), for some q ∈Q and  ∈St, has a unique successor by some letter a ∈A, which is deﬁned
+as follows, depending on (q, , a):
+• If (q, , a) = skip(q′), it is (q′, ).
+• If (q, , a) = pop(q′), it is (q′, ).
+• If (q, , a) = push(q′, ′), it is (q′, ′).
+A run of A on a (possibly inﬁnite) word  = 01 · · · starts from the conﬁguration (qin, ⊥). A reads 0 and goes
+to the successor of (qin, ⊥) by 0, then it reads 1 and goes to the successor of the current conﬁguration by 1, and
+so on.
+One can in addition equip such an automaton with a classical acceptance condition, for instance a parity condition.
+In that case, one has a mapping col from Q to a ﬁnite set of colors C ⊂N. This coloring function naturally extends to
+the set of conﬁgurations by setting col((q, )) = col(q). Finally, an inﬁnite word  is accepted by A, if and only if the
+smallest color appearing inﬁnitely often in the run of A on  is even.
+If A is a deterministic pushdown automaton equipped with a parity acceptance condition, we denote L(A) the
+language accepted by A.
+Let A be a deterministic pushdown automaton and let  be some inﬁnite word on the input alphabet of A. We say
+that the stack of A is strictly unbounded when reading , if the sequence (i)i ⩾0 of stack contents in the run of A on
+ is such that limi∈N i is inﬁnite. Equivalently, we require that for all h⩾0, there is some index jh such that |i|⩾h
+for all i ⩾jh, and the limit of the stack is the inﬁnite word j0(0)j1(1)j2(2) · · · .
+2.2. The classes (Cn(A))n⩾0
+Now, let n⩾0 be some integer and let us consider a collection A1, . . . , An of deterministic pushdown automata
+(if n = 0 this collection is considered to be empty). Let An+1 be a deterministic pushdown automaton equipped
+with a parity acceptance condition. On input alphabet of A1, . . . , An+1, we require the following stack consistency
+property:
+For all 1⩽i ⩽n, the input alphabet of Ai+1 is the stack alphabet of Ai.
+Let A be the input alphabet of A1. We associate with A1, . . . , An, An+1 a language of inﬁnite words on the alphabet
+A, that we denote L(A1 ▷· · · ▷An ▷An+1), and which is deﬁned as follows:
+• If n = 0, L(A1 ▷· · · ▷An ▷An+1) = L(An+1) is the language accepted by An+1.
+• If n > 0, L(A1 ▷· · · ▷An ▷An+1) is the set of inﬁnite words 0 on the alphabet A such that:
+◦When A1 reads 0, its stack is strictly unbounded and therefore the sequence of stack contents converges to some
+limit 1.
+◦1 ∈L(A2 ▷· · · ▷An ▷An+1).
+Equivalently, a word 0 ∈A belongs to L(A1 ▷· · · ▷An ▷An+1) if and only if:
+• For all 1⩽i ⩽n, when Ai reads i−1, its stack is strictly unbounded and the sequence of stack contents converges
+to some limit i.
+• An+1 accepts n.
+Fig. 1 illustrate the case where n = 3.
+Finally, we denote by Cn(A) the class of languages L on some ﬁnite alphabet A such that L = (A1 ▷· · · ▷An ▷
+An+1) for some collection of deterministic pushdown automata A1, . . . , An and some deterministic parity automaton
+An+1. In particular C0(A) is the class of deterministic -context free languages on the alphabet A [5].
+348
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+Fig. 1. The language L(A1 ▷A2 ▷A3 ▷A4).
+In the sequel, when considering pushdown automata A1, . . . , An, An+1 used to deﬁne a language as described above,
+we will implicitly suppose that they are stack consistent.
+2.3. Games
+Let A be a ﬁnite alphabet and let G = (V, E) be a graph with edges labeled by letters in some alphabet A or by the
+empty word ε, that is E ⊆V × (A ∪{ε}) × V . Let VE ∪VA be a partition of V between two players Eve and Adam.
+A game graph is such a tuple G = (VE, VA, E).
+A two-player game on a game graph G is a pair G = (G, 	), where 	 is a winning condition, which can be of two
+kinds:
+• 	 is an internal winning condition if 	 ⊆V .
+• 	 is an external winning condition if 	 ⊆A∞.
+A play from some vertex v0 proceeds as follows: if v0 ∈VE, Eve chooses a successor v1 and an edge (v0, a0, v1) ∈E.
+Otherwise, it is Adam’s turn to choose a successor v1 and an edge. If there is no such v1, then the play ends in v0,
+otherwise the player to whom v1 belongs tries to move to some v2 and so on. Therefore, a play starting from v0 is a
+ﬁnite or inﬁnite sequence 
+ = v0a0v1a1v2 · · · ∈V ((A ∪{ε})V )∞such that (vi, ai, vi+1) ∈E for all i. In the case
+where the play is ﬁnite, we require that there is no (vn, an, vn+1) ∈E, if vn was the last vertex of the play. A partial
+play is any preﬁx of a play.
+A ﬁnite play is lost by the player that cannot move. An inﬁnite play 
+ = v0a0v1a1v2 · · · is won by Eve if and only if:
+• 	 is internal and v0v1v2 · · · ∈	.
+• 	 is external and a0a1a2 · · · ∈	.
+For a play 
+ = v0a0v1a1v2 · · · we denote by Lab(
+) the word a0a1 · · · . For instance Lab(v0εv1bv2bv3εv4εv5a
+v6εv7) = bba. Therefore, if 
+ is a play in a game equipped with an external winning condition 	, it is won by Eve if
+and only if Lab(
+) ∈	.
+A strategy for Eve is a function assigning, to any partial play ending in some vertex v ∈VE, an edge (v, a, v′) ∈E.
+Eve respects a strategy f during some play 
+ = v0a0v1a1v2 · · · if (vi, ai, vi+1) = f (v0a0 · · · vi), for all i ⩾0 such
+that vi ∈VE. Finally a strategy for Eve is winning from some position v, if any play starting from v ∈V , where Eve
+respects f , is won by her. A vertex v ∈V is winning for Eve if she has a winning strategy from v. Symmetrically, one
+deﬁnes the strategies and the winning positions for Adam.
+A game G is determined if, from any position, either Eve or Adam has a winning strategy.
+2.4. Pushdown games
+Pushdown processes provide a natural model for programs with recursive procedures. They are like pushdown
+automata except that they are nondeterministic. In addition, in this model, the input word (and therefore the initial state
+and acceptance condition) are ignored.
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+349
+More formally, a pushdown process is a tuple P = ⟨Q, , ⊥, ⟩where Q is a ﬁnite set of states,  is a ﬁnite stack
+alphabet that contains a special bottom-of-stack symbol ⊥and
+ : Q ×  →2({skip(q),pop(q),push(q,) | q∈Q,∈\{⊥}})
+is the transition relation. As for pushdown automata, we require that, for all q ∈Q, (q, ⊥) does not contain any
+element pop(q′). Finally, the notions of stack and conﬁguration of a pushdown process are deﬁned as for pushdown
+automata.
+From P, one deﬁnes an inﬁnite graph, denoted G = (V, E), whose vertices are the conﬁgurations of P, and edges
+E are deﬁned by the transition relation , i.e., from a vertex (p, ) one has:
+• (q, ) whenever skip(q) ∈(p, ).
+• (q, ) whenever pop(q) ∈(p, ).
+• (q, ′) whenever push(q, ′) ∈(p, ).
+Finally, let QE ∪QA be some partition of Q between Eve and Adam. It induces a natural partition VE ∪VA of V by
+setting VE = QE × St and VA = QA × St. The game graph G = (VE, VA, E) is called a pushdown game graph.
+Note that in a pushdown game graph, the edges are not labeled. Therefore, we will equip them only with internal
+winning conditions. Moreover, a play will be represented as a word on the alphabet V of vertices, and a strategy for
+Eve will be a function f : V ∗VE →V .
+For a vertex v = (q, ) of V, we deﬁne |v| to be the length of . In a play 
+ = v0v1v2 . . ., the stack is strictly
+unbounded if the stack size converges to +∞. More formally we require that for all k⩾0, there exists some i such that:
+for all j ⩾i, |vj| > k.
+If the stack in a play 
+ = v0v1 . . . is strictly unbounded, we will consider its limit, StLim
+ = lim i, where for all
+i ⩾0, vi = (pi, i) for some pi ∈Q and i ∈St.
+The following internal winning condition 	ubd = {
+ | the stack is strictly unbounded in 
+} is called the strict un-
+boundedness winning condition. A pushdown game G = (G, 	ubd) is called a strict unboundedness pushdown game.
+Remark 2. In [4], it is shown that it can be decided in Dexptime whether Eve has a winning strategy in a pushdown
+game equipped with a winning condition requiring that some conﬁguration is inﬁnitely often visited. It is easily seen
+that this condition is the dual condition of the strict unboundedness winning condition. Therefore, it is equivalent to
+decide a strict unboundedness pushdown game. In Section 4.3, we show that our main result gives the one of [4] as a
+corollary, hence provides a new proof.
+Finally, let us mention the parity condition on pushdown games. Let col be a coloring function from Q into a ﬁnite
+set of colors C ⊂N. This function is easily extended into a function from V in C by setting col((q, )) = col(q). The
+parity condition is the internal winning condition deﬁned by
+	par =
+
+v0v1 · · · | inf{c | ∃∞i s.t. col(vi) = c} is even
+
+.
+2.5. The winning conditions 	int
+A1 ▷··· ▷An ▷An+1 and 	ext
+A1 ▷··· ▷An ▷An+1
+Let n⩾0 be some integer and let A1, . . . , An, An+1 be some pushdown automata where in addition An+1 is equipped
+with a parity condition. Let  be the input alphabet of A1. From A1, . . . , An, An+1, we deﬁne two winning conditions,
+an external one that will be used for games played on ﬁnite graphs, and an internal one for pushdown games. It will be
+shown later that they are closely related.
+Deﬁnition 3. The external winning condition 	ext
+A1 ▷··· ▷An ▷An+1, is deﬁned by
+	ext
+A1 ▷··· ▷An ▷An+1 = L(A1 ▷· · · ▷An ▷An+1).
+Deﬁnition 4. Let G be a pushdown game graph constructed from some pushdown process with  as stack alphabet.
+Then 	int
+A1 ▷··· ▷An ▷An+1 is deﬁned by
+	int
+A1 ▷··· ▷An ▷An+1 = {
+ ∈	ubd | lim 
+ ∈L(A1 ▷· · · ▷An ▷An+1)}.
+350
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+Example 5. We ﬁnish with examples of such winning conditions:
+(1) Let A be some parity automaton accepting all inﬁnite words on some alphabet . Then the winning condition 	int
+A
+is the strict unboundedness winning condition.
+(2) Consider the deterministic parity pushdown automaton A that accepts the language { ∈{p, c, t} | ∀k⩾0, |↾k|c
+⩽|↾k|p} of words  on the alphabet {c, p, t} such that in any preﬁx of , the number of p is greater than the number
+of c (|u|a designates the number of occurrences of some letter a in some word u). If p stands for produced, c for
+consumed and t for transform, the winning condition 	int
+A expresses that, in a system using recursive procedure
+and such that at the end of the main procedure (where all recursive calls end), some resource may be produced,
+consumed or transformed (which is also recorded in the stack by pushing either p, c or t), there is always an
+available resource when the consumer asks for it.
+3. Borel complexity
+3.1. Borel hierarchy
+Let A be a (possibly inﬁnite) alphabet. We consider the set A of inﬁnite words on the alphabet A, and we equip it
+with the usual Cantor topology where the open sets are those of the form W · A where W ⊆A∗is a language of ﬁnite
+words on the alphabet A. The ﬁnite Borel hierarchy (1, 1), (2, 2), . . . is inductively deﬁned as follows:
+• 1 = {W · A | W ⊆A∗} is the set of open sets.
+• For all n⩾1, n = {Sco | S ∈n} consists of the complements of n-sets.
+• For all n⩾1, n+1 =
+
+i∈N Si
+ ∀i ∈N, Si ∈n
+
+is the set of countable union of n-sets.
+Finally, if we denote by B(n) the Boolean combination of n-sets, we have the following strict inclusions:
+A set S is a proper-n-set if it is in n but not in n.
+3.2. Borel complexity of a winning condition
+Let G = (G, 	) be some game played on a game graph G and equipped with a winning condition 	. The Borel
+complexity of the winning condition 	 is its Borel complexity when considered as a set on the alphabet of the vertices
+of G if 	 is internal, and on the alphabet A that labels the edges of G if 	 is external.
+Here are some examples of internal winning conditions:
+Example 6. (1) Consider a reachability winning condition (Eve wins if and only if the play eventually visits a vertex
+in some subset F ⊆V ). Such a condition is a 1-winning condition, as the winning condition for Eve is (V ∗F)V .
+(2) Consider a Büchi winning condition (Eve wins if and only if the play inﬁnitely visits vertices belonging to some
+subset F ⊆V ). Such a condition is a 2-winning condition, as the winning condition for Eve is 
+n⩾0[(V nV ∗F)V ].
+(3) Consider a Muller condition (Eve wins if and only if the set of inﬁnitely visited vertices belongs to a set of
+subsets of V). Such a winning condition is a B(2)-winning condition, as it is a Boolean combination of Büchi winning
+conditions.
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+351
+(4) Consider an unboundedness winning condition for pushdown games (Eve wins if and only if the stack size is
+not bounded). Such a condition is a 2-winning condition. Indeed, for any n⩾0, if one denotes by Vn the set of
+conﬁgurations of stack size n, the winning condition for Eve is 
+n⩾0[(V ∗Vn)V ].
+(5) Consider a strict unboundedness winning condition for pushdown games (Eve wins if and only if the stack
+size converges to ∞). The corresponding condition for Adam is the one considered in [4]: Adam wins if and only
+if some conﬁguration (equivalently some stack size) is inﬁnitely repeated. Therefore, if one denotes by Vn the set of
+conﬁgurations of stack size n, the winning condition for Adam is
+
+n⩾0
+
+m⩾0
+[(V mV ∗Vn)V ].
+Therefore, the winning condition for Adam is a 3-set, and thus the strict unboundedness winning condition is a
+3-winning condition for Eve.
+Finally, let us mention the well-known Martin’s Borel determinacy theorem.
+Theorem 7 (Martin [15]). Any game equipped with a Borel winning condition is determined.
+3.3. Wadge games
+Deﬁnition 8 (Wadge game [23]). Let A and B be two (possibly inﬁnite) alphabets. Let X ⊆A and Y ⊆B. The
+Wadge game G(X, Y) is a two-player game between Alice and Bob. Alice ﬁrst chooses a letter a0 in A. Then, Bob
+chooses a (possibly empty) ﬁnite word b0 ∈B∗. ThenAlice chooses a letter a1, and Bob a word b1, and so on. Therefore
+a play consists in writing an inﬁnite word  = a0a1 · · · for Alice, and writing a word  = b0b1 · · · for Bob. Bob wins
+if and only if both  is inﬁnite, and  ∈X ⇔ ∈Y.
+Notions of strategies, and winners in Wadge games are deﬁned similarly. These games are strongly related to the
+following notion.
+Deﬁnition 9 (Wadge reduction). We say that X ⊆A Wadge reduces to Y ⊆B, denoted X⩽WY, if and only if
+there exists a continuous function f : A →B such that X = f −1(Y). If X⩽WY and Y ⩽WX, then we say that X
+and Y are Wadge equivalent and we denote this by X ≡W Y.
+Then, we have the following well-known result:
+Proposition 10 (Wadge [23]). Bob has a winning strategy in the game G(X, Y) if and only if X⩽WY.
+Example 11. Consider the language A on some non-empty alphabet A. Then A ⩽wY for any non-empty set Y.
+Indeed, a winning strategy for Bob in W(A, Y) consists in describing some word in Y.
+Let A = {a, b}. Let X ⊆A be a closed set and let Y = {a} ⊆A. Then, X⩽wY. Indeed, Bob plays a if the
+preﬁx played by Alice is a preﬁx of some word in X. Otherwise, he plays b. This strategy is winning as an inﬁnite word
+is in a closed set X if and only if any preﬁx of the word is a preﬁx of some word in X (see [17]). Note that these two
+examples stress the importance of the underlying alphabets.
+The Wadge equivalence preserves the Borel hierarchy levels.
+Proposition 12. Let X and Y be two Wadge equivalent sets. Then they belong to the same level of the Borel hierarchy.
+Then, it is natural to consider the following completeness notion induced by the relation ⩽W.
+Deﬁnition 13 (Complete sets). A set Y ∈n is n-complete if and only if X⩽WY for all X ∈n. In particular, a
+n-complete set is a proper n-set. One easily deﬁnes n-complete sets.
+352
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+Remark 14. The notion of complete sets is not relevant for the class B(n), as there are no complete set for such a
+class for n⩾1 [11].
+Now, we give some examples to illustrate the completeness notion.
+Example 15. Let A = {a, b}. Let X ⊆A be the set of inﬁnite words that contains inﬁnitely many a. X is a 2-
+complete set. Indeed X =
+
+i ⩾0 AiA∗aA, hence X is a 2-set. Let Y be a 2-set on some alphabet B. Therefore,
+Y =
+
+i ⩾0 Yi for some family (Yi)i ⩾0 of open sets, where Yi = ZiB. In the game G(Y, X), Bob has a winning
+strategy that consists in maintaining some counter i which is initialized to 0. If the word already written by Alice is in
+ZiB∗, he plays a and changes his counter to i + 1. Otherwise, he plays b and does not change the value of his counter.
+Therefore, the word played by Bob contains inﬁnitely many a if and only if the word played by Alice belongs to Yi for
+all i ⩾0, that is, it belongs to Y.
+3.4. The operation X →X∼
+In [6], Duparc introduces several Borel operations that are homomorphic to ordinal sum, to multiplication by a
+countable ordinal and to ordinal exponentiation of base  (for some uncountable regular cardinal ). Here, we only
+focus on the operation X →X∼, which is the Borel counterpart of the ordinal exponentiation of base .
+The operation X →X∼works on sets X ⊆A∞of ﬁnite or inﬁnite words on some alphabet A. Nevertheless, one
+needs to transform ﬁnite words into inﬁnite words to deﬁne the operation. In this paper, we will only use a consequence
+of Duparc’s results that works for languages of inﬁnite words. That is why we only describe the result in the framework
+of languages of inﬁnite words.
+Deﬁnition 16 (Dupare [6, deﬁnition 22]). Let A be some alphabet, let X ⊆A∞, and ↞/∈A (a symbol for “Back
+Space”), then X∼= {u ∈(A ∪{↞})∞| u↫∈X} where u↫is inductively deﬁned by
+• ε↫= ε
+• for u ﬁnite with |u↫| = k:
+◦(u · a)↫= u↫· a if a ̸= ↞.
+◦(u · ↞)↫= u↫↾(k−1) if k > 0 (erases the last letter of u↫).
+◦(u · ↞)↫= ε if k = 0 (there is nothing to erase).
+• for u inﬁnite, u↫= limn∈N((u↾n)↫).
+For instance, ab↞↞c = a↞c = c, bb(ab↞) = bba and bb(b↞) = bb.
+The operation X →X∼has a very natural interpretation in terms of Wadge game. A player in charge of X∼is
+like a player in charge of X that can in addition erase symbols as often as he wants by simply playing the Back Space
+letter ↞.
+The iterated version of the operation X →X∼is deﬁned as follows:
+Deﬁnition 17. Let X be some set. Then, we deﬁne X∼0 = X and ∀n ∈N, X∼n+1 = (X∼n)∼.
+In this paper, we use the following consequence of Lemma 31 of [6], that works for languages of inﬁnite words.
+Lemma 18 (Finkel [8]). Let A be some alphabet and let X ⊆A be some k-complete set for some k⩾2. Then,
+(X∼n) is a n+k-complete set, for all n⩾0.
+Finally, let us give the following result due to Löding [13].
+Lemma 19. Let A be some alphabet and let X ⊆A. If X ∈B(n) for n⩾2 then L∼∈B(n+1).
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+353
+Proof. We start proving the result for open sets. For this, it sufﬁces to prove it for some 1-complete set as the operation
+X →X∼respects the Wadge ordering ⩽W [6]. Let us consider the language O = (a∗b)A on the alphabet A = {a, b}
+which is the complement of the 1-complete language a (see Example 11).
+Then one has
+O∼=
+
+n⩾0
+((A ∪{↞})nb(A ∪{↞}) ∩Kn,
+where Kn is the set of inﬁnite words  on the alphabet A∪{↞} such that the nth letter of  is not erased when computing
+↫. More precisely,
+Kn =
+	
+H⩾n(A ∪{↞})
+co
+where H⩾n is the set of ﬁnite words u such that the nth letter of u is erased when computing n↫, that is u(n + 1)
+· · · u(|n| −1) = v↞v′ for some v such that v↫= ε.
+Therefore, Kn is a 1-set and therefore O∼is a 2-set.
+Now, note that the operation X →X∼on set of inﬁnite words distributes over intersection and union.
+For complementation, in general, (Xco)∼⊊(X∼)co. Indeed, (X∼)co also contains the words  such that ↫is ﬁnite.
+Therefore (Xco)∼= (X∼)co ∩Inf , where Inf is the set of words  ∈(A ∪{↞}) such that ↫is inﬁnite:
+Inf =
+
+m⩾0
+
+n⩾m
+Kn.
+Hence, Inf is a 3-set.
+Now, if X is some set in B(n) for some n⩾2, one applies the X →X∼operation to the formula proving its member-
+ship to B(n), pushes the preceding operation to the level of 1-sets and intersect with Inf whenever complementation
+is used. In the resulting formula, all 1-sets have been changed into 2-sets, and therefore it shows that X∼belongs to
+B(n+1) (intersection with Inf does not increase the Borel complexity, as n⩾2).
+□
+3.5. Borel complexity of L(A1 ▷· · · ▷An ▷An+1)
+In this section, we study the Borel complexity of languages in the class Cn(A) for some ﬁnite alphabet A and some
+integer n⩾0.
+More precisely, we show the following result:
+Theorem 20. Let A be some ﬁnite alphabet and let n⩾0 be some integer. Then a language in Cn(A) belongs to
+B(n+2). In addition, there is a language in Cn(A) that is n+2-complete.
+Note that for n = 0 the result is the classical one stating that a language recognized by some deterministic machine
+equipped with a parity condition is in B(2) (the proof is a generalization of the one showing that -regular languages
+are in B(2) [17]). For completeness, one can consider the -regular language on the alphabet {a, b} of inﬁnite words
+containing inﬁnitely many occurrences of the letter a (see Example 15).
+The proof of Theorem 20 goes by induction on n, and relies on the following lemma:
+Lemma 21. Let n⩾1 and let A1, . . . , An be a collection of pushdown automata and let An+1 be a parity pushdown
+automaton. Then L(A1 ▷· · · ▷An ▷An+1)⩽WL(A2 ▷· · · ▷An ▷An+1)∼.
+In addition, there is some pushdown automaton A1 such that the preceding inequality is an equivalence.
+Proof. Let X = L(A1 ▷· · · ▷An ▷An+1) and let Y = L(A2 ▷· · · ▷An ▷An+1)∼.
+We show that Bob has a winning strategy in the Wadge game G(X, Y). Indeed, Bob plays so that when Alice has
+played some word u, he has played a word v such that v↫is the stack content of A1 when having read u. Bob wins by
+the very deﬁnition of X from Y, hence X⩽WY.
+354
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+Now consider the special case where A1 = ⟨{q}, , , ⊥, q, ⟩where:
+•  =  ∪{↞} where ↞/∈.
+• For all  ∈, (q, , ↞) = pop(q) and (q, , a) = push(q, a), for a ̸= ↞.
+Then, if we consider ↞as an eraser, we directly have that the stack contents of A1, after reading some word u, is u↫.
+In addition, the stack limit of A1 after reading some inﬁnite word  is ↫. By deﬁnition of acceptance, an inﬁnite word
+ ∈X if and only if the stack limit of A1 when reading  is inﬁnite and is in L(A2 ▷· · · ▷An ▷An+1). Therefore,
+ ∈X if and only if ↫∈L(A2 ▷· · · ▷An ▷An+1). This exactly means that X ≡W Y.
+□
+Then, Theorem 20 follows from transitivity of ⩽W, Lemmas 18 and 19, and from the basic case n = 0.
+3.6. Borel complexity of 	int
+A1 ▷··· ▷An ▷An+1 and 	ext
+A1 ▷··· ▷An ▷An+1
+In this section, we discuss the Borel complexity of the winning conditions of the form 	int
+A1 ▷··· ▷An ▷An+1 and
+	ext
+A1 ▷··· ▷An ▷An+1.
+For the external winning condition 	ext
+A1 ▷··· ▷An ▷An+1, we have the following corollary of Theorem 20.
+Corollary 22. For all n⩾0 the following holds:
+• For any collection of deterministic pushdown automata A1, . . . , An, and any parity pushdown automaton An+1,
+	ext
+A1 ▷··· ▷An ▷An+1 is a B(n+2) external winning condition.
+• There exists a collection of deterministic pushdown automata A1, . . . , An, and a parity pushdown automaton An+1
+such that 	ext
+A1 ▷··· ▷An ▷An+1 is a n+2-complete internal winning condition.
+For the internal winning condition 	int
+A1 ▷··· ▷An ▷An+1 on pushdown games, we have the following result.
+Theorem 23. For all n⩾0 the following holds:
+• For any collection of deterministic pushdown automata A1, . . . , An, and any parity pushdown automaton An+1,
+	int
+A1 ▷··· ▷An ▷An+1 is a B(n+3) internal winning condition for pushdown games.
+• There exists a collection of deterministic pushdown automata A1, . . . , An, and a parity pushdown automaton An+1
+such that 	int
+A1 ▷··· ▷An ▷An+1 is a n+3-complete internal winning condition for pushdown games.
+Theorem 23 is a consequence of Theorem 20 together with the following lemma:
+Lemma 24. Let P be a pushdown process with stack alphabet  and associated with some pushdown game graph G
+equipped with the winning condition 	int
+A1 ▷··· ▷An ▷An+1. Then
+	int
+A1 ▷··· ▷An ▷An+1 ≡W L(A1 ▷· · · ▷An ▷An+1)∼.
+Proof. Let X = 	int
+A1 ▷··· ▷An ▷An+1 and Y = L(A1 ▷· · · ▷An ▷An+1)∼.
+Consider the Wadge game W(X, Y). A winning strategy for Bob consists in playing so that if u is the word he has
+written since the beginning of the play, u↫equals the stack contents in the last conﬁguration (that is the last letter)
+written by Alice.
+Conversely, consider the Wadge game W(Y, X). The winning strategy for Bob is to write a conﬁguration which stack
+contents equal to u↫, where u is the word already played by Alice.
+□
+4. Decidability
+In this section, we explain how to decide the winner in a game played on a ﬁnite game graph equipped with a winning
+condition of the form 	ext
+A1 ▷··· ▷An ▷An+1 and in a pushdown game equipped with a winning condition of the form
+	int
+A1 ▷··· ▷An ▷An+1. More precisely, we show the following result:
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+355
+Theorem 25. Consider some integer n⩾0 and a collection A1, . . . , An, An+1 of pushdown automata where in
+addition An+1 is equipped with a parity condition. Then the following holds:
+• Let G be a ﬁnite game graph. Then, for any vertex v in G, it is decidable whether Eve has a winning strategy from v
+in the game G = (G, 	ext
+A1 ▷··· ▷An ▷An+1).
+• Let G be a pushdown game graph. Then, for any conﬁguration of the form (q, ⊥) in G, it is decidable whether Eve
+has a winning strategy from (q, ⊥) in the game G = (G, 	int
+A1 ▷··· ▷An ▷An+1).
+The proof follows from Theorems 26–28 that show how to transform a game on a ﬁnite game graph into an equivalent
+pushdown game with a simpler winning condition, and how to transform a pushdown game into an equivalent game on
+a ﬁnite game graph with a winning condition of the same complexity. Thus, several transformations yield a pushdown
+game with a parity winning condition, a problem known to be decidable [24].
+4.1. From a game on a ﬁnite game graph to a pushdown game
+In this subsection, we consider a ﬁnite game graph G = (VE, VA, E) with edges labeled by letters on some al-
+phabet A or by the empty word ε, and we set V = VE ∪VA. We also consider some integer n⩾0, and a collection
+A1, . . . , An, An+1 of pushdown automata, where in addition An+1 is equipped with a parity condition and such that
+A is the input alphabet of A1. Finally, we consider an initial vertex vin ∈V .
+We construct a pushdown game equipped with the winning condition 	int
+A2 ▷··· ▷An ▷An+1 if n⩾1, and with a parity
+condition if n = 0. In addition, we show that there is a position in that game such that it is winning for Eve if and only
+if vin is winning for Eve in the game G = (G, 	ext
+A1 ▷··· ▷An ▷An+1).
+From G and A1 = ⟨Q, , A, ⊥, qin, ⟩, we deﬁne the following pushdown process P = ⟨Q × V, , ⊥, ⟩
+where:
+• skip((q′, v′)) ∈((q, v), ) if and only if there is some a ∈A such that (v, a, v′) ∈E and (q, , a) = skip(q′), or
+(v, ε, v′) ∈E and q = q′.
+• pop((q′, v′)) ∈((q, v), ) if and only if there is some a ∈A such that (v, a, v′) ∈E and (q, , a) = pop(q′).
+• push((q′, v′), ′) ∈((q, v), ) if and only if there is some a ∈A such that (v, a, v′) ∈E and (q, , a)
+= push(q′, ′).
+We consider the partition Q×VE ∪Q×VA of Q×V , and denote by G the pushdown game graph induced by P and the
+preceding partition. Intuitively, G encodes on-the-ﬂy computations of A1 on plays in G. Then, we have the following
+result.
+Theorem 26. If n⩾1, for any vertex vin ∈V , Eve has a winning strategy in G = (G, 	ext
+A1 ▷··· ▷An ▷An+1) from vin if
+and only if she has a winning strategy in G = (G, 	int
+A2 ▷··· ▷An ▷An+1) from ((vin, qin), ⊥).
+Proof. Assume that Eve has a winning strategy f from vin in G. We deﬁne a strategy f in G from ((qin, vin), ⊥). As
+G encodes an on-the-ﬂy computation of A1 on a play in G, f will reconstruct a play in G (using some function ), and
+use the value of f on it, to compute the move to play, and use  to update the stack and the ﬁrst component of the
+control state.
+Let 
+ be a partial play in G starting from ((qin, vin), ⊥) and let (
+) be inductively deﬁned by:
+• If 
+ = ((qin, vin), ⊥), then (
+) = vin.
+• If 
+ = 
+′ · ((q′, v′), ′), then, let ((q, v), ) be the last vertex of 
+′. Then (
+) = (
+′) · a · v′ for some a ∈A ∪{ε}
+such that (v, a, v′) ∈E and (q′, ′) is the successor of (q, ) by a in A1. Note that by construction of P, (
+) is
+always deﬁned (and may not be unique).
+Now, for any partial play 
+ ending in some conﬁguration ((q, v), ), we set f (
+) = ((q′, v′), ′) where (v, a, v′) =
+f ((
+)) for some a ∈A ∪{ε}, and where (q′, ′) is the successor by a of (q, ) in A1.
+356
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+Now, it is easily seen that any partial play 
+ in G starting from ((qin, vin), ⊥) where Eve respects f is such that:
+(1) (
+) is a play in G starting from vin where Eve respects f .
+(2) The run of A1 on Lab((
+)) ends in the conﬁguration (q, ) where the last vertex of 
+ is of the form ((q, v), ) for
+some v ∈V .
+Now, we conclude that a play 
+ in G, where Eve respects f , is winning for her. If the play is ﬁnite then the ﬁrst point
+allows us to conclude that the player who cannot move is Adam. If 
+ is inﬁnite, (
+) is won by Eve, and therefore
+the stack of A1 when reading Lab((
+)) is unbounded and has its limits in L(A2 ▷· · · ▷An ▷An+1). Therefore, the
+stack in 
+ is unbounded and its limit is in L(A2 ▷· · · ▷An ▷An+1). Thus 
+ ∈	int
+A2 ▷··· ▷An ▷An+1.
+Conversely, assume that Eve has a winning strategy f from ((qin, vin), ⊥) in G. Let 
+ be a partial play in G starting
+from vin and let (
+) be inductively deﬁned by
+• If 
+ = vin, then (
+) = ((qin, vin), ⊥).
+• If 
+ = 
+′ · a · v′, then, let ((q, v), ) be the last vertex of (
+′). Then (
+) = (
+′) · ((q′, v′), ′) where (q′, ′) is
+the successor by a of (q, ) in A1.
+Now, for any partial play 
+ ending in some conﬁguration v, we set f (
+) = (v, a, v′) where ((q′, v′), ′) = f ((
+)) and
+a ∈A∪{ε} is such that (q′, ′) is the successor in A1 by a of (q, ), where ((q, v), ) designates the last conﬁguration
+of (
+). Note that, by deﬁnition of 
+, such an a always exists (and may not be unique).
+Now, it is easily seen that any partial play 
+ in G starting from vin where Eve respects f is such that:
+(1) (
+) is a play in G starting from ((vin, qin), ⊥) where Eve respects f .
+(2) The run of A1 on Lab(
+) ends in the conﬁguration (q, ) where the last vertex of (
+) is of the form ((q, v), ),
+for some v ∈V .
+Now, we easily conclude that a play 
+ in G, where Eve respects f , is winning for her. If the play is ﬁnite then the
+ﬁrst point allows to conclude that the player who cannot move is Adam. If 
+ is inﬁnite, (
+) is won by Eve, and
+therefore the stack is unbounded in (
+) and its limits is in L(A2 ▷· · · ▷An ▷An+1). Therefore, the stack of A1
+when reading Lab(
+) is unbounded and its limit is in L(A2 ▷· · · ▷An ▷An+1). Thus 
+ is winning for the external
+condition 	ext
+A1 ▷··· ▷An ▷An+1.
+□
+For the case where n = 0, A1 is equipped with a coloring function col : Q →C. Therefore, we extend col into a
+function col : Q × V →C by setting col(q, v) = col(q). We denote by G the pushdown parity game played on G and
+induced by col. Then, using the same techniques as for Theorem 26, we prove the following result:
+Theorem 27. For any vertex vin ∈V , Eve has a winning strategy in G = (G, 	ext
+A1) from vin if and only if she has a
+winning strategy in the parity pushdown game G from ((vin, qin), ⊥).
+4.2. From a pushdown game to a game on a ﬁnite game graph
+In this section, we consider a pushdown process P = ⟨Q, , ⊥, ⟩together with a partition QE∪QA of Q. The asso-
+ciated pushdown game graph is denoted by G. We also consider some integer n⩾0 and a collection A1, . . . , An, An+1
+of pushdown automata where in addition An+1 is equipped with a parity condition and such that  is the input alphabet
+of A1. Finally, we set G = (G, 	int
+A1 ▷··· ▷An ▷An+1) and we consider an initial conﬁguration (pin, ⊥) in G.
+We now construct a ﬁnite game graph G with the external winning condition 	ext
+A1 ▷··· ▷An ▷An+1, such that Eve has a
+winning strategy in G from (pin, ⊥) if and only if she has a winning strategy in G from some special vertex. Intuitively,
+in G, we keep track only of the control state and the symbol on the top of the stack. The interesting aspect of the game
+is when it is in a control state p with top-of-stack , and the player owning p wants to push a letter ′ onto the stack.
+Consider the set of all (ﬁnite) continuations of the play that will end with popping this ′ symbol from the stack. We
+require Eve to declare the set of all states the game can be in after the popping of ′ along these plays. Note that since
+it’s a game, Eve does not have complete control, hence she cannot give one exact state, but can only give the set of
+possible states the game could be in at the corresponding pop. Let this set be R.
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+357
+Fig. 2. Local structure of G: oval vertices belong to Eve, square for Adam.
+Adam now has two choices. He can either continue the game by pushing ′ onto the stack and updating the state (we
+call this a pursue move), or he can pick some state p′′ ∈R and continue from that state, leaving  on the top of the
+stack (we call this a jump move). If he makes a pursue move, then he remembers R, and makes sure that if there is a
+pop-transition on ′ later in the play, then the resulting state is indeed in R (if it is not, Eve would lose the game). If
+along a play such a pop-transition on ′ is indeed met, and the resulting state is in R, then the play stops right there and
+Eve is declared the winner.
+Now consider an inﬁnite play in this game, that is a play that never simulates a pop-transition. In such a play,
+a pursue move corresponds to a new letter pushed forever on the stack. Therefore, if there are only ﬁnitely many
+pursue moves, the stack is not strictly unbounded (some stack level is inﬁnitely often visited), and therefore the play
+will be lost for Eve. If it goes inﬁnitely often through pursue moves, the stack is strictly unbounded and its limit is
+obtained by considering the word which letters are the top stack symbols just before pursue moves. Hence, the winning
+condition becomes external, if we label the pursue move by the top stack symbol in the conﬁguration just before the
+pursue move.
+Let us now describe the construction more precisely. The structure of the ﬁnite game graph G is depicted in Fig. 2.
+The main vertices of G are tuples in Q ×  × 2Q. A vertex (p, , R) belongs to Eve if and only if p ∈QE.
+Intuitively, a vertex (p, , R) denotes that p is the current state,  is the symbol on the top of the stack and R is the
+current commitment Eve has made, i.e. Eve has previously claimed that if there is a pop- transition, then the state will
+be in R. The starting vertex is (pin, ⊥, ∅) (the bottom-of-stack symbol will never be popped, and therefore the third
+component is ∅).
+In order to simulate an internal-transition skip(p′) ∈(p, ), we have edges in G of the form ((p, , R), ε, (p′, , R)),
+for all R ⊆Q.
+Pop-transitions are not simulated. From any vertex (p, , R), we have a transition to tt if ∃r ∈R such that pop(r) ∈
+(p, ) (showing that R was correctly deﬁned with respect to this transition).Also, we have a transition to ff , if ∃r /∈R
+such that pop(r) ∈(p, ) (showing that R was not correctly deﬁned with respect to this transition).
+The simulation of a push-transition goes in several steps. Let (p, , R) be a vertex. The player owning p ﬁrst picks a
+particular push-transition push(p′, ′) ∈(p, ) by moving (through an edge labeled by ε) to the vertex (p, , R, p′, ′),
+which belongs to Eve. Then Eve proposes a set R′ ⊆Q containing the states that she claims to be reached if ′ gets
+eventually popped. She does this by moving (through an edge labeled by ε) to the vertex (p, , R, p′, ′, R′), which
+belongs to Adam.
+Now, Adam has two kinds of choices. He can do a jump move by picking a state p′′ ∈R′, and move to the vertex
+(p′′, , R) through an edge labeled by ε. Or he can do a pursue move by moving to the vertex (p′, ′, R′) through an
+edge labeled by . Note that these last edges are the only ones that are not labeled by ε.
+358
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+Now we have the following result:
+Theorem 28. Eve has a winning strategy from (pin, ⊥) in G if and only if she has a winning strategy from (pin, ⊥, ∅)
+in G = (G, 	ext
+A1 ▷··· ▷An ▷An+1).
+Before starting the proof, we introduce two notations. Let 
+ be some play in G, we set Steps
+ = {n ∈N | ∀m⩾n,
+|
+(m)|⩾|
+(n)|}, where |
+(n)| is the size of the stack when being in the conﬁguration 
+(n). Therefore Steps
+ is the set
+of indexes corresponding to positions where the stack height will not decrease later on the play.
+Let 
+ be some play in G, we set Steps
+ = {n ∈N | 
+(n) = (p, , R), for some p ∈Q,  ∈, R ⊆Q}. Therefore
+Steps
+ is the set of indexes corresponding to positions where the play is in one of the main vertices of G.
+4.2.1. From G to G
+Assume that (pin, ⊥) is winning for Eve in the game G. This means that Eve has a winning strategy f : V ∗VE →V
+from (pin, ⊥).
+We deﬁne, using f , a strategy f for Eve in G from (pin, ⊥, ∅). For this we inductively construct a play 
+ in G and
+consider the preﬁx of 
+ already constructed to determine how to play in G at any time: f is deﬁned from f and from
+the preﬁx of 
+ already constructed.
+Let us describe 
+ and f :
+(1) At the beginning 
+ = (pin, ⊥).
+(2) Assume that the play is in some conﬁguration (p, , R). If p ∈QE, Eve considers the move given in G by f when
+having played 
+ (for instance at the beginning from (pin, ⊥)). In other words, she considers the value of f (
+). If it
+is a skip-transition skip(p′), she moves to (p′, , R). If it is a pop-transition then she goes to tt (Proposition 29 will
+show that such a move is always possible in that case). Otherwise she goes to the vertex (p, , R, p′, ′), where the
+push-transition was push(p′, ′). If p ∈QA, Adam goes either to ff (Proposition 29 will show that such a move
+is impossible), to tt, to some vertex (p′, , R) or to some vertex (p, , R, p′, ′).
+(3) From a vertex (p, , R, p′, ′), Eve considers the set of all (ﬁnite) extensions of 
+ · (p′, ′) (where (p, ) was
+the last conﬁguration in 
+) in G, where she respects f , and that end with popping ′ from the stack. She moves to
+(p, , R, p′, ′, R′), where R′ is the set of all states the game can be in after popping ′ along these plays.
+(4) Assume Adam goes from (p, , R, p′, ′, R′) to (p′′, , R), by playing a jump move. If (p, ) is the last conﬁg-
+uration in 
+, then Eve completes 
+ by adding (p′, ′) followed by a sequence of moves respecting f in G that
+ends in (p′′, ). Then she goes to step (2).
+(5) Assume Adam goes from (p, , R, p′, ′, R′) to (p′, ′, R′) by playing a pursue move. If (p, ) is the last conﬁg-
+uration in 
+, then Eve completes 
+ by adding (p′, ′). Then she goes to step (2).
+Therefore with any partial (resp. inﬁnite) play 
+ in G is associated a partial (resp. inﬁnite) play 
+ in G.
+From the deﬁnition of f , it follows that for any partial play 
+ in G, where Eve respects f , the corresponding partial
+play 
+ is a valid partial play in G where Eve follows her winning strategy f . The same holds for inﬁnite plays. Therefore,
+if 
+ is inﬁnite, it is a winning play for Eve.
+In addition, we have the following proposition, which is a direct consequence of how f is deﬁned.
+Proposition 29. Consider a partial play 
+ in G where Eve respects f and that ends in a vertex (p, , R). Then,
+the associated partial play 
+ (constructed by f ) ends in some vertex (p, ) for some  ∈St. Moreover, for any
+continuation of 
+ where Eve respects f , if  is eventually popped and leads to some conﬁguration (r, ), then r ∈R.
+In particular, the above proposition implies that 
+ does not eventually reach some vertex ff (such a move would be
+done by Adam and would correspond to a pop-transition from 
+ that contradicts Proposition 29) and that the moves to
+tt given by f are always possible. Therefore, ﬁnite plays in G are won by Eve.
+Now, consider some inﬁnite play 
+ in G starting from (pin, ⊥, ∅) where Eve respects f . Let 
+ be the inﬁnite play
+constructed by f while playing 
+. 
+ is won by Eve as it is a play where she respects her winning strategy f . Moreover,
+we have the following straightforward result:
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+359
+Lemma 30. Let Steps
+ = {n0 < n1 < n2 < · · ·} and let Steps
+ = {m0 < m1 < m2 < · · ·}. Then for any index i ⩾0,
+one has the following:
+• 
+(ni) = (p, ) for some p ∈Q,  ∈ and  ∈St if and only if 
+(mi) = (p, , R) for some R ⊆Q.
+• |
+(ni)| = |
+(ni+1)| if and only if in the factor 
+(mi) · · · 
+(mi+1) of 
+, all the edges are labeled by ε.
+• |
+(ni)| + 1 = |
+(ni+1)| if and only if in the factor 
+(mi) · · · 
+(mi+1) of 
+, there is exactly one edge which is not
+labeled by ε. In addition, it is labeled by  where  is such that 
+(ni) = (p, ) for some p ∈Q and  ∈St.
+Now, as 
+ is an inﬁnite play starting from (pin, ⊥), where Eve respects her winning strategy f , it implies that the
+stack of P is strictly unbounded in 
+ and therefore StLim(
+) ∈L(A1 ▷· · · ▷An ▷An+1). Therefore, using Lemma
+30, we conclude that Lab(
+) = StLim(
+) and therefore, Lab(
+) ∈L(A1 ▷· · · ▷An ▷An+1) = 	ext
+A1 ▷··· ▷An ▷An+1,
+which exactly means that 
+ is winning for Eve.
+4.2.2. From G to G
+Assume that (pin, ⊥, ∅) is winning for Eve in G and let f be a winning strategy for Eve in G from (pin, ⊥, ∅). From
+f , we deﬁne a winning strategy f in G from (pin, ⊥).
+The strategy f uses a stack Υ containing vertices of G. At the beginning, Υ only contains (pin, ⊥, ∅). By top(Υ )
+we denote the top symbol of Υ . We will have top(Υ ) = (p, , R) if and only if the current partial play 
+ in G ends in
+some conﬁguration (p, ) for some  ∈St. In addition, R is such that, if Eve respects f , and if  is eventually popped,
+it leads to some state r ∈R. By StCont(Υ ) we denote the word obtain by reading Υ from bottom to top. StCont(Υ )
+will contain a play in G starting from (pin, ⊥, ∅), and where Eve respects her winning strategy f .
+In order to describe f , let us assume that we are in some conﬁguration (p, ) with top(Υ ) = (p, , R). First we
+describe how Eve plays if she is the one that has to move, and then we explain how Υ is updated.
+• Choice of the move: From some conﬁguration (p, ) where p ∈QE, Eve considers the value of f (StCont(Υ )).
+If the move given by f (StCont(Υ )) is to some vertex (p′, , R), then, in G, Eve plays the internal-transition
+skip(p′) ∈(p, ). If it is a move to tt then Eve plays some pop-transition pop(r) ∈(p, ) for some r ∈R
+(Lemma 31 will show that it is always possible). If the move given by f (StCont(Υ )) is to some vertex (p, , R, p′, ′),
+then, in G, Eve plays the push-transition push(p′, ′) ∈(p, ).
+• Update of Υ : If the move (made by whoever) from (p, ) is to move to a conﬁguration (p′, ), Eve updates Υ by
+pushing the transition ((p, , R), ε, (p′, , R)) followed by the vertex (p′, , R).
+If the move (made by whoever) from (p, ) is to pop and reach a conﬁguration (r, ), Eve updates Υ by popping
+the top symbols until ﬁnding a transition labeled by some letter ′ ̸= ε. Let ((q′, ′, R′, q, , R), ′, (q, , R)) be this
+top symbol. She removes it and pushes the edge ((q′, ′, R′, q, , R), ε, (r, ′, R′)) followed by the vertex (r, ′, R′).
+This update is illustrated in Fig. 3.
+If the move (made by whoever) from (p, ) is to push ′ and reach some conﬁguration (p′, ′), then Eve pushes
+on Υ ’s top the edge ((p, , R), ε, (p, , R, p′, ′)) followed by the vertex (p, , R, p′, ′). Then she pushes the value
+((p, , R, p′, ′, R′), ε, (p, , R, p′, ′, R′)) of f (StCont(Υ )) followed by (p, , R, p′, ′, R′) on Υ ’s top. Finally, she
+pushes the transition ((p, , R, p′, ′, R′), , (p′, ′, R′)) followed by (p′, ′, R′) on Υ ’s top.
+We then have the following lemma:
+Lemma 31. Let 
+ be a partial play starting from (pin, ⊥) in G where Eve follows her strategy f and that ends in a
+conﬁguration (p, ). Then, the following holds:
+(1) top(Υ ) = (p, , R) for some R ⊆Q.
+(2) StCont(Υ ) is a partial play in G that starts in (pin, ⊥, ∅), ends in (p, , R) and in which Eve respects f .
+(3) If the next move is a pop--transition, then it leads to some conﬁguration (r, ) with r ∈R.
+Proof. The proof goes by induction on the length of the play.
+First we show that the third point is a direct consequence of the two other points. Assume that from (p, ) a pop-
+transition pop(r) ∈(p, ) is applied. Therefore, there is an edge in G from (p, , R) to tt or ff depending whether
+360
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+Fig. 3. Updating Υ after popping.
+r ∈R. If p ∈QE then, due to how f is deﬁned, the edge is to tt and thus we have the result. If p ∈QA then, if r /∈R,
+Adam could move in G from (p, , R) to ff : using the second point, StCont(Υ ) is a partial play that ends in (p, , R)
+and where Eve respects her winning strategy f . Thus, it cannot be extended by a move of Adam into a loosing play
+for Eve.
+Now assume that the result holds for some play 
+, and let us show that it also holds for some play 
+′ obtained from
+
+ by applying some transition. We have two cases, depending on the kind of transition is applied:
+• 
+′ is obtained from 
+ by playing some internal-transition or some push-transition. The ﬁrst two points are immediate
+using the induction hypothesis and considering the way Υ is updated.
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+361
+• 
+′ is obtained from 
+ by applying some pop--transition. Then let (p, ) be the last conﬁguration of 
+ and let R be
+the third component of top(Υ ) in (p, ). Then by induction hypothesis, and using the third point, 
+′ = 
+ · (r, )
+for some r ∈R. In addition, it is easily seen that, if n = ||, there are n edges with labels different from ε, and
+that StCont(Υ ) = 
+1 · (p′, ′, R′, q, , R) · ((p′, ′, R′, q, , R), ′, (q, , R)) · 
+2 · (p, , R) for some p′, q ∈Q,
+R′ ⊆Q, ′ ∈, and for some partial plays 
+1, 
+2 of G. In addition, all vertices in 
+2 have R as third component and
+
+2 only contains edges labeled by ε. Now if we denote by Υ ′ the updated value of Υ , by deﬁnition of how the stack
+Υ is updated, StCont(Υ ′) = 
+1 · (p′, ′, R′, q, , R) · ((p′, ′, R′, q, , R), ε, (r, ′, R′)) · (r, ′, R′). By induction
+hypothesis on StCont(Υ ) and as r ∈R, StCont(Υ ′) is a valid play in G where Eve respects f . This shows that the
+second point holds. The ﬁrst points is a direct consequence of the second one.
+□
+By induction, one easily has the following proposition:
+Proposition 32. Let 
+ be a partial play starting from (qin, ⊥) in G where Eve follows her strategy f , and that
+ends in a conﬁguration (p, ) where top(Υ ) = (p, , R) when being in (p, ). Let 
+ be equal to StCont(Υ ). Let
+Steps
+ = {n0 < n1 < n2 < · · · < nh} and let Steps
+ = {m0 < m1 < m2 < · · · < mk}. Then the following holds:
+• h = k.
+• For every i = 0, . . . , h, 
+(ni) is of the form (p, ) for some p ∈Q,  ∈ and  ∈St if and only if 
+(mi) is of
+the form (p, , R) for some R ⊆Q and  = Lab(
+↾mi).
+Now consider an inﬁnite play 
+ in G where Eve respects f . Then, either some level is inﬁnitely repeated or not.
+For every integer i ⩾0, let 
+i = StCont(Υi), where Υi is the (strategy) stack in 
+(i). Then, in both cases, for all k⩾0
+there is some j ⩾0 such that 
+i↾k = 
+j↾k for all i ⩾j. Let 
+ be the inﬁnite word such that for all k⩾0, 
+↾k is the limit
+of (
+i↾k)i ⩾0. Then, from Lemma 31, it follows that 
+ is a play in G starting from (pin, ⊥, ∅) where Eve respects f .
+Therefore Lab(
+) ∈L(A1 ▷· · · ▷An ▷An+1) and is thus inﬁnite. Using Proposition 32, we conclude that the stack
+is strictly unbounded in 
+ and that StLim(
+) = Lab(
+). Therefore StLim(
+) ∈L(A1 ▷· · · ▷An ▷An+1) and thus 
+is winning for Eve.
+□
+4.3. The special case of strict unboundedness pushdown games
+In this section, we consider the special case of strict unboundedness pushdown games. In [4], the following internal
+winning condition on pushdown game graphs was considered: Eve wins an inﬁnite play if and only if some conﬁguration
+is inﬁnitely often visited. It is easily seen that the corresponding winning condition forAdam is the strict unboundedness
+winning condition.
+Since the strict unboundedness winning condition is the winning condition 	int
+A for any automaton A recognizing
+the -regular language  (where  is the stack alphabet of the pushdown graph), we conclude that the preceding
+constructions induce the decidability for the strict unboundedness pushdown game (and for the games considered
+in [4]).
+More precisely, let P = ⟨Q, , ⊥, ⟩be a pushdown process with a partition QE ∪QA of Q. We denote by G
+the associated pushdown game graph, and by Gubd the associated strict unboundedness pushdown game. Then, the
+equivalent game, played on a ﬁnite graph described as above, is equipped with the winning condition 	ext
+A . Therefore,
+this last game is a Büchi game, as Eve wins a play if and only if inﬁnitely many edges not labeled by ε are visited.
+Therefore, we have the following special case of Theorem 28.
+Theorem 33. Eve has a winning strategy from a conﬁguration (pin, ⊥) in G if and only if she has a winning strat-
+egy from (pin, ⊥, ∅) in the Büchi game G played on the ﬁnite game graph G (with edges marked ﬁnal) depicted
+in Fig. 4.
+Therefore, we have the following corollary:
+Corollary 34. Deciding the winner in a strict unboundedness pushdown game (respectively, in a pushdown game
+equipped with the winning condition of [4]) can be achieved in Dexptime.
+362
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+Fig. 4. Local structure of G for strict unboundedness: ﬁnal edges are marked by ⋆.
+5. Complexity
+5.1. Main results
+We ﬁrst start with some deﬁnitions.
+Deﬁnition 35. For any h, N ⩾0, tow(h, N) is deﬁned inductively by
+• tow(0, N) = N.
+• tow(h, N) = 2tow(h−1,N) for h⩾1.
+For instance, tow(3, N) = 222N
+.
+Deﬁnition 36 (h-Dexptime). Let consider a problem P and a deterministic Turing machine deciding in O(tow(h, N))
+steps whether some instance of the problem P is true, where N is polynomial in the size of the instance. Then the
+problem P belongs to the class h-Dexptime.
+We have the following upper bounds:
+Proposition 37. Let consider an integer k⩾0 and a collection A1, . . . , Ak, Ak+1 of pushdown automata, where in
+addition Ak+1 is equipped with a parity condition.
+Let G be a pushdown game equipped with the winning condition 	int
+A1 ▷··· ▷Ak ▷Ak+1. Deciding the winner in such
+a game is a (k + 2)-Dexptime problem.
+Let G be a game on a ﬁnite game graph equipped with the winning condition 	ext
+A1 ▷··· ▷Ak ▷Ak+1. Deciding the
+winner in such a game is a (k + 1)-Dexptime problem.
+Proof. First note that the transformation described in Section 4.1 is polynomial, and that the transformation described
+in Section 4.2 is exponential. Moreover, recall that deciding the winner in a parity pushdown game costs exponential
+time [24]. Then the proof is immediate by induction on k.
+□
+Concerning the lower bound, we have the following result which is proved in Section 5.2:
+Proposition 38. The problem of deciding the winner in a game played on a ﬁnite game graph and equipped with a
+winning condition of the form 	ext
+A1 ▷··· ▷Ak ▷Ak+1, with k⩾0, is a (k + 1)-Dexptime hard problem.
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+363
+From Proposition 38 and from the polynomial reduction described in Section 4.1, we obtain the following corollary.
+Corollary 39. The problem of deciding the winner in a pushdown game equipped with a winning condition of the form
+	int
+A1 ▷··· ▷Ak ▷Ak+1, with k⩾0, is a (k + 2)-Dexptime hard problem.
+Recall that a problem is elementary if it is a k-Dexptime problem for some k⩾0. An elementary hard problem is
+thus a problem which is k-Dexptime hard for all k⩾0.
+Propositions 37 and 38 and Corollary 39 leads to the following result:
+Theorem 40. The complexity of deciding the winner in a pushdown game (resp. a game on a ﬁnite game graph)
+equipped with a winning condition of the form 	int
+A1 ▷··· ▷Ak ▷Ak+1 (resp. 	ext
+A1 ▷··· ▷Ak ▷Ak+1) is non-elementary and
+is elementary-hard.
+5.2. Proof of Proposition 38
+5.2.1. Presentation of the proof
+The proof starts with the basic case k = 0. Then, it focuses on the case k = 1 that gives some insight for the general
+case. The basic idea of the proof is to simulate an alternating Turing machine using tow(k, N) space for some k⩾1
+and some polynomial N in the size of the input. Such a Turing machine is equivalent to a deterministic Turing machine
+using tow(k + 1, N) time [16] which completes the proof.
+From now on, a conﬁguration of a Turing machine is described by a word upv, where uv is the contents of the tape,
+p is the control state and the head of the Turing machine is just after u.
+Note that in all the proof Ak+1 will not be equipped with a parity acceptance condition but with a weaker one, namely
+a reachability condition.
+5.2.2. Basic case: k = 0
+This case is a slightly modiﬁed version of the proof showing that deciding the winner in a reachability pushdown
+game is Dexptime hard [24].
+5.2.3. Basic case: k = 1
+We start by proving the hardness for the special case of a game G played on a ﬁnite game graph G equipped
+with a winning condition 	ext
+A1 ▷A2. We explain how such a game can be used to simulate an alternating Turing
+machine M of exponential space 2N, where N is polynomial in the size of M. More precisely, G is constructed
+so that Eve has a winning strategy if and only if M accepts from a blank tape. A play in G is the description
+by Eve and Adam of a run of the Turing machine M, that is a sequence of conﬁgurations. For this the players go
+through labeled-edges. In what follows, we say that a player writes a instead of saying that he goes through an edge
+labeled by a.
+A conﬁguration a0a1 . . . a2N−1 of M will be represented by the following word:
+(#a0a1)(n0,n0)2N (a0a1a2)(n1,n1)2N · · · (a2N−2a2N−1#)(n2N−1,n2N−1)2N ,
+where ni is the binary representation of i on N bits with the most signiﬁcant bit on the left and ni is the binary re-
+presentation of i with the most signiﬁcant bit on the right. For instance, if N = 4, n10 = 1010 and n10 = 0101.
+By (ni,ni) we mean (n0
+i , nN−1
+i
+)(n1
+i , nN−2
+i
+) · · · (nN−1
+i
+, n0
+i ) where ni = n0
+i n1
+i . . . nN−1
+i
+, e.g. (n10,n10) = (1, 0)(0, 1)
+(1, 0)(0, 1). For a word u and an integer k⩾0, uk is the word obtained by concatenating k copies of u (e.g. u4 = uuuu).
+The sequence (ni,ni) is called a counter. The reason why we copy 2N times the same counter will appear later when
+we perform an exhaustive search of a counter in a stack.
+A play goes as follows: Eve describes (going through labeled-edges) the initial conﬁguration (that is, the initial
+state i followed by 2N −1 blank symbols) then, depending on whether the control state in the initial conﬁguration is
+364
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+existential or universal, Eve (existential state) or Adam (universal state), chooses a move, that is, goes through an edge
+whose label is the description of a transition of the Turing machine. Then, Eve describes the resulting conﬁguration
+and so on. If some accepting conﬁguration is eventually reached then the play goes in a special vertex where it loops
+forever through an edge labeled by a special symbol ♥.
+To prevent Eve from cheating in the description of the conﬁgurations, there are 5 special symbols !c,!c, !v, !v and
+? (c stands for copy and v for value). Adam can write them to contest the validity of the last symbol written by Eve.
+They can be used in the following cases:
+• The jth pair of bits of a counter (ni,ni) is false. If it is the ﬁrst copy of the counter, the value of the counter should
+be equal to the value of the preceding counter plus 1. Therefore, Adam writes !v (if the mistake is for ni) or !v
+(otherwise) just after the wrong pair of bits. If it is not the ﬁrst copy, the error concerns the duplication. In that case,
+Adam writes !c (if the mistake is for ni) or !c (otherwise) just after the wrong pair of bits.
+• The value of a tuple (ai−1aiai+1) is incorrect. In that case, Adam writes ? just after it.
+Once a contesting !c, !c, !v or !v has been made, the play goes in a special vertex where it loops forever through
+an edge labeled by a special symbol ♠. In the case of a contesting ?, the value of the next counter is written (and
+can be contested), and then the play reaches the aforementioned special vertex and loops forever through an edge
+labeled by ♠.
+The alternation between both players (that allowsAdam to contest any symbol written by Eve), the memory to decide
+whether the control state is existential or universal, and the memory of a contesting or a ﬁnal conﬁguration (to write
+♠or ♥) are encoded in the vertices of G. It is also the same to change of component of G when (n2N−1,n2N−1) has
+been written or to force Eve to start describing the empty tape conﬁguration and to write (n0,n0) after the ﬁrst tuple
+of a conﬁguration. Moreover, the vertices are also used to force Eve to describe an overlapping sequence of tuples of
+letters. More precisely, if she has just written the tuple (ai−1, ai, ai+1), then she will be in some vertex where she will
+be forced to write as next tuple (ai, ai+1, ai+2) for some letter ai+2.
+Let us now describe how the validity of a contesting is checked. For the contesting concerning (ni,ni), the preceding
+counter must be considered to compute the correct value of the contested bit, which allows to decide if the contesting
+is valid or not. The computation of that bit will of course depend on the nature of the contesting.
+For a contesting ? on a tuple of letters, the corresponding tuple in the preceding conﬁguration has to be consid-
+ered. To ﬁnd it, one uses the values of the counters that must therefore be correct. For this reason, the validity of
+the counters has to be checked ﬁrst and only after this, can one check the validity of the tuples. Therefore, in the
+winning condition 	ext
+A1 ▷A2, A1 will be used to check the validity of the counters and A2 to check the validity of the
+conﬁgurations.
+The automaton A1 copies its input word (in our case the description of the run of M) in its stack. If it eventually
+reads a contesting !v or !v, it determines the index j of the contested bit (which is bounded by N) by popping and
+counting the bits already written in its stack until it ﬁnds a tuple of letters. Fig. 5 illustrates the next two cases. If the
+contesting is !v, A1 pops the next j pairs of bits of its stack and considers their second components to compute the
+jth bit of the counter obtained by adding 1 to the top counter of the stack, and thus decides whether or not there was
+an error. If the contesting was !v, it pops and ignores the j ﬁrst pairs and then veriﬁes with the ﬁrst components of
+the next N −j bits stored in the stack whether or not there was an error. After having checked the correctness of the
+contesting, A1 pushes an inﬁnite sequence of ♠if the contesting was correct, and pushes an inﬁnite sequence of ♥
+otherwise.
+If A1 reads a contesting !c or !c, it pops the last N bits in its stack and compares the new top bit with the contested
+one. The contesting is correct if and only if they are different. This case is illustrated by Fig. 6.After having checked the
+correctness of the contesting, A1 pushes an inﬁnite sequence of ♠if the contesting was correct, and pushes an inﬁnite
+sequence of ♥otherwise.
+The automaton A2 copies its input word in its stack. It goes in a ﬁnal state when it reads ♥and goes and stays
+forever in a non-ﬁnal state when it reads ♠. In particular, it accepts any word ending by an inﬁnite sequence of ♥and
+rejects any word ending by an inﬁnite sequence of ♠. Note that the limits of the stack contents of A1 can only contain
+a contesting of the form ?. Fig. 7 illustrates the behavior of A2. When A2 reads some contesting ?, it pops until it
+ﬁnds a symbol describing a transition of the Turing machine and remembers it. Then it reads synchronously the ﬁrst
+components of the counters described after ? and pops its stack and focuses on the second component of the counters.
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+365
+Fig. 5. Stack content of A1 when reading !v or!v.
+It does so until it ﬁnds a correspondence between the counters. Note that for this search, it only compares the counter
+it reads with the ﬁrst copy of the counter it has in its stack (otherwise it might run out of copies before ﬁnding the
+corresponding counter). This search terminates because there are 2N possible values for a counter and the counter in
+the input word is repeated 2N times. Therefore, there are enough copies to successfully perform an exhaustive search.
+Once the corresponding counter is found, the top stack symbol is the tuple of letters whose index is the same as the one
+being contested. The automaton A2 can therefore decide whether its central letter has been correctly updated and thus
+concludes on the validity of the contesting. Then it stops reading its input word and goes in an accepting state if the
+contesting was not correct, and loops in a non-accepting state otherwise. Finally, in the case where no correspondence
+was found, it loops in an non-accepting state. In that case, Eve did an error in the description of the conﬁgurations of
+the Turing machine.
+One can prove that this reduction is of polynomial size, and is such that Eve has a winning strategy if and only if the
+Turing machine accepts from the empty tape. The winning strategy for Eve is to describe an accepting run of the Turing
+machine. If the Turing machine rejects from the empty tape, a winning strategy for Adam is to describe a rejecting run
+and to contest whenever Eve cheats in the description of the run.
+5.2.4. General case: k⩾1
+In this section, we explain how to extend the techniques used in Section 5.2.3 to prove the (k+1)-Dexptime hardness
+of the winning conditions of the form 	ext
+A1 ▷··· ▷Ak ▷Ak+1. For this, we simulate an alternating Turing machine M using
+tow(k, N) space by a game on a ﬁnite game graph equipped with such a winning condition.
+366
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+Fig. 6. Stack content of A1 when reading !c or!c.
+As in the case k = 1, Eve and Adam will describe a branch of a run of the Turing machine by writing sequences of
+conﬁgurations. Previously, a conﬁguration was represented by a sequence of the form
+(#a0a1)(n0,n0)2N (a0a1a2)(n1,n1)2N · · · (a2N−2a2N−1#)(n2N−1,n2N−1)2N .
+Now, the length of a conﬁguration is no longer exponential but k-times exponential. A ﬁrst idea would be to keep
+the same representation, except that the counters (ni,ni) would be bigger. Unfortunately, their length would no longer
+be linear (but (k −1)-times exponential), and therefore it would no longer be possible, with polynomial size memory,
+to check whether they represent the correct integers.
+To address this problem, we adopt a more reﬁned representation.
+Deﬁnition 41 (h-exp decomposition of an integer). The 1-exp decomposition of an integer R < tow(1, N) is the se-
+quence ((bN−1, b0) · · · (b1, bN−2)(b0, bN−1))tow(1,N), where bN−1 . . . b1b0 is the binary representation of R with the
+most signiﬁcant bit on the left and therefore b0b1 . . . bN−2bN−1 is the binary representation of R with the most signiﬁcant
+bit on the right.
+Let h > 1 and let R be some integer such that R < tow(h, N). The h-exp decomposition of R is the sequence:
+
+(b0, btow(h−1,N)−1)0(b1, btow(h−1,N)−2)1 · · · (btow(h−1,N)−1, b0)tow(h−1,N)−1
+tow(h,N) ,
+where
+• btow(h−1,N)−1 . . . b1b0 is the binary representation of R with the most signiﬁcant bit on the left;
+• b0 . . . btow(h−1,N)−2btow(h−1,N)−1 is the binary representation of R with the most signiﬁcant bit on the right;
+• i is the (h −1)-exp decomposition of i.
+For convenience, we assume that the binary alphabets used in the h-exp decomposition are distinct for any level h so
+that the decomposition is easily readable.
+Finally, we designate the sequence (b0, btow(h−1,N)−1) · · · (btow(h−1,N)−1, b0) as a counter of level h.
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+367
+Fig. 7. Behavior of A2 after reading ?.
+A conﬁguration a0a1 · · · atow(k,N)−1 of the Turing machine M is then represented by the following word:
+(#a0a1)n0(a0a1a2)n1 . . . (a(tow(k,N)−2)a(tow(k,N)−1)#)ntow(k,N)−1,
+where ni is the k-exp decomposition of i. Note that for k = 1, we obtain exactly the representation used in the preceding
+section.
+Let us now explain how a play goes on. Eve describes the initial conﬁguration. Then, depending on whether the
+control state in this conﬁguration is existential or universal, Eve (existential state) or Adam (universal state), chooses
+a move, that is, goes trough an edge whose label is a description of a transition of the Turing machine. Then, Eve
+describes the resulting conﬁguration and so on. If an accepting conﬁguration is eventually reached, then the play goes
+in a special vertex where it loops forever trough an edge labeled by a special symbol ♥.
+To prevent Eve from cheating, there are special symbols !h
+c, !hc, !h
+v, !hv for all h = 1 . . . k (c stands for copy and v for
+value) and ? that Adam can write whenever he wants to contest the validity of the last symbol written by Eve. They can
+be used in the following cases:
+• The jth pair of bits of a counter of level h is false. If it is the ﬁrst copy of the counter, the value should be equal to
+the value of the preceding counter plus 1. Therefore, Adam writes !h
+v (if the mistake is for the representation with
+the most signiﬁcant bit on the left) or !hv (otherwise) just after the wrong pair of bits. If it is ont the ﬁrst copy, the
+368
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+error concerns the duplication. In that case, Adam writes !h
+c (if the mistake is for the representation with the most
+signiﬁcant bit on the left) or !hc (otherwise) just after the wrong pair of bits.
+• The value of some tuple (ai−1aiai+1) is incorrect. In that case, Adam writes ? just after it.
+Once a contesting on a counter of level 1 has been made, the play goes in a special vertex where it loops forever trough
+an edge labeled by a special symbol ♠. In the case of a contesting concerning a counter of level h⩾2, the (h −1)-exp
+decomposition of the index of the contested bit is written (and can be contested) and then the symbol ♠is written
+forever. In the case of a contesting ?, the value of the k-decomposition of the index of the contested tuple is written
+(and can be contested) and then the symbol ♠is written forever.
+The alternation between both players (that allowsAdam to contest any symbol written by Eve), the memory to decide
+whether the control state is existential or universal, and the memory of a contesting or a ﬁnal conﬁguration (to write ♠
+or ♥) are encoded in the vertices. It is also the same to force Eve to start by describing the k-exp decomposition of 0,
+and to describe an overlapping sequence of tuples of letters. More precisely, if the last tuple was (ai−1, ai, ai+1), then
+Eve is forced to write as next tuple (ai, ai+1, ai+2) for some letter ai+2.
+Let us now describe how the validity of a contesting is checked. For the contesting concerning a counter, the
+preceding counter must be considered to compute the correct value of the contested bit, which allows to conclude. The
+computation of that bit will of course depend on the nature of the contesting. For a contesting ? on a tuple of letters, the
+corresponding tuple in the preceding conﬁguration has to be considered. To ﬁnd it, one uses the values of the counters
+that must therefore be correct. For this reason, the validity of the counters of level 0 is checked ﬁrst, then the validity of
+counters of level 1 is checked and so on. Finally, the validity of the conﬁgurations is checked. Therefore, in the winning
+condition 	ext
+A1 ▷··· ▷Ak ▷Ak+1, Ah will be used to check the validity of the counters of level h⩽k and Ak+1 to check
+the validity of the conﬁgurations.
+Now, let us describe how the different pushdown automata behave.
+• The automaton A1 copies its input word in its stack. If it reads a contesting !1
+c or !1c, it pops the last N bits in its stack
+and compares the new top bit with the contested one. The contesting is correct if and only if they are different. If the
+contesting was correct, it stops reading the word and pushes an inﬁnite sequence of ♠, otherwise it stops reading
+and pushes an inﬁnite sequence of ♥. If it eventually reads a contesting !1
+v or !1v, it determines the index j of the
+contested bit (which is bounded by N) by popping and counting the bits already written in its stack until it ﬁnds a
+bit from a counter of level 2. If the contesting was !1
+v, it pops the next j ﬁrst pairs of bits and considers their second
+components to compute the jth bit of the counter obtained by adding 1 to the top counter (of level 1) of the stack.
+Then it can decide whether or not there was an error. If the contesting was !1v, it pops and ignores the j ﬁrst pairs and
+then veriﬁes, with the ﬁrst components of the next N −j bits stored in the stack whether there was or not an error.
+After having checked the correctness of the contesting, A1 pushes an inﬁnite sequence of ♠if the contesting was
+correct, and pushes an inﬁnite sequence of ♥otherwise.
+• The automaton A2 copies its input word in its stack. If it reads a contesting !2
+c or !2c, it has to pop its stack until it ﬁnds
+the bit whose index in the preceding counter of level 2 is the same as the one being contested. In order to do this, it
+reads the next 1-decomposition (which is a repeated binary representation of the index of the contested bit) and at
+the same time, it pops its stack and compares what it reads with the various indices it has in its stack (note that in the
+stack the indices are also represented in a iterated form: A2 only compares to the ﬁrst representation). In order to
+do this, it compares the ﬁrst component (most signiﬁcant bit ﬁrst) of what it reads with the second component (less
+signiﬁcant bit ﬁrst) of what it pops. Eventually, it ﬁnds the corresponding bit of the preceding counter and compares
+it with the contested one. The contesting is correct if and only if they are not equal. If the contesting was correct,
+it stops reading the word and pushes an inﬁnite sequence of ♠, otherwise it stops reading and pushes an inﬁnite
+sequence of ♥. If it ﬁnds a contesting !2
+v or !2v, let j be the index of the contested pair of bits (which is bounded by
+(tow(1, N) −1)). To check the validity of the contesting, one has to compute the bit from the preceding value of the
+counter. The computation depends on whether the contested bit is the ﬁrst or the second of the pair. If the contesting
+is !2
+v, it is sufﬁcient to consider the second component of the pairs of indices (tow(1, N)−1) . . . (tow(1, N)−1−j)
+of the preceding counter. If the contesting is !2v, it is sufﬁcient to consider the ﬁrst component of the pairs of indices
+(tow(1, N)−1−j) . . . 0 of the preceding counter. Note that the binary representation of tow(1, N)−1−j is obtained
+from the binary representation of j by changing all 0 by 1 and all 1 by 0. Therefore, the binary representation of
+(tow(1, N) −1 −j) can be computed on the ﬂy from the one of j (which is read by A2). Both cases are thus almost
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+369
+the same as for the preceding contestings, except that an on the ﬂy addition is performed while searching. Thus, these
+cases are no more difﬁcult than the preceding ones. If the contesting was correct, A2 stops reading the word and
+pushes an inﬁnite sequence of ♠, otherwise it stops reading and pushes an inﬁnite sequence of ♥. If, at any moment,
+A2 reads some symbol ♠(there was a valid contesting on a counter of level 1), it stops reading and pushes an
+inﬁnite sequence of ♠. Symmetrically, if A2 reads some symbol ♥, it stops reading and pushes an inﬁnite sequence
+od ♥.
+• Let 3⩽h⩽k. Ah works as A2 except that it handles on the contesting !h
+c, !hc, !h
+v, !hv. Another difference is that Ah
+copies the word it reads in its stack, but it skips all bits concerning counters of level h −2 as they are no longer
+useful. Therefore, in its stack, there are only informations on counters of level greater or equal than h −1.
+• Ak+1 copies the word, it reads in its stack, but it skips all bits concerning counters of level k −1. It goes in a ﬁnal
+state when it reads ♥and goes and stays forever in a non-ﬁnal state when it reads ♠. In particular, it accepts words
+ending by an inﬁnite sequence of ♥and rejects words ending by an inﬁnite sequence of ♠. Note that the limits
+of stack contents that Ak+1 reads can only contain a contesting of the form ?. When Ak+1 reads some contesting
+?, it reads the next symbol (which is a tuple of bits) and pops in its stack until it ﬁnds a symbol describing the
+transition of the Turing machine and remembers it. Then, it reads synchronously the ﬁrst component of the counters
+described after ?, and pops in the stack and considers on the second component of the counters. It does so until it
+ﬁnds a correspondence between the counters. Again, this exhaustive search works since there are enough copies of
+the searched counter in the input word (when popping Ak+1 only compares to the ﬁrst value of the iterated counter it
+reads in the stack). Then, as top symbol, it gets the tuple of letters whose index is the same as the one being contested.
+It can therefore check whether there was an error for the central letter of the tuple. In case of error, it stops reading
+and loops in a non-accepting state, otherwise, it stops reading and goes in an accepting state. In the case where no
+correspondence was found, it loops in a non-accepting state.
+One can prove that the preceding reduction is of polynomial size and is such that Eve has a winning strategy if and
+only if the Turing machine accepts from the empty tape. The winning strategy for Eve is to describe an accepting run
+of the Turing machine. If the Turing machine rejects from the empty tape, a winning strategy for Adam is to describe
+a rejecting run and to contest if Eve cheats in the description of the run.
+6. Winning positions and strategies
+6.1. Winning positions
+In this section, we give results on the set of winning positions for pushdown games equipped with winning conditions
+of the form 	int
+A1 ▷··· ▷An ▷An+1.
+In [18,3], it is shown that the set of winning positions in a parity pushdown game is a regular language. In fact, using
+the same techniques, one can prove similar results for various winning conditions [19]. For instance: unboundedness,
+strict unboundedness, trampoline (Eve wins if and only if some conﬁguration is inﬁnitely visited while the stack is
+unbounded) or for more exotic winning conditions (for instance: if ni denotes the number of distinct palindromes
+appearing in the stack of the ith conﬁguration of a play, Eve wins if and only if (ni)i ⩾1 is unbounded).
+The main idea to prove these results is to note that the winner does not depend on a preﬁx of the play neither on a
+ﬁnite number of letters on the bottom of the stack, provided these letters will never appear on top of the stack. This
+second point is no longer true for the winning conditions 	int
+A1 ▷··· ▷An ▷An+1. Indeed, if some extra letter is added
+somewhere in the stack, the stack limit is modiﬁed, even if this letter never appears on top of the stack. Therefore, the
+winner of the play may changed.
+In fact, for the winning conditions of the form 	int
+A , the set of winning positions may not be regular. For instance,
+every deterministic context-free language may occur as a winning set.
+Proposition 42. Let A be some deterministic pushdown automaton on ﬁnite words. There exists a deterministic Büchi
+automaton B, a pushdown process P = ⟨Q, , ⊥, ⟩, a state q ∈Q and a partition Q = QE ∪QA such that, in the
+induced pushdown game equipped with the winning condition 	int
+B , the set {u | (q, u) ∈WE} is exactly the language
+accepted by A.
+370
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+Proof. Let A be the alphabet of A and let # /∈A be a new symbol. We set P = ⟨{p, q}, A ∪{#}, ⊥, ⟩where  is
+deﬁned by: (q, a) = {push(p, #)} for all letter a ∈A and (p, #) = {push(p, #)}. In other words, P is deterministic,
+and pushes an inﬁnite sequence of # on top of its initial stack contents. QE ∪QA is any partition of Q. B works as A,
+except that it loops when it reads # and cannot read any letter after having read #. Therefore, B accepts the words of
+the form u#, where u is accepted by A.
+□
+It remains open whether there exists a pushdown game equipped with a winning condition of the form
+	int
+A1 ▷··· ▷An ▷An+1 such that the set of winning positions for Eve is not a deterministic context-free language.
+6.2. Strategies
+In this section, we discuss the nature of the winning strategies in the pushdown games equipped with winning
+conditions of the form 	int
+A1 ▷··· ▷An ▷An+1. In particular, we show that there are persistent strategies in these games.
+First, let us recall the deﬁnition of a persistent strategy [14].
+Deﬁnition 43 (Persistent strategy). A strategy  for Eve is persistent if for any partial play v1v2 · · · vk where Eve
+respects , if vi = vj, for some 1⩽i, j < k, and if vi is a vertex where Eve is to move, then vi+1 = vj+1.
+In other words, a persistent strategy may require memory, but once a choice is made, it is forever. In this section,
+we show that for the pushdown games equipped with winning conditions of the form 	int
+A1 ▷··· ▷An ▷An+1 Eve has a
+persistent winning strategy.
+Theorem 44. Let G be a pushdown game graph and let G = (G, 	int
+A1 ▷··· ▷An ▷An+1) be a game on G equipped with
+some winning condition 	int
+A1 ▷··· ▷An ▷An+1. Then, Eve has a persistent winning strategy from any winning position for
+her in the pushdown game G.
+Before proving Theorem 44, let us give some deﬁnitions.
+Deﬁnition 45 (Subword). Let u = a0a1a2a3 · · · be an inﬁnite word and let (ij)j ⩾0 be a strictly increasing sequence
+of integers. The word v = ai0ai1ai2ai3 · · · is called a subword of u.
+Deﬁnition 46 (Strategy tree). Let  be a strategy for Eve in a game G = (G, 	) played on an unlabeled game graph
+G = (VE, VA, E) and equipped with an internal winning condition 	. Let V = VE ∪VA and let v ∈V . One associates
+with  and v an inﬁnite tree T with nodes labeled by V in the following way. The root of T is labeled by v. For any
+node in T, labeled by some element w ∈V one has:
+• If w ∈VE, the node has a unique successor labeled by (
+) where 
+ is the labeling of the unique path from the root
+of T to the current node.
+• If w ∈VA, let {w1, w2, . . . , wk} be the set of successors of w in G. Then the node has k successors labeled by
+w1, w2, . . . wk.
+Therefore any labeling of an inﬁnite path in T is a play in G starting from v where Eve respects . Conversely, any
+such play is the labeling of some inﬁnite path in T.
+The following result directly implies Theorem 44.
+Proposition 47. Let G = (G, 	) be a game on an unlabeled game graph G = (VE, VA, E) equipped with an internal
+winning condition 	. Assume that 	 satisﬁes the two following conditions:
+(1) For all winning play 
+ ∈	, and for all vertex v ∈V = VE ∪VA, v appears only ﬁnitely often in 
+.
+(2) For all winning play 
+ ∈	, any inﬁnite subword 
+′ of 
+ is in 	.
+Then, from any winning position for Eve, she has a winning strategy which insures that every vertex is visited at most
+once in a play. In particular, this strategy is a persistent one.
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+371
+Proof. Let v be a winning position for Eve and let  be a winning strategy for her from v.  can be represented as
+an inﬁnite V-labeled tree T describing all the plays where Eve follows . Condition (1) implies that for every label
+w ∈V appearing in T, there is some inﬁnite subtree of T, which root is labeled by w and in which w only labels the
+root. Indeed, assume by contradiction, that any inﬁnite subtree of T which root is labeled by w contains another node
+labeled by w. Let T1 be some inﬁnite subtree of T which root is labeled by w. T1 contains therefore another node
+labeled by w. Let T2 be the inﬁnite subtree of T1 (and therefore of T) rooted in that node. Iterating the construction,
+one obtains an inﬁnite sequence T ⊋T1 ⊋T2 ⊋· · · of inﬁnite subtrees, which roots are all labeled by w. The inﬁnite
+path from the root of T that visits the roots of the trees (Ti)i ⩾1 is an inﬁnite path in T that contains inﬁnitely many
+nodes labeled by w. As the labeling of such a path is a winning play in G, it leads a contradiction with (1).
+Now, let us describe how to construct from  a winning strategy ′ for Eve that does not visit a vertex twice. The
+strategy ′ maintains an inﬁnite tree T as memory. At the beginning, T = T. From a position w ∈VE and a tree T,
+′ considers a subtree of T which root is labeled by w, and where w only labels the root. This tree becomes the new
+memory T, and the move given by ′ is to the vertex labeling the (unique) son of the root of T. One easily shows that ′
+is always deﬁned, and insures that no vertex is visited twice. In addition, any play, where Eve respects ′ is a subword
+of a play where Eve respects , and is therefore winning by condition (2).
+□
+6.3. Effective strategies
+In this section, we informally discuss the following questions: do our methods provide effective winning strategies?
+Which kind of machine model may be used to give a ﬁnite description of a winning strategy?
+In the proof of Theorems 26 and 27, we have shown how to construct an effective strategy in the game played on a
+ﬁnite graph from an effective strategy in the equivalent pushdown game. The main idea was to build, from the current
+partial play, an equivalent partial play in the pushdown game. This was done by a function  that computes the run
+of some deterministic pushdown automaton on the labeling of the current play. Then, the value of the strategy in the
+pushdown game on this partial play was considered. Now, assume that the strategy in the pushdown game only needs a
+stack, therefore, the strategy we obtain by this construction for the game on the ﬁnite graph only needs a stack (which
+alphabet is augmented by a ﬁnite number of symbols used to simulate ). For instance, as pushdown parity games
+admits effective stack strategies [24], it implies that there are effective stack strategies in a the game played on a ﬁnite
+graph equipped with a condition of the form 	ext
+A1.
+Now, consider the reduction from the pushdown game to a game played on a ﬁnite graph. In the converse implication
+of the proof of Theorem 28, we construct a strategy in the pushdown game from a strategy in the game played on the
+ﬁnite graph. For this, a stack Υ is used to store a play in the ﬁnite graph. Then, the value of the strategy in the ﬁnite
+graph on the partial play stored in the stack is used to decide how to play. Now, assume that the strategy in the ﬁnite
+graph uses a stack on some alphabet S. Then, one can encode and update this into the stack Υ which alphabet is now
+augmented by stacks on the alphabet S: Υ is a stack (on an alphabet S) containing stacks and other symbols.
+Iterating this reasoning shows that the preceding constructions provide effective winning strategies. Moreover, an
+high-order stack (that is a stack which elements are also stacks) is sufﬁcient as a memory for these strategies. The
+number of nested stacks is n + 2 if the winning condition that we consider is of the form 	int
+A1 ▷··· ▷An ▷An+1 or
+	ext
+A1 ▷··· ▷An+1 ▷An+2.
+7. Conclusion and perspectives
+We have provided a family of winning conditions that have an arbitrary ﬁnite Borel complexity while remaining
+decidable for pushdown games and games on ﬁnite graphs. The complexity of deciding the winner for such a winning
+condition is a non-elementary problem that is elementary-hard. In addition, for pushdown games, it gives an example
+of decidable winning conditions inducing non-regular sets of winning positions. The exact form of the winning sets
+remains open. Finally, we have shown that there are persistent winning strategies for pushdown games equipped with
+these winning conditions. The existence of positional strategies remains open.
+Studying the classes (Cn(A))n∈N is also an interesting question. As they contain languages of arbitrary ﬁnite Borel
+complexity, these classes are not included in the one of deterministic -context-free languages (which only contains
+languages in B(2)). Are they a strict subclass of -context-free languages? Note that in case of inclusion it would be
+372
+O. Serre / Theoretical Computer Science 350 (2006) 345–372
+strict as there are -context-free languages that are not Borel sets. From the game point of view, studying the closure
+properties of these classes under boolean operations is also relevant. Finally, let us mention that the decidability of the
+emptiness problem and the universality problem for languages of these classes directly follows from the decidability
+of the games on ﬁnite graphs.
+Acknowledgments
+I gratefully acknowledge Jacques Duparc for suggesting me to study this family of conditions. His advice and
+knowledge of Borel complexity were very important in this research. I would also like to express my thanks to Anca
+Muscholl and to Solveig, for their help while writing this paper, and to the anonymous referees for their remarks.
+References
+[1] A. Arnold, A. Vincent, I. Walukiewicz, Games for synthesis of controlers with partial observation, Theoret. Comput. Sci. 303 (1) (2003) 7–34.
+[2] A. Bouquet, O. Serre, I. Walukiewicz, Pushdown games with the unboundedness and regular conditions, Proc. FST TCS 2003: Foundations of
+Software Technology and Theoretical Computer Science, 23rd Conf., Lecture Notes in Computer Science, Vol. 2914, Springer, Berlin, 2003,
+pp. 88–99.
+[3] T. Cachat, Uniform solution of parity games on preﬁx-recognizable graphs, Proc. Fourth Internat. Workshop on Veriﬁcation of Inﬁnite-State
+Systems, Electronic Notes in Theoretical Computer Science, Vol. 68, Elsevier Science Publishers, Amsterdam, 2002.
+[4] T. Cachat, J. Duparc, W. Thomas, Solving pushdown games with a 3-winning condition, Proc. 11th Annu. Conf. of the European Association
+for Computer Science Logic, CSL 2002, Lecture Notes in Computer Science, Vol. 2471, Springer, Berlin, 2002, pp. 322–336.
+[5] R.S. Cohen, A.Y. Gold, -computations on deterministic pushdown machines, J. Comput. System Sci. 3 (1978) 257–300.
+[6] J. Duparc, Wadge hierarchy and Veblen hierarchy, Part I: Borel sets of ﬁnite rank, J. Symbolic Logic 66 (1) (2001) 56–86.
+[7] E.A. Emerson, C.S. Jutla, A.P. Sistla, On model-checking for the mu-calculus and its fragments, Theoret. Comput. Sci. 258 (1–2) (2001)
+491–522.
+[8] O. Finkel, Topological properties of omega context-free languages, Theoret. Comput. Sci. 262 (2001) 669–697.
+[9] H. Gimbert, Parity and exploration games on inﬁnite graphs, Proc. 13th Annu. Conf. of the European Association for Computer Science Logic,
+CSL 2004, Lecture Notes in Computer Science, Vol. 3210, Springer, Berlin, 2004, pp. 56–70.
+[10] M. Jurdzi´nski, Small progress measures for solving parity games, in: STACS 2000, 17th Annu. Symp. on Theoretical Aspects of Computer
+Science, Proc., Lecture Notes in Computer Science, Vol. 1770, Lille, France, Springer, Berlin, February 2000, pp. 290–301.
+[11] A.S. Kechris, Classical Descriptive Set Theory, Graduate Texts in Mathematics, Vol. 156, Springer, Berlin, 1994.
+[12] O. Kupferman, M.Y.Vardi,An automata-theoretic approach to reasoning about inﬁnite-state systems, Proc. CAV’00, Lecture Notes in Computer
+Science, Vol. 1855, Springer, Berlin, 2000, pp. 36–52.
+[13] C. Löding, private communication.
+[14] J. Marcinkowski, T. Truderung, Optimal complexity bounds for positive LTL games, Proc. 11th Annu. Conf. of the European Association for
+Computer Science Logic, CSL 2002, Lecture Notes in Computer Science, Vol. 2471, Springer, Berlin, 2002, pp. 262–275.
+[15] D.A. Martin, Borel determinacy, Ann. Math. 102 (1975) 363–371.
+[16] C.H. Papadimitriou, Complexity Theory, Addison-Wesley, Washington, UK, 1994.
+[17] D. Perrin, J.-E. Pin, Inﬁnite words, Pure and Applied Mathematics, Vol. 141, Elsevier, Amsterdam, Academic Press, London, 2004.
+[18] O. Serre, Note on winning positions on pushdown games with -regular conditions, Inform. Process. Lett. 85 (2003) 285–291.
+[19] O. Serre, Contribution à l’étude des jeux sur des graphes de processus à pile, Ph.D. Thesis, Université Paris 7, 2004.
+[20] W. Thomas, On the synthesis of strategies in inﬁnite games, Proc. STACS ’95, Lecture Notes in Computer Science, Vol. 900, Springer, Berlin,
+1995, pp. 1–13.
+[21] W. Thomas, Inﬁnite games and veriﬁcation (extended abstract of a tutorial) Proc. Internat. Conf. on Computer Aided Veriﬁcation CAV’02,
+Lecture Notes in Computer Science, Vol. 2404, Springer, Berlin, 2002, pp. 58–64.
+[22] J. Vöge, M. Jurdzi´nski, A discrete strategy improvement algorithm for solving parity games (Extended abstract), in: E.A. Emerson, A.P. Sistla
+(Eds.), Computer Aided Veriﬁcation, 12th Internat. Conf. CAV 2000, Proc., Lecture Notes in Computer Science, Vol. 1855, Chicago, IL, USA,
+Springer, Berlin, July 2000, pp. 202–215.
+[23] W.W. Wadge, Reducibility and determinateness of the Baire space, Ph.D. Thesis, Berkeley, 1984.
+[24] I. Walukiewicz, Pushdown processes: games and model checking, Inform. Comput. 157 (2000) 234–263.
+[25] W. Zielonka, Inﬁnite games on ﬁnitely coloured graphs with applications to automata on inﬁnite trees, Theoret. Comput. Sci. 200 (1–2) (1998)
+135–183.

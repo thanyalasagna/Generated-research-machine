@@ -1,0 +1,552 @@
+Theoretical Computer Science 287 (2002) 251–265
+www.elsevier.com/locate/tcs
+Spiking neurons and the induction of
+$nite state machines 
+Thomas Natschl&ager∗, Wolfgang Maass
+Institute for Theoretical Computer Science, Technische Universitat Graz, Ineldgasse 16b,
+A-8010 Graz, Austria
+Abstract
+We discuss in this short survey article some current mathematical models from neurophys-
+iology for the computational units of biological neural systems: neurons and synapses. These
+models are contrasted with the computational units of common arti$cial neural network models,
+which re.ect the state of knowledge in neurophysiology 50 years ago. We discuss the problem
+of carrying out computations in circuits consisting of biologically realistic computational units,
+focusing on the biologically particularly relevant case of computations on time series. Finite state
+machines are frequently used in computer science as models for computations on time series.
+One may argue that these models provide a reasonable common conceptual basis for analyzing
+computations in computers and biological neural systems, although the emphasis in biological
+neural systems is shifted more towards asynchronous computation on analog time series. In the
+second half of this article some new computer experiments and theoretical results are discussed,
+which address the question whether a biological neural system can, in principle, learn to behave
+like a given simple $nite state machine. c⃝2002 Elsevier Science B.V. All rights reserved.
+Keywords: Computational neuroscience; Spiking neurons; Dynamic synapses; Finite state machines;
+Grammatical inference
+1. Introduction
+Computational models for neural systems have often concentrated on the processing
+of static stimuli. However, numerous ecologically relevant signals have a rich temporal
+ This work was supported by the project P12153 of the Fonds zur F&orderung wissenschaftlicher Forschung,
+and the NeuroCOLT project of the EC.
+∗Corresponding author.
+E-mail addresses: tnatschl@igi.tu-graz.ac.at (T. Natschl&ager), maass@igi.tu-graz.ac.at (W. Maass).
+URLs: http://www.igi.TUGraz.at/igi/tnatschl, http://www.igi.TUGraz.at/igi/maass
+0304-3975/02/$ - see front matter c⃝2002 Elsevier Science B.V. All rights reserved.
+PII: S0304-3975(02)00099-3
+252
+T. Natschlager, W. Maass / Theoretical Computer Science 287 (2002) 251–265
+Fig. 1. Implementation of a FSM as sequential machine (as de$ned in [13]). The boolean function fM
+relates the current input symbol u(k) and the current state x(k) to the output symbol y(k) and the next state
+x(k + 1). We assume in this article that u(k), x(k) and y(k) are encoded as bit strings.
+structure, and neural circuits must process these signals in real time. In many signal
+processing tasks, such as audition, almost all of the information is embedded in the
+temporal structure. In the visual domain, movement represents one of the fundamental
+features extracted by the nervous system. Hence, it is not surprising that in the last few
+years there has been increasing interest in the dynamic aspects of neural processing.
+Processing of real-world time-varying stimuli is a diIcult problem, and represents an
+unsolved challenge for arti$cial models of neural functions. Simultaneously, in com-
+puter science several areas such as, for example, computer vision, robotics, and machine
+learning have also increased their eJorts to deal with dynamic real-world inputs.
+A computational model which is, in principle, suitable for analyzing computations
+on time series is that of a 6nite state machine (FSM). Informally speaking, a FSM
+is an abstraction of a device that operates on strings of symbols. But in contrast to
+the closely related deterministic $nite automaton (DFA), which just accepts or rejects
+an input, the FSM generates for each input string a corresponding output string in an
+online manner. The mapping is not arbitrary, but is constrained by the $nite number
+of internal states the FSM is allowed to use (for a formal de$nition see [13]). A FSM
+can be implemented in several ways. One particular implementation of a FSM which
+naturally associates time with the FSM is the so-called sequential machine (SM). It
+consists of a boolean function fM which relates the current input symbol u(k) and the
+current internal state x(k) to the current output symbol y(k) and the next internal state
+x(k + 1); see Fig. 1. The concept of a FSM is a very general model for computation
+on time series. However, FSMs are abstract devices and there is no direct relationship
+between a FSM and most common models for biological neural systems.
+A model for computations in biological neural systems that captures the essential
+aspects of biological neural systems has to take into account the way how biological
+neurons transmit and process information (see Section 2 for more details). The output
+of a biological neuron consists of a sequence of almost identical electrical pulses,
+or “spikes” (see Fig. 2). These so-called spike trains are the time series which are
+processed by a biological neural system.
+In this survey article we point to some new results that address the question what
+computations a network of spiking neurons can perform. In particular, we will show
+that a network of spiking neurons cannot only perform all computations that a certain
+subclass of FSMs can perform, but can also learn to do so.
+T. Natschlager, W. Maass / Theoretical Computer Science 287 (2002) 251–265
+253
+3 msec
+  20 mV
+(A)
+(B)
+0 sec
+1 sec
+2sec
+Fig. 2. (A) Typical action potential (spike). (B) A typical spike train produced by a neuron (each $ring
+time marked by a bar).
+This article is organized as follows: In Section 2 we describe a formal model of
+a network of spiking neurons. In Section 3 we discuss a computational model which
+is suitable for analyzing computations on spike trains. Based on this computational
+model we present empirical data from computer simulations that show how a subclass
+of FSMs can be learned with a network of spiking neurons. We also brie.y outline
+the theory behind these experiments (Section 4).
+2. A model for a network of spiking neurons
+In this section, we discuss a formal model of spiking neurons that captures the
+fact that biological neurons communicate via spikes. 1 For an excellent survey about
+modeling neural systems we refer to [5].
+If one ignores all dynamic aspects, then a spiking neuron has some similarity to the
+familiar threshold gate in computer science (see for example [23]). A threshold gate
+outputs 1 if and only if the weighted sum of its inputs reaches some threshold. Similarly
+a spiking neuron i “$res”, i.e. generates a short electrical pulse, which is called action
+potential, or “spike” (see Fig. 2(A)), if the current input at time t drives the membrane
+potential hi(t) above some threshold i. Each such spike has the same shape. Hence the
+output of a spiking neuron is a sequence of spikes at certain points in time, informally
+called “spike train” (see Fig. 2(B)). Formally, the spike train generated by neuron i
+is simply the set of $ring times Fi ⊂R+ (R+ = {x ∈R: x¿0}).
+In the simplest (deterministic) model of a spiking neuron one assumes that a neu-
+ron i $res whenever the membrane potential hi (which models the electric membrane
+potential at the “trigger zone” of neuron i) reaches the threshold i. hi is the sum
+of the so-called excitatory postsynaptic potentials (EPSPs) and inhibitory postsynaptic
+potentials (IPSPs), which result from the $ring of “presynaptic” neurons j that are
+connected through a “synapse” to neuron i (see Fig. 3).
+The $ring of a neuron j at time ˆt contributes to the potential hi(t) at time t an
+amount that is modeled by the term wij(ˆt)ij(t −ˆt), which consists of the synaptic
+strength wij(ˆt)¿0 and a response-function ij(t −ˆt). Biologically, realistic shapes of
+such response functions are indicated in Fig. 3(B). If i is the set of all neurons
+1 The “spike trains” demo software which illustrates information processing with spikes can be downloaded
+from http://www.cis.TUGraz.at/igi/tnatschl/spike trains eng.html.
+254
+T. Natschlager, W. Maass / Theoretical Computer Science 287 (2002) 251–265
+Fig. 3. Information processing with spikes. (A) Spikes are generated by a threshold process whenever the
+membrane potential hj(t) crosses the threshold j(t −ˆt). The spike travels down the axon of neuron j. Via
+the synaptic connection ⟨ij⟩the spike is transformed into a postsynaptic response at neuron i. (B) Typical
+shape of a postsynaptic response, which is either positive (EPSP) or negative (IPSP), of a biological neuron.
+(C) Typical shape of the threshold function j(t −ˆt) of a biological neuron (ˆt is the time of its most recent
+$ring).
+presynaptic to neuron i, then the membrane potential hi(t) at the trigger zone of neuron
+i at time t is given in terms of the sets Fj of $ring times of these presynaptic neurons
+j by
+hi(t) := 
+j∈i
+
+ˆt∈Fj:ˆt¡t
+wij(ˆt)ij(t −ˆt) :
+(1)
+The membrane potential hi(t) does not really correspond to the weighted sum of a
+threshold gate since it varies over time. Unfortunately, not even the threshold i is
+static. If a neuron i has $red at time ˆt, it will not $re again for a few ms after ˆt, no
+matter how large its current potential hi(t) is (absolute refractory period). Then for a
+few further ms it is still reluctant to $re, i.e. a $ring requires a larger value of hi(t)
+than usual (relative refractory period). Both of these refractory eJects are modeled
+by a suitable threshold function i(t −ˆt), where ˆt is the time of the most recent $ring
+of i. A typical shape of the function i(t −ˆt) for a biological neuron is indicated in
+Fig. 3(C).
+The synaptic strength wij(ˆt) can be interpreted as the amplitude of the postsynaptic
+response triggered by the $ring of neuron j at time ˆt, whereas the time course and
+the sign (EPSP or IPSP) of the response are determined by the response function
+ij(t −ˆt). 2
+2 The restriction of wij(·) to non-negative values—in combination with positive (EPSP) or negative (IPSP)
+response functions ij(·)—is motivated by the empirical result that a biological synapse is either excitatory
+or inhibitory, and that it does not change its sign in the course of a learning process. In addition, for
+most biological neurons j, either all response-functions ij(·) for postsynaptic neurons i are excitatory (i.e.
+positive), or all of them are inhibitory (i.e. negative).
+T. Natschlager, W. Maass / Theoretical Computer Science 287 (2002) 251–265
+255
+In most mathematical models for spiking neurons one ignores the time dependence
+of the factor wij(·), and views it as a constant wij which only changes on the slow
+time scale of learning. Thus wij corresponds to a “weight” in traditional models for
+arti$cial neural nets. However, a large number of experimental studies have shown
+that biological synapses have an inherent short-term dynamics, which controls how the
+pattern of amplitudes of postsynaptic responses depends on the temporal pattern of the
+incoming spike train [17,25]; see Fig. 6 for an example. Various quantitative models
+have been proposed [1,19] involving a small number of hidden parameters, that allow
+us to predict the response of a given synapse to a given spike train once proper values
+for these hidden synaptic parameters have been found. In this article we will use the
+model of Markram et al. [19] and point to one possible role of such dynamic synapses
+(see Section 3).
+We assume that for some speci$ed subset of input neurons their $ring times (spike
+trains) are given from the outside as input to the network. The $ring times for all
+other neurons are determined by the previously described rules, and the output of the
+network is given in the form of the spike trains for the neurons in a speci$ed set of
+output neurons (see Fig. 7 for an example).
+We would like to point out that the formal model for a spiking neuron that we have
+outlined so far is a coarse simpli$cation. In particular, the membrane potential hi(t) at
+the trigger zone of a neuron i is, in general, not a linear sum of incoming pulses. Both
+sublinear and superlinear summation occur in biological neurons. Also the threshold
+function i (see Fig. 3(C)) varies from neuron to neuron. For example, in the case of
+periodically $ring neurons (“pacemaker” neurons) the threshold function i may also
+rise again after its initial decline. With regard to further details about biological neural
+systems we refer to [10–12,21,27].
+3. Induction of nite state machines
+In this section, we will sketch a new computational model for analyzing computations
+on spike trains and show on the basis of this model how, in principle, a network of
+spiking neurons can be trained to mimic the behavior of a given de$nite memory
+machine (DMM) which is a special case of a FSM. This approach is quite diJerent
+from previous theoretical work [14] where it is shown that certain recurrent networks
+of spiking neurons can, in principle, simulate any given Turing machine. The results
+reported in [14] are based on a construction where the current state of the simulated
+Turing machine is stored by the activation of a proper set of oscillators consisting
+of a small network of spiking neurons. No such—biologically somewhat dubious—
+oscillators are required in the feedforward network that we will investigate in this
+article.
+We will consider the problem of constructing a network N of spiking neurons
+which approximates the behavior of a given DMM M with binary input and output
+symbols, i.e. M transforms an input string u ∈{0; 1}∗to an output string y ∈{0; 1}∗.
+The current output y(k) of a DMM depends only on a $nite number d of previous
+inputs u(k −1); : : : ; u(k −d) in addition to the current input u(k) (see Fig. 4; for a
+256
+T. Natschlager, W. Maass / Theoretical Computer Science 287 (2002) 251–265
+Fig. 4. Implementations of a DMM as sequential machine. The current output y(k) is determined by some
+boolean function fM, which is applied to a $nite number d of previous inputs u(k −1); : : : ; u(k −d) in
+addition to the current input u(k).
+Fig. 5. A new computational model for analyzing computations on time series u(·), such as for example
+spike trains.
+formal de$nition of a DMM see [13]). 3 We will denote by Dd the class of all DMMs
+M for which y(k) can be written in the form
+y(k) = fM(u(k); u(k −1); u(k −2); : : : ; u(k −d)):
+(2)
+Note that there are 22d+1 choices for the function fM, or equivalently |Dd| = 22d+1.
+3.1. The network architecture
+On an abstract level the computational model that we will consider, see Fig. 5,
+consists of an array B1 : : : ; Bm of subsystems—denoted as basis 6lters in the following
+—whose collective outputs de$ne a continuous state vector x(·). Note that this state
+vector x(·) diJers in general from the current state of the simulated DMM. It is more
+closely related to the state vector of a dynamical system [24]. This state x(·) is trans-
+formed into an output y(·) by means of a suitable memoryless output device.
+3 We will write u(k) (y(k)) for the kth symbol (bit) of the string u(y).
+T. Natschlager, W. Maass / Theoretical Computer Science 287 (2002) 251–265
+257
+3.1.1. The set of basis 6lters
+From a theoretical point of view it would suIce to choose the basis $lters B1 : : : ; Bm
+as a proper set of delay lines. In this case the resulting network is structurally similar
+to the implementation of a DMM as sequential machine in the sense that the output
+is computed directly from the input and delayed versions of it via the output device
+(which corresponds to the boolean function fM in the case of a DMM). It is not
+surprising that such an architecture can simulate an arbitrary DMM M if the output
+device is able to compute the equivalent of the boolean function fM. However, from a
+biological point of view such an implementation is not satisfactory since transmission
+delays of more than 30 ms are rarely found in cortical circuits [22]. On the other hand
+biologically organisms need to respond appropriately to time series that are spread out
+over much larger time spans. For example, the temporal distance between saccades
+(rapid eye movements) is on average around 300 ms.
+Hence, we propose a biologically more plausible implementation for the set of basis
+$lters: we employ a multitude of biologically realistic dynamic synapses with a uniform
+delay, but with a suitable distribution of the parameters which control the current
+synaptic strength. We employ the model of Markram et al. [19], where three parameters
+Uij, Fij, and Dij control the dynamics of a synaptic connection ⟨ij⟩between neurons
+j and i. A fourth parameter Aij—which corresponds to the synaptic “weight” in static
+synapse models—scales the absolute sizes of the postsynaptic responses. The resulting
+model predicts the amplitude wij(tm) = Aij · uij(tm) · Rij(tm) of the postsynaptic response
+to the (m+1)th spike in a spike train Fj = {t0; t1; : : : ; tm} with interspike intervals (ISIs)
+k = tk+1 −tk; k = 0; : : : ; m −1, in terms of two internal dynamic variables uij and Rij
+ranging over [0; 1], whose dynamics is governed by the following recursive equations 4
+uij(tk+1) = Uij + uij(tk)(1 −Uij) exp(−k=Fij);
+Rij(tk+1) = 1 + (Rij(tk) −uij(tk)Rij(tk) −1) exp(−k=Dij)
+(3)
+with the initial conditions u(t0) = U and R(t0) = 1 for the $rst spike.
+It is reported in [9] that the synaptic parameters U; F; D are quite heterogeneous,
+even within a single neural circuit (see Fig. 6(A)). Note that the time constants D
+and F are in the range of a few hundred ms. The synapses investigated in [9] can
+be grouped into three major classes: facilitating (F1), depressing (F2) and recovering
+(F3). Fig. 6(B) compares the output of a typical F1-type and a typical F2-type synapse
+in response to a typical irregular spike train. One can see that the same input spike
+train yields markedly diJerent outputs at these two synapses.
+Whenever we talk about synaptic strength or weight in the following we refer to the
+parameter Aij. In our learning experiments we just modify this parameter Aij, whereas
+Uij; Fij; Dij are assumed to be $xed (at some biologically realistic values).
+The vector of internal states x(t) = ⟨x1(t); : : : ; xm(t)⟩of our computational model
+consists of the individual outputs xj(t) of the m basis $lters. In our concrete
+4 To be precise: the term uij(tk)Rij(tk) in Eq. (3) was erroneously replaced by uij(tk+1)Rij(tk) in the
+corresponding Eq. (2) of Markram et al. [19]. The model that they actually $tted to their data is the model
+considered in this article.
+258
+T. Natschlager, W. Maass / Theoretical Computer Science 287 (2002) 251–265
+0
+0.25
+0.5
+0.75
+1
+0
+0.25
+0.5
+0.75
+1
+0
+0.25
+0.5
+0.75
+1
+U
+F [sec]
+D [sec]
+F1 type
+F2 type
+F3 type
+F1
+F2
+0
+1
+2
+3
+4
+5
+time [sec]
+(A)
+(B)
+Fig. 6. Synaptic heterogeneity. (A) The parameters U; D, and F can be determined for biological synapses.
+Shown is the distribution of values for inhibitory synapses investigated in [9] which can be grouped
+into three mayor classes: facilitating (F1), depressing (F2) and recovering (F3). (B) Synapses produce
+quite diJerent outputs for the same input for diJerent values of the parameters U; D, and F. Shown are
+the amplitudes w(tk) (height of vertical bar) of the postsynaptic response of a F1-type and a F2-type
+synapse to an irregular spike train (horizontal positions of vertical bars mark the spike times). Parameters:
+U = 0:16; D = 45 ms; F = 376 ms for F1, and U = 0:25; D = 706 ms; F = 21 ms for F2.
+Fig. 7. A network of spiking neurons which can learn to mimic a given de$nite memory machines. Via
+its excitatory (•) and inhibitory (◦) synapse the neuron a generates a spike train (“negated” input) which
+corresponds to the bitwise inverted input string. During learning only the strengths of the dynamic synapses
+(gray circles) to the n neurons in pool P are adjusted.
+implementation the jth basis $lter is a single dynamic synapse which either receives
+the input spike train s or the “negated” input spike train Ps as input; see Fig. 7. Hence,
+we de$ne xj(tk) := uj(tk) · Rj(tk) where j refers to the jth dynamic synapse. Later we
+will determine the synaptic strength Aij through a suitable learning algorithm.
+3.1.2. The output device
+Here we consider as output device a small pool P of spiking neurons and view the
+fraction p(t) of neurons in P which $re during a short time interval [t −; t] as the
+output of the computation. To convert p(t) into an output spike train one could use a
+T. Natschlager, W. Maass / Theoretical Computer Science 287 (2002) 251–265
+259
+spiking neuron v which receives input from all neurons in pool P (see Fig. 7). In that
+case the time course of the membrane potential hv(t) would approximate very closely
+the time course of p(t). The spiking mechanism of neuron v translates hv(t) into an
+output spike train. For sake of simplicity, we assume that this implementation of the
+output device has no temporal delays. However, more realistically one could assume
+that the output device maps x(t) to p(t + ) and h(t +  + ′) for some $xed delays
+; ′ in the range of 5–10 ms.
+Recent results [2,15] show that such a single population P of spiking neurons (even
+without lateral or recurrent connections) has enough computational power so that a
+large class of functions that map state vectors x(t) to the population activity p(t) can
+be computed. Furthermore, there exists a new learning algorithm [2], which allows
+to tune the synaptic strengths Aij of neurons i ∈P such that a given function g from
+x(t) to p(t) is computed. From a biological point of view it is particularly appealing
+that this algorithm requires for each neuron just the application of a perceptron-like
+local learning rule: Whenever too many neurons in P are $ring the weights Aij of all
+neurons i ∈P which $re are changed such that the membrane potential hi(t) decreases
+for the current input x(t). In the case where too few neurons $re the weights of all
+neurons which are not $ring are changed such that the membrane potential increases
+for the given input (for details see [2]).
+To summarize, the proposed network for implementing a given DMM M is a feed-
+forward network of spiking neurons consisting of an array of dynamic synapses (the
+basis $lters) which supplies the input x(t) to a pool P of spiking neurons (the out-
+put device). All information about preceding inputs is carried within these dynamic
+synapses. The pool P in turn drives the neuron v which produces the desired output
+spike train; see Fig. 7.
+3.2. The training procedure
+3.2.1. The learning task
+The goal of the training experiments which we are now going to describe is to show
+that it is possible to mimic the behavior of a DMM M which is chosen randomly from
+the class Dd de$ned at the beginning of Section 3 with a 6xed network architecture
+(see Fig. 7). Only the values Aij of the synaptic strengths of the dynamic synapses
+are diJerent when the network of Fig. 7 is used to simulate two diJerent DMMs
+M; M ′ ∈Dd. Note that the number of dynamic synapses, the number n of neurons in
+pool P, and the values of the parameters Uij; Dij and Fij are equal for all target DMMs
+M ∈Dd. Hence, to simulate a given M ∈Dd we have to $nd proper values Aij for the
+synaptic strengths of the dynamic synapses. We will use the learning algorithm from
+Auer et al. [2] to accomplish this task. In order to do so we have to generate a suitable
+set of training examples.
+Speaking more formally, to simulate a given M ∈Dd by a network N of spiking
+neurons (see Fig. 7) we need to implement a certain function gM : Rm →[0; 1]—
+the target function—which maps state vectors x(t) to population activity p(t). The
+network N implements the function gN : Rm →[0; 1] which is de$ned by the values
+Aij ∈R; i = 1 : : : n; j = 1 : : : m of the synaptic strengths of the dynamic synapses. Hence,
+260
+T. Natschlager, W. Maass / Theoretical Computer Science 287 (2002) 251–265
+the task of the learning algorithm is to $nd proper values Aij such that gN approximates
+gM.
+3.2.2. Encoding of input and output
+In order to simulate a given DMM M with a network of spiking neurons we have
+to choose a particular encoding for the input and output of the DMM M in terms
+of an input and output spike train. We represent a value u(k) = 1 (y(k) = 1) by the
+occurrence of a spike and a value u(k) = 0 (y(k) = 0) by no spike in the corresponding
+time interval. Since spiking neurons normally operate in an asynchronous way one has
+to de$ne times tk when one should “look for a spike”. To accomplish this we use an
+extra input (“pacemaker”) to our network of spiking neurons which supplies the times
+tk in the form of a regular spike train of 40 Hz (see Fig. 7). In a biological context
+such invariant periodic input is for example provided by well-known global rhythms
+that show up in EEG-recordings; such as rhythmic discharge in the gamma frequency
+band (20–70 Hz).
+3.2.3. Generation of training examples
+As a consequence of our encoding scheme it is only relevant for the times tk how a
+state vector x(tk) is mapped to the population activity p(tk) (p(tk) = gN(x(tk))). If the
+network N receives an input spike train which encodes a string u ∈{0; 1}q and should
+produce an output spike train which encodes the string y ∈{0; 1}q—the output of the
+DMM M—then p(tk) = gN(x(tk)) should be as close as possible to y(k) = gM(x(tk))
+for all t1; : : : ; tq. Therefore, the set of training examples consists of tuples ⟨z; o⟩where
+z = x(tk) and o = y(k) is the target output. A simulation of such network N with the
+time points tk marked by dashed lines in shown in Fig. 8.
+After the learning algorithm has found proper values for the synaptic strengths Aij
+either a large (y(k) = 1) or a small (y(k) = 0) fraction of neurons i ∈P will $re around
+time tk. Therefore if one chooses a proper threshold for the output neuron v it will
+(y(k) = 1) or will not (y(k) = 0) $re around time tk according to the value of y(k).
+3.2.4. Results
+Some results of our learning experiments 5 for d = 3 (|D3| = 224 = 65536) are sum-
+marized in Fig. 9. We have randomly chosen 650 DMMs M ∈D3 from the uniform
+distribution over all M ∈D3. For each of these DMMs we trained a network N with the
+learning algorithm from Auer et al. [2] on a single randomly chosen string u ∈{0; 1}∗
+of length 400. To check whether the network has really learned to mimic the DMM
+at hand we measured the performance (percent of correct output spikes) of the trained
+network on a randomly chosen test string ˜u ∈{0; 1}∗of length 400. As one can see
+5 For numerical simulations of spiking neurons we used the so called leaky integrate-and-$re neuron model
+(see e.g. [5]) with a membrane time constant of $m = 20 ms. The only parameters that are modi$ed in our
+learning experiments are the synaptic parameters Aij that scale the m = 18 components of x(t) (i.e. the output
+uj(t)·Rj(t) of the jth dynamic synapse) individually for each neuron i in the population P of size 200. Each
+neuron is connected to the input spike train s and to the “negated” input spike train Ps via nine synapses
+(postsynaptic current time constant $s = 1 ms). Each set of nine synapses consists of three depressing, three
+facilitating and three recovering synapses with time constants D and F in the range of 30–100 ms.
+T. Natschlager, W. Maass / Theoretical Computer Science 287 (2002) 251–265
+261
+Fig. 8. Numerical simulation of the network of Fig. 7 for the input string u = 10110010. The traces 1–12
+show the contributions to the membrane potential of selected dynamic synapses of the network. Synapses
+1–6 receive the direct input s whereas synapses 7–12 get the negated signal Ps as input. If one looks for
+example closely at trace 1 one can see that the amplitudes of these EPSPs diJer from spike to spike. These
+subtle diJerences, which also vary from synapse to synapse, can serve as short-term memory for a neural
+system, since the amplitude for the current spike contains information about the preceding part of the spike
+train. The dashed lines mark the times tk at which the state vector x(tk) is recorded in order to serve—in
+combination with the target output y(k)—as training example for our learning experiments. Note the time
+diJerence (a few ms) between the pacemaker and the time points tk. We have chosen the times tk in that
+way because usually a few ms elapse until a EPSP or IPSP reaches its extremal value.
+in Fig. 9 the performance on the test string ˜u is near 100% (average 96.07%) for all
+650 randomly chosen DMMs. This indicates that at network of spiking neurons (see
+Fig. 7) can learn to behave like an arbitrary DMM M ∈D3.
+4. Theoretical background
+In this section, we brie.y review the theory which underlies the computational model
+employed in Section 3. Most of this theory was developed in the context of common
+models for analog computations in populations of spiking neurons (“population coding”
+262
+T. Natschlager, W. Maass / Theoretical Computer Science 287 (2002) 251–265
+Fig. 9. Networks of spiking neurons can mimic the behavior of DMMs M ∈D3. We plotted the performance
+(percent of correct output spikes) of the trained network for a random test string ˜u ∈{0; 1}400 for 650 DMMs
+M ∈D3 where the boolean function fM was chosen randomly. Each DMM M ∈D3 can be assigned a unique
+index (plotted on the X-axis) by interpreting the string which consists of the enumeration of all possible
+outputs of fM as a binary number.
+or “space rate coding”), see [4,6]. In the following, we refer to such systems which
+map a vector of time varying input signals u(·) onto another vector of time varying
+output signals y(·) as 6lter. We adopt the common notation (Fu)(t) to denote the
+output that the $lter F gives at time t for the input function u.
+4.1. A universal approximation theorem for 6lters
+In the preceding section, we had presented empirical evidence for the approximation
+capabilities of our network model for computations in the time series (spike train) do-
+main. This gives rise to the question, what the theoretical limits of their approximation
+capabilities are. The result presented in [16] (and its extension to spike trains in [18])
+shows that basically there are no signi$cant a priori limits. Furthermore, in spite of the
+rather complicated system of equations that de$nes our network model, one can give
+a precise mathematical characterization of the class of $lters that can be approximated
+by them. This characterization involves the following basic concepts.
+An arbitrary $lter F is called time invariant if a shift of the input functions by a
+constant t0 just causes a shift of the output function by the same constant t0. Another
+essential property of $lters is fading memory. A $lter F has fading memory if and
+only if the value of (Fu)(0) can be approximated arbitrarily closely by the value of
+(Fv)(0) for functions v that approximate the functions u for suIciently long bounded
+intervals [−T; 0] suIciently well. Informally speaking, this means that the output of a
+$lter with fading memory primarily depends on inputs within a certain time interval, i.e.
+it has essentially $nite memory. Hence a time invariant $lter with fading memory is a
+generalization of a DMM in the setting of analog $lters F. The class of time invariant
+$lters with fading memory arguably includes practically any biologically relevant $lter.
+In [16] the computational power of feedforward networks with dynamic synapses
+where the computational units are pools of neurons is analyzed. Their rigorous the-
+oretical result states that even with just a single hidden layer such networks can
+T. Natschlager, W. Maass / Theoretical Computer Science 287 (2002) 251–265
+263
+approximate a surprisingly large class of nonlinear $lters: all time invariant $lters with
+fading memory. The proof of this result relies on the Stone–Weierstrass Theorem, and
+is contained as the proof of Theorem 3.4 in [16]. Furthermore, it is empirically shown
+in [20] that gradient descent suIces to approximate a given (quadratic) $lter by a
+model for a rather small neural system with dynamic synapses. It is also demonstrated
+that the simple feedforward network with biologically realistic synaptic dynamics yields
+nonlinear $lter performance comparable to that of an arti$cial network model proposed
+in [3] that was designed to yield good performance in the time series domain without
+any claims of biological realism.
+Very recently the techniques used in [16] have been extended to cover also the
+case of spike trains u(·) as input time series [18]. This new result implies that a very
+rich class of maps F from input spike trains u(·) to output spike trains y(·) can
+be implemented by circuits of spiking neurons with the basic architecture shown in
+Fig. 5.
+4.2. A new universal approximation theorem for static functions
+There also exists a rigorous proof [2,15] that a single population P of threshold
+gates (or spiking neurons) can approximate any given continuous function on any
+given compact set. This provides another component of the theoretical basis for the
+learning approach in Section 3, where only output devices of this type are considered.
+5. Discussion
+We have sketched in this short survey article mathematical models for biological
+neurons and synapses that re.ect the current state of knowledge in neurophysiology. It
+becomes clear that neither biological neurons nor biological synapses are modeled well
+by the “neurons” and “synapses” of common arti$cial neural network models, which
+ignore the inherent temporal dynamics of their biological counterparts. Furthermore,
+we have indicated new approaches towards implementing speci$c $nite state machines
+through circuits consisting of these more realistic dynamic computational units.
+We would like to argue that computations on time series provide a better paradigm
+for neural computation than the computations on static inputs that are more frequently
+investigated in the context of arti$cial neural networks. One simple model for com-
+putations on time series, the $nite state machine (FSM), plays an important role both
+in neuroscience and in theoretical computer science. We have shown that a subclass
+of such FSMs can be implemented quite well by circuits consisting of biologically
+realistic models for neurons and synapses, in a way which diJers strongly from the
+common implementations of such machines in boolean circuits or models for arti$cial
+neural networks [7,8,26].
+In contrast to most previous work on implementations of FSMs in neural networks we
+have not just shown that speci$c machines of this type, but randomly selected machines
+from a large class of FSMs can be implemented, even with the same architecture of
+264
+T. Natschlager, W. Maass / Theoretical Computer Science 287 (2002) 251–265
+the neural circuit. Furthermore we have shown that such $xed neural circuit can in
+principle learn to simulate a randomly chosen simple FSM.
+References
+[1] L.F. Abbott, J.A. Varela, K.A. Sen, S.B. Nelson, Synaptic depression and cortical gain control, Science
+275 (1997) 220–224.
+[2] P. Auer, H. Burgsteiner, W. Maass, The p-delta learning rule for parallel perceptrons, submitted for
+publication, 2001.
+[3] A.D. Back, A.C. Tsoi, A simpli$ed gradient algorithm for IIR synapse multilayer perceptrons, Neural
+Comput. 5 (1993) 456–462.
+[4] A.P. Georgopoulos, A.P. Schwartz, R.E. Ketner, Neuronal population coding of movement direction,
+Science 233 (1986) 1416–1419.
+[5] W. Gerstner, Spiking neurons, in: W. Maass, C. Bishop (Eds.), Pulsed Neural Networks, MIT Press,
+Cambridge, 1999, pp. 3–53.
+[6] W. Gerstner, Populations of spiking neurons, in: W. Maass, C. Bishop (Eds.), Pulsed Neural Networks,
+MIT Press, Cambridge, MA, 1999, pp. 261–293.
+[7] C.L. Giles, B.G. Horne, T. Lin, Learning a class of large $nite state machines with a recurrent neural
+network, Neural Networks 8 (9) (1995) 1359–1365.
+[8] C.L. Giles, C.B. Miller, D. Chen, H.H. Chen, G.Z. Sun, Y.C. Lee, Learning and extracting $nite state
+automata with second-order recurrent neural networks, Neural Comput. 4 (1992) 393–405.
+[9] A. Gupta, Y. Wang, H. Markram, Organizing principles for a diversity of GABAergic interneurons and
+synapses in the neocortex, Science 287 (2000) 273–278.
+[10] D. Johnston, S.M.S. Wu, Foundations of Cellular Neurophysiology, MIT Press, Cambridge, MA, 1995.
+[11] C. Koch, Biophysics of Computation: Information Processing in Single Neurons, Oxford University
+Press, Oxford, 1999.
+[12] C. Koch, I. Segev, Methods in Neural Modeling: From Ions to Networks, MIT Press, Cambridge, MA,
+1998.
+[13] Z. Kohavi, Switching and Finite Automata Theory, McGraw-Hill, New York, 1978.
+[14] W. Maass, Lower bounds for the computational power of networks of spiking neurons, Neural Comput.
+8(1) (1996) 1–40, electronically available via http://www.cis.TUGraz.at/igi/maass/psfiles/
+75.ps.gz.
+[15] W. Maass, On the computational power of winner-take-all, Neural Comput. 12(11) (2000) 2519–2536,
+electronically available via http://www.cis.TUGraz.at/igi/maass/psfiles/113j.ps.gz.
+[16] W. Maass, E.D. Sontag, Neural systems as nonlinear $lters, Neural Comput. 12 (8) (2000) 1743–1772,
+electronically available via http://www.cis.TUGraz.at/igi/maass/psfiles/107rev.ps.gz.
+[17] H. Markram, M. Tsodyks, Redistribution of synaptic eIcacy between neocortical pyramidal neurons,
+Nature 382 (1996) 807–810.
+[18] W. Maass, T. Natschl&ager, H. Markram, Real-time computing without stable states: A new framework
+for neural computation based on perturbations, submitted for publication, 2001.
+[19] H. Markram, Y. Wang, M. Tsodyks, DiJerential signaling via the same axon of neocortical pyramidal
+neurons, Proc. Nat. Acad. Sci. 95 (1998) 5323–5328.
+[20] T. Natschl&ager, W. Maass, A. Zador, EIcient temporal processing with biologically realistic dynamic
+synapses, Network: Computation in Neural Systems 12 (2001) 75–87.
+[21] F. Rieke, D. Warland, R. de Ruyter van Steveninck, W. Bialek, Spikes: Exploring the Neural Code,
+MIT Press, Cambridge, MA, 1997.
+[22] G. Shepherd, The Synaptic Organization of the Brain, 3rd Edition, Oxford University Press, Oxford,
+1995.
+[23] K.-Y. Siu, V. Roychowdhury, T. Kailath, Discrete Neural Computation: A Theoretical Foundation,
+Information and System Sciences Series, Prentice-Hall, Englewood CliJs, NJ, 1995.
+[24] S.H. Strogatz, Nonlinear Dynamics and Chaos: With Applications in Physics, Biology, Chemistry, and
+Engineering (Studies in Nonlinearity), Addison-Wesley, Reading, MA, 1994.
+T. Natschlager, W. Maass / Theoretical Computer Science 287 (2002) 251–265
+265
+[25] J.A. Varela, K. Sen, J. Gibson, J. Fost, L.F. Abbott, S.B. Nelson, A quantitative description of short-term
+plasticity at excitatory synapses in layer 2=3 of rat primary visual cortex, J. Neurosci. 17 (1997) 220–
+224.
+[26] R.L. Watrous, G.M. Kuhn, Induction of $nite-state languages using second order recurrent networks,
+Neural Comput. 4 (1992) 406–414.
+[27] A.M. Zador, The basic unit of computation, Nature Neurosci. 3 (Suppl.) (2000) 1167.

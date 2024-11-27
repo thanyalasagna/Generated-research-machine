@@ -1,0 +1,1358 @@
+Comput. Math. Applic. Vol. 15, No. 9, pp. 723-742, 1988 
+0097..4943/88 $3.00+0.00 
+Printed in Great Britain. All rights reserved 
+Copyright © 1988 Pergamon Preu pk 
+ATOMATICS 
+AS MATHEMATICAL 
+MODELLING 
+AND 
+KNOWLEDGE 
+REPRESENTATION 
+APPLICATIONS TO SYSTEMS ANALYSIS IN COMPUTER 
+AND INFORMATION SCIENCES 
+A. TUZHILIN 
+The College of Staten Island, CUNY, 130 Stuyvesant Place, Staten Island, NY 10301, U.S.A. 
+(Received 3 September 1987) 
+Communicated by E. Y. Rodin 
+I. INTRODUCTION 
+Application of mathematics to systems and situations in industry, business, and science begins with 
+mathematical modelling of these systems and situations. Well established mathematical models 
+of systems and situations are usually considered as representing knowledge about them. This 
+type of knowledge representation is the most fundamental one on the level of contemporary 
+knowledge. Overwhelming majority of contemporary mathematical models arc related to systems 
+and situations of the so-called natural type. That is, the real knowledge about these systems and 
+situations is based on experimentations on them. Mathematical models for these systems and 
+situations are based on different laws discovered in experiments. Examples of laws and models of 
+this type we have in physics and chemistry. The corresponding mathematical field of modelling and 
+analysis of models is usually called mathematical physics (in a broad sense). Mathematical models 
+developed in mathematical physics are very often insufficient for practical applications. They 
+describe usually some features of a real system, for example, mechanical or electromagnetic 
+properties of a system. But a real system have usually all these properties simultaneously. Systems 
+analysis appeared as an attempt to describe real objects more realistically. 
+Impetuous development of computer science gave rise to a new field for mathematical 
+applications. At the beginning, it was obvious that the software part of computer science is a branch 
+of mathematics. But this part is developing so dramatically fast by people so far from mathematics, 
+that is seems that mathematics has very little in common with it. Moreover, contemporary software 
+systems are so complex that there is no mathematical theory in contemporary mathematics being 
+able to model and analyze these systems. Systems we have in computer and information sciences 
+are different in nature from systems of the natural type. Knowledge about these systems is not 
+based on experimentation. Therefore, modelling and analysis of them must be based on the analysis 
+of our capability of knowledge representation. A new field appeared in computer science known 
+as knowledge representation. But we must first analyze the fundamental methodology of knowledge 
+representation and analysis, mathematical modelling. 
+A goal of this paper is to describe a methodology for mathematical modelling and knowledge 
+representation which, as we believe, give us a basis for consistent and complete representation 
+of results and basis for further development in business, technology, and science. To be efficient, 
+the methodology should be based on and applied to analysis of real systems. We orient our 
+methodology first toward systems in computer and information sciences which are prepared at most 
+for application of the methodology. Systems in these sciences may serve as the touchstone for 
+testing efficiency of the methodology. At the same time, we would like to develop techniques for 
+the solution of a rather difficult problem in computer science, the problem of software analysis, 
+correctness and design. 
+Let us consider briefly general methodologies of modelling and knowledge representation. 
+In mathematical physics, we use mathematical constructions for mathematical modelling. 
+Mathematics here is considered as a tool but the nature of this type of knowledge representation 
+723 
+724 
+A. TUZHILIN 
+is not usually analyzed in the field. The analysis is left to philosophy or, at the best, to 
+mathematical logic. 
+The philosophical approach to "modelling" (more precisely, to knowledge representation) is 
+usually very broad and related to the entire world. The idea of the description of the entire world 
+on the basis of primitive elements was originated in different ancient ideologies, and one of the 
+constructive approaches, which has led to contemporary physics, chemistry, and biology, is known 
+on the West as atomism. 
+Mathematical logic also tries to develop the methodology of knowledge representation known 
+as the axiomatic methodology. The axiomatic methodology is usually related to different mathetical 
+theories but not to real systems and situations. However, very broad applications of mathematics 
+to "real world" give hope for creating a mathematical foundation for knowledge representation 
+about this world. 
+There are two general approaches in the axiomatic methodology. The first approach begins with 
+the definition of a language and then goes to formulation of axioms for a given mathematical 
+theory. In contemporary mathematical logic, the next step for the analysis of the theory on a given 
+set of axioms is the analysis of the so-called "models" for the set of axioms, that is, the analysis 
+of the set of relations on a given set (sets) with some relations corresponding to the axioms. In 
+this approach, many brilliant results were obtained which clarified the axiomatic approach. 
+The first axiomatic approach with model theory is however very far from axiomatization needed 
+for practical systems and situations. The necessity for another axiomatic approach even for 
+mathematical practice was recognized in mathematics. The second approach to axiomatization 
+efficient in practical applications was developed by N. Bourbaki in his attempt to describe the entire 
+mathematics on one unified principle. This unified principle is known as structural set meth- 
+odology. The structural set methodology may be considered as a mathematical "atomic" approach 
+to knowledge representation. In 1949 Bourbaki has said "... all mathematical theories may be 
+regarded as extensions of the general theory of sets...". These extensions are structural sets 
+(structures). Bourbaki stated "... on these foundations I state that I can build up the whole of 
+the mathematics of the present day ...". 
+What are problems we meet with in attempts to model and analyze real systems and situations, 
+for example, such as software systems like operating systems? The first problem is the description 
+(construction of mathematical models) of systems with complex structures. The methodology of 
+mathematical modelling of such systems should describe not only some features of a system (as 
+we often do in mathematical physics) but also the entire system. The second problem is the 
+description and analysis of operations and relations on different types of complex systems and their 
+subsystems. 
+For the solution of the first problem, we can try to use and to develop further ideas of atomism 
+in the form developed in mathematics by Bourbaki which revealed to be very efficient in 
+mathematics. An attempt for further development of Bourbaki's structural set methodology with 
+application to systems analysis and mathematical modelling was carried out by the author (see, 
+for example, [1] and [2]). Results of this development will be briefly discussed in this paper. 
+For the solution of the second problem, we have to develop a method that implements the 
+idea of the so-called scale approach known also as an aphorism, "as above, so below". The scale 
+approach is based on the "atomic" axiomatic approach. In the atomic axiomatic approach, we start 
+with "primitive" elements of different types ("atoms" of different types). All complex objects and 
+constructions (elements of the language on primitive and complex objects describing their 
+properties and relations) are created on the basis of primitive objects. In the scale approach, 
+complex objects of different types become primitive objects on the next level ("above"), but 
+constructions on this level use properties of these new primitive elements as complex ones. The 
+combination of these two approaches, the atomic axiomatic approach and the scale approach, 
+makes our methodology rather efficient for mathematical modelling (and therefore knowledge 
+representation) and analysis of practical systems and situations, for example, contemporary 
+computers and their software systems. Applications of this methodology will be demonstrated in 
+this paper. 
+In computer and information sciences, we usually have finite collections of primitive objects. 
+Therefore, it seems that all constructions may be described in specific languages. In our 
+Atomatics as mathematical modelling and knowledge representation 
+725 
+methodology, we use languages with weights, suggested by Bourbaki (see [3]). We developed the 
+equivalent constructions, called complexes, which are more obvious and efficient for further 
+applications than words in a language. Complexes are trees with symbols assigned to vertexes. We 
+consider these constructions as elements of metalanguage for representing complex objects and 
+variable constructions of arbitrary order for describing relations. It seems that our variable 
+constructions are much richer than in logical languages and that our language is more powerful 
+than ordinary logical languages. We define logical constructions in our language including different 
+types of quantifiers and define also the primitive set-theoretical relation, "belong". Therefore, 
+we can create many constructions of set theory including structures in our language. Scale 
+methodology is natural in this approach. Some results described above and their applications can 
+be found in [4-6]. 
+A goal of the methodology described in this paper is to be the main methodology for 
+mathematical modelling in practical research and development and first of all in computer and 
+information sciences. There are many prejudices against practical orientation of mathematics which 
+prevent its further development for practical systems and situations. There are also many prejudices 
+in practical research and development against mathematical applications, because mathematical 
+models in these applications are very often much simpler than practical systems and situations. But 
+mathematics was, is, and, we believe, will be the best way of knowledge representation and 
+knowledge analysis. Any field of human activity based on mathematical modelling and analysis 
+enjoys outstanding results. Examples are physics, chemistry, and, as a result, modern technology. 
+To prevent prejudices against practical orientation of mathematics and prejudices against 
+mathematics in practical research and development, we decided to call the methodology described 
+in this paper as atomatics, that is, the approach of mathematics to practical research and 
+development based on the "atomic" approach to axiomatization. We hope that the prejudice 
+against the intrepid innovations which this term, atomatics, can stir up, is less harmful than 
+described above prejudices. We also hope that this branch of mathematics will attract attention 
+of many researchers for creating the proper basis (atomatic basis) for description and analysis of 
+systems and situations in industry, business and science. 
+We orient this paper mainly to demonstration of applications of methodology developed. We 
+remind first briefly main notions developed in other papers and then consider examples. These 
+examples include: (i) modelling some practical systems; (ii) application of canonical morphisms in 
+categories of structural sets to expansion of systems, known in some situations as "updating", or 
+to process evaluation, known also in some situations as "scheduling"; (iii) functional analysis on 
+spaces of states of subsystems of a system with application to analysis of software systems; this 
+functional analysis is an extension of many sorted universal algebra; this extension incorporates 
+structures from systems analysis into algebraic structures of many sorted universal algebra which 
+permitted us to orient this functional analysis to practical applications; we consider, as an example 
+of application, a simple operating system. 
+2. BOURBAKI'S STRUCTURAL SET METHODOLOGY AND UNIVERSAL 
+RELATION LANGUAGE ON FINITE PRIMITIVE COLLECTIONS 
+In this section, we remind briefly main notions of Bourbaki's structural set methodology (see 
+[3]) and its finite version developed by the author (see [5]). 
+Bourbaki starts with primitive collections (sets) of n different types, E,, E2 ..... En; and auxiliary 
+collections of m different types, A,, A 2 ..... Am. Complex sets, called echelons, are constructed by 
+using the operations, Cartesian product, x, and boolea_n,_fl (construction of power set). Echelons 
+are denoted as S (El, E2 ..... E,, A l, A2 ..... Am) = S (E, A ). Structural sets (on primitive collections 
+El, E2 ..... E,) is an object which consists of _primitive and auxiliary sets and several, say l, 
+elements of echelons, Pt ~ St(g, .4 ), P2 e S~(E, A) ..... P, ~ SI(E, A) with additional restrictions 
+of them called transportable relations. We denote structural sets as 
+(E,, E2 ..... E,; At, A2 ..... AmlP1, P2,..., P,) = (E; AIe). 
+A finite version of structural set methodology allows us to describe all objects and constructions 
+explicitly by using languages with weights or complexes. A language with weight is a set S of 
+CA.M.W.A. 15/9~B 
+726 
+A. TUZHILIN 
+symbols with a function n: S--*N: s--*n(s), where N is the set of all natural numbers, n(s) is 
+called the weight of a symbol (or a sign) s. Well-defined formulas, or correct words, in the language 
+are strings of the form sat, A2 ..... .4p, where s is a symbol of the weight p and Ai are correct words 
+for i = 1, 2 ..... p. Correct words in a language with weight are called significant or balanced words. 
+An equivalent construction to a significant word is a complex, which is a tree with vertexes being 
+symbols (signs) and with the number of output arcs from a vertex equal to the weight of a sign 
+associated with the vertex. Complexes permitted us to describe complex objects explicitly in the 
+language 
+L( )' (i >~ 2), }J (j~> 1); EtUE2U"-UE,) 
+with signs )~ of the weight i, } j of the weight j, and all e ~ Et U E2 U" - • U E, with weight 0. Let, for 
+example, El = {a, b, c}, and Ez = {d, e}. The complex element 
+({{a, b}, {a}, {c}}, (d, {d, e}), {(b, e), (a, d)}) 
+of the echelon fl(fl(Et) ) x (E 2 × fl(E~)) x fl(E, x E2) may be described as a significant word 
+or as a complex 
+)3}3}2ab}a}c)2d}2de}2)2be)2ad 
+j 
+u 
+/ 3 
+~ }1 
+i,, O 
+13 " 
+P 12 ' 
+-- I ~ 
+• 
+We can classify complex objects in accordance with types. A type is defined by a significant word 
+in the language L(Xi(i >_.2), P; xl,x2 ..... xn) with weight: n(X)=2, n(P)= 1, n(xi)--0 for 
+i = 1, 2,..., n. The collection of objects of a given type is an echelon. In our constructions, 
+collections of primitive objects, E], E:,..., En, may be any collections, for example, collections of 
+objects of given structures. Examples below demonstrate applications of described constructions; 
+these examples will also be used later. 
+EXAMPLES 
+1. Memory of computer 
+We consider a very simple structure of memory without paging. Virtual memory is considered 
+in [4]. Memory of computer is a set of elements, say X, with assigned consecutive addresses from 
+the interval of strings of six hexadecimal digits, [000000, FFFFFF] (a hexadecimal digit is an 
+element from the set {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F}). The beginning address is 000000. 
+The address of the last element must be in the form Nt N2 N3 FFF. Every element may be in a state 
+from the set called byte-set, B = {00, 01 .... , FF}, that is, a state of an element is a string of two 
+hexadecimal digits. Therefore, memory of computer is the following structure: 
+M = (X; [000000, FFFFFF], B, lAD, Ex) 
+where 
+AD 
+is 
+a 
+function, 
+AD: 
+X--*[OOOOOO, FFFFFF]; 
+AD 
+is 
+an 
+injection 
+and 
+AD (X)= [000000, NIN2N3FFF]. That is, AD assigns addresses to elements from X. Therefore, 
+AD ~ fl (X x [000000, FFFFFF]). 
+Ex is a function which assigns the same space of states to every element, x, from X. That is, 
+Ex: X ~ fl(B): x ~ Ex(x) = E~= B; Exe fl(X x fl(B)). 
+Atomatics as mathematical modelling and knowledge representation 
+727 
+We can consider the structure called memory elements, M,= (X; B[Ex), and "primitive 
+elements", Px = ({x}; B [Ex). Then memory of computer may be considered as 
+M = (Mr; [000000, FFFFFF][AD) 
+where the function, AD, is defined now on memory elements, Me, with elements Px for x 6 X. 
+2. General registers of computer 
+We assume that there are 16 general registers in computer (as in IBM mainframe computers), 
+called R0, R] ..... RIs. States of a general register are elements from the data type, ZF. ZF is the 
+set of totally ordered strings of 8 hexadecimal digits, 
+(80000000, 80000001 ..... FFFFFFFF, 00000000, 00000001 ..... 7FFFFFFF) 
+with the operations: addition, +F, subtraction, --F, complement, C, and shift, S. That is, ZF is 
+the structure 
+ZF = ((80000000, 80000001 ..... 7FFFFFFF> I +F, --F, C, S). 
+Elements of ZF are strings of 8 hexadecimal digits. Therefore, a general register, R~ for 
+I = 0, 1 ..... 15, is the structure, R1= ({r,}; ZFIE,,) with E,: {ri}---~ fl(ZF): rt---~Z F (here, r~ is the 
+name of the register R~). 
+3. The program status word (PSW) 
+We assume that PSW consists of the following dements: wait bit, w; interrupt code, ic; 
+instruction length code, ilc; condition code, cc; program mask, pm; and address, ad. States 
+of elements are the following sets: 
+E. -- B = {0, 1}, 
+E~¢ c X(4) = {0000, 0001 ..... FFFF} 
+E,¢ = B(2) = {00, 01, 10, 11}, 
+E,~ = B(2) 
+Epm = 
+X 
+= {0, 1 ..... F}, 
+Ead = X(6) = {000000, 000001 ..... FFFFFF}. 
+Therefore, we have the following structures: 
+X = ({x}; B IEx), 
+Y = ({y}; XIEr) 
+for x = w, ilc, cc and Ex(x) = Ex, y = ic, pm, ad and Ey(y) = Ey. The set of elements of PSW is 
+totally ordered, so that we have 
+PSW = ((W, IC, ILC, CC, PM, AD >). 
+We represent PSW as a double word (a string of 16 hexadecimal digits) in the following way" 
+Consider the following double words: O00X3X4XsX6X7XsXgXAXaXcXDXEXF SO that X3 ~ E,, 
+X4XsX6X7 e Eio, Xs e E,¢ II E= (here, II is the concatenation operation, that is, X8 is a string from E= 
+followed a string from E,~), X9eEpm, and XAXBXcXDXEXF~E.d. The space of states (the set of 
+states) of PSW is in one-to-one correspondence with double words of this type. 
+4. Simplified hospital systems 
+We defined the structure of a simplified hospital system in [1] and [2] as follows: 
+H = (R, B, 
+DS, O II"L FL, FL, F s, F;CO, 
+where R is a set of rooms, B is a set of beds, Z is a set of specialized equipment, DS is a set of 
+diseases, D is a set of doctors, P(D, DS) = F~s. px is a partition of the set X among the set Y, 
+that is, a function from X into fl(Y) so that for x~ ~ xj from X we have pX(xi)¢ pX(xj); and 
+U 
+r. 
+xEX 
+728 
+A. TUZHILIN 
+F~ is a distribution of X among Y, that is, a function from X into ~ (Y). Additional axioms are: 
+R 
+__ 
+B o 
+Pos-Fos 
+P~ is a partition 
+pR_ p-lr 
+n _ 
+-t~ F~s° P~ is a partition 
+r - -os ° P os - Fos ° 
+pr, F ew~ os~ = P(D, DS) = F~s 
+F~ w' °S)(d, dS) = F~B(dS). 
+We have for the hospital structure: XZefl(Z x fl(Y)) for Xz=PRn, or FBOS, or F~os, or F°os, 
+or Fn ew" os) (Z = D x DS and Y = B). 
+3. CANONICAL MORPHISMS, CATEGORIES OF STRUCTURAL SETS, 
+APPLICATION OF CANONICAL MORPHISMS TO OBJECT EXPANSIONS 
+To define morphisms for structural sets, we have to define first extensions of mappings: 
+For f: E ~ E', we have 
+fl(f): fl(E)--*fl(E'): U~fl(f)(U) = {y: y =f(x) for some x s U}. 
+For f: E ~ E', g: F --* F', we have 
+f xg: E x F~E' x F': (x,y)~f xg(x,y)=(f(x),g(y)). 
+Therefore, for every echelon, 
+S(EI,E2 ..... E.), 
+and f: 
+E~E', 
+i=1,2 ..... n 
+(or 
+f= (fl,fz ..... f.): /T~/~'), we have 
+s(A,A ..... L) = s(f): s(e) --, S(E'). 
+Tm~OREM 1 
+If f: E-'*/~' and ~: E' 
+-" 
+= 
+o 
+.. 
+~E, 
+then S(gof) 
+S(g) S(f) ((gof)=(g, oft,g2of2, 
+.,g of,) 
+where g, of is the composition off and g/). If f is an injection (surjection or bijection), then S(f) 
+is an injection (surjection or bijection) for every S. 
+TI-~OREM 2 
+If (E;AIP) for fi=(P,,Pz ..... P,) and P~(S~(ff.,.4)) or P~eEj, (i=1,2,...,1), 
+and 
+(E';AIP') 
+for fi'=(P~,P~,. 
+P~) and P;ES~(E',A)) 
+or P~E'. 
+(i=1,2, 
+1) are 
+"'' 
+Jr 
+"''' 
+structural sets of the same species, then vector-functions f= (f~,f2 ..... f~): g~/7' 
+such that 
+S~(J~ I~/)(P~) ~ P~ if P~6 [3(S~(E, A)) or fj,(P~) = P~ if P~6 Ej, are morphisms. 
+We call morphisms defined in Theorem 2 as canonical morphisms. Structural sets of the same 
+species and their canonical morphisms constitute the category of a given species. 
+EXAMPLE 
+Morphisms of hospitals. For 
+H=(R,B,Z, DS, nloR ,~n uz 
+i:o 
+K'P(D. DS)~ 
+laB, 
+aiDS' xDS, 
+~DS, ~t B 
+l 
+with Xz6~(Z ×/~(Y)) for Xz=P~, or Fgs, or F~os, or Fgs, or F P~°'°s), and 
+H' = (R', B', Z', DS', D'I u'~'- ~r , --~'~rDS', F ,r'OS, , __I~,D'os,, -- B'K"r(D"OS')~ 
+with X'Z: e fl(Z'x fl(Y')), a vector-function fu = (f~,fn,fz,fos,fo), where f r: Y~Y" for Y = R, 
+or B, or Z, or DS, or D, is a canonical morphism, f.: H~H', 
+ifffz x fl(fv)(XZ)=X'Z: (for 
+Z = P(D, DS), we have fz =fo Xfos). This relation is equivalent to: 
+tz 
+,-Z' 
+f[ 
+X 
+Xy, 
+which commutes. 
+Atomatics as mathematical modelling and knowledge representation 
+729 
+H 
+r4 , d$11,dS1a 
+d$1t ~ 
+d$~e 
+ett 
+et2 I 
+ds~ ~ 
+ds,2 j 
+ra , dSzt, dSzz 
+dSz4 ~-~ 
+dSzz 
+d$ 2~ 
+e24 
+dSz~,dS2z 
+0' 4 (dS44 .~ dS22 ( 022 ) }~, 
+d2 (d..~,l '1, dS12, OS2,1 ( b2,1 ), d,.,~22 ( b2, I ) ) 
+ol 
+H I 
+r4 , d$tl, dSt2 
+dS 42 
+01t 
+0t2 
+i 
+r2 , dS21, d5"22 
+dS2t 
+~'~ 
+dSz2 I Oza 
+dSz~, 
+e21 
+i 
+dS21,dS22 
+d,e (dS,I 1, dS22 (b22), ? ), 
+@2 (dS1 '1, d~t2 .i dS2,1 ( D21 ) .I d~22 ( ba,I ), ? ) 
+Fig. I 
+We apply now canonical morphisms to expansion of structural sets. We demonstrate this idea 
+on an expansion of a hospital. Let H be a hospital based on the following sets: R --- {rl, r2 }, 
+B={611,621,622}, Z = {ell, e12,e21}, DS= {dSll,dSI2, dS2,,dS22}, D = {dl,d2} with structures 
+described in Fig. 1 above. We would like to construct all hospitals, H', which contain one 
+additional bed, 612, in room, rl, that is, all hospitals, H', for which the vector-function 
+fH=(ls,fn, lr, los, lo) is a morphism (here, fn: B~B', 
+B'={b11,b12,b21,b22}, and fn is an 
+inclusion). That is, we should have fu: H--.H' as described in Fig. 1. 
+We have P'~ = {(rl, {611,612}), (r2, {621, b22})}, V'Zos = FZos, 
+,D = 
+F os 
+F~s. Therefore, we have to 
+calculate F'~os and F 'ew'°s~. We have F'~s(bu)= F~s(bo) for 0" = 11, 12 and 22. Calculations give 
+the following possibilities: 
+[{dS,,} 
+r'gs(612) = ~ {dS,2} 
+{{us,,, dS,2} 
+and correspondingly 
+( 
+f{b,,, b12}\ 
+r~°°:= 
+(d,,US, l),~{61,} 
+|, 
+[.{b,:,b,2}/ 
+((dl, dS22), {b22}), 
+({6,1,61,}\ ( 
+f{6,1  \ 
+(d2, dSt,),'{{b,,} 
+~, (d2, dS,2),'{{b,,,b12}~, 
+[{6,,, 612}/ 
+[.{611, b12}] 
+((a2, dS21), {621}), ((d2, as:2), {O~,})}. 
+730 
+A. TUZHILIN 
+4. SYSTEMS ANALYSIS 
+We remind, first, notions of general systems analysis. Details and examples of classical systems 
+can be found in [1] and [2]. A system consists of components (equipment), called element base, B; 
+"physical properties" of components and relations of components are described by a space of 
+available states of element base, Ss; a space of processes, II, describes possible processes in a system; 
+a space of processes is associated with a space of time scales, 69, on which processes take place. 
+Therefore, a system is the structure 
+i/= (B, S B, O, H ). 
+An element base, B, is the structure, B = (A, L O, CI6o, 60, where A is a set of elements, I is a 
+set of inputs, 0 is a set of outputs, C is a set of connectors, ~0: CUO ---, A assigns an initial element 
+to every connector and output, 6~: C U I ~ A assigns a final element to every connector and input; 
+boEfl((CO0 ) x A), bt~fl((COI) × A). A space of available states of elements from X is the 
+structure, SX= (X, ZxlEx, Sx), where 27 x is a set of possible states of all elements from X; Ex: 
+X-~fl(Xx): x ~Ex(x)= E~ assign the space of states, E,, to an element, x e X; 
+xEX 
+is a set of available states of the entire X, that is, a set of functions of the type, s: X ~ Xx: 
+x ~ s(x)~ Ex. We have, Ex~ fl(X x fl(Xx)), Sxe fl(fl(X x Zx)). A space of time scales is the 
+structure, 0 = (T, ZrlEr, G), where T is a set of time scales, Xr is a set of all time instants; Er: 
+T--*fl(Xr): z ~Er(r)=E~ assigns the set of time instants to a scale z; G: T~fl(S, r x Zr): 
+~ G (T) = G, defines total orders ("yesterdays", "todays", and "tomorrows") on all E,. We have, 
+Er~fl(T x fl(Zr)), G ~fl(T x fl(~T X Zr))" A space of processes in a set of states, S, is the 
+structure,/1 = (O, S I/1), where ® is a space of time scales;/7 a set of processes, ~ ~/7 =~ (n: E, ~ S 
+for some time scale z from O). We have, 17 efl(fl(2~T X S). 
+EXAMPLE 
+Hospital as a system. A hospital as a system consists of an input, I, describing patients to be 
+cured, a hospital, H, as an element (a state of the element H is a set of patients in the hospital), 
+and an output, O, describing patients leaving the hospital. Therefore, the element base, B, is 
+,H 
+1 
+O 
+A set of patients is described by the structure, ps = (p, DS ] Teos), where P is a set of patients, 
+DS is a set of diseases, and T~s is a distribution, T~s: P ~fl(DS): p ~ T~s(p) = DSp; DSp is the 
+set of diseases of a patient p. A state of the input, I, is a patient structure, ps = (PI, DS I e 
+T~s.A. 
+To define states of a hospital, H, and an output, O, we define an assigning array. An assigning 
+array, A p, for a given patient structure, ps, and a hospital, H, is an array, Ae= (f~,fos,fs,fo),e 
+e 
+e 
+e 
+of the following mappings: 
+f~: P--+B is an injection, assigns a unique bed, f~(p), to every patient peP; 
+feos: P ~ fl(DS) (f~s(P) c T~s(p)) assigns diseases, fes(p), to a patient p ~ P, which will be 
+treated in the hospital, f~s(P) ~ F~s(f~(p)); 
+f~: P--. fl (2~) assigns a set of equipment, f~(p)c Z, to a patient p E P that may cure diseases 
+feos(p), feos(p) ~ FZs(fez(p)); 
+feo: P ~fl(D) assigns a set of doctors, f~(p)c D, to a patient p e P that may cure diseases 
+f~s(P), f~s(P) c F°os(f~(p)). 
+A state of the hospital is a pair, (ps, A e, ), of a patient structure, ps, and an assigning array, 
+A e,, for these patients. A state of the output is a pair, (ps, A Co), of a patient structure, ps, and 
+a corresponding array, A Po. 
+The definition of an available state is based on the assumption that there is no queue for an 
+available state and on a composition operation, "+" on pairs (ps, A e). If P~ and P2 are two sets 
+of different patients, Pt N P2 = ~, then 
+where 
+Atomatics as mathematical modelling and knowledge representation 
+(ps, AP,) + (ps, Ae~) = (ps+ ps, A e,+e2) 
+731 
+PI s "t- eS _ (Pl I,J P2, DS[ Teo's + e2), 
+~'t+P2- - ~Teo~s(p) for p ~ el 
+--osTV'+e2' PIUP2"+fl(DS): P "-* l°s 
+(P) = ~Teo2s(p) forp ~P2 
+Ael+t'2 tFPt+P2 tel+P2 tel+e2 fPl+e2) 
+\JB 
+'JDS 
+'iS 
+'JD 
+fet+P2, piup2.._} B; ¢el+e21 
+P, 
+s 
+• 
+:B 
+ie=fn 
+(i = 1,2) 
+f PI + P2 t 
+Pi 
+JxfPI+P2•" PII'JP2-"}fl(X);jx 
+It'i =fx 
+(i = 1,2) 
+for X = DS, %, and D, and l~Pl+P2cn~ 
+Y 
+PI+P2 
+--os 
+~el ~ Fos(fr 
+(p)) for Y = B, 2~, D. 
+A state, (ps, (ps, A e,), (ps, A eo)) is available iff there exists an assigning array, A e~, so that 
+the sums (ps, A P, )+ (ps, A e, ) and (ps, A P, )+ (ps, A eo ) exist. Time scales of the hospital are 
+E~ = {t~, t~, 
+t ~ } with t~ < t~ < ... < t' 
+A process, r~, is n,: E~ ~ S H, where S H is the space 
+• . 
+. , 
+n T 
+nz • 
+of available states. 
+5. APPLICATION OF CANONICAL MORPHISMS TO 
+PROCESS EVALUATION 
+A space of available states, S a, of a system is usually a category of structural sets. For a discrete 
+process, n, of a system on a time scale, z = {q, t~,..., t, }, we have, ~: ~ --. SB: t~--* n (ti). The state 
+s~+j = n (ti+ 1) is a morphism from si = rc (t;). We will use these morphisms for process evaluation. 
+EXAMPLE 
+Processes 
+in 
+a 
+hospital• 
+An 
+available 
+state 
+of 
+a 
+hospital 
+as 
+a 
+system 
+is 
+s =(PS,(ps, AP"),(ps, AP°)), where A e 
+P 
+e 
+P 
+e 
+= (fB,fos,fz,fD) is an assigning array for a given 
+patient structure ps= (p, DSITPs). A state is an object in the category with primitive sets, 
+B, R, Z, DS, D, P~, PH, Po. A morphism of a state s into a state s' is a vector-function 
+q~ =(fB,fR,fx,fns,fD,f&,fe,,feo), where fx: X--*X' for X=B, R, Z, DS, D, P~, Pn, and Po, 
+such that 
+(i) the vector-function, ~0 = (fR,fa,fE,fos,fo), is a morphism of the hospital, H, into the 
+hospital, H'; 
+(ii) the pair, (fe ,fos), is a morphism of the patient structure, Pt s, into P'tS; 
+(iii) the pair, ('fP,,fos), is a morphism of the patient structure, ps, into p,s, and the 
+vector-function, goA, = (fen,fB,fos,fx,fo), is a morphism of the assigning array, A e,, into 
+A ,e~.; 
+P o, and the 
+(iv) the pair, (feo,fOs), is a morphism of the patient structure, ps, into 
+,s 
+vector-function, q~Ao = (feo,fn,fos,fz,fo), is a morphism of the assigning array, A Co, into 
+A'~o. 
+For process evaluation, we have, fB = IB: B --* B, fR = 1R: R --* R, fz = lz: Z --. E, fos = los: 
+DS--}DS, fD= lo: D ~D. 
+As an example, we consider, now, the hospital, H, described in Fig. 1. We assume that the space 
+of available states of the hospital is: 
+es = ({p,,}, DSI{(p,,, {dS,,, dS22})}) 
+PSH = ({Pro,Pro}, DSI{(pm, {dS,1, dS,2, dS22 }), (Pro, {dS22 })}) 
+ps = ({Po,}, DSI{(Pol, {dS22 })}) 
+f~n = {(Pro, bl,), (PH2, b21)} 
+Pn 
+fos = {(Pro, {dSl,, dS,2}), (Ps2, {dS22 })} 
+fen = {(Pro, {el,, e,2}), (Pro, {e21})} 
+fen = {(Pt4,, {dl, d2}), (Pt-t2, {d2})} 
+732 
+A. TUZHILIN 
+f~°(po,) = b22 
+Po 
+fDs(Po,) = {dS22} 
+Po 
+f r (Po,)= {e2,} 
+Po 
+.G (po,)= {d,}. 
+We would like to find out all next available states of the hospital if the patient on input 
+is hospitalized and the patient on output left the hospital. Therefore, for the next state we 
+have, P~ = ~; P~ = ~; P~ = P~U {p,~}; fp, = ~; fe ° = ~J; fe,: {Pro,Pro} ~ {Pm,Pm,P,l} is an 
+inclusion. Calculations give only one next available state: 
+p,s = (~, DS I ~) 
+= 
+DS, 
+f, 
+o _r,p'o _r,p'o _r, 
+o - 
+--J 
+DS --J 
+X 
+--J 
+D -- ,~ 
+p,s = ({ P/4,, Pm,Pt, }, DS l {(pm, {dS,~, dS,2, dS22}), (Pro, {dS22 }), (p,~, {dS~,, dS22 })}) 
+f'~" = {(Pn,. b,,). (Pn2, b2,). (p.., b22)} 
+f'Ph 
+OS = {(PHI, {dSll, dSl2 }), (PH2, {dS22 }), (P/I, {dS22 })} 
+f.l.. 
+{(Pn,. {e,,. et2}). (Pn2. {e..,i }). (p.,,, {e2,})} 
+,S ~--- 
+f,/:'H 
+o = {(p.,, 
+{d,, 
+(p,,, {d,})}. 
+The vector-function, (Is, 1R, l f, los, In, fZ5, fp,, fZ5), is a morphism from the given state into the 
+next one. 
+6. INFORMATION BASES OF SYSTEMS 
+For a system, q = (B, S B, (9,//), a pair, (B, Ss), is called an information base. A simple version 
+of an information base is a space of states, that is the structure, (X, Y.xlEx), where X is a set of 
+elements (components) of a system, Xx is a set of all possible states, and Ex: X --* fl (Xx): x --* Ex (x) 
+is a function assigning spaces of states to elements of the system (that is, defining "physical sense" 
+of elements). For finite set X = {X~, )(2 ..... X, }, we can represent a space of states in the form 
+of PL/1-1ike structure: 
+INF_BASE, 
+2 Xl 
+EX1, 
+2 X2 
+EX2, 
+2 Xn 
+EXn; 
+Here, INF_BASE is a name of an information base and EX~ = Ex(Xe) is a space or states of an 
+element Xi. 
+For a space of available states, (X, Z.xlE x, Sx), where 
+sx c H E,,(x) 
+XEX 
+describes relations between states of elements, we assume that this additional structure Sx may be 
+described by an axiom, that is, by some statement (relation) in the Universal Relation Language 
+on primitive collections X and ~;x (or may be additional primitive collections, if the system uses 
+them; it seems that this assumption is a theorem, because the Universal Relation Language is rather 
+rich; in applications we will not have difficulties to formulate these axioms). Therefore, the space 
+of available states may be represented as 
+Atomatics as mathematical modelling and knowledge representation 
+733 
+1 INF_BASE 
+AXIOM (R), 
+2 X1 
+EX1, 
+2 X2 
+EX2, 
+2 Xn 
+EXn; 
+AXIOM R: .......................... 
+; 
+We use the word, AXIOM, as a key word, therefore we underline it. 
+We can consider now situations when our primitive elements may be spaces of available states. 
+For such elements, we can use spaces of available states as spaces of states. If we would like to 
+specify explicitly the structure of an element, we can use additional levels. 
+For example, 
+I INF_BASE 
+AXIOM (R), 
+2 X1 
+EX1, 
+2 X2 
+AXIOM (RX2), 
+3 Y1 
+EY1, 
+3 Y2 
+EY2, 
+AXIOM RX2: ....... .............. 
+2 X3 
+EX3; 
+AXIOM R: ............................ 
+; 
+The general construction is the following. Let X and 2~ be different primitive collections of a 
+Universal Relation Language, URL(E~, E2 ..... E,). A relational complex on X in URL is a tree, 
+F, with two functions, fr, and fA. The function fr, assigns primitive objects from X to elements 
+of F, and the function fA, assigns relations (axioms) to some internal vertexes of F. Let Lr, 
+INr, and A r be correspondingly leaves of F, internal vertexes of F, and a subset of INt. We have, 
+fr: F~X, fr(F)=X, and fA: Ar~REL(URL), where REL is the set of relations of URL. 
+Therefore, a relational complex is the structure, C(F, Ar, X)= (F, X; URLIfr, Ar,fA), with the 
+additional axiom: if ~l and ~2 are two vertexes of F, so that fr(~l)=fr(~2), then two relational 
+complexes, C(F, Ar, X)(Vl) and C(F, Ar, X)(~2) with roots at ~ and ~2 are the same. 
+PROPOSITION 1 
+Let R be the following equivalence relation, )'t - V2~*'fr(W) =fr(v2), and F/R, Lr/R, and Ar/R 
+be corresponding classes. Then Lr/R c F /R, INr/R c F /R, Ar/R c FIR and there are one-to-one 
+correspondences between fr(F) and F/R, and between f~(Ar) and Ar/R. 
+Therefore, every class of F/R is uniquely represented by an element x from X. The space of 
+available states is the following structure: 
+S x= (X, X It(F, Ar, X), Ex, Sx) 
+where Ex: Lr--*fl(2;): x--*Ex. The space of available states, 
+SxcI] Ex 
+x~X 
+is defined as follows. 
+Because F is a tree, it can be represented in canonical way by its layers. Let the number of layers 
+be m, and let Lr(i), INr(i), Ar(i) be vertexes from Lr, INr, Ar correspondingly on the layer i, 
+for i = 1,2 ..... m. We have, INr(m)= Ar(m)--O. We construct now the family (Sx)~r/R. 
+If x ~ Lr/R, then Sx = Ex. To define other elements of the family, we will use the operation, 
+OUT. 
+OUT: F~fl(F): 
+v-~OUT(v), 
+where OUT(v) 
+are output vertexes from V. If 
+x ~ INr(i)/R - Ar(i)/R, then 
+sx=FIs, 
+y • OUT(x) 
+if x e Ar(i)/R, then 
+734 
+A. TUZHILIN 
+Sx= { s: s ey~oUT~x)I-I Sy and fA(x)}. 
+If z is a root of F, then Sx = Sz. 
+For example, let X = {a, b,c, d,e,f,g,h} and 2; be primitive collections. Let A I and A2 be 
+axioms, that is, elements from REL(URL(X, E)). For the relational complex 
+d 
+(h~411 
+c 
+ff 
+" (e, A2) .___....-----~ 
+og, O 
+we have, So=E~, Sb=Eb, S,=E~, Sa=Ed; Se={S: seE~HEb and A2}, S/=EbHE~, 
+Eg=E=IIS~, Sh= {s: s EEdIIS~IIS/HS~I-ISg and AI}. The space of available states can be 
+represented as PL/1-1ike structure: 
+lh 
+AXIOM (A1), 
+2 d 
+Ed, 
+2 e 
+AXIOM (A2), 
+3 a 
+Ea, 
+3 b 
+Eb, 
+AXIOM A2: ................ 
+2f, 
+3 b 
+Eb, 
+3 C 
+Ec, 
+2 e 
+AXIOM (A2), 
+3 a 
+E~, 
+3 b 
+Eb, 
+AXIOM A2: ................ 
+2g, 
+3e 
+AXIOM (A2), 
+4 a 
+Ea, 
+4 b 
+Eb, 
+AXIOM A2; ............ 
+AXIOM A1 : ....................... 
+; 
+It is obvious that every space of available state can be represented as PL/1-1ike structure. 
+In practical applications, we need more complex construction than the space of available states, 
+namely, the space of available states with variable structure. On intuitive level, this structure is a 
+set of different versions of spaces of available states. The space of available states with variable 
+structure is the following structure: 
+SVX = (X, ExlEx, J, Cx, Sx) 
+where X and Zx are primitive collections in a URL, Ex: X--, fl(Ex): x --. Ex, as before. J describes 
+different versions, that is, a set of subsets of elements from X; J ~ fl (fl (X)). Cx is a function from 
+the set of versions, J, into the category of relational complexes in X, that is, Cx: 
+J --* COM(X, URL): j --. Cx(j) = Cx(F/, Ar./,j). Sx is a function from the set of versions, J, into 
+the category of spaces of available states, that is, Sx: J --* SAS(X, Zx, URL): j --. Sx(j) and Sx(j) 
+is defined for j and Cx(j) as described above. 
+In the simple situation, when 
+x= {x,.x2 ..... x~} 
+J = {{x,,. x,2 ..... x,.,}. {x2,. x2~ ..... 
+x~.2} .... . {xL,. xL~ ..... x.. L }} 
+Atomatics as mathematical modelling and knowledge representation 
+735 
+(here Xu is from X) and there is no complex elements, we can represent a space of available states 
+1 SUB1 
+AXIOM1 (R1), 
+2 X11 
+EXl 1, 
+2 X12 
+EX12, 
+2 X1 N1 
+EX1 N1, 
+AXIOM R1 : ............... 
+; 
+VERSION (2): 
+1 SUB2 
+AXIOM(R2), 
+2 X21 
+EX21, 
+2 X22 
+EX22, 
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+ 
+0 
+.
+.
+.
+.
+.
+.
+.
+.
+ 
+2 X2N2 
+EX2N2, 
+AXIOM R2: ............... 
+; 
+VERSION(L): 
+1 SUBL 
+AXIOM(RL), 
+2 XL1 
+EXL1, 
+2 XL2 
+EXL2, 
+2 XLNL 
+EXLNL, 
+AXIOM RL: .............. 
+; 
+with variable structure in the following form: 
+SPACE_AV_VER: 
+VERSION (1): 
+Here, an axiom, R~, describes the space of available states of the version I for I= 1, 2 ..... L. 
+7. PROGRAMMING IN ASSEMBLER-LIKE LANGUAGES: 
+ANALYSIS OF SOFTWARE 
+We remind, first, some notions and ideas of programming in a very simple situation, which we 
+call as one-sorted functional programming language (see, for example, [7] and [8]). 
+Let ~-(X, X) be the set of all functions on X into X and F be a subset closed under composition 
+operation. Let P be a set of predicates on X, that is, P c ~(X, {0, 1}). We consider the set, 
+p~PoF~:~ U U p=qof 
+feF qeP 
+Let ~ be the closure of P o F under the operations, A (AND) and --1 (NOT). A primitive 
+pre-program (PPP) is a subset of F x ~, that is, PPP ~ fl (F x ~). For the definition of primitive 
+programs, we will use directed graphs without cycles. Let G be a directed graph without cycles with 
+one root and one end vertex, that is, there is only one vertex with only output arcs and only one 
+vertex with input arcs. We assume also that every vertex (except the end) has only one or two 
+outputs. We associate an element from F with every vertex with one output, and an element from 
+P with every vertex with two outputs. We call vertexes of the first type functional vertexes, but 
+of the second type as predicate vertexes; we assign the value 0 or 1 to output arcs of a predicate 
+vertex. We call a graph of this type as FP-complex. We associate a PPP with every FP-complex 
+in the following way. An FP-complex has a set, say I, of paths from the root to the end. 
+For i~I, let f~,f~ ..... f~ be the set of functional vertexes on the path i; p~,p~,...,p~ 
+be the set of predicate vertexes on i; sj for j = l, 2 ..... mi be values of output arcs from 
+pj on i, and f~,f~ ..... f~ be functional vertexes before p~ on i. We associate the function, 
+°J,,-i 
+" 
+~2 g~ and the predicate 
+• 
+" 
+-~. i o 'o 
+i 
+"''of~A. 
+A.~; 
+, o i 
+o 
+l 
+. 
+o i o ' 
+"''of~AS2 P, fk2 fk~-t 
+=, 
+° 
+g~ "P{ fk, fk,-I .
+.
+.
+.
+ 
+"P~,, fk=, fk~,,-I 
+..of~ 
+with a path i. Here g~ is 1 if s~ is one and g~ is -1 if s~ is 0. 
+Therefore, we have a PPP associated with an FP-complex. We call the PPP associated with an 
+FP-complex as a primitive program (PP). 
+736 
+A. TUZHILIN 
+FP-complexes represent flowcharts for PPs, and PPs are used for creating general programs by 
+using different types of loops (see [7, 8]). We are not going to consider these constructions here. 
+We saw that a one-sorted functional programming language is characterized by the set of functions, 
+the set of predicates, and widely uses the composition operation. We consider here corresponding 
+characteristics of languages, called assembler-like languages, in which real software systems are 
+usually written. We will see that functions in languages of this type are defined and take values 
+on spaces of available states with variable structures. We consider here only examples. 
+Consider, for example, the addition operation, AR, of the IBM/370 assembler. This operation 
+is defined on the space of available states of two general registers, R1 and R2, current PSW, 
+CR_PSW, and new program PSW, NP_PSW, and uses different parts of these subsystems 
+depending on the result of the operation. The range of the operation uses general register R1, 
+different fields of current and old PSW, CR_PSW and OP_PSW, depending of the result of 
+operation. We consider only the simplest memory organization of computer with blocked I/O, 
+external, and machine-check interrupts. In this case, the operation works in the following way. 
+The contents of R2 are added to the contents of R~, the result is stored in R~. If the result is correct, 
+then condition code and the new address are set in CC and IA fields of CR_PSW. If the result 
+is incorrect, then condition code is set to 3, and the program interrupt takes place if it is enabled. 
+We call the domain of the operation as DOM (AR). We have 
+DOM (AR): 
+VERSIONS (AR), 
+VERSION (1): 
+AXIOM (IN), 
+1 ARC_DOM, 
+2 R1 
+ZF, 
+2 R2 
+Z~, 
+2 CR_PSW.IA 
+X(6), 
+AXIOM IN: CR_PSW.IA IS EVEN; 
+VERSION (2): 
+AXIOM (IN), 
+1 ARO_DOM, 
+2 R1 
+ZF, 
+2 R2 
+ZF, 
+2 CP_PSW 
+Swsw, 
+2 NP_PSW 
+Spsw, 
+AXIOM IN: CR_PSW.IA IS EVEN; 
+VERSIONS AR: IF pr2(R 1 +FR2)=COR OR CR_PSW.PM(1)=0 
+THEN VERSION (1) ELSE VERSION (2); 
+In the above space of available states, we used the notation, CR_PSW.IA IS EVEN instead 
+of s(CR_PSW.IA) IS EVEN, where s(x) denotes the state of the element x. In the same way, 
+we used the expression R1 +~ R2. We used also Swsw as the space of available states of PSW and 
+additional field VERSIONS (AR) to describe conditions for versions. The range of the operation 
+is (we call it RAN(AR)) 
+RAN (AR): 
+VERSIONS (AR), 
+VERSION (1): 
+1 ARC_RAN, 
+2 R1 
+ZF, 
+2 CR_PSW.RAN, 
+3 CC 
+B(2), 
+3 IA 
+X(6); 
+VERSION (2): 
+1 ARO_RAN, 
+2 RI 
+ZF, 
+2 CR_PSW 
+Spsw, 
+20P_PSW 
+Swsw; 
+VERSIONS AR: IF pr=(R 1 +W R2) =COR OR CR_PSW.PM(1) =0 
+THEN VERSION(I) ELSE VERSION(2); 
+Atomaties as mathematical modelling and knowledge representation 
+737 
+The instruction, AR, transforms the first version of DOM (AR) into the first version of RAN (AR) 
+if the result of addition is correct (COR) or fixed-point interrupt is disabled in the following way: 
+PrAnc_aAN.~, (AR (DOM (AR)) = Prt (ARC_DOM.R1 +F ARC-DOM.R2 ); 
+prARc_~ANCR_PSW.RAN.CC (AR (DOM (AR)) = 0, 1, or, 2 
+if prl (ARC_DOM.R1 +FARC_DOM.Ra) is correspondingly zero, negative, or positive; 
+PrARC_RAN.CR_PSW.RAN.I 
+A (AR (DOM (AR)) = ARC_DOM.CR_PSW.IA + 2. 
+When the result gives an overflow and the interrupt is enabled, then the second version of 
+DOM (AR) is transformed into the second version of RAN (AR) in the following way (we simplify 
+our notations): 
+ARO_RAN.R1 = Prl (ARO_DOM.R1 +F ARO_DOM.R2) 
+ARO_RAN.CR_PSW = ARO_DOM.NP_PSW 
+ARO_RAN.OP_PSW.W = ARO_DOM.CR_PSW.W 
+ARO_RAN.OP_PSW.IC = 0008 
+ARO_RAN.OP_PSW.ILC = 10 
+ARO_RAN.OP_PSW.CC = 11 
+ARO_RAN.OP_PSW.IA = ARO_DOM.CR_PSW.IA + 2. 
+We can represent this operation in the form 
+(1, 1), (2, 2) 
+AR: DOM(AR) 
+, RAN(AR). 
+We would like to show now that functional constructions described above should be used for 
+analysis of software systems. We consider now an example of a rather simple operating system 
+realizing services on computer system described above. In general, an operating system is an 
+organizational system of a computer system with an internal organization of resources and 
+management providing services for users. We consider the simplest case of an operating system 
+providing only services for users. Every user is represented (this is a model for a user) by a call, 
+called supervisor call (SVC), for a service. Every service is a program which is characterized by 
+an input information base and an output information base. We assume that the input information 
+base contains a subbase describing parameters which must be passed to the service. Therefore, the 
+domain for a service can be described as 
+DOM (SERVICE): 
+1 SV_DOM (SERVICE), 
+2 PARM 
+SUB, 
+2 DOM1 
+SUB; 
+Here, SV_DOM (SERVICE), PARM and DOM1 are the names of the service, parameter base, 
+and remaining information base correspondingly; we use also the keyword, SUB, indicating an 
+information base, that is, a space of available states with variable structure. The range of a service 
+can be described as 
+RAN (SERVICE): 
+SV_RAN (SERVICE) 
+SUB; 
+We assume that the set of all services is described by the set, SVC c X(2) (supervisor calls), and 
+realized by SVC interrupts for every element from SVC. Therefore, the set of all services is 
+described by the following information bases: 
+738 
+A. TUZHIL1N 
+DOM (SVCS): 
+1 SV_DOM (I), 
+2 PARM 
+2 DOM1 
+RAN (SVCS): 
+SV_RAN (I) 
+DO (I ~ SVC), 
+SUB, 
+SUB; 
+END; 
+DO (I ~ SVC), 
+SUB; 
+END; 
+We used here the primitive relation of set theory, e, which can be described in the URL as a 
+definition for a series of "OR" ( v ) operations, that is, i ~ X,==,(i = xl v i = x2 v • • • v i = x,) if 
+X = {xl, x2 .... , x,}. We used also DO... END notation to describe repetition. A service, I e SVC, 
+is a transformation, SVC(I): SV_DOM (I) --* SV_RAN (I). 
+The input information base to our operating system consists of 16 general registers, old 
+supervisor-call PSW, and specifically its interruption code field, and the set of domains for services, 
+that is, 
+DOM (OS): 
+10S_DOM, 
+2 GREGS(0, 15) 
+X(8), 
+20SVC_PSW, 
+AXIOM (PSW), 
+3 (B)IC 
+X(4), 
+3 IC 
+'O0' II SVC, 
+3 (A) IC 
+X(8), 
+AXIOM PSW: OSVC_PSW~Spsw, 
+2 DOM (SVCS) 
+SUB; 
+Here, (B)IC means before the fields, IC; (A)IC means after IC; 'O0' J[ SVC means the 
+concatenation of the string '00" and elements from SVC; DOM(SVCS)...SUB 
+means 
+subsystem (described above). 
+To describe the output information base of the operating system, we assume that the set of 
+parameters of a service consists of two portions, COR(SERVICE) and ERR(SERVICE). If a 
+parameter is correct (belongs to COR (SERVICE)), then the operating system creates the output 
+for the corresponding service, restores the general registers and old SVC PSW (the old SVC PSW 
+becomes the current PSW). If a parameter is incorrect, then the current PSW becomes the "BAD" 
+PSW, that is, its value is X'OOO2OOOOOOOOOBAD'; this PSW puts computer into "wait" state. 
+Therefore, the range of OS is 
+RAN (OS): 
+VERSIONS (OS), 
+VERSION (1): 
+10S_RAN, 
+2 GREGS(0: 15) 
+X(8), 
+2 CR_PSW 
+Spsw, 
+2 RAN (SVCS) 
+SUB; 
+VERSION (2): 
+CR_PSW 
+Spsw; 
+VERSIONS OS: IF SV_DOM.PARM(I) COR(I) FOR IESVC 
+THEN VERSION (1) ELSE VERSION (2); 
+We have operating system as a transformation from DOM (OS) into RAN (OS), that is, 
+(1, 1), (1,2) 
+OS: DOM (OS) 
+, RAN (OS). 
+Atomatics as mathematical modelling and knowledge representation 
+739 
+-~ SVCHANDL 
+t t...t 
+=[ SERVICE t 
+I t t."'t 
+I PGMHANDL 
+'l" 
+fl SERVXCE o I 
+I 
+Fig. 2 
+I !ETUR I 
+I 
+In this transformation, 
+OS_RAN.GREGS (0:15) = OS_DOM.GREGS (0:15) 
+CR_PSW = OSVC_PSW 
+if parameters are correct and PSW(BAD) if parameters are incorrect; 
+RAN (I) = SV_RAN (I) = SVC (I) (SV_DOM (I)). 
+In the operating system, we permit a service to call another service. 
+We would like to realize the operating system as the composition of subprograms shown in 
+Fig. 2. We described above services of this OS. We assume that a service may call another service 
+(see discussion below). We assume that incorrect data for the service results in a program interrupt. 
+Program interrupts are handled by PGMHANDL which contains only the call for the service, 
+ABTERM. ABTERM simply loads the "BAD" PSW and may be realized in the IBM/370 
+assembler as 
+and PGMHANDL is 
+BAD 
+LSPW 
+BAD 
+DS 
+0D 
+D C 
+X'0002000000000 BA D' 
+SVC 
+C'?', 
+where C'?' is the code for ABTERM. 
+The R ETU R N subprogram works with the set, SA, of save areas, SAVE (I), from which it restores 
+registers and PSW. It is convenient to assign codes to save areas, for example to create a table 
+of their addresses and to use a relative address in the table as a code (see, for example, [9]). The 
+table is called as SVCSAVE. We have 
+SVCSAVE 
+DO (I E SA), 
+SA_ADDR(I) 
+A; 
+END; 
+Here A is the set of hexadecimal strings of the form 00XXXXXX representing an address of 
+memory. Because SVC c X(2), and the number of elements in SA ~< number of elements in SVC, 
+we can assign the following codes to elements of SA: 0000 to I1, 0004 to 12 ..... 0M1 M2 Ma to 
+IN where N is the number of save areas; here the decimal number corresponding to 0M1MzMa 
+is N * 4. We denote the set of codes as SACD. We have one-to-one correspondences, fsA: 
+SA -* SAC D and fADDR : SA ~ SA_A D D R: I ~ SA_A D D R (I). 
+The RETURN subprogram restores the contents of all registers which they have just before a 
+service was called and restores also old SVC PSW at the SVC interrupt. We assume that register 
+14 contains the address of the corresponding save area. Therefore, 
+740 
+A. TUZHILIN 
+where 
+DOM (RETURN): 
+1 RETURN_DOM, 
+2 R14 
+X(8), 
+2 SAVES DO (I ~SA), 
+3 SAVE(I), 
+40SVC_PSW 
+4 GREGS(0: 15) 
+END; 
+(RETURN) 
+Spsw, 
+x(8); 
+RAN(RETURN): 
+1 RETURN_RAN, 
+, 
+2 GREGS(0: 15) 
+2 CR_PSW 
+RETURN_RAN.GREGS (0:15) = SAVE (f~D, (R14)).GREGS (0:15); 
+CR_PSW = SAVE (f A~O, (R14)).OSVC_PSW. 
+In the IBM/370 assembler language, this subprogram can be implemented as: 
+Let SA be a dummy section describing the structure of save area, that is, 
+SA 
+DSECT 
+SAPSW 
+DS 
+CL8 
+SAREGS 
+DS 
+CL64 
+We assume also that SA was associated with register 14, that is, we issued 
+USING 
+SA, R14 
+then we have for RETURN 
+MVC 
+MVC 
+LPSW 
+X(8), 
+Spsw; 
+The table, SVCRTN, of PSWs for all services is 
+1 SVCRTN 
+2 PSW_SERV(1 ), 
+3 (B) SACODE 
+3 SACODE 
+3 ADDR 
+DO (I e SVCCD), 
+AXIOM (PSW), 
+X(4), 
+SACD, 
+A, 
+AXIOM PSW: PSW_SERVe Spsw; 
+END; 
+SVCOLD, SAPSW 
+RESTORE PSW 
+0, 15, SAREGS 
+RESTORE REGISTERS 
+SVCOLD 
+RETURN CONTROL 
+Here, SVCOLD is OS_DOM.OSVC_PSW; at the end of RETURN we returned control to the 
+caller. 
+We have to describe the SVCHANDL subprogram (routine). We assume that one and only one 
+save area is assigned to every service. The set of save areas is described by the subsystem, SAVES. 
+The consistent way of assigning a save area to a service will be considered below. Therefore, we 
+have a function, FSA: SVC ~ SA, which assigns the save area, FSA(I), to a service I ~ SVC. The 
+SVCHAN D L routine passes control to a service (to an SVC routine) by loading its PSW from the 
+so-called SVC RTN table. Relative addresses of these PSWs are associated with their codes by using 
+the SVCTABLE table: 
+SVCTABLE 
+DS 
+256AL2 
+DO (n ~ [1, N]), 
+ORG 
+SVCTABLE + 2 • X'SVCn' 
+DC 
+AL2((n- 1) * 8) 
+END 
+Here we assumed SVC = {svcl, svc2 ..... SVCN }. The set, 
+{AL2 (0), AL2 (8) ..... AL2((N - 1 ) • 8)} 
+of relative addresses of PSWs will be denoted by SVCCD. 
+Atomatics as mathematical modelling and knowledge representation 
+741 
+Here PSW_SERV.ADDR (I) is the address of the service It SVCCD. 
+The SVCHANDL routine stores the contents of all general registers and an old SVC PSW 
+in the save area assigned to a called service. It loads also the address of a called service into 
+register 1, the address of the corresponding save area into register 14, and current PSW becomes 
+the address of the service, that is, it passes control to the service. 
+Therefore, 
+DOM (SVCHAN DL): 
+RAN (SVCHANDL): 
+1 SVCHANDL_DOM, 
+1 SVCHANDL_RAN, 
+2 GREGS(0:15) 
+X(8), 
+2 SAVES 
+SUB, 
+SVCHANDL 
+20SVC_PSW 
+AXIOM(PSW), 
+) 
+2 CR_PSW 
+Spsw, 
+3 (B)IC 
+X(6), 
+2 GREGS(1) 
+X(8), 
+3 IC 
+SVC, 
+2 GREGS(14) 
+X(8); 
+3 (A) IC 
+X(8), 
+AXIOM: OSVC_PSW e Spsw, 
+2 SVCTABLE 
+SUB, 
+2 SVCSAVE 
+SUB, 
+2 SVCRTN 
+SUB; 
+Here: 
+The 
+Prosvc_Psw (SAVES (IC)) 
+PrGREGS (SAVES (I C)) 
+CR_PSW 
+GREGS(1) 
+GREGS(14) 
+= SVCHANDL_DOM.OSVC_PSW 
+= SVCHANDL_DOM.GREGS 
+= SVCRTN (SVCTAB LE (I C)) 
+= PrAOOR (SVCRTN (SVCTABLE (IC)) 
+= SA_ADDR (fs~ (PrsAcooE (SVCRTN (SVCTABLE (IC))))). 
+SVCHANDL routine can 
+STM 
+LM 
+10, 14, =5F'0' 
+IC 
+10, SVCOLD + 3 
+LH 
+10, SVCTABLE (10) 
+LOAD 
+LA 
+10, SVCRTN (10) 
+LOAD 
+LH 
+11, 2(10) 
+LOAD 
+A 
+14, SVCSAVE(11) 
+LOAD 
+MVC 
+SAPSW, SVCOLD 
+SAVE 
+MVC 
+SAREGS, TRAPSAVE 
+SAVE 
+L 
+1, 4(10) 
+LOAD 
+LPSW 
+0 (10) 
+PASS 
+be realized in the IBM/370 assembler as (see also [9]): 
+0, 15, TRAPSAVE 
+INITIALIZE REGISTERS 
+LOAD SVC CODE IN R10 
+REL ADDRESS OF PSW IN R10 
+ADDRESS OF PSW IN R10 
+SACODE IN Rll 
+ADDRESS OF SAVE(I) IN R14 
+OLD PSW 
+REGISTERS 
+ADDRESS OF SERVICE IN R1 
+CONTROL TO SERVICE 
+We used here TRAPSAVE as working area. 
+We consider now the problem of assigning save areas to services so that the operating system 
+to be a correct transformation. It is possible to assign different save areas to different services. But 
+this solution is trivial. We would like to find out the minimal number of save areas and their 
+assignment to services. First, we must have services which do not call other services; otherwise the 
+operating system is incorrect, or we must use another procedure of assigning save areas to services 
+(not one save area for a service). Second, if we consider sequences of services starting with a given 
+one, then we must not have any service twice in this sequence. That is, the oriented graph with 
+vertexes being services and arcs representing calls of services from services must not have cycles. 
+Let N be the number of services. We have the following partition: 
+C.A.M.W.A. 15/9--C 
+742 
+A. TUZH1LIN 
+where 
+k 
+rn i 
+[l,N]= U 
+/=l j=0 
+mi 
+j=O 
+for i = 1, 2 ..... k are vertexes of a connected component of the graph; I~, I] ..... I~, i are vertexes 
+of the 0-layer, l-layer ..... mi-layer of the/-connected component in canonical representation of 
+the component. The number of save areas is max(rn I, m2, • .., ink). The assigning of save areas may 
+be the following: for all vertexes on a given layer assign the same save area. 
+EXAMPLE 
+For 14 services with the following sequences of call 1; 2, 4; 2, 7, 4; 3, 1; 4; 5, 3, 1; 5, 7, 4; 
+6, 7, 4; 7, 4; 8, 13; 9, 8, 13; 9, 11, 14; 10, 8, 13; 10, 12, 13; 10, 12, 14; 11, 14; 12, 13; 12, 14; 13; 
+14; we have the following canonical representation of a graph: 
+6 
+~ 
+7 
+"4 
+9 
+~ 
+8 
+~.....~ 
+~3 
+10 ~'-~ 
+= 12 
+11 
+~ 
+14 
+Zero 
+First 
+Second 
+Third 
+Layer 
+Layer 
+Layer 
+Layer 
+We assign SAVE1 to calls 2, 5, 6, 9, 10; SAVE2 to calls 3, 7, 8, 11; SAVE3 to calls 12; 
+SAVE4 to calls 1, 4, 13, 14. 
+REFERENCES 
+1. A. A. Tuzhilin, Application of category theory of structural sets to modelling of information bases of systems. 
+Math. Infor. Processing, Proc. Symp. appl. Math. 34, 119-233 (1986). 
+2. A. A. Tuzhilin, Category theory of structural sets with application to mathematical modelling and systems analysis. 
+Mathl Modelling 7, 27-48 (1986). 
+3. N. Bourbaki, Theory of Sets, Elements of Mathematics. Addison-Wesley, Reading, MA (1968). 
+4. A. A. Tuzhilin, Universal algebra of instructions for virtual memory management of the IBM/4341 computer. 
+Proc. lASTED Int. Symp. applied Simulation and Modelling ASM '85, pp. 204-206 (1985). 
+5. A. A. Tuzhilin, Universal query language on finite primitive collections for mathematical modelling in information and 
+computer sciences. 5th Int. Conf. Mathematical Modelling, p. 172 (1985). 
+6. A. A. Tuzhilin and P. Zmigrodsky, Category of spaces of available states with variable structures, Specifications, 
+implementation in IBM/370 assembler. 5th Int. Conf. Mathematical Modelling, p. 173 (1985). 
+7. Z. Manna, Mathematical Theory of Computation. McGraw-Hill, New York (1974). 
+8. R. C. Linger, H. D. Mills and B. I. Witt, Structured Programming: Theory and Practice. Addison-Wesley, New York 
+(1979). 
+9. S. E. Madnick and J. J. Donovan, Operating Systems. McGraw-Hill, New York (1974). 
